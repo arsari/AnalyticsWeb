@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>Analytic Implementation Playground | Arsari</title>
+</head>
+
+<body>
+  <!-- Tealium IQ dataLayer -->
+  <script type="text/javascript">
+    const utag_data = {};
+  </script>
+  <!-- END: Tealium IQ dataLayer -->
+
+  <!-- Tealium IQ Loading script asynchronously -->
+  <script type="text/javascript" async>
+    const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
+
+    (function (a, b, c, d) {
+      a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
+      b = document;
+      c = 'script';
+      d = b.createElement(c);
+      d.src = a;
+      d.type = `text/java${c}`;
+      d.async = true;
+      a = b.getElementsByTagName(c)[0];
+      a.parentNode.insertBefore(d, a);
+    })();
+
+    const gaProp = tealiumEnv == 'dev' ? 'G-000001' : tealiumEnv == 'qa' ? 'G-000002' : 'G-000003';
+
+    console.log(`TealiumIQ Env -> ${tealiumEnv}`);
+    console.log(`GA4 Property -> ${gaProp}`);
+  </script>
+  <!-- END: Tealium IQ Loading script asynchronously -->
+  <button id="purchase" onclick="myFunction(id)">Purchase</button>
+  <button id="download" onclick="myFunction(id)">Download</button>
+  <main id="datalayer"></main>
+  <script src="function.js"></script>
+</body>
+
+</html>
