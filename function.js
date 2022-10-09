@@ -4,6 +4,11 @@ function displayJSON() {
   document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link ${
     window.dataLayer.length
   }</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
+  document.querySelectorAll('pre').forEach((e) => {
+    e.style = 'background-color: #f1f1f1; border: 1px solid #ccc;';
+  });
+  document.querySelector('#json').lastElementChild.scrollIntoView();
+  document.querySelector('#json').lastElementChild.style = 'background-color: lightyellow; border: 2px solid red;';
 }
 
 const btnClick = document.querySelectorAll('button');

@@ -2,6 +2,18 @@ body {
   margin: 30px;
 }
 
+main {
+  overflow: hidden;
+  background-color: #ffffff;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
+
+img {
+  margin: auto 10px;
+}
+
 button {
   background-color: #4caf50;
   border: none;
@@ -17,6 +29,10 @@ button {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+}
+
+section {
+  margin-top: 225px;
 }
 
 pre {
