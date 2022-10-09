@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="style.css" />
   <title>Analytic Implementation Playground | Arsari</title>
 </head>
 
 <body>
-  <!-- Tealium IQ dataLayer -->
-  <script type="text/javascript">
-    const utag_data = {};
-  </script>
-  <!-- END: Tealium IQ dataLayer -->
-
   <!-- Tealium IQ Loading script asynchronously -->
-  <script type="text/javascript" async>
+  <script type="text/javascript">
     const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
 
     (function (a, b, c, d) {

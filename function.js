@@ -1,11 +1,27 @@
+window.dataLayer = window.dataLayer || [];
+
+function displayJSON() {
+  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link ${
+    window.dataLayer.length
+  }</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
+}
+
 const btnClick = document.querySelectorAll('button');
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
-    window.dataLayer = window.dataLayer || [];
-
     if (e.id === 'purchase') {
-      window.dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      window.dataLayer.push({
+        event: 'clear_ecommerce',
+        event_type: 'content tool',
+        ecommerce: null,
+      }); // Clear the previous ecommerce object
+      utag.link({
+        event: 'clear_ecommerce',
+        event_type: 'content tool',
+        ecommerce: null,
+      }); // Clear the previous ecommerce object
+      displayJSON();
       window.dataLayer.push({
         event: e.id,
         event_type: 'conversion',
@@ -41,33 +57,9 @@ btnClick.forEach((e) => {
               price: 9.99,
               quantity: 1,
             },
-            {
-              item_id: 'SKU_12346',
-              item_name: "Google Grey Women's Tee",
-              affiliation: 'Google Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: 3.33,
-              index: 1,
-              item_brand: 'Google',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Shirts',
-              item_category4: 'Crew',
-              item_category5: 'Short sleeve',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'gray',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: 20.99,
-              promotion_id: 'P_12345',
-              promotion_name: 'Summer Sale',
-              quantity: 1,
-            },
           ],
         },
       });
-      utag.link({ ecommerce: null }); // Clear the previous ecommerce object.
       utag.link({
         event: e.id,
         event_type: 'conversion',
@@ -103,32 +95,10 @@ btnClick.forEach((e) => {
               price: 9.99,
               quantity: 1,
             },
-            {
-              item_id: 'SKU_12346',
-              item_name: "Google Grey Women's Tee",
-              affiliation: 'Google Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: 3.33,
-              index: 1,
-              item_brand: 'Google',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Shirts',
-              item_category4: 'Crew',
-              item_category5: 'Short sleeve',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'gray',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: 20.99,
-              promotion_id: 'P_12345',
-              promotion_name: 'Summer Sale',
-              quantity: 1,
-            },
           ],
         },
       });
+      displayJSON();
     } else {
       window.dataLayer.push({
         event: e.id,
@@ -142,10 +112,7 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
       });
+      displayJSON();
     }
-
-    document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link ${
-      window.dataLayer.length
-    }</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
   });
 });
