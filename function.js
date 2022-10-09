@@ -11,6 +11,12 @@ const btnClick = document.querySelectorAll('button');
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
     if (e.id === 'purchase') {
+      const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
+      const itemPrice = Math.floor(Math.random() * 100 + 1);
+      const itemQty = Math.floor(Math.random() * 30 + 1);
+      const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
+      const total = (itemPrice - itemDiscount) * itemQty;
+
       window.dataLayer.push({
         event: 'clear_ecommerce',
         event_type: 'content tool',
@@ -28,21 +34,21 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         ecommerce: {
-          transaction_id: 'T_12345',
-          affiliation: 'Google Merchandise Store',
-          value: 25.42,
-          tax: 4.9,
-          shipping: 5.99,
+          transaction_id: transactionID,
+          affiliation: 'Merchandise Store',
+          value: total,
+          tax: Number((total * 0.07).toFixed(2)),
+          shipping: Number((total * 0.12).toFixed(2)),
           currency: 'USD',
           coupon: 'SUMMER_SALE',
           items: [
             {
               item_id: 'SKU_12345',
               item_name: 'Stan and Friends Tee',
-              affiliation: 'Google Merchandise Store',
+              affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
               currency: 'USD',
-              discount: 2.22,
+              discount: itemDiscount,
               index: 0,
               item_brand: 'Google',
               item_category: 'Apparel',
@@ -54,8 +60,8 @@ btnClick.forEach((e) => {
               item_list_name: 'Related Products',
               item_variant: 'green',
               location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: 9.99,
-              quantity: 1,
+              price: itemPrice,
+              quantity: itemQty,
             },
           ],
         },
@@ -66,21 +72,21 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         ecommerce: {
-          transaction_id: 'T_12345',
-          affiliation: 'Google Merchandise Store',
-          value: 25.42,
-          tax: 4.9,
-          shipping: 5.99,
+          transaction_id: transactionID,
+          affiliation: 'Merchandise Store',
+          value: total,
+          tax: Number((total * 0.07).toFixed(2)),
+          shipping: Number((total * 0.12).toFixed(2)),
           currency: 'USD',
           coupon: 'SUMMER_SALE',
           items: [
             {
               item_id: 'SKU_12345',
               item_name: 'Stan and Friends Tee',
-              affiliation: 'Google Merchandise Store',
+              affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
               currency: 'USD',
-              discount: 2.22,
+              discount: itemDiscount,
               index: 0,
               item_brand: 'Google',
               item_category: 'Apparel',
@@ -92,8 +98,8 @@ btnClick.forEach((e) => {
               item_list_name: 'Related Products',
               item_variant: 'green',
               location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: 9.99,
-              quantity: 1,
+              price: itemPrice,
+              quantity: itemQty,
             },
           ],
         },
@@ -101,16 +107,22 @@ btnClick.forEach((e) => {
       displayJSON();
     } else {
       window.dataLayer.push({
-        event: e.id,
+        event: e.id === 'video' ? 'video_watched' : e.id,
         event_type: 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        contact_method: e.id === 'email' ? 'email' : undefined,
+        file_type: e.id === 'download' ? 'pdf' : undefined,
+        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
       });
       utag.link({
-        event: e.id,
+        event: e.id === 'video' ? 'video_watched' : e.id,
         event_type: 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        contact_method: e.id === 'email' ? 'email' : undefined,
+        file_type: e.id === 'download' ? 'pdf' : undefined,
+        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
       });
       displayJSON();
     }
