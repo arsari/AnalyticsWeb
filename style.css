@@ -2,7 +2,7 @@ body {
   margin: 30px;
 }
 
-main {
+header {
   overflow: hidden;
   background-color: #ffffff;
   position: fixed; /* Set the navbar to fixed position */
@@ -23,7 +23,7 @@ button {
   text-align: center;
   text-decoration: none;
   font-size: 16px;
-  margin: 20px;
+  margin-right: 20px;
   cursor: pointer;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -44,7 +44,6 @@ pre {
   font-family: monospace;
   font-size: 13px;
   line-height: 18px;
-  margin: 20px;
   overflow: auto;
   padding: 10px 10px;
   white-space: pre;

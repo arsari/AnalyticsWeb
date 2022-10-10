@@ -11,6 +11,13 @@
 </head>
 
 <body>
+  <!-- dataLayers config -->
+  <script type="text/javascript">
+    const utag_data = {};
+
+    window.dataLayer = window.dataLayer || [];
+  </script>
+  <!-- END: dataLayers config -->
   <!-- Tealium IQ Loading script asynchronously -->
   <script type="text/javascript">
     const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
@@ -33,7 +40,7 @@
     console.log(`GA4 Property -> ${gaProp}`);
   </script>
   <!-- END: Tealium IQ Loading script asynchronously -->
-  <main>
+  <header>
     <h1>Analytics Implementation Playground
       <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
         alt="GitHub Last Commit" title="Source Code Last Update">
@@ -43,7 +50,8 @@
     <button id="download">Download</button>
     <button id="video">Video</button>
     <button id="email">Email</button>
-  </main>
+    <button id="phone">Phone</button>
+  </header>
   <section id="json"></section>
   <script src="function.js"></script>
 </body>

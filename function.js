@@ -1,5 +1,3 @@
-window.dataLayer = window.dataLayer || [];
-
 function displayJSON() {
   document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link ${
     window.dataLayer.length
@@ -111,12 +109,20 @@ btnClick.forEach((e) => {
       });
       displayJSON();
     } else {
+      let contactMethod;
+
+      if (e.id === 'email') {
+        contactMethod = 'email';
+      } else if (e.id === 'phone') {
+        contactMethod = 'phone';
+      }
+
       window.dataLayer.push({
         event: e.id === 'video' ? 'video_watched' : e.id,
         event_type: 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        contact_method: e.id === 'email' ? 'email' : undefined,
+        contact_method: contactMethod,
         file_type: e.id === 'download' ? 'pdf' : undefined,
         video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
       });
@@ -125,7 +131,7 @@ btnClick.forEach((e) => {
         event_type: 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        contact_method: e.id === 'email' ? 'email' : undefined,
+        contact_method: contactMethod,
         file_type: e.id === 'download' ? 'pdf' : undefined,
         video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
       });
