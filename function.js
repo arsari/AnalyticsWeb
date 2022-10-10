@@ -1,13 +1,20 @@
 function displayJSON() {
-  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link ${
+  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
     window.dataLayer.length
-  }</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
+  }]</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
+
   document.querySelectorAll('pre').forEach((e) => {
-    e.style = 'background-color: #f1f1f1; border: 1px solid #ccc;';
+    e.style = 'background-color: #f1f1f1; border: 1px solid #ccc; border-radius: 10px;';
   });
+
   document.querySelector('#json').lastElementChild.scrollIntoView();
-  document.querySelector('#json').lastElementChild.style = 'background-color: lightyellow; border: 2px solid red;';
+  document.querySelector('#json').lastElementChild.style =
+    'background-color: lightyellow; border: 2px solid red; border-radius: 15px;';
 }
+
+const headerHeight = document.querySelector('header').offsetHeight;
+
+document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
 const btnClick = document.querySelectorAll('button');
 

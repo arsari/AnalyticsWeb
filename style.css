@@ -1,13 +1,13 @@
 body {
-  margin: 30px;
+  margin: 20px 20px;
 }
 
 header {
   overflow: hidden;
   background-color: #ffffff;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  width: 100%; /* Full width */
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 img {
@@ -19,11 +19,11 @@ button {
   border: none;
   border-radius: 10px;
   color: white;
-  padding: 15px 32px;
+  padding: 15px 20px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
-  margin-right: 20px;
+  margin: 10px 10px 0 0;
   cursor: pointer;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -31,14 +31,14 @@ button {
   -o-border-radius: 10px;
 }
 
-section {
-  margin-top: 225px;
+p {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: max-content;
 }
 
 pre {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 10px;
   color: #333;
   display: block;
   font-family: monospace;
@@ -50,8 +50,4 @@ pre {
   white-space: pre-wrap;
   word-break: break-all;
   word-wrap: break-word;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }
