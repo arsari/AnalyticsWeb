@@ -43,6 +43,7 @@ btnClick.forEach((e) => {
         event_type: 'conversion',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        button_clicked: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -81,6 +82,7 @@ btnClick.forEach((e) => {
         event_type: 'conversion',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        button_clicked: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -125,22 +127,28 @@ btnClick.forEach((e) => {
       }
 
       window.dataLayer.push({
-        event: e.id === 'video' ? 'video_watched' : e.id,
-        event_type: 'ui interaction',
+        event: e.id,
+        event_type: e.id === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        button_clicked: e.innerText,
         contact_method: contactMethod,
         file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        video_title: e.id === 'video_watched' ? 'Stan and Friends' : undefined,
+        currency: e.id === 'generated_lead' ? 'USD' : undefined,
+        value: e.id === 'generated_lead' ? 50 : undefined,
       });
       utag.link({
-        event: e.id === 'video' ? 'video_watched' : e.id,
-        event_type: 'ui interaction',
+        event: e.id,
+        event_type: e.id === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
+        button_clicked: e.innerText,
         contact_method: contactMethod,
         file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        video_title: e.id === 'video_watched' ? 'Stan and Friends' : undefined,
+        currency: e.id === 'generated_lead' ? 'USD' : undefined,
+        value: e.id === 'generated_lead' ? 50 : undefined,
       });
       displayJSON();
     }
