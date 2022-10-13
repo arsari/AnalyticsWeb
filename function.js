@@ -118,37 +118,53 @@ btnClick.forEach((e) => {
       });
       displayJSON();
     } else {
-      let contactMethod;
+      let ev;
+      let cm;
+      let cc;
+      let val;
 
       if (e.id === 'email') {
-        contactMethod = 'email';
+        ev = 'generated_lead';
+        cm = 'email';
+        cc = 'USD';
+        val = 50;
       } else if (e.id === 'phone') {
-        contactMethod = 'phone';
+        ev = 'generated_lead';
+        cm = 'phone';
+        cc = 'USD';
+        val = 25;
+      } else if (e.id === 'form') {
+        ev = 'generated_lead';
+        cm = 'form';
+        cc = 'USD';
+        val = 100;
+      } else if (e.id === 'video') {
+        ev = 'video_watched';
       }
 
       window.dataLayer.push({
-        event: e.id,
-        event_type: e.id === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event: ev || e.id,
+        event_type: ev === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_clicked: e.innerText,
-        contact_method: contactMethod,
+        contact_method: cm,
         file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video_watched' ? 'Stan and Friends' : undefined,
-        currency: e.id === 'generated_lead' ? 'USD' : undefined,
-        value: e.id === 'generated_lead' ? 50 : undefined,
+        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        currency: cc,
+        value: val,
       });
       utag.link({
-        event: e.id,
-        event_type: e.id === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event: ev || e.id,
+        event_type: ev === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_clicked: e.innerText,
-        contact_method: contactMethod,
+        contact_method: cm,
         file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video_watched' ? 'Stan and Friends' : undefined,
-        currency: e.id === 'generated_lead' ? 'USD' : undefined,
-        value: e.id === 'generated_lead' ? 50 : undefined,
+        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        currency: cc,
+        value: val,
       });
       displayJSON();
     }

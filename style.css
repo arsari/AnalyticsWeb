@@ -1,5 +1,5 @@
 body {
-  margin: 30px 20px;
+  margin: 30px 30px 60px;
 }
 
 header {
@@ -10,12 +10,16 @@ header {
   width: 100%;
 }
 
+img {
+  margin: auto 10px;
+}
+
 h3 {
   width: 90%;
 }
 
-img {
-  margin: auto 10px;
+nav {
+  margin: 20px 0;
 }
 
 button {
@@ -24,9 +28,8 @@ button {
   color: white;
   padding: 15px 20px;
   text-align: center;
-  text-decoration: none;
   font-size: 16px;
-  margin: 0 10px 20px 0;
+  margin: 0 10px 10px 0;
   cursor: pointer;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -37,7 +40,7 @@ button {
 
 p {
   background-color: #f1f1f1;
-  color: #333;
+  color: #333333;
   padding: 10px;
   max-width: max-content;
   -webkit-border-radius: 10px;
@@ -48,15 +51,26 @@ p {
 }
 
 pre {
-  color: #333;
+  color: #333333;
   display: block;
   font-family: monospace;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
   overflow: auto;
-  padding: 10px 10px;
-  white-space: pre;
+  padding: 10px;
   white-space: pre-wrap;
   word-break: break-all;
-  word-wrap: break-word;
+}
+
+footer {
+  overflow: hidden;
+  background-color: #000000;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: #ffffff;
+  font-weight: 400;
+  padding: 10px 0;
+  text-align: center;
+  right: 0;
 }
