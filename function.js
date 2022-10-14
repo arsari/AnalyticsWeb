@@ -140,6 +140,7 @@ btnClick.forEach((e) => {
       let vp;
       let vct;
       let vd;
+      let vi;
 
       if (e.id === 'email' || e.id === 'phone' || e.id === 'form') {
         en = 'generated_lead';
@@ -161,18 +162,25 @@ btnClick.forEach((e) => {
         val = 100;
       }
 
+      if (e.id === 'download') {
+        en = 'file_download';
+      }
+
       if (e.id === 'video') {
-        en = 'video_watched';
         vt = 'Stan and Friends';
         vp = 'youtube';
 
         if (vc) {
+          en = 'video_start';
           vs = true;
+          vi = 'Play';
           vct = 0;
           vd = date.getUTCMilliseconds();
           vc = false;
         } else {
+          en = 'video_complete';
           vs = false;
+          vi = 'Complete';
           vct = date.getMilliseconds();
           vd = date.getUTCMilliseconds();
           vc = true;
@@ -180,6 +188,10 @@ btnClick.forEach((e) => {
       }
 
       if (e.id === 'login') {
+        if (logged) {
+          alert("Oops!\nI'm sorry you already Sign In.");
+          return;
+        }
         logged = true;
         userID = user;
       }
@@ -188,7 +200,7 @@ btnClick.forEach((e) => {
         if (logged) {
           logged = false;
         } else {
-          alert("Oops!\nI'm sorry You need to Sign In first.");
+          alert("Oops!\nI'm sorry you need to Sign In first.");
           return;
         }
       }
@@ -202,8 +214,7 @@ btnClick.forEach((e) => {
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_start: e.id === 'video' && vs === true ? true : undefined,
-        video_complete: e.id === 'video' && vc === true ? true : undefined,
+        video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
@@ -224,16 +235,15 @@ btnClick.forEach((e) => {
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_start: e.id === 'video' && vs === true ? true : undefined,
-        video_complete: e.id === 'video' && vc === true ? true : undefined,
+        video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
         video_duration: vd,
-        form_submit: e.id === 'form' ? true : undefined,
+        form_submit: e.id === 'form' ? 'MyForm' : undefined,
         currency: cc,
         value: val,
-        method: e.id === 'login' ? 'google' : undefined,
+        method: e.id === 'login' ? 'Google' : undefined,
         logged_in: logged,
         user_id: userID,
       });

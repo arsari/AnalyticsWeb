@@ -13,13 +13,11 @@ header {
 img {
   margin: auto 10px;
 }
-
 h3 {
-  width: 90%;
+  max-width: 90%;
 }
-
 nav {
-  margin: 20px 0;
+  margin: 20px 0 10px 0;
 }
 
 button {
