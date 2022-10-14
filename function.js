@@ -54,8 +54,6 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_text: e.innerText,
-        logged_in: logged,
-        user_id: userID,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -88,6 +86,8 @@ btnClick.forEach((e) => {
             },
           ],
         },
+        logged_in: logged,
+        user_id: userID,
       });
       utag.link({
         event: e.id,
@@ -95,8 +95,6 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_text: e.innerText,
-        logged_in: logged,
-        user_id: userID,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -129,6 +127,8 @@ btnClick.forEach((e) => {
             },
           ],
         },
+        logged_in: logged,
+        user_id: userID,
       });
       displayJSON(logged);
     } else {
@@ -141,6 +141,7 @@ btnClick.forEach((e) => {
       let vct;
       let vd;
       let vi;
+      let lu;
 
       if (e.id === 'email' || e.id === 'phone' || e.id === 'form') {
         en = 'generated_lead';
@@ -187,6 +188,10 @@ btnClick.forEach((e) => {
         }
       }
 
+      if (e.id === 'link') {
+        lu = e.querySelector('a').href;
+      }
+
       if (e.id === 'login') {
         if (logged) {
           alert("Oops!\nI'm sorry you already Sign In.");
@@ -211,6 +216,8 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_text: e.innerText,
+        link_url: e.id === 'link' ? lu : undefined,
+        link_text: e.id === 'link' ? e.innerText : undefined,
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
@@ -219,10 +226,10 @@ btnClick.forEach((e) => {
         video_provider: vp,
         video_current_time: vct,
         video_duration: vd,
-        form_submit: e.id === 'form' ? true : undefined,
+        form_submit: e.id === 'form' ? 'MyForm' : undefined,
         currency: cc,
         value: val,
-        method: e.id === 'login' ? 'google' : undefined,
+        method: e.id === 'login' ? 'Google' : undefined,
         logged_in: logged,
         user_id: userID,
       });
@@ -232,6 +239,8 @@ btnClick.forEach((e) => {
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
         button_text: e.innerText,
+        link_url: e.id === 'link' ? lu : undefined,
+        link_text: e.id === 'link' ? e.innerText : undefined,
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
