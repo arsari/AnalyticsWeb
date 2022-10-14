@@ -31,26 +31,55 @@ button {
   font-size: 16px;
   margin: 0 10px 10px 0;
   cursor: pointer;
+  border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  border-radius: 10px;
+  transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  -ms-transition: all 0.1s;
+  -o-transition: all 0.1s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  -webkit-transform: translateY(-3px);
+  -moz-transform: translateY(-3px);
+  -ms-transform: translateY(-3px);
+  -o-transform: translateY(-3px);
+  box-shadow: 0 10px 4px rgba(0, 0, 0, 0.2);
 }
 
 p {
   background-color: #f1f1f1;
   color: #333333;
-  padding: 10px;
+  padding: 10px 10px;
   max-width: max-content;
+  border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  border-radius: 10px;
 }
 
-pre {
+p > span {
+  background-color: #bc48c0;
+  color: #ffffff;
+  padding: 5px;
+  margin-left: 10px;
+  margin-right: -5px;
+  border: none;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.normal {
+  background-color: #f1f1f1;
   color: #333333;
   display: block;
   font-family: monospace;
@@ -60,6 +89,34 @@ pre {
   padding: 10px;
   white-space: pre-wrap;
   word-break: break-all;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.highlight {
+  background-color: lightyellow;
+  border: 2px solid red;
+  display: block;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: auto;
+  padding: 10px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: all 0.1s;
+  -webkit-transition: all;
+  -moz-transition: all;
+  -ms-transition: all;
+  -o-transition: all;
 }
 
 footer {

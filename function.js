@@ -1,31 +1,41 @@
-function displayJSON() {
+function displayJSON(a) {
+  const userLogged = a ? '<span>User Logged</span>' : '';
+
   document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
     window.dataLayer.length
-  }]</em></p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
+  }]</em>${userLogged}</p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
 
   document.querySelectorAll('pre').forEach((e) => {
-    e.style = 'background-color: #f1f1f1; border: 1px solid #ccc; border-radius: 10px;';
+    e.className = 'normal';
   });
-
   document.querySelector('#json').lastElementChild.scrollIntoView();
-  document.querySelector('#json').lastElementChild.style =
-    'background-color: lightyellow; border: 2px solid red; border-radius: 15px;';
+  document.querySelector('#json').lastElementChild.className = 'highlight';
 }
+
+const checkKeyPresenceInArray = (key) => window.dataLayer.some((obj) => Object.keys(obj).includes(key));
 
 const headerHeight = document.querySelector('header').offsetHeight;
 
 document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
 const btnClick = document.querySelectorAll('button');
+const user = `U-${Math.floor(Math.random() * 10000 + 1)}`;
+const date = new Date();
+let vs = false;
+let vc = true;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
+    const isKeyPresent = checkKeyPresenceInArray('logged_in');
+    let logged = isKeyPresent ? window.dataLayer.at(-1).logged_in : false;
+    let userID = logged ? user : 'guest';
+
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
       const itemPrice = Math.floor(Math.random() * 100 + 1);
       const itemQty = Math.floor(Math.random() * 30 + 1);
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
-      const total = (itemPrice - itemDiscount) * itemQty;
+      const total = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
 
       window.dataLayer.push({
         event: 'clear_ecommerce',
@@ -37,13 +47,15 @@ btnClick.forEach((e) => {
         event_type: 'content tool',
         ecommerce: null,
       }); // Clear the previous ecommerce object
-      displayJSON();
+      displayJSON(logged);
       window.dataLayer.push({
         event: e.id,
         event_type: 'conversion',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        button_clicked: e.innerText,
+        button_text: e.innerText,
+        logged_in: logged,
+        user_id: userID,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -82,7 +94,9 @@ btnClick.forEach((e) => {
         event_type: 'conversion',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        button_clicked: e.innerText,
+        button_text: e.innerText,
+        logged_in: logged,
+        user_id: userID,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
@@ -116,57 +130,114 @@ btnClick.forEach((e) => {
           ],
         },
       });
-      displayJSON();
+      displayJSON(logged);
     } else {
-      let ev;
+      let en;
       let cm;
       let cc;
       let val;
+      let vt;
+      let vp;
+      let vct;
+      let vd;
+
+      if (e.id === 'email' || e.id === 'phone' || e.id === 'form') {
+        en = 'generated_lead';
+        cc = 'USD';
+      }
 
       if (e.id === 'email') {
-        ev = 'generated_lead';
         cm = 'email';
-        cc = 'USD';
         val = 50;
-      } else if (e.id === 'phone') {
-        ev = 'generated_lead';
+      }
+
+      if (e.id === 'phone') {
         cm = 'phone';
-        cc = 'USD';
         val = 25;
-      } else if (e.id === 'form') {
-        ev = 'generated_lead';
-        cm = 'form';
-        cc = 'USD';
+      }
+
+      if (e.id === 'form') {
+        cm = 'form filled';
         val = 100;
-      } else if (e.id === 'video') {
-        ev = 'video_watched';
+      }
+
+      if (e.id === 'video') {
+        en = 'video_watched';
+        vt = 'Stan and Friends';
+        vp = 'youtube';
+
+        if (vc) {
+          vs = true;
+          vct = 0;
+          vd = date.getUTCMilliseconds();
+          vc = false;
+        } else {
+          vs = false;
+          vct = date.getMilliseconds();
+          vd = date.getUTCMilliseconds();
+          vc = true;
+        }
+      }
+
+      if (e.id === 'login') {
+        logged = true;
+        userID = user;
+      }
+
+      if (e.id === 'logout') {
+        if (logged) {
+          logged = false;
+        } else {
+          alert("Oops!\nI'm sorry You need to Sign In first.");
+          return;
+        }
       }
 
       window.dataLayer.push({
-        event: ev || e.id,
-        event_type: ev === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event: en || e.id,
+        event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        button_clicked: e.innerText,
+        button_text: e.innerText,
         contact_method: cm,
-        file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'MyDownload' : undefined,
+        video_start: e.id === 'video' && vs === true ? true : undefined,
+        video_complete: e.id === 'video' && vc === true ? true : undefined,
+        video_title: vt,
+        video_provider: vp,
+        video_current_time: vct,
+        video_duration: vd,
+        form_submit: e.id === 'form' ? true : undefined,
         currency: cc,
         value: val,
+        method: e.id === 'login' ? 'google' : undefined,
+        logged_in: logged,
+        user_id: userID,
       });
       utag.link({
-        event: ev || e.id,
-        event_type: ev === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event: en || e.id,
+        event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
         page_title: utag.data['dom.title'],
         page_location: utag.data['dom.url'],
-        button_clicked: e.innerText,
+        button_text: e.innerText,
         contact_method: cm,
-        file_type: e.id === 'download' ? 'pdf' : undefined,
-        video_title: e.id === 'video' ? 'Stan and Friends' : undefined,
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'MyDownload' : undefined,
+        video_start: e.id === 'video' && vs === true ? true : undefined,
+        video_complete: e.id === 'video' && vc === true ? true : undefined,
+        video_title: vt,
+        video_provider: vp,
+        video_current_time: vct,
+        video_duration: vd,
+        form_submit: e.id === 'form' ? true : undefined,
         currency: cc,
         value: val,
+        method: e.id === 'login' ? 'google' : undefined,
+        logged_in: logged,
+        user_id: userID,
       });
-      displayJSON();
+      displayJSON(logged);
     }
   });
 });
