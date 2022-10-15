@@ -1,5 +1,5 @@
 body {
-  margin: 30px 30px 60px;
+  margin: 15px 15px 80px;
 }
 
 header {
@@ -83,7 +83,7 @@ p > span {
   -o-border-radius: 5px;
 }
 
-.normal {
+pre.normal {
   background-color: #f1f1f1;
   color: #333333;
   display: block;
@@ -99,9 +99,14 @@ p > span {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  transition: all 0.1s;
+  -webkit-transition: all;
+  -moz-transition: all;
+  -ms-transition: all;
+  -o-transition: all;
 }
 
-.highlight {
+pre.highlight {
   background-color: lightyellow;
   border: 2px solid red;
   display: block;
@@ -128,22 +133,25 @@ footer {
   overflow: hidden;
   background-color: #000000;
   position: fixed;
+  right: 0;
   bottom: 0;
   width: 100%;
-  color: #ffffff;
   font-weight: 400;
   padding: 10px 0;
-  right: 0;
+  text-align: center;
 }
 
 .env {
-  float: left;
-  margin: 0 10px;
-  color: yellow;
+  margin-bottom: 5px;
+  display: block;
+  color: cyan;
 }
 
 .me {
-  float: right;
-  margin: 0 10px;
-  color: cyan;
+  display: block;
+  color: orange;
+}
+
+.prop {
+  color: yellow;
 }

@@ -20,7 +20,7 @@ document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
 document.querySelector(
   'footer',
-).innerHTML = `<span class="env">TealiumIQ Env-> ${tealiumEnv} | GA4-> ${ga4Prop}</span><span class="me">Coded with &hearts; by ARSARI</span>`;
+).innerHTML = `<span class="env">TealiumIQ->[<span class="prop">${tealiumEnv}</span>] | GA4->[<span class="prop">${ga4Prop}</span>]</span><span class="me">Coded with &hearts; by ARSARI</sp>`;
 
 const btnClick = document.querySelectorAll('button');
 const user = `U-${Math.floor(Math.random() * 10000 + 1)}`;
