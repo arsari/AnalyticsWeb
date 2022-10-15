@@ -42,6 +42,7 @@ let vc = true;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
+    window.dataLayer = window.dataLayer || [];
     const isKeyPresent = checkKeyPresenceInArray('logged_in');
     let logged = isKeyPresent ? window.dataLayer.at(-1).logged_in : false;
     let userID = logged ? user : 'guest';
