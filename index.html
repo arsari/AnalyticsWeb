@@ -2,7 +2,29 @@
 <html lang="en-US">
 
 <head>
-  <!-- Google Tag Manager -->
+  <!-- dataLayers config -->
+  <script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'pageview',
+      pageName: 'Analytics Implementation',
+      pageType: 'Playground',
+      pageCategory: 'Analytics Implementation',
+      pageTitle: 'Analytic Implementation Playground | Arsari',
+      pageAuthor: 'Arturo Santiago-Rivera',
+      authorEmail: 'asantiago@arsari.com',
+      pageLocation: document.location.href,
+      pageHost: document.location.host,
+      pagePath: document.location.pathname,
+      pageLanguage: 'en-US',
+      pageCountry: 'US',
+      loggedIn: 'false',
+      userID: 'guest',
+    });
+  </script>
+  <!-- END: utag dataLayers config -->
+
+  <!--Google Tag Manager-->
   <script>
     (function (w, d, s, l, i) {
       w[l] = w[l] || [];
@@ -32,39 +54,26 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <!-- dataLayers config -->
+  <!-- utag dataLayers config -->
   <script type="text/javascript">
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'pageview',
-      page_name: 'Analytics Implementation',
-      page_type: 'Playground',
-      page_category: 'Analytics Implementation',
-      page_title: document.querySelector('title').innerText,
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      page_location: document.location.href,
-      page_host: document.location.host,
-      page_path: document.location.pathname,
-      page_Language: 'en-US',
-      page_country: 'US',
-    });
     const utag_data = {
       event: 'pageview',
-      page_name: 'Analytics Implementation',
-      page_type: 'Playground',
-      page_category: 'Analytics Implementation',
-      page_title: document.querySelector('title').innerText,
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      page_location: document.location.href,
-      page_host: document.location.host,
-      page_path: document.location.pathname,
-      page_Language: 'en-US',
-      page_country: 'US',
+      pageName: 'Analytics Implementation',
+      pageType: 'Playground',
+      pageCategory: 'Analytics Implementation',
+      pageTitle: 'Analytic Implementation Playground | Arsari',
+      pageAuthor: 'Arturo Santiago-Rivera',
+      authorEmail: 'asantiago@arsari.com',
+      pageLocation: document.location.href,
+      pageHost: document.location.host,
+      pagePath: document.location.pathname,
+      pageLanguage: 'en-US',
+      pageCountry: 'US',
+      loggedIn: 'false',
+      userID: 'guest',
     };
   </script>
-  <!-- END: dataLayers config ->
+  <!-- END: utag dataLayers config -->
   <!-- Tealium IQ Loading script asynchronously -->
   <script type="text/javascript">
     const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
@@ -81,7 +90,10 @@
       a.parentNode.insertBefore(d, a);
     })();
 
-    const ga4Prop = tealiumEnv == 'dev' || tealiumEnv == 'qa' ? 'G-8CVLE5LRYD' : 'G-0Q482J3LCH';
+    const ga4Prop =
+      tealiumEnv == 'dev' || tealiumEnv == 'qa' || document.location.host.includes('127.0.0.1')
+        ? 'G-0Q482J3LCH'
+        : 'G-K9GKNM79XW';
     const gtmContainer = 'GTM-59FGRVM';
     console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
   </script>
@@ -93,8 +105,8 @@
         alt="GitHub Last Commit" title="Source Code Last Update" />
     </h1>
     <h3>
-      Playground to explore analytics implementation with Tealium IQ for Adobe Analytics (AA) and Google Analytics 4
-      (GA4).
+      Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics (AA)
+      through Tealium IQ.
     </h3>
     <nav>
       <button id="login">Sign In</button>
