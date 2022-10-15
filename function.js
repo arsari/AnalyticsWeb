@@ -1,3 +1,8 @@
+/**
+ * It takes a boolean value, and if it's true, it adds a span to the output, and
+ * then it adds a preformatted block of JSON to the output
+ * @param a - true/false - whether the user is logged in or not
+ */
 function displayJSON(a) {
   const userLogged = a ? '<span>User Logged</span>' : '';
 
@@ -12,16 +17,23 @@ function displayJSON(a) {
   document.querySelector('#json').lastElementChild.className = 'highlight';
 }
 
+/**
+ * Check if the key is present in the dataLayer array.
+ * @param key - The key you want to check for.
+ */
 const checkKeyPresenceInArray = (key) => window.dataLayer.some((obj) => Object.keys(obj).includes(key));
 
+/* Section element set up by getting the height of the header and adding 25px to it, and then setting
+the margin-top of the section to that value. */
 const headerHeight = document.querySelector('header').offsetHeight;
-
 document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
-document.querySelector(
-  'footer',
-).innerHTML = `<span class="env">TealiumIQ->[<span class="prop">${tealiumEnv}</span>] | GA4->[<span class="prop">${ga4Prop}</span>]</span><span class="me">Coded with &hearts; by ARSARI</sp>`;
+/* Footer labeling set up */
+document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
+  <span class="prop">${tealiumEnv} </span>] | GA4->[ <span class="prop">${ga4Prop}</span> ]
+  </span><span class="me">Coded with &hearts; by ARSARI</sp>`;
 
+/* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
 const user = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 const date = new Date();
@@ -55,8 +67,6 @@ btnClick.forEach((e) => {
       window.dataLayer.push({
         event: e.id,
         event_type: 'conversion',
-        page_title: utag.data['dom.title'],
-        page_location: utag.data['dom.url'],
         button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
@@ -96,8 +106,6 @@ btnClick.forEach((e) => {
       utag.link({
         event: e.id,
         event_type: 'conversion',
-        page_title: utag.data['dom.title'],
-        page_location: utag.data['dom.url'],
         button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
@@ -217,8 +225,6 @@ btnClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
-        page_title: utag.data['dom.title'],
-        page_location: utag.data['dom.url'],
         button_text: e.innerText,
         link_url: e.id === 'link' ? lu : undefined,
         link_text: e.id === 'link' ? e.innerText : undefined,
@@ -240,8 +246,6 @@ btnClick.forEach((e) => {
       utag.link({
         event: en || e.id,
         event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
-        page_title: utag.data['dom.title'],
-        page_location: utag.data['dom.url'],
         button_text: e.innerText,
         link_url: e.id === 'link' ? lu : undefined,
         link_text: e.id === 'link' ? e.innerText : undefined,

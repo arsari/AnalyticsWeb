@@ -1,5 +1,6 @@
 body {
-  margin: 15px 15px 80px;
+  font-family: "Roboto", sans-serif;
+  margin: 0 20px 90px;
 }
 
 header {
@@ -13,9 +14,15 @@ header {
 img {
   margin: auto 10px;
 }
+
+h1 {
+  max-width: fit-content;
+}
+
 h3 {
   max-width: 90%;
 }
+
 nav {
   margin: 20px 0 10px 0;
 }
@@ -61,7 +68,7 @@ p {
   background-color: #f1f1f1;
   color: #333333;
   padding: 10px 10px;
-  max-width: max-content;
+  max-width: fit-content;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -154,4 +161,18 @@ footer {
 
 .prop {
   color: yellow;
+}
+
+@media (min-width: 320px) and (max-width: 820px) {
+  body {
+    margin: 0 10px 80px;
+    font-size: 90%;
+  }
+  button {
+    margin: 0 8px 10px 0;
+  }
+  footer {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 }

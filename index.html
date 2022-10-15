@@ -2,11 +2,6 @@
 <html lang="en-US">
 
 <head>
-  <!-- dataLayers config -->
-  <script type="text/javascript">
-    window.dataLayer = window.dataLayer || [];
-  </script>
-  <!-- END: dataLayers config -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,9 +13,37 @@
 <body>
   <!-- dataLayers config -->
   <script type="text/javascript">
-    const utag_data = {};
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'pageview',
+      page_name: 'Analytics Implementation',
+      page_type: 'Playground',
+      page_category: 'Analytics Implementation',
+      page_title: document.querySelector('title').innerText,
+      page_author: 'Arturo Santiago-Rivera',
+      author_email: 'asantiago@arsari.com',
+      page_location: document.location.href,
+      page_host: document.location.host,
+      page_path: document.location.pathname,
+      page_Language: 'en-US',
+      page_country: 'US',
+    });
+    const utag_data = {
+      event: 'pageview',
+      page_name: 'Analytics Implementation',
+      page_type: 'Playground',
+      page_category: 'Analytics Implementation',
+      page_title: document.querySelector('title').innerText,
+      page_author: 'Arturo Santiago-Rivera',
+      author_email: 'asantiago@arsari.com',
+      page_location: document.location.href,
+      page_host: document.location.host,
+      page_path: document.location.pathname,
+      page_Language: 'en-US',
+      page_country: 'US',
+    };
   </script>
-  <!-- END: dataLayers config -->
+  <!-- END: dataLayers config ->
   <!-- Tealium IQ Loading script asynchronously -->
   <script type="text/javascript">
     const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
@@ -38,7 +61,6 @@
     })();
 
     const ga4Prop = tealiumEnv == 'dev' ? 'G-000001' : tealiumEnv == 'qa' ? 'G-000002' : 'G-000003';
-
     console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop}`);
   </script>
   <!-- END: Tealium IQ Loading script asynchronously -->
