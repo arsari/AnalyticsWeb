@@ -30,8 +30,8 @@ document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
-  <span class="prop">${tealiumEnv} </span>] | GA4->[ <span class="prop">${ga4Prop}</span> ]
-  </span><span class="me">Coded with &hearts; by ARSARI</sp>`;
+  <span class="prop">${tealiumEnv}</span> ] | GA4->[ <span class="prop">${ga4Prop}</span> ] | GTM->[ <span class="prop">${gtmContainer}</span> ]
+  </span><span class="me">Coded with &hearts; by ARSARI</span>`;
 
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
