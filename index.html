@@ -37,10 +37,9 @@
       a.parentNode.insertBefore(d, a);
     })();
 
-    const gaProp = tealiumEnv == 'dev' ? 'G-000001' : tealiumEnv == 'qa' ? 'G-000002' : 'G-000003';
+    const ga4Prop = tealiumEnv == 'dev' ? 'G-000001' : tealiumEnv == 'qa' ? 'G-000002' : 'G-000003';
 
-    console.log(`TealiumIQ Env -> ${tealiumEnv}`);
-    console.log(`GA4 Property -> ${gaProp}`);
+    console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop}`);
   </script>
   <!-- END: Tealium IQ Loading script asynchronously -->
   <header>
@@ -50,8 +49,8 @@
         alt="GitHub Last Commit" title="Source Code Last Update" />
     </h1>
     <h3>
-      Playground to explore an analytics implementation through Tealium IQ and
-      Adobe Analytics.
+      Playground to explore analytics implementation with Tealium IQ for Adobe Analytics (AA) and Google Analytics 4
+      (GA4).
     </h3>
     <nav>
       <button id="login">Sign In</button>
@@ -66,7 +65,7 @@
     </nav>
   </header>
   <section id="json"></section>
-  <footer>Coded with &hearts; by ARSARI</footer>
+  <footer></footer>
   <script src="function.js"></script>
 </body>
 

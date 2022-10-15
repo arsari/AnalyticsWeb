@@ -18,6 +18,10 @@ const headerHeight = document.querySelector('header').offsetHeight;
 
 document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
 
+document.querySelector(
+  'footer',
+).innerHTML = `<span class="env">TealiumIQ Env-> ${tealiumEnv} | GA4-> ${ga4Prop}</span><span class="me">Coded with &hearts; by ARSARI</span>`;
+
 const btnClick = document.querySelectorAll('button');
 const user = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 const date = new Date();
