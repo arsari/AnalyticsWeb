@@ -1,7 +1,7 @@
 /**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
  * then it adds a preformatted block of JSON to the output
- * @param a - true/false - whether the user is logged in or not
+ * @param status - true/false - whether the user is logged in or not
  */
 function displayJSON(status) {
   const userLogged = status ? '<span>User Logged</span>' : '';
