@@ -35,7 +35,6 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
-window.dataLayer = window.dataLayer || [];
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 const date = new Date();
 let vs = false;
@@ -54,6 +53,7 @@ btnClick.forEach((e) => {
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
       const total = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
 
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         ecommerce: null,
       }); // Clear the previous ecommerce object
@@ -61,6 +61,7 @@ btnClick.forEach((e) => {
         ecommerce: null,
       }); // Clear the previous ecommerce object
       displayJSON(logged);
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: e.id,
         event_type: 'conversion',
@@ -220,6 +221,7 @@ btnClick.forEach((e) => {
         }
       }
 
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
         event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
