@@ -3,8 +3,8 @@
  * then it adds a preformatted block of JSON to the output
  * @param a - true/false - whether the user is logged in or not
  */
-function displayJSON(a) {
-  const userLogged = a ? '<span>User Logged</span>' : '';
+function displayJSON(status) {
+  const userLogged = status ? '<span>User Logged</span>' : '';
 
   document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
     window.dataLayer.length
@@ -35,17 +35,17 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
-const user = `U-${Math.floor(Math.random() * 10000 + 1)}`;
+window.dataLayer = window.dataLayer || [];
+const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 const date = new Date();
 let vs = false;
 let vc = true;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
-    window.dataLayer = window.dataLayer || [];
     const isKeyPresent = checkKeyPresenceInArray('logged_in');
     let logged = isKeyPresent ? window.dataLayer.at(-1).logged_in : false;
-    let userID = logged ? user : 'guest';
+    let ui = logged ? userID : 'guest';
 
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
@@ -55,13 +55,9 @@ btnClick.forEach((e) => {
       const total = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
 
       window.dataLayer.push({
-        event: 'clear_ecommerce',
-        event_type: 'content tool',
         ecommerce: null,
       }); // Clear the previous ecommerce object
       utag.link({
-        event: 'clear_ecommerce',
-        event_type: 'content tool',
         ecommerce: null,
       }); // Clear the previous ecommerce object
       displayJSON(logged);
@@ -102,7 +98,7 @@ btnClick.forEach((e) => {
           ],
         },
         logged_in: logged,
-        user_id: userID,
+        user_id: ui,
       });
       utag.link({
         event: e.id,
@@ -141,7 +137,7 @@ btnClick.forEach((e) => {
           ],
         },
         logged_in: logged,
-        user_id: userID,
+        user_id: ui,
       });
       displayJSON(logged);
     } else {
@@ -202,6 +198,7 @@ btnClick.forEach((e) => {
       }
 
       if (e.id === 'link') {
+        en = 'link_click';
         lu = e.querySelector('a').href;
       }
 
@@ -211,7 +208,7 @@ btnClick.forEach((e) => {
           return;
         }
         logged = true;
-        userID = user;
+        ui = userID;
       }
 
       if (e.id === 'logout') {
@@ -242,7 +239,7 @@ btnClick.forEach((e) => {
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
         logged_in: logged,
-        user_id: userID,
+        user_id: ui,
       });
       utag.link({
         event: en || e.id,
@@ -263,7 +260,7 @@ btnClick.forEach((e) => {
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
         logged_in: logged,
-        user_id: userID,
+        user_id: ui,
       });
       displayJSON(logged);
     }
