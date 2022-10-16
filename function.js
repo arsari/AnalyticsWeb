@@ -152,6 +152,8 @@ btnClick.forEach((e) => {
       let vd;
       let vi;
       let lu;
+      let ol;
+      let ld;
 
       if (e.id === 'email' || e.id === 'phone' || e.id === 'form') {
         en = 'generated_lead';
@@ -178,8 +180,8 @@ btnClick.forEach((e) => {
       }
 
       if (e.id === 'video') {
-        vt = 'Stan and Friends';
-        vp = 'youtube';
+        vt = 'Walk in The Clouds';
+        vp = 'video player';
 
         if (vc) {
           en = 'video_start';
@@ -198,9 +200,18 @@ btnClick.forEach((e) => {
         }
       }
 
-      if (e.id === 'link') {
-        en = 'link_click';
-        lu = e.querySelector('a').href;
+      if (e.id === 'exlink') {
+        en = 'outbound_link';
+        lu = e.querySelector('#exlink a').href;
+        const domain = new URL(lu);
+        ld = domain.hostname;
+        ol = true;
+      } else {
+        en = 'internal_link';
+        lu = e.querySelector('#inlink a').href;
+        const domain = new URL(lu);
+        ld = domain.hostname;
+        ol = false;
       }
 
       if (e.id === 'login') {
@@ -226,8 +237,11 @@ btnClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
-        link_url: e.id === 'link' ? lu : undefined,
-        link_text: e.id === 'link' ? e.innerText : undefined,
+        link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
+        link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
+        link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
+        link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
+        outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
@@ -247,8 +261,11 @@ btnClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
-        link_url: e.id === 'link' ? lu : undefined,
-        link_text: e.id === 'link' ? e.innerText : undefined,
+        link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
+        link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
+        link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
+        link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
+        outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
         contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
