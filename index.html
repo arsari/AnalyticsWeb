@@ -65,7 +65,7 @@
     <!-- END: utag dataLayers config -->
     <!-- Tealium IQ Loading script asynchronously -->
     <script type="text/javascript">
-      const tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
+      let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
 
       (function (a, b, c, d) {
         a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
@@ -80,10 +80,11 @@
       })();
 
       const ga4Prop =
-        tealiumEnv == 'dev' || tealiumEnv == 'qa' || document.location.host.includes('127.0.0.1')
+        tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
           ? 'G-0Q482J3LCH'
           : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
+      tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
       console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
     </script>
     <!-- END: Tealium IQ Loading script asynchronously -->
