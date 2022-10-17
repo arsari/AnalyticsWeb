@@ -207,7 +207,7 @@ btnClick.forEach((e) => {
         const domain = new URL(lu);
         ld = domain.hostname;
         ol = true;
-      } else {
+      } else if (e.id === 'inlink') {
         en = 'internal_link';
         lu = e.querySelector('#inlink a').href;
         const domain = new URL(lu);
