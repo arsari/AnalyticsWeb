@@ -155,7 +155,7 @@ btnClick.forEach((e) => {
       let ol;
       let ld;
 
-      if (e.id === 'email' || e.id === 'phone' || e.id === 'form') {
+      if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
         cc = 'USD';
       }
@@ -171,6 +171,7 @@ btnClick.forEach((e) => {
       }
 
       if (e.id === 'form') {
+        en = 'form_submit';
         cm = 'form filled';
         val = 100;
       }
@@ -235,14 +236,13 @@ btnClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
-        event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
         link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
         link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
         link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
         link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
         outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
-        contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
@@ -250,7 +250,10 @@ btnClick.forEach((e) => {
         video_provider: vp,
         video_current_time: vct,
         video_duration: vd,
-        form_submit: e.id === 'form' ? 'MyForm' : undefined,
+        form_id: e.id === 'form' ? e.id : undefined,
+        form_name: e.id === 'form' ? 'MyForm' : undefined,
+        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        contact_method: cm,
         currency: cc,
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
@@ -259,14 +262,13 @@ btnClick.forEach((e) => {
       });
       utag.link({
         event: en || e.id,
-        event_type: en === 'generated_lead' ? 'conversion' : 'ui interaction',
+        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
         link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
         link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
         link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
         link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
         outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
-        contact_method: cm,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
@@ -274,7 +276,10 @@ btnClick.forEach((e) => {
         video_provider: vp,
         video_current_time: vct,
         video_duration: vd,
-        form_submit: e.id === 'form' ? 'MyForm' : undefined,
+        form_id: e.id === 'form' ? e.id : undefined,
+        form_name: e.id === 'form' ? 'MyForm' : undefined,
+        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        contact_method: cm,
         currency: cc,
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
