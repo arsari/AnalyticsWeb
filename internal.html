@@ -14,7 +14,6 @@
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         language_code: 'en-US',
-        country: 'US',
       });
     </script>
     <!-- END: dataLayers config -->
@@ -54,7 +53,6 @@
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         language_code: 'en-US',
-        country: 'US',
       };
     </script>
     <!-- END: utag dataLayers config -->
@@ -89,9 +87,26 @@
     <!-- End Google Tag Manager (noscript) -->
 
     <main>
-      <h1>Analytics Implementation</h1>
-      <h3>Intentionally Internal Blank Page</h3>
+      <header style="margin: 30px;">
+        <h1>Analytics Implementation</h1>
+        <h3>Intentionally Internal Blank Page.<br>This Tab will close automatically after 30 seconds.</h3>
+      </header>
+      <section id="data" style="margin: 30px;"></section>
     </main>
+    <script type="text/javascript">
+      document.querySelector('#data').innerHTML += `<p><em>Initial dataLayer.push and utag_data<pre>${JSON.stringify(
+        window.dataLayer.at(0).event === 'initdata' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
+        undefined,
+        2,
+      )}</pre>`;
+
+      document.querySelector('#data').lastElementChild.scrollIntoView();
+      document.querySelector('#data').lastElementChild.className = 'highlight';
+
+      setTimeout(() => {
+        window.close();
+      }, 30000);
+    </script>
   </body>
 
 </html>

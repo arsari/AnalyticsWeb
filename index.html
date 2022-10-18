@@ -89,36 +89,38 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-
-    <header>
-      <h1>
-        Analytics Implementation Playground
-        <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
-          alt="GitHub Last Commit" title="Source Code Last Update" />
-      </h1>
-      <h3>
-        Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics (AA)
-        through Tealium IQ.
-      </h3>
-      <nav>
-        <button id="login" type="button">Sign In</button>
-        <button id="exlink" type="button">
-          <a href="https://arsari.wpengine.com" rel="noopener nofollow noreferrer" target="_blank">Outbound Link</a>
-        </button>
-        <button id="inlink" type="button">
-          <a href="internal.html" rel="noopener nofollow noreferrer" target="_blank">Internal Link</a>
-        </button>
-        <button id="download" type="button">Download</button>
-        <button id="video" type="button">Video</button>
-        <button id="email" type="button">Email</button>
-        <button id="phone" type="button">Phone</button>
-        <button id="form" type="button">Contact Us</button>
-        <button id="purchase" type="button">Purchase</button>
-        <button id="logout" type="button">Sign Out</button>
-      </nav>
-    </header>
-    <section id="json"></section>
-    <footer></footer>
+    <main>
+      <header class="homepage">
+        <h1>
+          Analytics Implementation Playground
+          <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
+            alt="GitHub Last Commit" title="Source Code Last Update" />
+        </h1>
+        <h3>
+          Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics
+          (AA)
+          through Tealium IQ.
+        </h3>
+        <nav>
+          <button id="login" type="button">Sign In</button>
+          <button id="exlink" type="button">
+            <a href="https://arsari.wpengine.com" rel="noopener nofollow noreferrer" target="_blank">Outbound Link</a>
+          </button>
+          <button id="inlink" type="button">
+            <a href="internal.html" rel="noopener nofollow noreferrer" target="_blank">Internal Link</a>
+          </button>
+          <button id="download" type="button">Download</button>
+          <button id="video" type="button">Video</button>
+          <button id="email" type="button">Email</button>
+          <button id="phone" type="button">Phone</button>
+          <button id="form" type="button">Contact Us</button>
+          <button id="purchase" type="button">Purchase</button>
+          <button id="logout" type="button">Sign Out</button>
+        </nav>
+      </header>
+      <section id="json"></section>
+      <footer></footer>
+    </main>
     <script type="text/javascript" src="function.min.js"></script>
     <script type="text/javascript">
       document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data<pre>${JSON.stringify(

@@ -3,7 +3,7 @@ body {
   margin: 0 20px 90px;
 }
 
-header {
+.homepage {
   overflow: hidden;
   background-color: #ffffff;
   position: fixed;
@@ -91,7 +91,7 @@ p > span {
   border-radius: 5px;
 }
 
-pre.normal {
+.normal {
   background-color: #f1f1f1;
   color: #333333;
   display: block;
@@ -114,7 +114,7 @@ pre.normal {
   transition: all 0.1s;
 }
 
-pre.highlight {
+.highlight {
   background-color: lightyellow;
   border: 2px solid red;
   display: block;
