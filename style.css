@@ -27,6 +27,11 @@ nav {
   margin: 20px 0 10px 0;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
 button {
   position: relative;
   width: 120px;
@@ -39,16 +44,11 @@ button {
   cursor: pointer;
   border-radius: 10px;
   margin: 0 10px 10px 0;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  -o-transition: all 0.5s;
-}
-
-button > a {
-  color: white;
-  text-decoration: none;
+  transition: width 0.5s, border-radius 0.5s;
+  -webkit-transition: width 0.5s, border-radius 0.5s;
+  -moz-transition: width 0.5s, border-radius 0.5s;
+  -ms-transition: width 0.5s, border-radius 0.5s;
+  -o-transition: width 0.5s, border-radius 0.5s;
 }
 
 button:hover {
@@ -60,7 +60,7 @@ button:hover {
   -o-transform: translateY(-3px);
 }
 
-button:focus {
+button[disabled] {
   background-color: #707771;
   cursor: not-allowed;
 }

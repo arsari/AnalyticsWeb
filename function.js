@@ -297,5 +297,9 @@ btnClick.forEach((e) => {
       });
       displayJSON(logged);
     }
+    document.querySelectorAll('button').forEach((element) => {
+      element.removeAttribute('disabled');
+    });
+    e.setAttribute('disabled', '');
   });
 });
