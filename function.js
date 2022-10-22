@@ -4,7 +4,12 @@
  * @param status - true/false - whether the user is logged in or not
  */
 function displayJSON(status) {
-  const userLogged = status ? '<span>User Logged</span>' : '';
+  let userLogged = '';
+  if (status) {
+    userLogged = '<span>User Logged In</span>';
+  } else if (window.dataLayer.at(-1).event === 'logout') {
+    userLogged = '<span class="alert">User Logged Out</span>';
+  }
 
   document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
     window.dataLayer.length
@@ -16,12 +21,6 @@ function displayJSON(status) {
   document.querySelector('#json').lastElementChild.scrollIntoView();
   document.querySelector('#json').lastElementChild.className = 'highlight';
 }
-
-/**
- * Check if the key is present in the dataLayer array.
- * @param key - The key you want to check for.
- */
-const checkKeyPresenceInArray = (key) => window.dataLayer.some((obj) => Object.keys(obj).includes(key));
 
 /* Section element set up by getting the height of the header and adding 25px to it, and then setting
 the margin-top of the section to that value. */
@@ -36,21 +35,13 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
+let logged = false;
 const date = new Date();
 let vs = false;
 let vc = true;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
-    let logged;
-    const isKeyPresent = checkKeyPresenceInArray('logged_in');
-    if (isKeyPresent && window.dataLayer.at(-1).event !== 'gtm.linkClick') {
-      logged = window.dataLayer.at(-1).logged_in;
-    } else if (window.dataLayer.at(-1).event === 'gtm.linkClick') {
-      logged = true;
-    } else {
-      logged = false;
-    }
     let ui = logged ? userID : 'guest';
 
     if (e.id === 'purchase') {
