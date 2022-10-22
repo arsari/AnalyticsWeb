@@ -1,112 +1,115 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
-  <!-- dataLayers config -->
-  <script type="text/javascript">
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'initdata',
-      page_name: 'Analytics Implementation',
-      content_type: 'Playground',
-      content_group: 'Implementation',
-      page_title: 'Analytic Implementation - Internal Page',
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      language_code: 'en-US',
-    });
-  </script>
-  <!-- END: dataLayers config -->
-  <!--Google Tag Manager-->
-  <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js',
+  <head>
+    <!-- dataLayers config -->
+    <script type="text/javascript">
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'initdata',
+        page_name: 'Analytics Implementation',
+        content_type: 'Playground',
+        content_group: 'Implementation',
+        page_title: 'Analytic Implementation - Internal Page',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        language_code: 'en-US',
       });
-      const f = d.getElementsByTagName(s)[0];
-      const j = d.createElement(s);
-      const dl = l !== 'dataLayer' ? `&l=${l}` : '';
-      j.async = true;
-      j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
-  </script>
-  <!-- End Google Tag Manager -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <title>Analytics Implementation - Internal Page</title>
-</head>
+    </script>
+    <!-- END: dataLayers config -->
+    <!--Google Tag Manager-->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js',
+        });
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s);
+        const dl = l !== 'dataLayer' ? `&l=${l}` : '';
+        j.async = true;
+        j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Analytics Implementation - Internal Page</title>
+  </head>
 
-<body>
-  <!-- utag dataLayers config -->
-  <script type="text/javascript">
-    const utag_data = {
-      page_name: 'Analytics Implementation',
-      content_type: 'Playground',
-      content_group: 'Implementation',
-      page_title: 'Analytic Implementation - Internal Page',
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      language_code: 'en-US',
-    };
-  </script>
-  <!-- END: utag dataLayers config -->
-  <!-- Tealium IQ Loading script asynchronously -->
-  <script type="text/javascript">
-    let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
+  <body>
+    <!-- utag dataLayers config -->
+    <script type="text/javascript">
+      const utag_data = {
+        page_name: 'Analytics Implementation',
+        content_type: 'Playground',
+        content_group: 'Implementation',
+        page_title: 'Analytic Implementation - Internal Page',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        language_code: 'en-US',
+      };
+    </script>
+    <!-- END: utag dataLayers config -->
+    <!-- Tealium IQ Loading script asynchronously -->
+    <script type="text/javascript">
+      let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
 
-    (function (a, b, c, d) {
-      a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
-      b = document;
-      c = 'script';
-      d = b.createElement(c);
-      d.src = a;
-      d.type = `text/java${c}`;
-      d.async = true;
-      a = b.getElementsByTagName(c)[0];
-      a.parentNode.insertBefore(d, a);
-    })();
+      (function (a, b, c, d) {
+        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
+        b = document;
+        c = 'script';
+        d = b.createElement(c);
+        d.src = a;
+        d.type = `text/java${c}`;
+        d.async = true;
+        a = b.getElementsByTagName(c)[0];
+        a.parentNode.insertBefore(d, a);
+      })();
 
-    const ga4Prop =
-      tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
-        ? 'G-0Q482J3LCH'
-        : 'G-K9GKNM79XW';
-    const gtmContainer = 'GTM-59FGRVM';
-    tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
-    console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
-  </script>
-  <!-- END: Tealium IQ Loading script asynchronously -->
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
+      const ga4Prop =
+        tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
+          ? 'G-0Q482J3LCH'
+          : 'G-K9GKNM79XW';
+      const gtmContainer = 'GTM-59FGRVM';
+      tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
+      console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
+    </script>
+    <!-- END: Tealium IQ Loading script asynchronously -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-  <main>
-    <header style="margin: 30px;">
-      <h1>Analytics Implementation</h1>
-      <h3>Intentionally Internal Blank Page.<br>This Tab will close automatically after 10 seconds.</h3>
-    </header>
-    <section id="data" style="margin: 30px;"></section>
-  </main>
-  <script type="text/javascript">
-    document.querySelector('#data').innerHTML += `<p><em>Initial dataLayer.push and utag_data<pre>${JSON.stringify(
-      window.dataLayer.at(0).event === 'initdata' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
-      undefined,
-      2,
-    )}</pre>`;
+    <main>
+      <header class="margin30">
+        <h1>Analytics Implementation</h1>
+        <h3>
+          <span>Intentionally Internal Blank Page. =></span>
+          <span class="alert">This Tab will close automatically after 10 seconds.</spanclass>
+        </h3>
+      </header>
+      <section id="data" class="margin30"></section>
+    </main>
+    <script type="text/javascript">
+      document.querySelector('#data').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+        window.dataLayer.at(0).event === 'initdata' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
+        undefined,
+        2,
+      )}</pre>`;
 
-    document.querySelector('#data').lastElementChild.scrollIntoView();
-    document.querySelector('#data').lastElementChild.className = 'highlight';
+      document.querySelector('#data').lastElementChild.scrollIntoView();
+      document.querySelector('#data').lastElementChild.className = 'highlight';
 
-    setTimeout(() => {
-      window.close();
-    }, 10000);
-  </script>
-</body>
+      setTimeout(() => {
+        window.close();
+      }, 10000);
+    </script>
+  </body>
 
 </html>
