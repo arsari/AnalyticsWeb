@@ -42,8 +42,15 @@ let vc = true;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
+    let logged;
     const isKeyPresent = checkKeyPresenceInArray('logged_in');
-    let logged = isKeyPresent ? window.dataLayer.at(-1).logged_in : false;
+    if (isKeyPresent && window.dataLayer.at(-1).event !== 'gtm.linkClick') {
+      logged = window.dataLayer.at(-1).logged_in;
+    } else if (window.dataLayer.at(-1).event === 'gtm.linkClick') {
+      logged = true;
+    } else {
+      logged = false;
+    }
     let ui = logged ? userID : 'guest';
 
     if (e.id === 'purchase') {
@@ -207,7 +214,9 @@ btnClick.forEach((e) => {
         const domain = new URL(lu);
         ld = domain.hostname;
         ol = true;
-      } else if (e.id === 'inlink') {
+      }
+
+      if (e.id === 'inlink') {
         en = 'internal_link';
         lu = e.querySelector('#inlink a').href;
         const domain = new URL(lu);
