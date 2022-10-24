@@ -36,9 +36,10 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 const btnClick = document.querySelectorAll('button');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 let logged = false;
-const date = new Date();
 let vs = false;
 let vc = true;
+let progress = 0;
+const duration = 100;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
@@ -178,27 +179,6 @@ btnClick.forEach((e) => {
         en = 'file_download';
       }
 
-      if (e.id === 'video') {
-        vt = 'Walk in The Clouds';
-        vp = 'video player';
-
-        if (vc) {
-          en = 'video_start';
-          vs = true;
-          vi = 'Play';
-          vct = 0;
-          vd = date.getUTCMilliseconds();
-          vc = false;
-        } else {
-          en = 'video_complete';
-          vs = false;
-          vi = 'Complete';
-          vct = date.getMilliseconds();
-          vd = date.getUTCMilliseconds();
-          vc = true;
-        }
-      }
-
       if (e.id === 'exlink') {
         en = 'outbound_link';
         lu = e.querySelector('#exlink a').href;
@@ -215,9 +195,88 @@ btnClick.forEach((e) => {
         ol = false;
       }
 
+      if (e.id === 'video') {
+        vt = 'Walk in The Clouds';
+        vp = 'video player';
+
+        if (vc) {
+          en = 'video_start';
+          vs = true;
+          vi = 'Play';
+          vct = progress;
+          vd = duration;
+          vc = false;
+        } else {
+          en = 'video_stop';
+          vs = false;
+          vi = 'Stop';
+          vct = progress;
+          vd = duration;
+          vc = true;
+        }
+      }
+
+      // Video progress interval after video_start event
+      const interval = setInterval(() => {
+        if (vs) {
+          progress += 5;
+
+          const sendData = () => {
+            window.dataLayer.push({
+              event: en,
+              event_type: 'content tool',
+              video_interaction: vi,
+              video_title: 'Walk in The Clouds',
+              video_provider: 'video player',
+              video_current_time: vct,
+              video_duration: vd,
+              logged_in: logged,
+              user_id: ui,
+            });
+            utag.link({
+              event: en,
+              event_type: 'content tool',
+              video_interaction: vi,
+              video_title: 'Walk in The Clouds',
+              video_provider: 'video player',
+              video_current_time: vct,
+              video_duration: vd,
+              logged_in: logged,
+              user_id: ui,
+            });
+            displayJSON(logged);
+          };
+
+          if ([10, 25, 50, 75, 90].includes(progress)) {
+            en = `video_progress ${progress}`;
+            vi = `Progress ${progress}%`;
+            vct = progress;
+            ui = logged ? userID : 'guest';
+            sendData();
+          }
+
+          if (progress === duration) {
+            en = 'video_complete';
+            vi = 'Complete';
+            vct = progress;
+            vd = duration;
+            ui = logged ? userID : 'guest';
+            progress = 0;
+            vs = false;
+            vc = true;
+            clearInterval(interval);
+            sendData();
+          }
+        }
+      }, 5000);
+
+      if (vi === 'Stop') {
+        clearInterval(interval);
+      }
+
       if (e.id === 'login') {
         if (logged) {
-          alert("Oops!\nI'm sorry you already Sign In.");
+          alert("Oops! I'm sorry you already Sign In.");
           return;
         }
         logged = true;
@@ -228,7 +287,7 @@ btnClick.forEach((e) => {
         if (logged) {
           logged = false;
         } else {
-          alert("Oops!\nI'm sorry you need to Sign In first.");
+          alert("Oops! I'm sorry you need to Sign In first.");
           return;
         }
       }
@@ -288,9 +347,11 @@ btnClick.forEach((e) => {
       });
       displayJSON(logged);
     }
+
     document.querySelectorAll('button').forEach((element) => {
       element.removeAttribute('disabled');
     });
+
     e.setAttribute('disabled', '');
   });
 });
