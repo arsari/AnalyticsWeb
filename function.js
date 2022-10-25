@@ -38,8 +38,8 @@ const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 let logged = false;
 let vs = false;
 let vc = true;
-let progress = 0;
-const duration = 100;
+let vprogress = 0;
+const vduration = 100;
 
 btnClick.forEach((e) => {
   e.addEventListener('click', () => {
@@ -179,17 +179,17 @@ btnClick.forEach((e) => {
         en = 'file_download';
       }
 
-      if (e.id === 'exlink') {
+      if (e.id === 'extlink') {
         en = 'outbound_link';
-        lu = e.querySelector('#exlink a').href;
+        lu = e.querySelector('#extlink a').href;
         const domain = new URL(lu);
         ld = domain.hostname;
         ol = true;
       }
 
-      if (e.id === 'inlink') {
+      if (e.id === 'intlink') {
         en = 'internal_link';
-        lu = e.querySelector('#inlink a').href;
+        lu = e.querySelector('#intlink a').href;
         const domain = new URL(lu);
         ld = domain.hostname;
         ol = false;
@@ -203,15 +203,15 @@ btnClick.forEach((e) => {
           en = 'video_start';
           vs = true;
           vi = 'Play';
-          vct = progress;
-          vd = duration;
+          vct = vprogress;
+          vd = vduration;
           vc = false;
         } else {
           en = 'video_stop';
           vs = false;
           vi = 'Stop';
-          vct = progress;
-          vd = duration;
+          vct = vprogress;
+          vd = vduration;
           vc = true;
         }
       }
@@ -219,9 +219,10 @@ btnClick.forEach((e) => {
       // Video progress interval after video_start event
       const interval = setInterval(() => {
         if (vs) {
-          progress += 5;
+          vprogress += 5;
 
           const sendData = () => {
+            window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
               event_type: 'content tool',
@@ -247,21 +248,21 @@ btnClick.forEach((e) => {
             displayJSON(logged);
           };
 
-          if ([10, 25, 50, 75, 90].includes(progress)) {
-            en = `video_progress ${progress}`;
-            vi = `Progress ${progress}%`;
-            vct = progress;
+          if ([10, 25, 50, 75, 90].includes(vprogress)) {
+            en = `video_progress_${vprogress}`;
+            vi = `Progress ${vprogress}%`;
+            vct = vprogress;
             ui = logged ? userID : 'guest';
             sendData();
           }
 
-          if (progress === duration) {
+          if (vprogress === vduration) {
             en = 'video_complete';
             vi = 'Complete';
-            vct = progress;
-            vd = duration;
+            vct = vprogress;
+            vd = vduration;
             ui = logged ? userID : 'guest';
-            progress = 0;
+            vprogress = 0;
             vs = false;
             vc = true;
             clearInterval(interval);
@@ -297,11 +298,11 @@ btnClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
-        link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
-        link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
-        link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
-        link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
-        outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
+        link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
+        link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
+        link_url: e.id === 'extlink' || e.id === 'intlink' ? lu : undefined,
+        link_domain: e.id === 'extlink' || e.id === 'intlink' ? ld : undefined,
+        outbound: e.id === 'extlink' || e.id === 'intlink' ? ol : undefined,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
@@ -323,11 +324,11 @@ btnClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
-        link_id: e.id === 'exlink' || e.id === 'inlink' ? e.id : undefined,
-        link_text: e.id === 'exlink' || e.id === 'inlink' ? e.innerText : undefined,
-        link_url: e.id === 'exlink' || e.id === 'inlink' ? lu : undefined,
-        link_domain: e.id === 'exlink' || e.id === 'inlink' ? ld : undefined,
-        outbound: e.id === 'exlink' || e.id === 'inlink' ? ol : undefined,
+        link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
+        link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
+        link_url: e.id === 'extlink' || e.id === 'intlink' ? lu : undefined,
+        link_domain: e.id === 'extlink' || e.id === 'intlink' ? ld : undefined,
+        outbound: e.id === 'extlink' || e.id === 'intlink' ? ol : undefined,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
