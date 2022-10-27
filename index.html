@@ -6,7 +6,7 @@
   <script type="text/javascript">
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: 'initdata',
+      event: 'setView',
       page_name: 'Analytics Implementation',
       content_type: 'Playground',
       content_group: 'Implementation',
@@ -49,6 +49,7 @@
   <!-- utag dataLayers config -->
   <script type="text/javascript">
     const utag_data = {
+      tealium_event: 'page_view',
       page_name: 'Analytics Implementation',
       content_type: 'Playground',
       content_group: 'Implementation',
@@ -150,7 +151,7 @@
   <script type="text/javascript" src="function.min.js"></script>
   <script type="text/javascript">
     document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
-      window.dataLayer.at(0).event === 'initdata' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
+      window.dataLayer.at(0).event === 'setView' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
       undefined,
       2,
     )}</pre>`;
