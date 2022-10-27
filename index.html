@@ -1,164 +1,164 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
-  <!-- dataLayers config -->
-  <script type="text/javascript">
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'setView',
-      page_name: 'Analytics Implementation',
-      content_type: 'Playground',
-      content_group: 'Implementation',
-      page_title: 'Analytic Implementation Playground | Arsari',
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      language_code: 'en-US',
-      logged_in: false,
-      user_id: 'guest',
-    });
-  </script>
-  <!-- END: dataLayers config -->
-  <!--Google Tag Manager-->
-  <script>
-    (function (w, d, s, l, i) {
-      w[l] = w[l] || [];
-      w[l].push({
-        'gtm.start': new Date().getTime(),
-        event: 'gtm.js',
+  <head>
+    <!-- dataLayers config -->
+    <script type="text/javascript">
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'setView',
+        page_name: 'Analytics Implementation',
+        content_type: 'Playground',
+        content_group: 'Implementation',
+        page_title: 'Analytic Implementation Playground | Arsari',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        language_code: 'en-US',
+        logged_in: false,
+        user_id: 'guest',
       });
-      const f = d.getElementsByTagName(s)[0];
-      const j = d.createElement(s);
-      const dl = l !== 'dataLayer' ? `&l=${l}` : '';
-      j.async = true;
-      j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
-      f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
-  </script>
-  <!-- End Google Tag Manager -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-  <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css" />
-  <title>Analytic Implementation Playground | Arsari</title>
-</head>
+    </script>
+    <!-- END: dataLayers config -->
+    <!--Google Tag Manager-->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js',
+        });
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s);
+        const dl = l !== 'dataLayer' ? `&l=${l}` : '';
+        j.async = true;
+        j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
+    <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Analytic Implementation Playground | Arsari</title>
+  </head>
 
-<body>
-  <!-- utag dataLayers config -->
-  <script type="text/javascript">
-    const utag_data = {
-      tealium_event: 'page_view',
-      page_name: 'Analytics Implementation',
-      content_type: 'Playground',
-      content_group: 'Implementation',
-      page_title: 'Analytic Implementation Playground | Arsari',
-      page_author: 'Arturo Santiago-Rivera',
-      author_email: 'asantiago@arsari.com',
-      language_code: 'en-US',
-      logged_in: false,
-      user_id: 'guest',
-    };
-  </script>
-  <!-- END: utag dataLayers config -->
-  <!-- Tealium IQ Loading script asynchronously -->
-  <script type="text/javascript">
-    let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
+  <body>
+    <!-- utag dataLayers config -->
+    <script type="text/javascript">
+      const utag_data = {
+        tealium_event: 'setView',
+        page_name: 'Analytics Implementation',
+        content_type: 'Playground',
+        content_group: 'Implementation',
+        page_title: 'Analytic Implementation Playground | Arsari',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        language_code: 'en-US',
+        logged_in: false,
+        user_id: 'guest',
+      };
+    </script>
+    <!-- END: utag dataLayers config -->
+    <!-- Tealium IQ Loading script asynchronously -->
+    <script type="text/javascript">
+      let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
 
-    (function (a, b, c, d) {
-      a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
-      b = document;
-      c = 'script';
-      d = b.createElement(c);
-      d.src = a;
-      d.type = `text/java${c}`;
-      d.async = true;
-      a = b.getElementsByTagName(c)[0];
-      a.parentNode.insertBefore(d, a);
-    })();
+      (function (a, b, c, d) {
+        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
+        b = document;
+        c = 'script';
+        d = b.createElement(c);
+        d.src = a;
+        d.type = `text/java${c}`;
+        d.async = true;
+        a = b.getElementsByTagName(c)[0];
+        a.parentNode.insertBefore(d, a);
+      })();
 
-    const ga4Prop =
-      tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
-        ? 'G-0Q482J3LCH'
-        : 'G-K9GKNM79XW';
-    const gtmContainer = 'GTM-59FGRVM';
-    tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
-    console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
-  </script>
-  <!-- END: Tealium IQ Loading script asynchronously -->
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <main>
-    <header class="homepage">
-      <h1>
-        Analytics Implementation Playground
-        <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
-          alt="GitHub Last Commit" title="Source Code Last Update" />
-      </h1>
-      <h3>
-        Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics
-        (AA) through Tealium IQ.
-      </h3>
-      <nav>
-        <button id="login" class="button" type="button">
-          <span class="text">Sign Up</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="extlink" class="button" type="button">
-          <a class="text" href="https://arsari.wpengine.com" rel="noopener nofollow" target="_blank">Outbound Link</a>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="download" class="button" type="button">
-          <span class="text">Download</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button></button>
-        <button id="video" class="button" type="button">
-          <span class="text">Video</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="email" class="button" type="button">
-          <span class="text">Email</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="phone" class="button" type="button">
-          <span class="text">Phone</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="form" class="button" type="button">
-          <span class="text">Contact Form</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="purchase" class="button" type="button">
-          <span class="text">Purchase</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="intlink" class="button" type="button">
-          <a class="text" href="internal.html" rel="noopener nofollow" target="_blank">Internal Link</a>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="logout" class="button" type="button">
-          <span class="text">Sign Out</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-      </nav>
-    </header>
-    <section id="json"></section>
-    <footer></footer>
-  </main>
-  <script type="text/javascript" src="function.min.js"></script>
-  <script type="text/javascript">
-    document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
-      window.dataLayer.at(0).event === 'setView' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
-      undefined,
-      2,
-    )}</pre>`;
+      const ga4Prop =
+        tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
+          ? 'G-0Q482J3LCH'
+          : 'G-K9GKNM79XW';
+      const gtmContainer = 'GTM-59FGRVM';
+      tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
+      console.log(`TealiumIQ Env-> ${tealiumEnv} | GA4 Property -> ${ga4Prop} | GTM Container -> ${gtmContainer}`);
+    </script>
+    <!-- END: Tealium IQ Loading script asynchronously -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <main>
+      <header class="homepage">
+        <h1>
+          Analytics Implementation Playground
+          <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
+            alt="GitHub Last Commit" title="Source Code Last Update" />
+        </h1>
+        <h3>
+          Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics
+          (AA) through Tealium IQ.
+        </h3>
+        <nav>
+          <button id="login" class="button" type="button">
+            <span class="text">Sign Up</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="extlink" class="button" type="button">
+            <a class="text" href="https://arsari.wpengine.com" rel="noopener nofollow" target="_blank">Outbound Link</a>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="download" class="button" type="button">
+            <span class="text">Download</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button></button>
+          <button id="video" class="button" type="button">
+            <span class="text">Video</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="email" class="button" type="button">
+            <span class="text">Email</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="phone" class="button" type="button">
+            <span class="text">Phone</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="form" class="button" type="button">
+            <span class="text">Contact Form</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="purchase" class="button" type="button">
+            <span class="text">Purchase</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="intlink" class="button" type="button">
+            <a class="text" href="internal.html" rel="noopener nofollow" target="_blank">Internal Link</a>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+          <button id="logout" class="button" type="button">
+            <span class="text">Sign Out</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+        </nav>
+      </header>
+      <section id="json"></section>
+      <footer></footer>
+    </main>
+    <script type="text/javascript" src="function.min.js"></script>
+    <script type="text/javascript">
+      document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+        window.dataLayer.at(0).event === 'setView' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
+        undefined,
+        2,
+      )}</pre>`;
 
-    document.querySelector('#json').lastElementChild.scrollIntoView();
-    document.querySelector('#json').lastElementChild.className = 'highlight';
-  </script>
-</body>
+      document.querySelector('#json').lastElementChild.scrollIntoView();
+      document.querySelector('#json').lastElementChild.className = 'highlight';
+    </script>
+  </body>
 
 </html>

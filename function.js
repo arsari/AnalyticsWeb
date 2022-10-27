@@ -101,7 +101,7 @@ btnClick.forEach((e) => {
         user_id: ui,
       });
       utag.link({
-        event: e.id,
+        tealium_event: e.id,
         event_type: 'conversion',
         button_text: e.innerText,
         ecommerce: {
@@ -235,7 +235,7 @@ btnClick.forEach((e) => {
               user_id: ui,
             });
             utag.link({
-              event: en,
+              tealium_event: en,
               event_type: 'content tool',
               video_interaction: vi,
               video_title: 'Walk in The Clouds',
@@ -321,7 +321,7 @@ btnClick.forEach((e) => {
         user_id: ui,
       });
       utag.link({
-        event: en || e.id,
+        tealium_event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText,
         link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
