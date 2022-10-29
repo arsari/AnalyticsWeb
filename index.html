@@ -64,7 +64,7 @@
   <!-- END: utag dataLayers config -->
   <!-- Tealium IQ Loading script asynchronously -->
   <script type="text/javascript">
-    let tealiumEnv = location.search.indexOf('dev') == 1 ? 'dev' : location.search.indexOf('qa') == 1 ? 'qa' : 'prod';
+    let tealiumEnv = location.search.indexOf('dev') === 1 ? 'dev' : location.search.indexOf('qa') === 1 ? 'qa' : 'prod';
 
     (function (a, b, c, d) {
       a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
@@ -141,6 +141,10 @@
         <a class="text" href="internal.html" rel="noopener nofollow" target="_blank">Internal Link</a>
         <i class="fa-solid fa-check icon"></i>
       </button>
+      <button id="search-modal" class="button" type="button">
+        <span class="text">Search</span>
+        <i class="fa-solid fa-check icon"></i>
+      </button>
       <button id="logout" class="button" type="button">
         <span class="text">Sign Out</span>
         <i class="fa-solid fa-check icon"></i>
@@ -148,6 +152,19 @@
     </nav>
   </header>
   <main>
+    <section class="modal">
+      <div class="modal-content">
+        <button id="modal-close" class="close-x">X</button>
+        <div class="searchBar-wrap">
+          <div class="searchBar">
+            <input type="text" class="searchTerm" placeholder="What are you looking for?">
+            <button id="search" type="submit" class="searchButton">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
     <section id="json"></section>
   </main>
   <footer></footer>
