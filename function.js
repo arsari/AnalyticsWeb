@@ -23,6 +23,13 @@ function displayJSON(status) {
 }
 
 /**
+ * When the search button or modal 'X' is clicked, the search modal is toggled
+ */
+function searchModal() {
+  modal.classList.toggle('show-modal');
+}
+
+/**
  * Section element set up by getting the height of the header and adding 25px to it, and then setting
  * the margin-top of the section to that value.
  */
@@ -36,6 +43,7 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
+const modal = document.querySelector('.modal');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 let logged = false;
 let vs = false;
@@ -155,6 +163,7 @@ btnClick.forEach((e) => {
       let lu;
       let ol;
       let ld;
+      let st;
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -194,7 +203,6 @@ btnClick.forEach((e) => {
         lu = e.querySelector('#intlink a').href;
         const domain = new URL(lu);
         ld = domain.hostname;
-        ol = false;
       }
 
       if (e.id === 'video') {
@@ -277,6 +285,27 @@ btnClick.forEach((e) => {
         clearInterval(interval);
       }
 
+      if (e.id === 'search-modal') {
+        en = 'search_modal_opened';
+        searchModal();
+      }
+
+      if (e.id === 'search') {
+        st = e.previousElementSibling.value ? e.previousElementSibling.value : alert('ERROR: Search Term is blank.');
+
+        if (st.match(/mailto:|tel:|@/gi)) {
+          st = 'PII in Search Term';
+        }
+
+        e.previousElementSibling.value = '';
+        searchModal();
+      }
+
+      if (e.id === 'modal-close') {
+        en = 'search_modal_closed';
+        searchModal();
+      }
+
       if (e.id === 'login') {
         if (logged) {
           alert("Oops! I'm sorry you already Sign In.");
@@ -299,12 +328,12 @@ btnClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        button_text: e.innerText,
+        button_text: e.innerText !== '' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
-        link_url: e.id === 'extlink' || e.id === 'intlink' ? lu : undefined,
-        link_domain: e.id === 'extlink' || e.id === 'intlink' ? ld : undefined,
-        outbound: e.id === 'extlink' || e.id === 'intlink' ? ol : undefined,
+        link_url: lu,
+        link_domain: ld,
+        outbound: ol,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
@@ -319,18 +348,19 @@ btnClick.forEach((e) => {
         currency: cc,
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
+        search_term: st,
         logged_in: logged,
         user_id: ui,
       });
       utag.link({
         tealium_event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        button_text: e.innerText,
+        button_text: e.innerText !== '' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
-        link_url: e.id === 'extlink' || e.id === 'intlink' ? lu : undefined,
-        link_domain: e.id === 'extlink' || e.id === 'intlink' ? ld : undefined,
-        outbound: e.id === 'extlink' || e.id === 'intlink' ? ol : undefined,
+        link_url: lu,
+        link_domain: ld,
+        outbound: ol,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
         video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
@@ -345,6 +375,7 @@ btnClick.forEach((e) => {
         currency: cc,
         value: val,
         method: e.id === 'login' ? 'Google' : undefined,
+        search_term: st,
         logged_in: logged,
         user_id: ui,
       });
