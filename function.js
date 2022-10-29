@@ -22,10 +22,12 @@ function displayJSON(status) {
   document.querySelector('#json').lastElementChild.className = 'highlight';
 }
 
-/* Section element set up by getting the height of the header and adding 25px to it, and then setting
-the margin-top of the section to that value. */
+/**
+ * Section element set up by getting the height of the header and adding 25px to it, and then setting
+ * the margin-top of the section to that value.
+ */
 const headerHeight = document.querySelector('header').offsetHeight;
-document.querySelector('section').style = `margin-top: ${headerHeight + 25}px`;
+document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
