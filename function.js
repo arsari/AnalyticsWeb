@@ -199,6 +199,8 @@ btnClick.forEach((e) => {
       }
 
       if (e.id === 'intlink') {
+        localStorage.logged = logged;
+        localStorage.userID = ui;
         en = 'internal_link';
         lu = e.querySelector('#intlink a').href;
         const domain = new URL(lu);
