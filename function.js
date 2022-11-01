@@ -242,6 +242,7 @@ btnClick.forEach((e) => {
               video_title: 'Walk in The Clouds',
               video_provider: 'video player',
               video_current_time: vct,
+              video_percent: vct,
               video_duration: vd,
               logged_in: logged,
               user_id: ui,
@@ -253,6 +254,7 @@ btnClick.forEach((e) => {
               video_title: 'Walk in The Clouds',
               video_provider: 'video player',
               video_current_time: vct,
+              video_percent: vct,
               video_duration: vd,
               logged_in: logged,
               user_id: ui,
@@ -261,7 +263,7 @@ btnClick.forEach((e) => {
           };
 
           if ([10, 25, 50, 75, 90].includes(vprogress)) {
-            en = `video_progress_${vprogress}`;
+            en = `video_progress`;
             vi = `Progress ${vprogress}%`;
             vct = vprogress;
             ui = logged ? userID : 'guest';
@@ -342,6 +344,7 @@ btnClick.forEach((e) => {
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
+        video_percent: vct,
         video_duration: vd,
         form_id: e.id === 'form' ? e.id : undefined,
         form_name: e.id === 'form' ? 'MyForm' : undefined,
