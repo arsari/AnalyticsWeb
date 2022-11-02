@@ -175,7 +175,8 @@ footer {
   color: #fff700;
 }
 
-.modal {
+.searchModal,
+.formModal {
   position: fixed;
   left: 0;
   top: 0;
@@ -197,6 +198,14 @@ footer {
   padding: 4rem 2rem;
   width: 24rem;
   border-radius: 0.5rem;
+}
+
+.wrap {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .close-x {
@@ -257,12 +266,9 @@ footer {
   font-size: 20px;
 }
 
-.searchBar-wrap {
-  width: 80%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.form-btn {
+  left: 28%;
+  margin: auto;
 }
 
 @media (min-width: 320px) and (max-width: 820px) {

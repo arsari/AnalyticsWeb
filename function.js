@@ -26,7 +26,14 @@ function displayJSON(status) {
  * When the search button or modal 'X' is clicked, the search modal is toggled
  */
 function searchModal() {
-  modal.classList.toggle('show-modal');
+  sModal.classList.toggle('show-modal');
+}
+
+/**
+ * When the search button or modal 'X' is clicked, the search modal is toggled
+ */
+function formModal() {
+  fModal.classList.toggle('show-modal');
 }
 
 /**
@@ -43,7 +50,8 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
 
 /* Button element listeners starting */
 const btnClick = document.querySelectorAll('button');
-const modal = document.querySelector('.modal');
+const sModal = document.querySelector('.searchModal');
+const fModal = document.querySelector('.formModal');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 let logged = false;
 let vs = false;
@@ -164,6 +172,7 @@ btnClick.forEach((e) => {
       let ol;
       let ld;
       let st;
+      let fd;
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -180,14 +189,24 @@ btnClick.forEach((e) => {
         val = 25;
       }
 
+      if (e.id === 'form-modal') {
+        en = 'form_start';
+        fd = 'consent modal';
+        formModal();
+      }
+
       if (e.id === 'form') {
         en = 'form_submit';
         cm = 'form filled';
+        fd = 'Customer Service';
+        cc = 'USD';
         val = 100;
+        formModal();
       }
 
       if (e.id === 'download') {
         en = 'file_download';
+        ld = window.location.hostname;
       }
 
       if (e.id === 'extlink') {
@@ -305,7 +324,7 @@ btnClick.forEach((e) => {
         searchModal();
       }
 
-      if (e.id === 'modal-close') {
+      if (e.id === 'search-close') {
         en = 'search_modal_closed';
         searchModal();
       }
@@ -333,8 +352,9 @@ btnClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText !== '' ? e.innerText : undefined,
-        link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
-        link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
+        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
+        link_classes: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.className : undefined,
         link_url: lu,
         link_domain: ld,
         outbound: ol,
@@ -346,8 +366,9 @@ btnClick.forEach((e) => {
         video_current_time: vct,
         video_percent: vct,
         video_duration: vd,
-        form_id: e.id === 'form' ? e.id : undefined,
-        form_name: e.id === 'form' ? 'MyForm' : undefined,
+        form_id: e.id === 'form-modal' || e.id === 'form' ? e.id : undefined,
+        form_name: e.id === 'form-modal' || e.id === 'form' ? 'MyForm' : undefined,
+        form_destination: fd,
         form_submit_text: e.id === 'form' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -361,8 +382,9 @@ btnClick.forEach((e) => {
         tealium_event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         button_text: e.innerText !== '' ? e.innerText : undefined,
-        link_id: e.id === 'extlink' || e.id === 'intlink' ? e.id : undefined,
-        link_text: e.id === 'extlink' || e.id === 'intlink' ? e.innerText : undefined,
+        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
+        link_classes: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.className : undefined,
         link_url: lu,
         link_domain: ld,
         outbound: ol,
@@ -372,9 +394,11 @@ btnClick.forEach((e) => {
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
+        video_percent: vct,
         video_duration: vd,
-        form_id: e.id === 'form' ? e.id : undefined,
-        form_name: e.id === 'form' ? 'MyForm' : undefined,
+        form_id: e.id === 'form-modal' || e.id === 'form' ? e.id : undefined,
+        form_name: e.id === 'form-modal' || e.id === 'form' ? 'MyForm' : undefined,
+        form_destination: fd,
         form_submit_text: e.id === 'form' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
