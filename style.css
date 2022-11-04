@@ -1,5 +1,5 @@
 body {
-  font-family: "roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -53,6 +53,10 @@ a {
   border-radius: 10px;
   margin: 0 10px 10px 0;
   transition: width 0.5s, border-radius 0.5s;
+}
+
+form {
+  display: inline-block;
 }
 
 .button * {

@@ -49,7 +49,7 @@ document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
   </span><span class="me">Coded with &hearts; by ARSARI</span>`;
 
 /* Button element listeners starting */
-const btnClick = document.querySelectorAll('button');
+const elemClick = document.querySelectorAll('[name="action"]');
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
@@ -59,7 +59,7 @@ let vc = true;
 let vprogress = 0;
 const vduration = 100;
 
-btnClick.forEach((e) => {
+elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? userID : 'guest';
 
@@ -169,6 +169,7 @@ btnClick.forEach((e) => {
       let vd;
       let vi;
       let lu;
+      let lc;
       let ol;
       let ld;
       let st;
@@ -207,13 +208,15 @@ btnClick.forEach((e) => {
       if (e.id === 'download') {
         en = 'file_download';
         ld = window.location.hostname;
+        lc = e.className;
       }
 
       if (e.id === 'extlink') {
         en = 'outbound_link';
-        lu = e.querySelector('#extlink a').href;
+        lu = document.querySelector('#extlink').action;
         const domain = new URL(lu);
         ld = domain.hostname;
+        lc = document.querySelector('#extlink').firstElementChild.className;
         ol = true;
       }
 
@@ -221,9 +224,10 @@ btnClick.forEach((e) => {
         localStorage.logged = logged;
         localStorage.userID = ui;
         en = 'internal_link';
-        lu = e.querySelector('#intlink a').href;
+        lu = document.querySelector('#intlink').action;
         const domain = new URL(lu);
         ld = domain.hostname;
+        lc = document.querySelector('#intlink').firstElementChild.className;
       }
 
       if (e.id === 'video') {
@@ -354,7 +358,7 @@ btnClick.forEach((e) => {
         button_text: e.innerText !== '' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
-        link_classes: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.className : undefined,
+        link_classes: lc,
         link_url: lu,
         link_domain: ld,
         outbound: ol,
@@ -384,7 +388,7 @@ btnClick.forEach((e) => {
         button_text: e.innerText !== '' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
-        link_classes: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.className : undefined,
+        link_classes: lc,
         link_url: lu,
         link_domain: ld,
         outbound: ol,
