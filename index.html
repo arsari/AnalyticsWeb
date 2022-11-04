@@ -41,6 +41,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <title>Analytic Implementation Playground | Arsari</title>
   </head>
@@ -105,47 +106,51 @@
         </h3>
       </div>
       <nav>
-        <button id="login" class="button" type="button">
+        <button id="login" name="action" class="button" type="button">
           <span class="text">Sign Up</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="extlink" class="button" type="button">
-          <a class="text" href="https://arsari.wpengine.com" rel="noopener nofollow" target="_blank">Outbound Link</a>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="download" class="button" type="button">
+        <form id="extlink" name="action" action="https://arsari.wpengine.com" rel="noopener nofollow" target="_blank">
+          <button class="button" type="submit">
+            <span class="text">Outbound Link</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+        </form>
+        <button id="download" name="action" class="button" type="button">
           <span class="text">Download</span>
           <i class="fa-solid fa-check icon"></i>
-        </button></button>
-        <button id="video" class="button" type="button">
+        </button>
+        <button id="video" name="action" class="button" type="button">
           <span class="text">Video</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="email" class="button" type="button">
+        <button id="email" name="action" class="button" type="button">
           <span class="text">Email</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="phone" class="button" type="button">
+        <button id="phone" name="action" class="button" type="button">
           <span class="text">Phone</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="form-modal" class="button" type="button">
+        <button id="form-modal" name="action" class="button" type="button">
           <span class="text">Contact Form</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="purchase" class="button" type="button">
+        <button id="purchase" name="action" class="button" type="button">
           <span class="text">Purchase</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="intlink" class="button" type="button">
-          <a class="text" href="internal.html" rel="noopener nofollow" target="_blank">Internal Link</a>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
-        <button id="search-modal" class="button" type="button">
+        <form id="intlink" name="action" action="internal.html" rel="noopener nofollow" target="_blank">
+          <button class="button" type="submit">
+            <span class="text">Internal Link</span>
+            <i class="fa-solid fa-check icon"></i>
+          </button>
+        </form>
+        <button id="search-modal" name="action" class="button" type="button">
           <span class="text">Search</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="logout" class="button" type="button">
+        <button id="logout" name="action" class="button" type="button">
           <span class="text">Sign Out</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
@@ -158,7 +163,7 @@
           <div class="wrap">
             <div class="searchBar">
               <input type="text" class="searchTerm" placeholder="What are you looking for?">
-              <button id="search" class="searchButton" type="submit">
+              <button id="search" name="action" class="searchButton" type="submit">
                 <i class="fa fa-search"></i>
               </button>
             </div>
@@ -168,7 +173,7 @@
       <section class="formModal">
         <div class="modal-content">
           <div class="wrap">
-            <button id="form" class="button form-btn" type="submit">
+            <button id="form" name="action" class="button form-btn" type="submit">
               <span class="text">Let's Talk</span>
             </button>
           </div>
