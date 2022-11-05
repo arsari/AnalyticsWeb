@@ -83,6 +83,7 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: e.id,
         event_type: 'conversion',
+        tag_name: e.tagName,
         button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
@@ -122,6 +123,7 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: e.id,
         event_type: 'conversion',
+        tag_name: e.tagName,
         button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
@@ -356,6 +358,7 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
         button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
@@ -386,6 +389,7 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
         button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
