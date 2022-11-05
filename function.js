@@ -65,6 +65,7 @@ elemClick.forEach((e) => {
 
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
+      const sku = `SKU_${Math.floor(Math.random() * 20000)}`;
       const itemPrice = Math.floor(Math.random() * 100 + 1);
       const itemQty = Math.floor(Math.random() * 30 + 1);
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
@@ -93,7 +94,7 @@ elemClick.forEach((e) => {
           coupon: 'SUMMER_SALE',
           items: [
             {
-              item_id: 'SKU_12345',
+              item_id: sku,
               item_name: 'Stan and Friends Tee',
               affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
@@ -132,7 +133,7 @@ elemClick.forEach((e) => {
           coupon: 'SUMMER_SALE',
           items: [
             {
-              item_id: 'SKU_12345',
+              item_id: sku,
               item_name: 'Stan and Friends Tee',
               affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
