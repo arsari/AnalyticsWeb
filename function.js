@@ -213,10 +213,10 @@ elemClick.forEach((e) => {
 
       if (e.id === 'extlink') {
         en = 'outbound_link';
-        lu = document.querySelector('#extlink').action;
+        lu = e.href;
         const domain = new URL(lu);
         ld = domain.hostname;
-        lc = document.querySelector('#extlink').firstElementChild.className;
+        lc = e.className;
         ol = true;
       }
 
@@ -224,10 +224,10 @@ elemClick.forEach((e) => {
         localStorage.logged = logged;
         localStorage.userID = ui;
         en = 'internal_link';
-        lu = document.querySelector('#intlink').action;
+        lu = e.href;
         const domain = new URL(lu);
         ld = domain.hostname;
-        lc = document.querySelector('#intlink').firstElementChild.className;
+        lc = e.className;
       }
 
       if (e.id === 'video') {
@@ -355,7 +355,7 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        button_text: e.innerText !== '' ? e.innerText : undefined,
+        button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
         link_classes: lc,
@@ -385,7 +385,7 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        button_text: e.innerText !== '' ? e.innerText : undefined,
+        button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
         link_classes: lc,
