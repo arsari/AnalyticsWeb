@@ -30,6 +30,19 @@ nav {
   margin: -30px 20px 15px;
 }
 
+.button {
+  position: relative;
+  width: 150px;
+  height: 50px;
+  background-color: #4caf50;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 0 10px 10px 0;
+  transition: width 0.5s, border-radius 0.5s;
+}
+
 .link-btn {
   text-decoration: none;
   display: inline-block;
@@ -40,19 +53,6 @@ nav {
   background-color: #4caf50;
   border: none;
   text-align: center;
-  border-radius: 10px;
-  margin: 0 10px 10px 0;
-  transition: width 0.5s, border-radius 0.5s;
-}
-
-.button {
-  position: relative;
-  width: 150px;
-  height: 50px;
-  background-color: #4caf50;
-  border: none;
-  text-align: center;
-  cursor: pointer;
   border-radius: 10px;
   margin: 0 10px 10px 0;
   transition: width 0.5s, border-radius 0.5s;
@@ -80,16 +80,16 @@ nav {
   font-weight: 600;
 }
 
+.link-btn:focus {
+  top: 36px;
+}
+
 .link-btn:focus,
 .button[disabled] {
   width: 50px;
   background-color: #707771;
   border-radius: 50%;
   cursor: not-allowed;
-}
-
-.link-btn:focus {
-  top: 36px;
 }
 
 .link-btn:focus .text,
