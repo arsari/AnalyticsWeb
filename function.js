@@ -257,7 +257,7 @@ elemClick.forEach((e) => {
       // Video progress interval after video_start event
       const interval = setInterval(() => {
         if (vs) {
-          vprogress += 5;
+          vprogress += 1;
 
           const sendData = () => {
             window.dataLayer = window.dataLayer || [];
@@ -309,7 +309,7 @@ elemClick.forEach((e) => {
             sendData();
           }
         }
-      }, 5000);
+      }, 1000);
 
       if (vi === 'Stop') {
         clearInterval(interval);
