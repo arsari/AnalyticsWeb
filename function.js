@@ -54,8 +54,8 @@ const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
 let logged = false;
-let vs = false;
-let vc = true;
+let vplay = false;
+let vstop = true;
 let vprogress = 0;
 const vduration = 100;
 
@@ -170,7 +170,7 @@ elemClick.forEach((e) => {
       let vp;
       let vct;
       let vd;
-      let vi;
+      let vs;
       let lu;
       let lc;
       let ol;
@@ -237,26 +237,26 @@ elemClick.forEach((e) => {
         vt = 'Walk in The Clouds';
         vp = 'video player';
 
-        if (vc) {
+        if (vstop) {
           en = 'video_start';
-          vs = true;
-          vi = 'Play';
+          vplay = true;
+          vs = 'Play';
           vct = vprogress;
           vd = vduration;
-          vc = false;
+          vstop = false;
         } else {
           en = 'video_stop';
-          vs = false;
-          vi = 'Stop';
+          vplay = false;
+          vs = 'Stop';
           vct = vprogress;
           vd = vduration;
-          vc = true;
+          vstop = true;
         }
       }
 
       // Video progress interval after video_start event
       const interval = setInterval(() => {
-        if (vs) {
+        if (vplay) {
           vprogress += 1;
 
           const sendData = () => {
@@ -264,7 +264,7 @@ elemClick.forEach((e) => {
             window.dataLayer.push({
               event: en,
               event_type: 'content tool',
-              video_interaction: vi,
+              video_status: vs,
               video_title: 'Walk in The Clouds',
               video_provider: 'video player',
               video_current_time: vct,
@@ -276,7 +276,7 @@ elemClick.forEach((e) => {
             utag.link({
               tealium_event: en,
               event_type: 'content tool',
-              video_interaction: vi,
+              video_status: vs,
               video_title: 'Walk in The Clouds',
               video_provider: 'video player',
               video_current_time: vct,
@@ -303,15 +303,15 @@ elemClick.forEach((e) => {
             vd = vduration;
             ui = logged ? userID : 'guest';
             vprogress = 0;
-            vs = false;
-            vc = true;
+            vplay = false;
+            vstop = true;
             clearInterval(interval);
             sendData();
           }
         }
       }, 1000);
 
-      if (vi === 'Stop') {
+      if (vs === 'Stop') {
         clearInterval(interval);
       }
 
@@ -368,7 +368,7 @@ elemClick.forEach((e) => {
         outbound: ol,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
+        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
@@ -399,7 +399,7 @@ elemClick.forEach((e) => {
         outbound: ol,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_interaction: e.id === 'video' && (vs === true || vc === true) ? vi : undefined,
+        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
         video_title: vt,
         video_provider: vp,
         video_current_time: vct,
