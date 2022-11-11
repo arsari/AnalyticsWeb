@@ -359,7 +359,7 @@ elemClick.forEach((e) => {
         event: en || e.id,
         event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         tag_name: e.tagName,
-        button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
+        button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
         link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
         link_classes: lc,
