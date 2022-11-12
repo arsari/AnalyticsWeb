@@ -17,9 +17,13 @@ function displayJSON(status) {
 
   document.querySelectorAll('pre').forEach((e) => {
     e.className = 'normal';
+    e.previousElementSibling.className = 'normal';
   });
-  document.querySelector('#json').lastElementChild.scrollIntoView();
-  document.querySelector('#json').lastElementChild.className = 'highlight';
+
+  const toFocus = document.querySelector('#json');
+  toFocus.lastElementChild.scrollIntoView();
+  toFocus.lastElementChild.className = 'highlight';
+  toFocus.lastElementChild.previousElementSibling.classList.remove('normal');
 }
 
 /**
@@ -177,6 +181,7 @@ elemClick.forEach((e) => {
       let ld;
       let st;
       let fd;
+      let milestone;
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -238,6 +243,7 @@ elemClick.forEach((e) => {
         vp = 'video player';
 
         if (vstop) {
+          document.querySelector('#video .text').classList.add('playing');
           en = 'video_start';
           vplay = true;
           vs = 'Play';
@@ -245,6 +251,7 @@ elemClick.forEach((e) => {
           vd = vduration;
           vstop = false;
         } else {
+          document.querySelector('#video .text').classList.remove('playing');
           en = 'video_stop';
           vplay = false;
           vs = 'Stop';
@@ -288,7 +295,9 @@ elemClick.forEach((e) => {
             displayJSON(logged);
           };
 
-          if ([10, 25, 50, 75, 90].includes(vprogress)) {
+          milestone = (vprogress / vduration) * 100;
+
+          if ([10, 25, 50, 75, 90].includes(milestone)) {
             en = `video_progress`;
             vi = `Progress ${vprogress}%`;
             vct = vprogress;
@@ -297,6 +306,7 @@ elemClick.forEach((e) => {
           }
 
           if (vprogress === vduration) {
+            document.querySelector('#video .text').classList.remove('playing');
             en = 'video_complete';
             vi = 'Complete';
             vct = vprogress;

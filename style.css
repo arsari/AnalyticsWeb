@@ -108,17 +108,18 @@ main {
 }
 
 p {
-  background-color: #f1f1f1;
-  color: #333333;
+  background-color: #9d2b2b;
+  color: #ffffff;
   padding: 10px 10px;
   max-width: -moz-fit-content;
   max-width: fit-content;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
+  margin: 15px 0 0 0;
 }
 
 p > span {
-  background-color: #bc48c0;
-  color: #ffffff;
+  background-color: #619408;
+  color: #ffff00;
   padding: 5px;
   margin-left: 10px;
   margin-right: -5px;
@@ -127,8 +128,8 @@ p > span {
 }
 
 .alert {
-  background-color: #9d2b2b;
-  color: #ffff00;
+  background-color: #ffff00;
+  color: #9d2b2b;
   padding: 5px;
   margin-left: 10px;
   margin-right: -5px;
@@ -140,6 +141,7 @@ p > span {
   background-color: #f1f1f1;
   color: #333333;
   display: block;
+  margin: 0;
   font-family: monospace;
   font-size: 14px;
   line-height: 18px;
@@ -147,14 +149,14 @@ p > span {
   padding: 10px;
   white-space: pre-wrap;
   word-break: break-all;
-  border-radius: 10px;
   transition: all 0.1s;
 }
 
 .highlight {
   background-color: lightyellow;
-  border: 2px solid #9d2b2b;
+  border: 3px solid #9d2b2b;
   display: block;
+  margin: 0;
   font-family: monospace;
   font-size: 14px;
   line-height: 18px;
@@ -162,8 +164,11 @@ p > span {
   padding: 10px;
   white-space: pre-wrap;
   word-break: break-all;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 10px;
   transition: all 0.1s;
+}
+pre {
+  margin: 0 0 20px 0px !important;
 }
 
 footer {
@@ -191,6 +196,10 @@ footer {
 
 .prop {
   color: #fff700;
+}
+
+.playing::after {
+  content: " playing";
 }
 
 .searchModal,
