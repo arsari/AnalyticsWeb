@@ -41,6 +41,17 @@ function formModal() {
 }
 
 /**
+ * If the input is not a string, return an error message. Otherwise, return the
+ * first letter of the string capitalized and the rest of the string lowercased.
+ * @param str - The string to capitalize.
+ * @returns The first letter of the string is being capitalized and the rest of the
+ * string is being lowercased.
+ */
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+/**
  * Section element set up by getting the height of the header and adding 25px to it, and then setting
  * the margin-top of the section to that value.
  */
@@ -174,6 +185,7 @@ elemClick.forEach((e) => {
       let vp; // video provider
       let vct; // video current time
       let vd; // video duration
+      let milestone; // video progress milestone
       let vs; // video status
       let vpct; // video percent
       let lu; // link url
@@ -183,7 +195,6 @@ elemClick.forEach((e) => {
       let st; // search term
       let fd; // form destination
       let fi; // form input
-      let milestone; // video progress milestone
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -207,15 +218,19 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'form') {
-        fi = e.previousElementSibling.value
-          ? e.previousElementSibling.value
-          : alert("ERROR: Form input can't be blank.");
+        if (e.previousElementSibling.value) {
+          fi = capitalize(e.previousElementSibling.value);
+        } else {
+          alert("ERROR: Form input can't be blank.");
+          return;
+        }
 
         en = 'form_submit';
         cm = 'form filled';
         fd = 'Customer Service';
         cc = 'USD';
         val = 100;
+
         e.previousElementSibling.value = '';
         formModal();
       }
@@ -252,7 +267,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'video') {
         vt = 'Walk in The Clouds';
-        vp = 'video player';
+        vp = 'Any Video Player';
 
         if (vstop) {
           document.querySelector('#video .text').classList.add('playing');
@@ -277,6 +292,10 @@ elemClick.forEach((e) => {
 
       // Video progress interval after video_start event
       const interval = setInterval(() => {
+        vp = 'Any Video Player';
+        vt = 'Walk in The Clouds';
+        ui = logged ? userID : 'guest';
+
         if (vplay) {
           vprogress += 1;
 
@@ -288,9 +307,9 @@ elemClick.forEach((e) => {
               video_current_time: vct,
               video_duration: vduration,
               video_percent: milestone,
-              video_provider: 'video player',
+              video_provider: vp,
               video_status: vs,
-              video_title: 'Walk in The Clouds',
+              video_title: vt,
               logged_in: logged,
               user_id: ui,
             });
@@ -300,9 +319,9 @@ elemClick.forEach((e) => {
               video_current_time: vct,
               video_duration: vduration,
               video_percent: milestone,
-              video_provider: 'video player',
+              video_provider: vp,
               video_status: vs,
-              video_title: 'Walk in The Clouds',
+              video_title: vt,
               logged_in: logged,
               user_id: ui,
             });
@@ -312,19 +331,17 @@ elemClick.forEach((e) => {
           milestone = Number(((vprogress / vduration) * 100).toFixed(1));
 
           if ([10, 25, 50, 75, 90].includes(milestone)) {
-            en = `video_progress`;
-            vs = `Progress ${milestone}%`;
+            en = 'video_progress';
             vct = vprogress;
-            ui = logged ? userID : 'guest';
+            vs = `Progress ${milestone}%`;
             sendData();
           }
 
           if (vprogress === vduration) {
             document.querySelector('#video .text').classList.remove('playing');
             en = 'video_complete';
-            vi = 'Complete';
             vct = vprogress;
-            ui = logged ? userID : 'guest';
+            vs = 'Complete';
             vprogress = 0;
             vplay = false;
             vstop = true;
@@ -344,9 +361,12 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'search') {
-        st = e.previousElementSibling.value
-          ? e.previousElementSibling.value
-          : alert("ERROR: Search term can't be blank.");
+        if (e.previousElementSibling.value) {
+          st = capitalize(e.previousElementSibling.value);
+        } else {
+          alert("ERROR: Search term can't be blank.");
+          return;
+        }
 
         if (st.match(/mailto:|tel:|@/gi)) {
           st = 'PII in Search Term';
