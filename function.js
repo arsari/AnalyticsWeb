@@ -61,7 +61,7 @@ let logged = false;
 let vplay = false;
 let vstop = true;
 let vprogress = 0;
-const vduration = 100;
+const vduration = 300;
 
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
@@ -86,17 +86,17 @@ elemClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: e.id,
+        button_text: e.innerText,
         event_type: 'conversion',
         tag_name: e.tagName,
-        button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
-          value: total,
-          tax: Number((total * 0.07).toFixed(2)),
-          shipping: Number((total * 0.12).toFixed(2)),
-          currency: 'USD',
           coupon: 'SUMMER_SALE',
+          currency: 'USD',
+          shipping: Number((total * 0.12).toFixed(2)),
+          tax: Number((total * 0.07).toFixed(2)),
+          value: total,
           items: [
             {
               item_id: sku,
@@ -126,17 +126,17 @@ elemClick.forEach((e) => {
       });
       utag.link({
         tealium_event: e.id,
+        button_text: e.innerText,
         event_type: 'conversion',
         tag_name: e.tagName,
-        button_text: e.innerText,
         ecommerce: {
           transaction_id: transactionID,
           affiliation: 'Merchandise Store',
-          value: total,
-          tax: Number((total * 0.07).toFixed(2)),
-          shipping: Number((total * 0.12).toFixed(2)),
-          currency: 'USD',
           coupon: 'SUMMER_SALE',
+          currency: 'USD',
+          shipping: Number((total * 0.12).toFixed(2)),
+          tax: Number((total * 0.07).toFixed(2)),
+          value: total,
           items: [
             {
               item_id: sku,
@@ -166,22 +166,24 @@ elemClick.forEach((e) => {
       });
       displayJSON(logged);
     } else {
-      let en;
-      let cm;
-      let cc;
-      let val;
-      let vt;
-      let vp;
-      let vct;
-      let vd;
-      let vs;
-      let lu;
-      let lc;
-      let ol;
-      let ld;
-      let st;
-      let fd;
-      let milestone;
+      let en; // event name
+      let cm; // contact method
+      let cc; // country currency
+      let val; // value
+      let vt; // video title
+      let vp; // video provider
+      let vct; // video current time
+      let vd; // video duration
+      let vs; // video status
+      let vpct; // video percent
+      let lu; // link url
+      let lc; // link classes
+      let ol; // outbound link true/false
+      let ld; // link domain
+      let st; // search term
+      let fd; // form destination
+      let fi; // form input
+      let milestone; // video progress milestone
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -200,16 +202,26 @@ elemClick.forEach((e) => {
 
       if (e.id === 'form-modal') {
         en = 'form_start';
-        fd = 'consent modal';
+        fd = 'form modal';
         formModal();
       }
 
       if (e.id === 'form') {
+        fi = e.previousElementSibling.value
+          ? e.previousElementSibling.value
+          : alert("ERROR: Form input can't be blank.");
+
         en = 'form_submit';
         cm = 'form filled';
         fd = 'Customer Service';
         cc = 'USD';
         val = 100;
+        e.previousElementSibling.value = '';
+        formModal();
+      }
+
+      if (e.id === 'form-close') {
+        en = 'form_modal_closed';
         formModal();
       }
 
@@ -249,6 +261,7 @@ elemClick.forEach((e) => {
           vs = 'Play';
           vct = vprogress;
           vd = vduration;
+          vpct = Number(((vprogress / vduration) * 100).toFixed(1));
           vstop = false;
         } else {
           document.querySelector('#video .text').classList.remove('playing');
@@ -257,6 +270,7 @@ elemClick.forEach((e) => {
           vs = 'Stop';
           vct = vprogress;
           vd = vduration;
+          vpct = Number(((vprogress / vduration) * 100).toFixed(1));
           vstop = true;
         }
       }
@@ -271,35 +285,35 @@ elemClick.forEach((e) => {
             window.dataLayer.push({
               event: en,
               event_type: 'content tool',
+              video_current_time: vct,
+              video_duration: vduration,
+              video_percent: milestone,
+              video_provider: 'video player',
               video_status: vs,
               video_title: 'Walk in The Clouds',
-              video_provider: 'video player',
-              video_current_time: vct,
-              video_percent: vct,
-              video_duration: vd,
               logged_in: logged,
               user_id: ui,
             });
             utag.link({
               tealium_event: en,
               event_type: 'content tool',
+              video_current_time: vct,
+              video_duration: vduration,
+              video_percent: milestone,
+              video_provider: 'video player',
               video_status: vs,
               video_title: 'Walk in The Clouds',
-              video_provider: 'video player',
-              video_current_time: vct,
-              video_percent: vct,
-              video_duration: vd,
               logged_in: logged,
               user_id: ui,
             });
             displayJSON(logged);
           };
 
-          milestone = (vprogress / vduration) * 100;
+          milestone = Number(((vprogress / vduration) * 100).toFixed(1));
 
           if ([10, 25, 50, 75, 90].includes(milestone)) {
             en = `video_progress`;
-            vi = `Progress ${vprogress}%`;
+            vs = `Progress ${milestone}%`;
             vct = vprogress;
             ui = logged ? userID : 'guest';
             sendData();
@@ -310,7 +324,6 @@ elemClick.forEach((e) => {
             en = 'video_complete';
             vi = 'Complete';
             vct = vprogress;
-            vd = vduration;
             ui = logged ? userID : 'guest';
             vprogress = 0;
             vplay = false;
@@ -331,7 +344,9 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'search') {
-        st = e.previousElementSibling.value ? e.previousElementSibling.value : alert('ERROR: Search Term is blank.');
+        st = e.previousElementSibling.value
+          ? e.previousElementSibling.value
+          : alert("ERROR: Search term can't be blank.");
 
         if (st.match(/mailto:|tel:|@/gi)) {
           st = 'PII in Search Term';
@@ -367,65 +382,71 @@ elemClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
-        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        tag_name: e.tagName,
+        // events parameters
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
-        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
-        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
-        link_classes: lc,
-        link_url: lu,
-        link_domain: ld,
-        outbound: ol,
-        file_extension: e.id === 'download' ? 'pdf' : undefined,
-        file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
-        video_title: vt,
-        video_provider: vp,
-        video_current_time: vct,
-        video_percent: vct,
-        video_duration: vd,
-        form_id: e.id === 'form-modal' || e.id === 'form' ? e.id : undefined,
-        form_name: e.id === 'form-modal' || e.id === 'form' ? 'MyForm' : undefined,
-        form_destination: fd,
-        form_submit_text: e.id === 'form' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        value: val,
+        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
+        form_destination: fd,
+        form_id: e.id.includes('form') ? e.id : undefined,
+        form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
+        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        link_domain: ld,
+        link_classes: lc,
+        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_url: lu,
+        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
+        outbound: ol,
         search_term: st,
+        tag_name: e.tagName,
+        value: val,
+        video_current_time: vct,
+        video_duration: vd,
+        video_percent: vpct,
+        video_provider: vp,
+        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
+        video_title: vt,
+        // user properties
         logged_in: logged,
         user_id: ui,
+        user_profession: fi,
       });
       utag.link({
         tealium_event: en || e.id,
-        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
-        tag_name: e.tagName,
-        button_text: e.tagName === 'BUTTON' ? e.innerText : undefined,
-        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
-        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
-        link_classes: lc,
-        link_url: lu,
-        link_domain: ld,
-        outbound: ol,
-        file_extension: e.id === 'download' ? 'pdf' : undefined,
-        file_name: e.id === 'download' ? 'MyDownload' : undefined,
-        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
-        video_title: vt,
-        video_provider: vp,
-        video_current_time: vct,
-        video_percent: vct,
-        video_duration: vd,
-        form_id: e.id === 'form-modal' || e.id === 'form' ? e.id : undefined,
-        form_name: e.id === 'form-modal' || e.id === 'form' ? 'MyForm' : undefined,
-        form_destination: fd,
-        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        // events parameters
+        button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        value: val,
+        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
+        form_destination: fd,
+        form_id: e.id.includes('form') ? e.id : undefined,
+        form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
+        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        link_domain: ld,
+        link_classes: lc,
+        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_url: lu,
+        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
+        outbound: ol,
         search_term: st,
+        tag_name: e.tagName,
+        value: val,
+        video_current_time: vct,
+        video_duration: vd,
+        video_percent: vpct,
+        video_provider: vp,
+        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
+        video_title: vt,
+        // user properties
         logged_in: logged,
         user_id: ui,
+        user_profession: fi,
       });
       displayJSON(logged);
     }
