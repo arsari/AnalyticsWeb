@@ -156,11 +156,11 @@
     <main>
       <section class="searchModal">
         <div class="modal-content">
-          <button id="search-close" class="close-x">X</button>
+          <button id="search-close" name="action" class="close-x">X</button>
           <div class="wrap">
             <div class="searchBar">
-              <input type="text" class="searchTerm" placeholder="What are you looking for?">
-              <button id="search" name="action" class="searchButton" type="submit">
+              <input type="text" class="searchInput" placeholder="Enter keyword or phrase">
+              <button id="search" name="action" class="searchButton" type="submit" title="Click to capture keyword">
                 <i class="fa fa-search"></i>
               </button>
             </div>
@@ -169,7 +169,9 @@
       </section>
       <section class="formModal">
         <div class="modal-content">
+          <button id="form-close" name="action" class="close-x">X</button>
           <div class="wrap">
+            <input type="text" class="formInput" placeholder="Enter your profession">
             <button id="form" name="action" class="button form-btn" type="submit">
               <span class="text">Let's Talk</span>
             </button>
