@@ -20,10 +20,10 @@ function displayJSON(status) {
     e.previousElementSibling.className = 'normal';
   });
 
-  const toFocus = document.querySelector('#json');
-  toFocus.lastElementChild.scrollIntoView();
-  toFocus.lastElementChild.className = 'highlight';
-  toFocus.lastElementChild.previousElementSibling.classList.remove('normal');
+  const focusThis = document.querySelector('#json');
+  focusThis.lastElementChild.scrollIntoView();
+  focusThis.lastElementChild.className = 'highlight';
+  focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
 }
 
 /**
@@ -218,8 +218,14 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'form') {
-        if (e.previousElementSibling.value) {
-          fi = capitalize(e.previousElementSibling.value);
+        if (e.previousElementSibling.value.trim()) {
+          const verify = e.previousElementSibling.value.trim();
+          if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
+            alert('ERROR: PII not allow in search term.');
+            return;
+          }
+          fi = capitalize(verify);
+          e.previousElementSibling.value = '';
         } else {
           alert("ERROR: Form input can't be blank.");
           return;
@@ -231,7 +237,6 @@ elemClick.forEach((e) => {
         cc = 'USD';
         val = 100;
 
-        e.previousElementSibling.value = '';
         formModal();
       }
 
@@ -361,18 +366,18 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'search') {
-        if (e.previousElementSibling.value) {
-          st = capitalize(e.previousElementSibling.value);
+        if (e.previousElementSibling.value.trim()) {
+          const verify = e.previousElementSibling.value.trim();
+          if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
+            alert('ERROR: PII not allow in search term.');
+            return;
+          }
+          st = capitalize(verify);
+          e.previousElementSibling.value = '';
         } else {
           alert("ERROR: Search term can't be blank.");
           return;
         }
-
-        if (st.match(/mailto:|tel:|@/gi)) {
-          st = 'PII in Search Term';
-        }
-
-        e.previousElementSibling.value = '';
         searchModal();
       }
 
