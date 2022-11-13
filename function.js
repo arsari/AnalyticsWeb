@@ -221,7 +221,8 @@ elemClick.forEach((e) => {
         if (e.previousElementSibling.value.trim()) {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            alert('ERROR: PII not allow in search term.');
+            alert('ERROR: PII not allowed in form input.');
+            e.previousElementSibling.value = '';
             return;
           }
           fi = capitalize(verify);
@@ -369,7 +370,8 @@ elemClick.forEach((e) => {
         if (e.previousElementSibling.value.trim()) {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            alert('ERROR: PII not allow in search term.');
+            alert('ERROR: PII not allowed as search term.');
+            e.previousElementSibling.value = '';
             return;
           }
           st = capitalize(verify);
