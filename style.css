@@ -14,7 +14,7 @@ header {
 }
 
 .headings {
-  padding: 0 20px 0;
+  padding: 0 20px;
 }
 
 img {
@@ -29,7 +29,7 @@ h1 {
 .flex {
   display: flex;
   justify-content: space-between;
-  margin: 0 20px 0;
+  margin: 0 20px;
 }
 
 .button {
@@ -135,8 +135,10 @@ p > span {
 }
 
 .highlight {
-  background-color: lightyellow;
   border: 3px solid #9d2b2b;
+  border-radius: 0 10px 10px 10px;
+  background-color: lightyellow;
+  color: #333333;
   display: block;
   margin: 0;
   font-family: monospace;
@@ -146,11 +148,11 @@ p > span {
   padding: 10px;
   white-space: pre-wrap;
   word-break: break-all;
-  border-radius: 0 10px 10px 10px;
   transition: all 0.1s;
 }
+
 pre {
-  margin: 0 0 20px 0px !important;
+  margin: 0 0 20px !important;
 }
 
 footer {
@@ -307,7 +309,6 @@ footer {
     font-size: 90%;
   }
   footer {
-    font-weight: 400;
     font-size: 10px;
   }
 }
