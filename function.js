@@ -61,7 +61,7 @@ document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
-  </span><span class="me">Coded with &hearts; by ARSARI</span>`;
+  </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
 
 /* Button element listeners starting */
 const elemClick = document.querySelectorAll('[name="action"]');
@@ -80,8 +80,8 @@ elemClick.forEach((e) => {
 
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-      const sku = `SKU_${Math.floor(Math.random() * 20000)}`;
-      const itemPrice = Math.floor(Math.random() * 100 + 1);
+      const sku = `SKU_${Math.floor(Math.random() * 10000)}`;
+      const itemPrice = Math.floor(Math.random() * 200 + 1);
       const itemQty = Math.floor(Math.random() * 30 + 1);
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
       const total = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
