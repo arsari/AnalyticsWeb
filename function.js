@@ -478,7 +478,7 @@ elemClick.forEach((e) => {
       displayJSON(logged);
     }
 
-    document.querySelectorAll('button').forEach((element) => {
+    document.querySelectorAll('.button').forEach((element) => {
       element.removeAttribute('disabled');
     });
 
