@@ -59,7 +59,7 @@ const headerHeight = document.querySelector('header').offsetHeight;
 document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 
 /* Footer labeling set up */
-document.querySelector('footer').innerHTML = `<span class="env">TealiumIQ->[
+document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
   </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
 

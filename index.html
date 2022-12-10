@@ -36,10 +36,29 @@
       })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
     </script>
     <!-- End Google Tag Manager -->
-    <!-- Adobe Launch -->
-    <!--<script src="https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js" async></script>-->
-    <script src="https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js" async></script>
-    <!-- END Asdobe Launch -->
+    <!-- Tracking Variables Setup -->
+    <script type="text/javascript">
+      const setTealiumEnv =
+        location.search.indexOf('dev') === 1 ? 'dev' : location.search.indexOf('qa') === 1 ? 'qa' : 'prod';
+      const tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : setTealiumEnv;
+      const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
+      const gtmContainer = 'GTM-59FGRVM';
+      console.log(`Env-> ${tealiumEnv} | GA4-> ${ga4Prop} | GTM-> ${gtmContainer}`);
+
+      /* Adobe Launch */
+      let alaunch;
+      if (tealiumEnv !== 'prod') {
+        alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js';
+      } else {
+        alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js';
+      }
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = alaunch;
+      script.async = true;
+      document.head.appendChild(script);
+    </script>
+    <!-- END Tracking Variables Setup -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -68,10 +87,8 @@
     <!-- END: utag dataLayers config -->
     <!-- Tealium IQ Loading script asynchronously -->
     <script type="text/javascript">
-      let tealiumEnv = location.search.indexOf('dev') === 1 ? 'dev' : location.search.indexOf('qa') === 1 ? 'qa' : 'prod';
-
       (function (a, b, c, d) {
-        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
+        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${setTealiumEnv}/utag.js`;
         b = document;
         c = 'script';
         d = b.createElement(c);
@@ -81,14 +98,6 @@
         a = b.getElementsByTagName(c)[0];
         a.parentNode.insertBefore(d, a);
       })();
-
-      const ga4Prop =
-        tealiumEnv === 'dev' || tealiumEnv === 'qa' || document.location.host.includes('127.0.0.1')
-          ? 'G-0Q482J3LCH'
-          : 'G-K9GKNM79XW';
-      const gtmContainer = 'GTM-59FGRVM';
-      tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : tealiumEnv;
-      console.log(`Tealium IQ Env-> ${tealiumEnv} | GA4 Property-> ${ga4Prop} | GTM Container-> ${gtmContainer}`);
     </script>
     <!-- END: Tealium IQ Loading script asynchronously -->
     <!-- Google Tag Manager (noscript) -->
@@ -105,7 +114,7 @@
         </h1>
         <h3>
           Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics
-          (AA) through Tealium IQ.
+          (AA) through Tealium IQ and Adobe Launch.
         </h3>
       </div>
       <nav class="flex">
