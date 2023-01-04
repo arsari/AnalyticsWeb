@@ -17,6 +17,10 @@ header {
   padding: 0 20px;
 }
 
+.headings-2 {
+  padding: 0 30px 15px;
+}
+
 img {
   margin: auto 10px;
 }

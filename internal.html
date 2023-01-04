@@ -2,6 +2,13 @@
 <html lang="en-US">
 
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <title>Analytics Implementation - Internal Page</title>
     <!-- dataLayers config -->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
@@ -43,29 +50,26 @@
       const tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : setTealiumEnv;
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
-      console.log(`Env-> ${tealiumEnv} | GA4-> ${ga4Prop} | GTM-> ${gtmContainer}`);
 
       /* Adobe Launch */
       let alaunch;
+      let alaunchEnv;
       if (tealiumEnv !== 'prod') {
         alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js';
+        alaunchEnv = 'production';
       } else {
         alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js';
+        alaunchEnv = 'development';
       }
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = alaunch;
       script.async = true;
       document.head.appendChild(script);
+
+      console.log(`Env-> ${tealiumEnv} | GA4-> ${ga4Prop} | GTM-> ${gtmContainer} | Launch-> ${alaunchEnv}`);
     </script>
     <!-- END Tracking Variables Setup -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
-    <title>Analytics Implementation - Internal Page</title>
   </head>
 
   <body>
@@ -104,7 +108,7 @@
         style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <header style="padding: 0 30px 15px;">
+    <header class="headings-2">
       <h1>Analytics Implementation</h1>
       <h3>
         <span>Intentionally Internal Blank Page. =></span>
