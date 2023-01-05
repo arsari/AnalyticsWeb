@@ -68,7 +68,8 @@
       script.async = true;
       document.head.appendChild(script);
 
-      console.log(`Env-> ${tealiumEnv} | GA4-> ${ga4Prop} | GTM-> ${gtmContainer} | Launch-> ${alaunchEnv}`);
+      const obj = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv };
+      console.table(obj);
     </script>
     <!-- END Tracking Variables Setup -->
   </head>
