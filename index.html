@@ -9,24 +9,24 @@
     <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
-    <title>Analytic Implementation Playground | Arsari</title>
-    <!-- dataLayers config -->
+    <title>AnalyticsWeb | Arsari</title>
+    <!-- dataLayers init -->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'initData',
-        page_name: 'Analytics Implementation',
         content_type: 'Playground',
         content_group: 'Implementation',
-        page_title: 'Analytic Implementation Playground | Arsari',
-        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_title: document.querySelector('title').innerText,
         logged_in: localStorage.logged,
         user_id: localStorage.userID,
       });
     </script>
-    <!-- END: dataLayers config -->
+    <!-- END: dataLayers init -->
     <!--Google Tag Manager-->
     <script>
       (function (w, d, s, l, i) {
@@ -75,21 +75,21 @@
   </head>
 
   <body>
-    <!-- utag dataLayers config -->
+    <!-- utag data object init -->
     <script type="text/javascript">
       const utag_data = {
-        page_name: 'Analytics Implementation',
         content_type: 'Playground',
         content_group: 'Implementation',
-        page_title: 'Analytic Implementation Playground | Arsari',
-        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_title: document.querySelector('title').innerText,
         logged_in: localStorage.logged,
         user_id: localStorage.userID,
       };
     </script>
-    <!-- END: utag dataLayers config -->
+    <!-- END: utag data object init -->
     <!-- Tealium IQ Loading script asynchronously -->
     <script type="text/javascript">
       (function (a, b, c, d) {
@@ -113,13 +113,14 @@
     <header>
       <div class="headings">
         <h1>
-          Analytics Implementation Playground
+          AnalyticsWeb
           <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
             alt="GitHub Last Commit" title="Source Code Last Update" />
         </h1>
         <h3>
-          Playground to explore analytics implementation for Google Analytics 4 (GA4) through GTM and Adobe Analytics
-          (AA) through Tealium IQ and Adobe Launch.
+          Playground to explore analytics implementation on a web data stream for Google Analytics 4 (GA4) through GTM
+          and
+          Adobe Analytics (AA) through Tealium IQ and Adobe Launch.
         </h3>
       </div>
       <nav class="flex">
