@@ -1,4 +1,6 @@
-# Web Analytic Implementation Playground
+# AnalyticsWeb
+
+## Web Analytic Implementation Playground
 
 Playground of analytic implementation for a web data stream that allows to explore the implementation of:
 
