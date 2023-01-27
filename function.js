@@ -55,17 +55,17 @@ function capitalize(str) {
  * Returns a string representing the current date and time in the format of the
  * ISO 8601 standard
  * @returns A string representing the current date and time in the format:
- * YYYY-MM-DDTHH:mm:ss.sssZ+HH:mm
+ * YYYY-MM-DD HH:mm:ss.sss UTC+/-HH:mm
  */
 function time() {
   const d = new Date();
   const tzo = d.getTimezoneOffset();
-  const dif = tzo >= 0 ? '+' : '-';
+  const dif = tzo >= 0 ? '-' : '+';
   const pad = (num) => {
     const norm = Math.floor(Math.abs(num));
     return (norm < 10 ? '0' : '') + norm;
   };
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} t${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} z${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
 }
 
 /**
