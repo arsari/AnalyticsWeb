@@ -29,7 +29,7 @@ Each individual page of implementation included an initial data set composed of:
 </script>
 <!-- END: dataLayers init -->
 
-<!-- utag data object init -->
+<!-- utag_data object init -->
 <script type="text/javascript">
   const utag_data = {
     content_type: "Playground",
@@ -50,7 +50,7 @@ The _dataLayer_ object is based on [Google Analytics 4](https://support.google.c
 
 The events dataLayer implemented is composed of:
 
-```js
+```javascript
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en || e.id,
@@ -101,7 +101,7 @@ window.dataLayer.push({
 
 The purchase event datalayer implemented is composed of:
 
-```js
+```javascript
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   ecommerce: null,
@@ -154,7 +154,7 @@ The _utag.link()_ data object is based on the [Tealium utag.link](https://commun
 
 The events _utag.link()_ implemented is composed of:
 
-```js
+```javascript
 utag.link({
   tealium_event: en || e.id,
   // events parameters
@@ -204,7 +204,7 @@ utag.link({
 
 The purchase event _utag.link()_ implemented is composed of:
 
-```js
+```javascript
 utag.link({
   ecommerce: null,
 }); // Clear the previous ecommerce object

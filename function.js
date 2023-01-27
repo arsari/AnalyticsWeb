@@ -52,6 +52,23 @@ function capitalize(str) {
 }
 
 /**
+ * Returns a string representing the current date and time in the format of the
+ * ISO 8601 standard
+ * @returns A string representing the current date and time in the format:
+ * YYYY-MM-DDTHH:mm:ss.sssZ+HH:mm
+ */
+function time() {
+  const d = new Date();
+  const tzo = d.getTimezoneOffset();
+  const dif = tzo >= 0 ? '+' : '-';
+  const pad = (num) => {
+    const norm = Math.floor(Math.abs(num));
+    return (norm < 10 ? '0' : '') + norm;
+  };
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} t${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} z${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
+}
+
+/**
  * Section element set up by getting the height of the header and adding 25px to it, and then setting
  * the margin-top of the section to that value.
  */
@@ -99,6 +116,7 @@ elemClick.forEach((e) => {
         event: e.id,
         button_text: e.innerText,
         event_type: 'conversion',
+        custom_timestamp: time(),
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
@@ -117,7 +135,7 @@ elemClick.forEach((e) => {
               currency: 'USD',
               discount: itemDiscount,
               index: 0,
-              item_brand: 'Google',
+              item_brand: 'MyCollection',
               item_category: 'Apparel',
               item_category2: 'Adult',
               item_category3: 'Shirts',
@@ -129,7 +147,7 @@ elemClick.forEach((e) => {
               location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
               price: itemPrice,
               quantity: itemQty,
-            },
+            }
           ],
         },
         logged_in: logged,
@@ -139,6 +157,7 @@ elemClick.forEach((e) => {
         tealium_event: e.id,
         button_text: e.innerText,
         event_type: 'conversion',
+        custom_timestamp: time(),
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
@@ -157,7 +176,7 @@ elemClick.forEach((e) => {
               currency: 'USD',
               discount: itemDiscount,
               index: 0,
-              item_brand: 'Google',
+              item_brand: 'MyCollection',
               item_category: 'Apparel',
               item_category2: 'Adult',
               item_category3: 'Shirts',
@@ -409,7 +428,8 @@ elemClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
-        // events parameters
+        // event parameters
+        custom_timestamp: time(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -443,7 +463,8 @@ elemClick.forEach((e) => {
       });
       utag.link({
         tealium_event: en || e.id,
-        // events parameters
+        // event parameters
+        custom_timestamp: time(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
