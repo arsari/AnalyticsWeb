@@ -57,7 +57,7 @@ function capitalize(str) {
  * @returns A string representing the current date and time in the format:
  * YYYY-MM-DD HH:mm:ss.sss UTC+/-HH:mm
  */
-function time() {
+function timeStamp() {
   const d = new Date();
   const tzo = d.getTimezoneOffset();
   const dif = tzo >= 0 ? '-' : '+';
@@ -116,7 +116,7 @@ elemClick.forEach((e) => {
         event: e.id,
         button_text: e.innerText,
         event_type: 'conversion',
-        custom_timestamp: time(),
+        custom_timestamp: timeStamp(),
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
@@ -157,7 +157,7 @@ elemClick.forEach((e) => {
         tealium_event: e.id,
         button_text: e.innerText,
         event_type: 'conversion',
-        custom_timestamp: time(),
+        custom_timestamp: timeStamp(),
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
@@ -328,6 +328,7 @@ elemClick.forEach((e) => {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
+              custom_timestamp: timeStamp(),
               event_type: 'content tool',
               video_current_time: vct,
               video_duration: vduration,
@@ -340,6 +341,7 @@ elemClick.forEach((e) => {
             });
             utag.link({
               tealium_event: en,
+              custom_timestamp: timeStamp(),
               event_type: 'content tool',
               video_current_time: vct,
               video_duration: vduration,
@@ -429,7 +431,7 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        custom_timestamp: time(),
+        custom_timestamp: timeStamp(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -464,7 +466,7 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        custom_timestamp: time(),
+        custom_timestamp: timeStamp(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
