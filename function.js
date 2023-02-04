@@ -65,7 +65,9 @@ function timeStamp() {
     const norm = Math.floor(Math.abs(num));
     return (norm < 10 ? '0' : '') + norm;
   };
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}
+  T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())}
+  UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
 }
 
 /**
@@ -114,8 +116,10 @@ elemClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: e.id,
-        button_text: e.innerText,
+        event_timestamp: new Date().getTime(),
+        custom_timestamp: timeStamp(),
         event_type: 'conversion',
+        button_text: e.innerText,
         custom_timestamp: timeStamp(),
         tag_name: e.tagName,
         ecommerce: {
@@ -147,7 +151,7 @@ elemClick.forEach((e) => {
               location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
               price: itemPrice,
               quantity: itemQty,
-            }
+            },
           ],
         },
         logged_in: logged,
@@ -155,9 +159,10 @@ elemClick.forEach((e) => {
       });
       utag.link({
         tealium_event: e.id,
-        button_text: e.innerText,
-        event_type: 'conversion',
+        event_timestamp: new Date().getTime(),
         custom_timestamp: timeStamp(),
+        event_type: 'conversion',
+        button_text: e.innerText,
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
@@ -328,6 +333,7 @@ elemClick.forEach((e) => {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
+              event_timestamp: new Date().getTime(),
               custom_timestamp: timeStamp(),
               event_type: 'content tool',
               video_current_time: vct,
@@ -341,6 +347,7 @@ elemClick.forEach((e) => {
             });
             utag.link({
               tealium_event: en,
+              event_timestamp: new Date().getTime(),
               custom_timestamp: timeStamp(),
               event_type: 'content tool',
               video_current_time: vct,
@@ -431,6 +438,7 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
+        event_timestamp: new Date().getTime(),
         custom_timestamp: timeStamp(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
@@ -466,6 +474,7 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         // event parameters
+        event_timestamp: new Date().getTime(),
         custom_timestamp: timeStamp(),
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
