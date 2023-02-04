@@ -4,8 +4,8 @@
 
 Playground of analytic implementation for a web data stream that allows to explore the implementation of:
 
-- dataLayer objects through GTM and analyzing the data in GA4,
-- utag.link() data objects through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
+- dataLayer objects managed through GTM and analyzing the data in GA4,
+- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
 - Setting of Adobe Launch rules to be analyzed in Adobe Analytics.
 
 Each individual page of implementation included an initial data set composed of:
@@ -55,6 +55,7 @@ window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en || e.id,
   // events parameters
+  custom_timestamp: timestamp(),
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
@@ -110,6 +111,7 @@ window.dataLayer.push({
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: e.id,
+  custom_timestamp: timestamp(),
   button_text: e.innerText,
   event_type: "conversion",
   tag_name: e.tagName,
@@ -158,6 +160,7 @@ The events _utag.link()_ implemented is composed of:
 utag.link({
   tealium_event: en || e.id,
   // events parameters
+  custom_timestamp: timestamp(),
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
@@ -211,6 +214,7 @@ utag.link({
 
 utag.link({
   tealium_event: e.id,
+  custom_timestamp: timestamp(),
   button_text: e.innerText,
   event_type: "conversion",
   tag_name: e.tagName,
