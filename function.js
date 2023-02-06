@@ -120,7 +120,6 @@ elemClick.forEach((e) => {
         custom_timestamp: timeStamp(),
         event_type: 'conversion',
         button_text: e.innerText,
-        custom_timestamp: timeStamp(),
         tag_name: e.tagName,
         ecommerce: {
           transaction_id: transactionID,
