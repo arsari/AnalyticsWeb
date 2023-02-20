@@ -86,7 +86,7 @@ document.querySelector('footer').innerHTML = `<span class="env">Env->[
 const elemClick = document.querySelectorAll('[name="action"]');
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
-const userID = `U-${Math.floor(Math.random() * 10000 + 1)}`;
+const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 let logged = false;
 let vplay = false;
 let vstop = true;
@@ -95,7 +95,7 @@ const vduration = 300;
 
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
-    let ui = logged ? userID : 'guest';
+    let ui = logged ? UUID : 'guest';
 
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
@@ -323,7 +323,7 @@ elemClick.forEach((e) => {
       const interval = setInterval(() => {
         vp = 'Any Video Player';
         vt = 'Walk in The Clouds';
-        ui = logged ? userID : 'guest';
+        ui = logged ? UUID : 'guest';
 
         if (vplay) {
           vprogress += 1;
@@ -421,7 +421,7 @@ elemClick.forEach((e) => {
           return;
         }
         logged = true;
-        ui = userID;
+        ui = UUID;
       }
 
       if (e.id === 'logout') {
