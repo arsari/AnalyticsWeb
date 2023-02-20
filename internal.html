@@ -22,7 +22,7 @@
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
         logged_in: localStorage.logged,
-        user_id: localStorage.userID,
+        user_id: localStorage.UUID,
       });
     </script>
     <!-- END: dataLayers config -->
@@ -85,7 +85,7 @@
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
         logged_in: localStorage.logged,
-        user_id: localStorage.userID,
+        user_id: localStorage.UUID,
       };
     </script>
     <!-- END: utag dataLayers config -->
@@ -113,7 +113,7 @@
       <h1>Web Analytics Implementation Playground</h1>
       <h3>
         <span>Intentionally Internal Blank Page. =></span>
-        <span class="alert">This Tab will close automatically after 5 seconds.</span>
+        <span class="alert">This Tab will close automatically after 8 seconds.</span>
       </h3>
     </header>
     <main>
@@ -147,7 +147,7 @@
        */
       setTimeout(() => {
         window.close();
-      }, 5000);
+      }, 8000);
     </script>
   </body>
 
