@@ -65,9 +65,55 @@ function timeStamp() {
     const norm = Math.floor(Math.abs(num));
     return (norm < 10 ? '0' : '') + norm;
   };
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}
-  T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())}
-  UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
+  const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} T${pad(d.getHours())}:${pad(
+    d.getMinutes(),
+  )}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
+
+  return stamp;
+}
+
+/**
+ * "When an error occurs, send an event to Google Analytics and Tealium with the
+ * error message, and the user's login status and user ID."
+ *
+ * The function takes four parameters:
+ *
+ * * `e`: the event object
+ * * `m`: the error message
+ * * `l`: the user's login status
+ * * `u`: the user's ID
+ *
+ * The function uses the `window.dataLayer` object to send the event to Google
+ * Analytics. The `window.dataLayer` object is a JavaScript array that stores data.
+ * The `push()` method adds data to the array
+ * @param e - the event object
+ * @param m - error message
+ * @param l - logged in
+ * @param u - user id
+ */
+function errorEvent(e, m, l, u) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: `${e.id}_error`,
+    event_timestamp: new Date().getTime(), // milliseconds
+    custom_timestamp: timeStamp(), // ISO 8601
+    event_type: 'content tool',
+    error_message: m,
+    // user properties
+    logged_in: l,
+    user_id: u,
+  });
+  utag.link({
+    tealium_event: `${e.id}_error`,
+    event_timestamp: new Date().getTime(), // milliseconds
+    custom_timestamp: timeStamp(), // ISO 8601
+    event_type: 'content tool',
+    error_message: m,
+    // user properties
+    logged_in: l,
+    user_id: u,
+  });
+  displayJSON(l);
 }
 
 /**
@@ -116,8 +162,9 @@ elemClick.forEach((e) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: e.id,
-        event_timestamp: new Date().getTime(),
-        custom_timestamp: timeStamp(),
+        // event parameters
+        event_timestamp: new Date().getTime(), // milliseconds
+        custom_timestamp: timeStamp(), // ISO 8601
         event_type: 'conversion',
         button_text: e.innerText,
         tag_name: e.tagName,
@@ -153,13 +200,15 @@ elemClick.forEach((e) => {
             },
           ],
         },
+        // user properties
         logged_in: logged,
         user_id: ui,
       });
       utag.link({
         tealium_event: e.id,
-        event_timestamp: new Date().getTime(),
-        custom_timestamp: timeStamp(),
+        // event parameters
+        event_timestamp: new Date().getTime(), // milliseconds
+        custom_timestamp: timeStamp(), // ISO 8601
         event_type: 'conversion',
         button_text: e.innerText,
         tag_name: e.tagName,
@@ -195,6 +244,7 @@ elemClick.forEach((e) => {
             },
           ],
         },
+        // user properties
         logged_in: logged,
         user_id: ui,
       });
@@ -218,6 +268,7 @@ elemClick.forEach((e) => {
       let st; // search term
       let fd; // form destination
       let fi; // form input
+      let message; // alert message
 
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generated_lead';
@@ -244,23 +295,25 @@ elemClick.forEach((e) => {
         if (e.previousElementSibling.value.trim()) {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            alert('ERROR: PII not allowed in form input.');
+            message = 'ERROR: PII not allowed in form input.';
+            alert(message);
+            errorEvent(e, message, logged, ui);
             e.previousElementSibling.value = '';
             return;
           }
           fi = capitalize(verify);
           e.previousElementSibling.value = '';
         } else {
-          alert("ERROR: Form input can't be blank.");
+          message = "ERROR: Form input can't be blank.";
+          alert(message);
+          errorEvent(e, message, logged, ui);
           return;
         }
-
         en = 'form_submit';
         cm = 'form filled';
         fd = 'Customer Service';
         cc = 'USD';
         val = 100;
-
         formModal();
       }
 
@@ -286,7 +339,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'intlink') {
         localStorage.logged = logged;
-        localStorage.userID = ui;
+        localStorage.UUID = ui;
         en = 'internal_link';
         lu = e.href;
         const domain = new URL(lu);
@@ -332,8 +385,8 @@ elemClick.forEach((e) => {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
-              event_timestamp: new Date().getTime(),
-              custom_timestamp: timeStamp(),
+              event_timestamp: new Date().getTime(), // milliseconds
+              custom_timestamp: timeStamp(), // ISO 8601
               event_type: 'content tool',
               video_current_time: vct,
               video_duration: vduration,
@@ -346,8 +399,8 @@ elemClick.forEach((e) => {
             });
             utag.link({
               tealium_event: en,
-              event_timestamp: new Date().getTime(),
-              custom_timestamp: timeStamp(),
+              event_timestamp: new Date().getTime(), // milliseconds
+              custom_timestamp: timeStamp(), // ISO 8601
               event_type: 'content tool',
               video_current_time: vct,
               video_duration: vduration,
@@ -397,14 +450,18 @@ elemClick.forEach((e) => {
         if (e.previousElementSibling.value.trim()) {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            alert('ERROR: PII not allowed as search term.');
+            message = 'ERROR: PII not allowed as search term.';
+            alert(message);
+            errorEvent(e, message, logged, ui);
             e.previousElementSibling.value = '';
             return;
           }
           st = capitalize(verify);
           e.previousElementSibling.value = '';
         } else {
-          alert("ERROR: Search term can't be blank.");
+          message = "ERROR: Search term can't be blank.";
+          alert(message);
+          errorEvent(e, message, logged, ui);
           return;
         }
         searchModal();
@@ -437,8 +494,8 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        event_timestamp: new Date().getTime(),
-        custom_timestamp: timeStamp(),
+        event_timestamp: new Date().getTime(), // milliseconds
+        custom_timestamp: timeStamp(), // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -473,8 +530,8 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        event_timestamp: new Date().getTime(),
-        custom_timestamp: timeStamp(),
+        event_timestamp: new Date().getTime(), // milliseconds
+        custom_timestamp: timeStamp(), // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,

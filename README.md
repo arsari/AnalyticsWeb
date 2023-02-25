@@ -8,7 +8,11 @@ Playground of analytic implementation for a web data stream that allows to explo
 - utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
 - Setting of Adobe Launch rules to be analyzed in Adobe Analytics.
 
-Each individual page of implementation included an initial data set composed of:
+![Playground Screenshot](230224-playground_screenshot.png)
+
+The implementation add an initial `dataLayer` array-object and a `utag_data` object variable on each web page.
+
+The initial `dataLayer` array-object should be located inside the `<head>...</head>` tag of the web page before the GTM snippet.
 
 ```html
 <!-- dataLayers init -->
@@ -24,11 +28,15 @@ Each individual page of implementation included an initial data set composed of:
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
     logged_in: localStorage.logged,
-    user_id: localStorage.userID,
+    user_id: localStorage.UUID,
   });
 </script>
 <!-- END: dataLayers init -->
+```
 
+The initial `utag_data` object variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
+
+```html
 <!-- utag_data object init -->
 <script type="text/javascript">
   const utag_data = {
@@ -40,22 +48,58 @@ Each individual page of implementation included an initial data set composed of:
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
     logged_in: localStorage.logged,
-    user_id: localStorage.userID,
+    user_id: localStorage.UUID,
   };
 </script>
 <!-- END: utag data object init -->
 ```
 
-The _dataLayer_ object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer).
+The implementation consider the followings user interactions based on element click `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
-The events dataLayer implemented is composed of:
+| UI Interaction          | Event               | Parameters                                                                                     |
+| ----------------------- | ------------------- | ---------------------------------------------------------------------------------------------- |
+| Sign In                 | login               | method                                                                                         |
+| Outbound Link           | outbound_link       | link_domain, link_classes, link_id, link_url, link_text, outbound                              |
+| Internal Link           | internal_link       | link_domain, link_classes, link_id, link_url, link_text                                        |
+| Download                | file_download       | file_name, file_extension, link_domain, link_classes, link_id, link_text                       |
+| Video                   | video_start         | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
+|                         | video_progress      | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
+|                         | video_complete      | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
+| Video playing           | video_stop          | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
+| Email                   | generated_lead      | contact_method, currency, value                                                                |
+| Phone                   | generated_lead      | contact_method, currency, value                                                                |
+| Form                    | form_start          | form_destination, form_id, form_name                                                           |
+| \* _Submit Button_      | form_submit         | contact_method, form_destination, form_id, form_name, form_submit_text, value, user_profession |
+| \* _`X`_ (close form)   | form_modal_closed   | form_id, form_name                                                                             |
+| Purchase                | purchase            | ecommerce.transaction_id, ecommerce.value, ecommerce.tax, ecommerce.shipping, ecommerce.items  |
+| Search                  | search_modal_opened |                                                                                                |
+| \* _Magnified Glass_    | search              | search_term                                                                                    |
+| \* _`X`_ (close search) | search_modal_closed |                                                                                                |
+| Sign Out                | logout              |                                                                                                |
 
-```javascript
+Ths following global parameters apply to all of the above **events**:
+
+| Global Parameters              |
+| ------------------------------ |
+| event_timestamp (milliseconds) |
+| custom_timestamp (ISO 8601)    |
+| button_text                    |
+| event_type                     |
+| tag_name                       |
+| logged_in (user property)      |
+| user_id (user property)        |
+
+The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer).
+
+The implemented events `dataLayer` array-object is only one composed of:
+
+```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en || e.id,
-  // events parameters
-  custom_timestamp: timestamp(),
+  // event parameters
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
@@ -100,9 +144,9 @@ window.dataLayer.push({
 });
 ```
 
-The purchase event datalayer implemented is composed of:
+The implemented purchase event `datalayer` array-object is composed of:
 
-```javascript
+```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   ecommerce: null,
@@ -111,9 +155,11 @@ window.dataLayer.push({
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: e.id,
-  custom_timestamp: timestamp(),
-  button_text: e.innerText,
+  // event parameters
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
   event_type: "conversion",
+  button_text: e.innerText,
   tag_name: e.tagName,
   ecommerce: {
     transaction_id: transactionID,
@@ -132,7 +178,7 @@ window.dataLayer.push({
         currency: "USD",
         discount: itemDiscount,
         index: 0,
-        item_brand: "Google",
+        item_brand: "MyCollection",
         item_category: "Apparel",
         item_category2: "Adult",
         item_category3: "Shirts",
@@ -147,20 +193,59 @@ window.dataLayer.push({
       },
     ],
   },
+  // user properties
   logged_in: logged,
   user_id: ui,
 });
 ```
 
-The _utag.link()_ data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
+Using `setInterval()` function we implement the video progress tracking.
 
-The events _utag.link()_ implemented is composed of:
+The implemented video progress event `datalayer` array-object and `utag.link` data object is composed of:
 
-```javascript
+```js
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: en,
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
+  event_type: "content tool",
+  video_current_time: vct,
+  video_duration: vduration,
+  video_percent: milestone,
+  video_provider: vp,
+  video_status: vs,
+  video_title: vt,
+  logged_in: logged,
+  user_id: ui,
+});
+
+utag.link({
+  tealium_event: en,
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
+  event_type: "content tool",
+  video_current_time: vct,
+  video_duration: vduration,
+  video_percent: milestone,
+  video_provider: vp,
+  video_status: vs,
+  video_title: vt,
+  logged_in: logged,
+  user_id: ui,
+});
+```
+
+The `utag.link()` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
+
+The implemented events `utag.link()` data object is only one composed of:
+
+```js
 utag.link({
   tealium_event: en || e.id,
-  // events parameters
-  custom_timestamp: timestamp(),
+  // event parameters
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
@@ -205,18 +290,20 @@ utag.link({
 });
 ```
 
-The purchase event _utag.link()_ implemented is composed of:
+The implemented purchase event `utag.link()` data object is composed of:
 
-```javascript
+```js
 utag.link({
   ecommerce: null,
 }); // Clear the previous ecommerce object
 
 utag.link({
   tealium_event: e.id,
-  custom_timestamp: timestamp(),
-  button_text: e.innerText,
+  // event parameters
+  event_timestamp: new Date().getTime(), // milliseconds
+  custom_timestamp: timeStamp(), // ISO 8601
   event_type: "conversion",
+  button_text: e.innerText,
   tag_name: e.tagName,
   ecommerce: {
     transaction_id: transactionID,
@@ -235,7 +322,7 @@ utag.link({
         currency: "USD",
         discount: itemDiscount,
         index: 0,
-        item_brand: "Google",
+        item_brand: "MyCollection",
         item_category: "Apparel",
         item_category2: "Adult",
         item_category3: "Shirts",
@@ -250,6 +337,7 @@ utag.link({
       },
     ],
   },
+  // user properties
   logged_in: logged,
   user_id: ui,
 });
