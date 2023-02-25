@@ -59,6 +59,7 @@ The implementation consider the followings user interactions based on element cl
 | UI Interaction          | Event               | Parameters                                                                                     |
 | ----------------------- | ------------------- | ---------------------------------------------------------------------------------------------- |
 | Sign In                 | login               | method                                                                                         |
+|                         | login_error         | error_message, alert_impression                                                                |
 | Outbound Link           | outbound_link       | link_domain, link_classes, link_id, link_url, link_text, outbound                              |
 | Internal Link           | internal_link       | link_domain, link_classes, link_id, link_url, link_text                                        |
 | Download                | file_download       | file_name, file_extension, link_domain, link_classes, link_id, link_text                       |
@@ -69,13 +70,16 @@ The implementation consider the followings user interactions based on element cl
 | Email                   | generated_lead      | contact_method, currency, value                                                                |
 | Phone                   | generated_lead      | contact_method, currency, value                                                                |
 | Form                    | form_start          | form_destination, form_id, form_name                                                           |
+|                         | form_error          | error_message, alert_impression                                                                |
 | \* _Submit Button_      | form_submit         | contact_method, form_destination, form_id, form_name, form_submit_text, value, user_profession |
 | \* _`X`_ (close form)   | form_modal_closed   | form_id, form_name                                                                             |
 | Purchase                | purchase            | ecommerce.transaction_id, ecommerce.value, ecommerce.tax, ecommerce.shipping, ecommerce.items  |
 | Search                  | search_modal_opened |                                                                                                |
+|                         | search_error        | error_message, alert_impression                                                                |
 | \* _Magnified Glass_    | search              | search_term                                                                                    |
 | \* _`X`_ (close search) | search_modal_closed |                                                                                                |
 | Sign Out                | logout              |                                                                                                |
+|                         | logout_error        | error_message, alert_impression                                                                |
 
 Ths following global parameters apply to all of the above **events**:
 

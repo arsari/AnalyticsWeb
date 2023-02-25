@@ -473,7 +473,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'login') {
         if (logged) {
-          message = "Oops! I'm sorry you already Sign In.";
+          message = "ERROR: Oops! I'm sorry you already Sign In.";
           errorEvent(e, message, logged, ui);
           return;
         }
@@ -485,7 +485,7 @@ elemClick.forEach((e) => {
         if (logged) {
           logged = false;
         } else {
-          message = "Oops! I'm sorry you need to Sign In first.";
+          message = "ERROR: Oops! I'm sorry you need to Sign In first.";
           errorEvent(e, message, logged, ui);
           return;
         }
