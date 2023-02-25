@@ -388,6 +388,8 @@ elemClick.forEach((e) => {
               event: en,
               event_timestamp: new Date().getTime(), // milliseconds
               custom_timestamp: timeStamp(), // ISO 8601
+              button_text: null,
+              tag_name: null,
               event_type: 'content tool',
               video_current_time: vct,
               video_duration: vduration,
@@ -403,6 +405,8 @@ elemClick.forEach((e) => {
               event_timestamp: new Date().getTime(), // milliseconds
               custom_timestamp: timeStamp(), // ISO 8601
               event_type: 'content tool',
+              button_text: null,
+              tag_name: null,
               video_current_time: vct,
               video_duration: vduration,
               video_percent: milestone,
