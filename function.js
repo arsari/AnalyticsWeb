@@ -92,6 +92,7 @@ function timeStamp() {
  * @param u - user id
  */
 function errorEvent(e, m, l, u) {
+  alert(m);
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: `${e.id}_error`,
@@ -99,6 +100,7 @@ function errorEvent(e, m, l, u) {
     custom_timestamp: timeStamp(), // ISO 8601
     event_type: 'content tool',
     error_message: m,
+    alert_impression: true,
     // user properties
     logged_in: l,
     user_id: u,
@@ -109,6 +111,7 @@ function errorEvent(e, m, l, u) {
     custom_timestamp: timeStamp(), // ISO 8601
     event_type: 'content tool',
     error_message: m,
+    alert_impression: true,
     // user properties
     logged_in: l,
     user_id: u,
@@ -296,7 +299,6 @@ elemClick.forEach((e) => {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
             message = 'ERROR: PII not allowed in form input.';
-            alert(message);
             errorEvent(e, message, logged, ui);
             e.previousElementSibling.value = '';
             return;
@@ -305,7 +307,6 @@ elemClick.forEach((e) => {
           e.previousElementSibling.value = '';
         } else {
           message = "ERROR: Form input can't be blank.";
-          alert(message);
           errorEvent(e, message, logged, ui);
           return;
         }
@@ -451,7 +452,6 @@ elemClick.forEach((e) => {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
             message = 'ERROR: PII not allowed as search term.';
-            alert(message);
             errorEvent(e, message, logged, ui);
             e.previousElementSibling.value = '';
             return;
@@ -460,7 +460,6 @@ elemClick.forEach((e) => {
           e.previousElementSibling.value = '';
         } else {
           message = "ERROR: Search term can't be blank.";
-          alert(message);
           errorEvent(e, message, logged, ui);
           return;
         }
@@ -474,7 +473,8 @@ elemClick.forEach((e) => {
 
       if (e.id === 'login') {
         if (logged) {
-          alert("Oops! I'm sorry you already Sign In.");
+          message = "Oops! I'm sorry you already Sign In.";
+          errorEvent(e, message, logged, ui);
           return;
         }
         logged = true;
@@ -485,7 +485,8 @@ elemClick.forEach((e) => {
         if (logged) {
           logged = false;
         } else {
-          alert("Oops! I'm sorry you need to Sign In first.");
+          message = "Oops! I'm sorry you need to Sign In first.";
+          errorEvent(e, message, logged, ui);
           return;
         }
       }
