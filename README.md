@@ -20,13 +20,14 @@ The initial `dataLayer` array-object should be located inside the `<head>...</he
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: "initData",
-    content_type: "Playground",
-    content_group: "Implementation",
     author_email: "asantiago@arsari.com",
+    content_group: "Implementation",
+    content_type: "Playground",
     language_code: "en-US",
     page_author: "Arturo Santiago-Rivera",
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
+    // user properties
     logged_in: localStorage.logged,
     user_id: localStorage.UUID,
   });
@@ -40,13 +41,14 @@ The initial `utag_data` object variable should be located inside the `<body>...<
 <!-- utag_data object init -->
 <script type="text/javascript">
   const utag_data = {
-    content_type: "Playground",
-    content_group: "Implementation",
     author_email: "asantiago@arsari.com",
+    content_group: "Implementation",
+    content_type: "Playground",
     language_code: "en-US",
     page_author: "Arturo Santiago-Rivera",
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
+    // user properties
     logged_in: localStorage.logged,
     user_id: localStorage.UUID,
   };
@@ -81,7 +83,7 @@ The implementation consider the followings user interactions based on element cl
 | Sign Out                | logout              |                                                                                                |
 |                         | logout_error        | error_message, alert_impression                                                                |
 
-Ths following global parameters apply to all of the above **events**:
+Ths following global parameters apply to to the majority of the above **events**:
 
 | Global Parameters              |
 | ------------------------------ |
