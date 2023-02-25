@@ -99,6 +99,8 @@ function errorEvent(e, m, l, u) {
     event_timestamp: new Date().getTime(), // milliseconds
     custom_timestamp: timeStamp(), // ISO 8601
     event_type: 'content tool',
+    button_text: e.innerText,
+    tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
     // user properties
@@ -110,6 +112,8 @@ function errorEvent(e, m, l, u) {
     event_timestamp: new Date().getTime(), // milliseconds
     custom_timestamp: timeStamp(), // ISO 8601
     event_type: 'content tool',
+    button_text: e.innerText,
+    tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
     // user properties
@@ -152,7 +156,7 @@ elemClick.forEach((e) => {
       const itemPrice = Math.floor(Math.random() * 200 + 1);
       const itemQty = Math.floor(Math.random() * 30 + 1);
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
-      const total = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
+      const subtotal = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
 
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -176,9 +180,9 @@ elemClick.forEach((e) => {
           affiliation: 'Merchandise Store',
           coupon: 'SUMMER_SALE',
           currency: 'USD',
-          shipping: Number((total * 0.12).toFixed(2)),
-          tax: Number((total * 0.07).toFixed(2)),
-          value: total,
+          shipping: Number((subtotal * 0.12).toFixed(2)),
+          tax: Number((subtotal * 0.07).toFixed(2)),
+          value: subtotal,
           items: [
             {
               item_id: sku,
@@ -220,9 +224,9 @@ elemClick.forEach((e) => {
           affiliation: 'Merchandise Store',
           coupon: 'SUMMER_SALE',
           currency: 'USD',
-          shipping: Number((total * 0.12).toFixed(2)),
-          tax: Number((total * 0.07).toFixed(2)),
-          value: total,
+          shipping: Number((subtotal * 0.12).toFixed(2)),
+          tax: Number((subtotal * 0.07).toFixed(2)),
+          value: subtotal,
           items: [
             {
               item_id: sku,
