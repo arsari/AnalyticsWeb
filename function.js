@@ -135,17 +135,20 @@ document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
   </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
 
-/* Button element listeners starting */
-const elemClick = document.querySelectorAll('[name="action"]');
-const sModal = document.querySelector('.searchModal');
-const fModal = document.querySelector('.formModal');
-const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
+/**
+ * Element listeners start here
+ */
 let logged = false;
 let vplay = false;
 let vstop = true;
 let vprogress = 0;
 const vduration = 300;
 
+const sModal = document.querySelector('.searchModal');
+const fModal = document.querySelector('.formModal');
+const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
+
+const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
@@ -294,7 +297,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'form-modal') {
         en = 'form_start';
-        fd = 'form modal';
+        fd = 'form modal open';
         formModal();
       }
 
@@ -316,7 +319,7 @@ elemClick.forEach((e) => {
         }
         en = 'form_submit';
         cm = 'form filled';
-        fd = 'Customer Service';
+        fd = 'customer service';
         cc = 'USD';
         val = 100;
         formModal();
