@@ -93,11 +93,14 @@ function timeStamp() {
  */
 function errorEvent(e, m, l, u) {
   alert(m);
+  const tstamp = new Date().getTime();
+  const cstamp = timeStamp();
+
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: `${e.id}_error`,
-    event_timestamp: new Date().getTime(), // milliseconds
-    custom_timestamp: timeStamp(), // ISO 8601
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
     event_type: 'content tool',
     button_text: e.innerText,
     tag_name: e.tagName,
@@ -109,8 +112,8 @@ function errorEvent(e, m, l, u) {
   });
   utag.link({
     tealium_event: `${e.id}_error`,
-    event_timestamp: new Date().getTime(), // milliseconds
-    custom_timestamp: timeStamp(), // ISO 8601
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
     event_type: 'content tool',
     button_text: e.innerText,
     tag_name: e.tagName,
@@ -155,11 +158,14 @@ elemClick.forEach((e) => {
 
     if (e.id === 'purchase') {
       const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-      const sku = `SKU_${Math.floor(Math.random() * 10000)}`;
+      const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
+      const sku2 = `SKU_${Math.floor(Math.random() * 10000)}`;
       const itemPrice = Math.floor(Math.random() * 200 + 1);
       const itemQty = Math.floor(Math.random() * 30 + 1);
       const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
-      const subtotal = Number(((itemPrice - itemDiscount) * itemQty).toFixed(2));
+      const subtotal = Number(((itemPrice - itemDiscount) * itemQty * 2).toFixed(2));
+      const tstamp = new Date().getTime();
+      const cstamp = timeStamp();
 
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -173,8 +179,8 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: e.id,
         // event parameters
-        event_timestamp: new Date().getTime(), // milliseconds
-        custom_timestamp: timeStamp(), // ISO 8601
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         event_type: 'conversion',
         button_text: e.innerText,
         tag_name: e.tagName,
@@ -188,7 +194,7 @@ elemClick.forEach((e) => {
           value: subtotal,
           items: [
             {
-              item_id: sku,
+              item_id: sku1,
               item_name: 'Stan and Friends Tee',
               affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
@@ -208,6 +214,27 @@ elemClick.forEach((e) => {
               price: itemPrice,
               quantity: itemQty,
             },
+            {
+              item_id: sku2,
+              item_name: 'Friends Pants',
+              affiliation: 'Merchandise Store',
+              coupon: 'SUMMER_FUN',
+              currency: 'USD',
+              discount: itemDiscount,
+              index: 1,
+              item_brand: 'MyCollection',
+              item_category: 'Apparel',
+              item_category2: 'Adult',
+              item_category3: 'Pants',
+              item_category4: 'Crew',
+              item_category5: 'Regular Fit',
+              item_list_id: 'related_products',
+              item_list_name: 'Related Products',
+              item_variant: 'blue',
+              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+              price: itemPrice,
+              quantity: itemQty,
+            },
           ],
         },
         // user properties
@@ -217,8 +244,8 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: e.id,
         // event parameters
-        event_timestamp: new Date().getTime(), // milliseconds
-        custom_timestamp: timeStamp(), // ISO 8601
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         event_type: 'conversion',
         button_text: e.innerText,
         tag_name: e.tagName,
@@ -232,7 +259,7 @@ elemClick.forEach((e) => {
           value: subtotal,
           items: [
             {
-              item_id: sku,
+              item_id: sku1,
               item_name: 'Stan and Friends Tee',
               affiliation: 'Merchandise Store',
               coupon: 'SUMMER_FUN',
@@ -248,6 +275,27 @@ elemClick.forEach((e) => {
               item_list_id: 'related_products',
               item_list_name: 'Related Products',
               item_variant: 'green',
+              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+              price: itemPrice,
+              quantity: itemQty,
+            },
+            {
+              item_id: sku2,
+              item_name: 'Friends Pants',
+              affiliation: 'Merchandise Store',
+              coupon: 'SUMMER_FUN',
+              currency: 'USD',
+              discount: itemDiscount,
+              index: 1,
+              item_brand: 'MyCollection',
+              item_category: 'Apparel',
+              item_category2: 'Adult',
+              item_category3: 'Pants',
+              item_category4: 'Crew',
+              item_category5: 'Regular Fit',
+              item_list_id: 'related_products',
+              item_list_name: 'Related Products',
+              item_variant: 'blue',
               location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
               price: itemPrice,
               quantity: itemQty,
@@ -277,11 +325,11 @@ elemClick.forEach((e) => {
       let ld; // link domain
       let st; // search term
       let fd; // form destination
-      let fi; // form input
+      let up; // form input
       let message; // alert message
 
       if (e.id === 'email' || e.id === 'phone') {
-        en = 'generated_lead';
+        en = 'generate_lead';
         cc = 'USD';
       }
 
@@ -310,7 +358,7 @@ elemClick.forEach((e) => {
             e.previousElementSibling.value = '';
             return;
           }
-          fi = capitalize(verify);
+          up = capitalize(verify);
           e.previousElementSibling.value = '';
         } else {
           message = "ERROR: Form input can't be blank.";
@@ -388,13 +436,15 @@ elemClick.forEach((e) => {
 
         if (vplay) {
           vprogress += 1;
+          const tstamp = new Date().getTime();
+          const cstamp = timeStamp();
 
           const sendData = () => {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
-              event_timestamp: new Date().getTime(), // milliseconds
-              custom_timestamp: timeStamp(), // ISO 8601
+              event_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
               button_text: null,
               tag_name: null,
               event_type: 'content tool',
@@ -409,8 +459,8 @@ elemClick.forEach((e) => {
             });
             utag.link({
               tealium_event: en,
-              event_timestamp: new Date().getTime(), // milliseconds
-              custom_timestamp: timeStamp(), // ISO 8601
+              event_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
               event_type: 'content tool',
               button_text: null,
               tag_name: null,
@@ -502,16 +552,19 @@ elemClick.forEach((e) => {
         }
       }
 
+      const tstamp = new Date().getTime();
+      const cstamp = timeStamp();
+
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        event_timestamp: new Date().getTime(), // milliseconds
-        custom_timestamp: timeStamp(), // ISO 8601
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        event_type: en === 'generate_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -537,17 +590,17 @@ elemClick.forEach((e) => {
         // user properties
         logged_in: logged,
         user_id: ui,
-        user_profession: fi,
+        user_profession: up,
       });
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        event_timestamp: new Date().getTime(), // milliseconds
-        custom_timestamp: timeStamp(), // ISO 8601
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: en === 'generated_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        event_type: en === 'generate_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -573,7 +626,7 @@ elemClick.forEach((e) => {
         // user properties
         logged_in: logged,
         user_id: ui,
-        user_profession: fi,
+        user_profession: up,
       });
       displayJSON(logged);
     }
