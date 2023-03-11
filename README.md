@@ -4,18 +4,24 @@
 
 ### Table of Contents
 
+<!-- Start Document Outline -->
+
 - [AnalyticsWeb](#analyticsweb)
   - [Web Analytic Implementation Playground](#web-analytic-implementation-playground)
     - [Table of Contents](#table-of-contents)
     - [Introduction](#introduction)
-    - [General Events](#general-events)
-    - [Purchase Event](#purchase-event)
-    - [Video Events](#video-events)
-    - [Error Events](#error-events)
+    - [Tagging Implementation](#tagging-implementation)
+      - [General Events](#general-events)
+      - [Purchase Event](#purchase-event)
+      - [Video Events](#video-events)
+      - [Error Events](#error-events)
+    - [References](#references)
+
+<!-- End Document Outline -->
 
 ### Introduction
 
-Playground of analytic implementation for a web data stream that allows to explore the implementation of:
+A self playground of analytic implementation for a web data stream that allows to explore the implementation of:
 
 - dataLayer objects managed through GTM and analyzing the data in GA4,
 - utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
@@ -69,32 +75,34 @@ The initial `utag_data` object variable should be located inside the `<body>...<
 <!-- END: utag data object init -->
 ```
 
-The implementation consider the followings user interactions based on element click `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
+### Tagging Implementation
 
-| UI Interaction          | Event               | Parameters                                                                                     |
-| ----------------------- | ------------------- | ---------------------------------------------------------------------------------------------- |
-| Sign In                 | login               | method                                                                                         |
-| Sign In                 | login_error         | error_message, alert_impression                                                                |
-| Outbound Link           | outbound_link       | link_domain, link_classes, link_id, link_url, link_text, outbound                              |
-| Internal Link           | internal_link       | link_domain, link_classes, link_id, link_url, link_text                                        |
-| Download                | file_download       | file_name, file_extension, link_domain, link_classes, link_id, link_text                       |
-| Video                   | video_start         | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
-|                         | video_progress      | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
-|                         | video_complete      | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
-| Video playing           | video_stop          | video_current_time, video_title, video_provider, video_duration, video_status, video_percent   |
-| Email                   | generated_lead      | contact_method, currency, value                                                                |
-| Phone                   | generated_lead      | contact_method, currency, value                                                                |
-| Form                    | form_start          | form_destination, form_id, form_name                                                           |
-| \* _Submit Button_      | form_submit         | contact_method, form_destination, form_id, form_name, form_submit_text, value, user_profession |
-| \* _`X`_ (close form)   | form_modal_closed   | form_id, form_name                                                                             |
-| Form                    | form_error          | error_message, alert_impression                                                                |
-| Purchase                | purchase            | ecommerce.transaction_id, ecommerce.value, ecommerce.tax, ecommerce.shipping, ecommerce.items  |
-| Search                  | search_modal_opened |                                                                                                |
-| \* _Magnified Glass_    | search              | search_term                                                                                    |
-| \* _`X`_ (close search) | search_modal_closed |                                                                                                |
-| Search                  | search_error        | error_message, alert_impression                                                                |
-| Sign Out                | logout              |                                                                                                |
-| Sign Out                | logout_error        | error_message, alert_impression                                                                |
+The tagging implementation consider the followings user interactions and non-interactions (content tools) based on element click `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
+
+| UI Interaction          | Event               | Type             | Parameters                                                                                                 |
+| ----------------------- | ------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| Sign In                 | login               | user interaction | method                                                                                                     |
+| Sign In                 | login_error         | content tool     | error_message<br>alert_impression                                                                          |
+| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                |
+| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                            |
+| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                         |
+| Video                   | video_start         | user interaction | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
+|                         | video_progress      | content tool     | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
+|                         | video_complete      | content tool     | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
+| Video playing           | video_stop          | user interaction | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
+| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                        |
+| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                        |
+| Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                   |
+| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession |
+| \* _`X`_ (close form)   | form_modal_closed   | user interaction | form_id<br>form_name                                                                                       |
+| Form                    | form_error          | content tool     | error_message<br>alert_impression                                                                          |
+| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items      |
+| Search                  | search_modal_opened | user interaction |                                                                                                            |
+| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                |
+| \* _`X`_ (close search) | search_modal_closed | user interaction |                                                                                                            |
+| Search                  | search_error        | content tool     | error_message<br>alert_impression                                                                          |
+| Sign Out                | logout              | user interaction |                                                                                                            |
+| Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                          |
 
 Ths following global parameters apply to to the majority of the above **events**:
 
@@ -110,7 +118,7 @@ Ths following global parameters apply to to the majority of the above **events**
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
 
-The implementation of the `dataLayer` array-object and utag.link() data has been worked out using four main event objects:
+We classified the implementation of the `dataLayer` array-object and utag.link() data into the following:
 
 - A [General Events](#general-events) `dataLayer` array-object and `utag.link` data object;
 - A [Purchase Event](#purchase-event) `dataLayer` array-object and `utag.link` data object;
@@ -121,7 +129,7 @@ The `dataLayer` array-object for this four main event objects has been setup in 
 
 ![GTM Screenshot](230226-gtm_tags-screenshot.png)
 
-### General Events
+#### General Events
 
 The implemented _general events_ `dataLayer` array-object and `utag.link` data object is composed of:
 
@@ -130,14 +138,14 @@ window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en || e.id,
   // event parameters
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
   currency: cc,
   event_type:
-    en === "generated_lead" || en === "form_submit"
+    en === "generate_lead" || en === "form_submit"
       ? "conversion"
       : "ui interaction",
   file_extension: e.id === "download" ? "pdf" : undefined,
@@ -172,20 +180,20 @@ window.dataLayer.push({
   // user properties
   logged_in: logged,
   user_id: ui,
-  user_profession: fi,
+  user_profession: up,
 });
 
 utag.link({
   tealium_event: en || e.id,
   // event parameters
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
   currency: cc,
   event_type:
-    en === "generated_lead" || en === "form_submit"
+    en === "generate_lead" || en === "form_submit"
       ? "conversion"
       : "ui interaction",
   file_extension: e.id === "download" ? "pdf" : undefined,
@@ -220,11 +228,11 @@ utag.link({
   // user properties
   logged_in: logged,
   user_id: ui,
-  user_profession: fi,
+  user_profession: up,
 });
 ```
 
-### Purchase Event
+#### Purchase Event
 
 The implemented _purchase event_ `dataLayer` array-object and `utag.link` data object is composed of:
 
@@ -238,8 +246,8 @@ window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: e.id,
   // event parameters
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   event_type: "conversion",
   button_text: e.innerText,
   tag_name: e.tagName,
@@ -269,6 +277,27 @@ window.dataLayer.push({
         item_list_id: "related_products",
         item_list_name: "Related Products",
         item_variant: "green",
+        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+        price: itemPrice,
+        quantity: itemQty,
+      },
+      {
+        item_id: sku2,
+        item_name: "Friends Pants",
+        affiliation: "Merchandise Store",
+        coupon: "SUMMER_FUN",
+        currency: "USD",
+        discount: itemDiscount,
+        index: 1,
+        item_brand: "MyCollection",
+        item_category: "Apparel",
+        item_category2: "Adult",
+        item_category3: "Pants",
+        item_category4: "Crew",
+        item_category5: "Regular Fit",
+        item_list_id: "related_products",
+        item_list_name: "Related Products",
+        item_variant: "blue",
         location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
         price: itemPrice,
         quantity: itemQty,
@@ -287,8 +316,8 @@ utag.link({
 utag.link({
   tealium_event: e.id,
   // event parameters
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   event_type: "conversion",
   button_text: e.innerText,
   tag_name: e.tagName,
@@ -302,7 +331,7 @@ utag.link({
     value: total,
     items: [
       {
-        item_id: sku,
+        item_id: sku1,
         item_name: "Stan and Friends Tee",
         affiliation: "Merchandise Store",
         coupon: "SUMMER_FUN",
@@ -322,6 +351,27 @@ utag.link({
         price: itemPrice,
         quantity: itemQty,
       },
+      {
+        item_id: sku2,
+        item_name: "Friends Pants",
+        affiliation: "Merchandise Store",
+        coupon: "SUMMER_FUN",
+        currency: "USD",
+        discount: itemDiscount,
+        index: 1,
+        item_brand: "MyCollection",
+        item_category: "Apparel",
+        item_category2: "Adult",
+        item_category3: "Pants",
+        item_category4: "Crew",
+        item_category5: "Regular Fit",
+        item_list_id: "related_products",
+        item_list_name: "Related Products",
+        item_variant: "blue",
+        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+        price: itemPrice,
+        quantity: itemQty,
+      },
     ],
   },
   // user properties
@@ -330,20 +380,20 @@ utag.link({
 });
 ```
 
-### Video Events
+#### Video Events
 
 The _video events_ use the _general events_ `dataLayer` array-object and `utag.link` data object excluding the _video progress event_ which use a unique `dataLayer` array-object and `utag.link` data object.
 
 Using `setInterval()` function we implement the _video progress event_.
 
-The implemented _video progress event_ `datalayer` array-object and `utag.link` data object is composed of:
+The implemented _video progress event_ `dataLayer` array-object and `utag.link` data object is composed of:
 
 ```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en,
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   button_text: null,
   tag_name: null,
   event_type: "content tool",
@@ -359,8 +409,8 @@ window.dataLayer.push({
 
 utag.link({
   tealium_event: en,
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   button_text: null,
   tag_name: null,
   event_type: "content tool",
@@ -375,18 +425,18 @@ utag.link({
 });
 ```
 
-### Error Events
+#### Error Events
 
 The error events is a function that is called when errors occurs for Search event, Form event, Sing In event, and Sign Out event.
 
-The implemented _error events_ `datalayer` array-object and `utag.link` data object is composed of:
+The implemented _error events_ `dataLayer` array-object and `utag.link` data object is composed of:
 
 ```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: `${e.id}_error`,
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   event_type: "content tool",
   button_text: e.innerText,
   tag_name: e.tagName,
@@ -399,8 +449,8 @@ window.dataLayer.push({
 
 utag.link({
   tealium_event: `${e.id}_error`,
-  event_timestamp: new Date().getTime(), // milliseconds
-  custom_timestamp: timeStamp(), // ISO 8601
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   event_type: "content tool",
   button_text: e.innerText,
   tag_name: e.tagName,
@@ -411,6 +461,13 @@ utag.link({
   user_id: u,
 });
 ```
+
+### References
+
+- [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en)
+- [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer)
+- [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009)
+- [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html)
 
 =====
 
