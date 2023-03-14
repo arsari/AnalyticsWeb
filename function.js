@@ -1,4 +1,16 @@
 /**
+ * Web Analytics Implementation Playground
+ *
+ * Main function file with the source code of the different events and parameters
+ * that are being sent to Google Analytics and Tealium.
+ *
+ * @author:	Arturo Santiago-Rivera (asantiago@arsari.com)
+ * @license: MIT License
+ */
+
+// ================== //
+
+/**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
  * then it adds a preformatted block of JSON to the output
  * @param status - true/false - whether the user is logged in or not
@@ -27,14 +39,16 @@ function displayJSON(status) {
 }
 
 /**
- * When the search button or modal 'X' is clicked, the search modal is toggled
+ * The function searchModal() toggles the class 'show-modal' on the element with
+ * the id 'search-modal'
  */
 function searchModal() {
   sModal.classList.toggle('show-modal');
 }
 
 /**
- * When the search button or modal 'X' is clicked, the search modal is toggled
+ * The function formModal() toggles the class 'show-modal' on the element with the
+ * id 'form-modal'
  */
 function formModal() {
   fModal.classList.toggle('show-modal');
@@ -156,191 +170,195 @@ elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
 
+    let en; // event name
+    let cm; // contact method
+    let cc; // country currency
+    let val; // value
+    let vt; // video title
+    let vp; // video provider
+    let vct; // video current time
+    let vd; // video duration
+    let milestone; // video progress milestone
+    let vs; // video status
+    let vpct; // video percent
+    let lu; // link url
+    let lc; // link classes
+    let ol; // outbound link true/false
+    let ld; // link domain
+    let st; // search term
+    let fd; // form destination
+    let up; // form input
+    let message; // alert message
+
     if (e.id === 'purchase') {
-      const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-      const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
-      const sku2 = `SKU_${Math.floor(Math.random() * 10000)}`;
-      const itemPrice = Math.floor(Math.random() * 200 + 1);
-      const itemQty = Math.floor(Math.random() * 30 + 1);
-      const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
-      const subtotal = Number(((itemPrice - itemDiscount) * itemQty * 2).toFixed(2));
-      const tstamp = new Date().getTime();
-      const cstamp = timeStamp();
+      if (logged) {
+        const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
+        const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
+        const sku2 = `SKU_${Math.floor(Math.random() * 10000 + 1)}`;
+        const itemPrice = Math.floor(Math.random() * 200 + 1);
+        const itemQty = Math.floor(Math.random() * 30 + 1);
+        const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
+        const subtotal = Number(((itemPrice - itemDiscount) * itemQty * 2).toFixed(2));
+        const tstamp = new Date().getTime();
+        const cstamp = timeStamp();
 
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        ecommerce: null,
-      }); // Clear the previous ecommerce object
-      utag.link({
-        ecommerce: null,
-      }); // Clear the previous ecommerce object
-      displayJSON(logged);
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: e.id,
-        // event parameters
-        event_timestamp: tstamp, // milliseconds
-        custom_timestamp: cstamp, // ISO 8601
-        event_type: 'conversion',
-        button_text: e.innerText,
-        tag_name: e.tagName,
-        ecommerce: {
-          transaction_id: transactionID,
-          affiliation: 'Merchandise Store',
-          coupon: 'SUMMER_SALE',
-          currency: 'USD',
-          shipping: Number((subtotal * 0.12).toFixed(2)),
-          tax: Number((subtotal * 0.07).toFixed(2)),
-          value: subtotal,
-          items: [
-            {
-              item_id: sku1,
-              item_name: 'Stan and Friends Tee',
-              affiliation: 'Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: itemDiscount,
-              index: 0,
-              item_brand: 'MyCollection',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Shirts',
-              item_category4: 'Crew',
-              item_category5: 'Short sleeve',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'green',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: itemPrice,
-              quantity: itemQty,
-            },
-            {
-              item_id: sku2,
-              item_name: 'Friends Pants',
-              affiliation: 'Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: itemDiscount,
-              index: 1,
-              item_brand: 'MyCollection',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Pants',
-              item_category4: 'Crew',
-              item_category5: 'Regular Fit',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'blue',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: itemPrice,
-              quantity: itemQty,
-            },
-          ],
-        },
-        // user properties
-        logged_in: logged,
-        user_id: ui,
-      });
-      utag.link({
-        tealium_event: e.id,
-        // event parameters
-        event_timestamp: tstamp, // milliseconds
-        custom_timestamp: cstamp, // ISO 8601
-        event_type: 'conversion',
-        button_text: e.innerText,
-        tag_name: e.tagName,
-        ecommerce: {
-          transaction_id: transactionID,
-          affiliation: 'Merchandise Store',
-          coupon: 'SUMMER_SALE',
-          currency: 'USD',
-          shipping: Number((subtotal * 0.12).toFixed(2)),
-          tax: Number((subtotal * 0.07).toFixed(2)),
-          value: subtotal,
-          items: [
-            {
-              item_id: sku1,
-              item_name: 'Stan and Friends Tee',
-              affiliation: 'Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: itemDiscount,
-              index: 0,
-              item_brand: 'MyCollection',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Shirts',
-              item_category4: 'Crew',
-              item_category5: 'Short sleeve',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'green',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: itemPrice,
-              quantity: itemQty,
-            },
-            {
-              item_id: sku2,
-              item_name: 'Friends Pants',
-              affiliation: 'Merchandise Store',
-              coupon: 'SUMMER_FUN',
-              currency: 'USD',
-              discount: itemDiscount,
-              index: 1,
-              item_brand: 'MyCollection',
-              item_category: 'Apparel',
-              item_category2: 'Adult',
-              item_category3: 'Pants',
-              item_category4: 'Crew',
-              item_category5: 'Regular Fit',
-              item_list_id: 'related_products',
-              item_list_name: 'Related Products',
-              item_variant: 'blue',
-              location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-              price: itemPrice,
-              quantity: itemQty,
-            },
-          ],
-        },
-        // user properties
-        logged_in: logged,
-        user_id: ui,
-      });
-      displayJSON(logged);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          ecommerce: null,
+        }); // Clear the previous ecommerce object
+        utag.link({
+          ecommerce: null,
+        }); // Clear the previous ecommerce object
+        displayJSON(logged);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: e.id,
+          // event parameters
+          event_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+          event_type: 'conversion',
+          button_text: e.innerText,
+          tag_name: e.tagName,
+          ecommerce: {
+            transaction_id: transactionID,
+            affiliation: 'Merchandise Store',
+            coupon: 'SUMMER_SALE',
+            currency: 'USD',
+            shipping: Number((subtotal * 0.12).toFixed(2)),
+            tax: Number((subtotal * 0.07).toFixed(2)),
+            value: subtotal,
+            items: [
+              {
+                item_id: sku1,
+                item_name: 'Stan and Friends Tee',
+                affiliation: 'Merchandise Store',
+                coupon: 'SUMMER_FUN',
+                currency: 'USD',
+                discount: itemDiscount,
+                index: 0,
+                item_brand: 'MyCollection',
+                item_category: 'Apparel',
+                item_category2: 'Adult',
+                item_category3: 'Shirts',
+                item_category4: 'Crew',
+                item_category5: 'Short sleeve',
+                item_list_id: 'related_products',
+                item_list_name: 'Related Products',
+                item_variant: 'green',
+                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                price: itemPrice,
+                quantity: itemQty,
+              },
+              {
+                item_id: sku2,
+                item_name: 'Friends Pants',
+                affiliation: 'Merchandise Store',
+                coupon: 'SUMMER_FUN',
+                currency: 'USD',
+                discount: itemDiscount,
+                index: 1,
+                item_brand: 'MyCollection',
+                item_category: 'Apparel',
+                item_category2: 'Adult',
+                item_category3: 'Pants',
+                item_category4: 'Crew',
+                item_category5: 'Regular Fit',
+                item_list_id: 'related_products',
+                item_list_name: 'Related Products',
+                item_variant: 'blue',
+                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                price: itemPrice,
+                quantity: itemQty,
+              },
+            ],
+          },
+          // user properties
+          logged_in: logged,
+          user_id: ui,
+        });
+        utag.link({
+          tealium_event: e.id,
+          // event parameters
+          event_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+          event_type: 'conversion',
+          button_text: e.innerText,
+          tag_name: e.tagName,
+          ecommerce: {
+            transaction_id: transactionID,
+            affiliation: 'Merchandise Store',
+            coupon: 'SUMMER_SALE',
+            currency: 'USD',
+            shipping: Number((subtotal * 0.12).toFixed(2)),
+            tax: Number((subtotal * 0.07).toFixed(2)),
+            value: subtotal,
+            items: [
+              {
+                item_id: sku1,
+                item_name: 'Stan and Friends Tee',
+                affiliation: 'Merchandise Store',
+                coupon: 'SUMMER_FUN',
+                currency: 'USD',
+                discount: itemDiscount,
+                index: 0,
+                item_brand: 'MyCollection',
+                item_category: 'Apparel',
+                item_category2: 'Adult',
+                item_category3: 'Shirts',
+                item_category4: 'Crew',
+                item_category5: 'Short sleeve',
+                item_list_id: 'related_products',
+                item_list_name: 'Related Products',
+                item_variant: 'green',
+                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                price: itemPrice,
+                quantity: itemQty,
+              },
+              {
+                item_id: sku2,
+                item_name: 'Friends Pants',
+                affiliation: 'Merchandise Store',
+                coupon: 'SUMMER_FUN',
+                currency: 'USD',
+                discount: itemDiscount,
+                index: 1,
+                item_brand: 'MyCollection',
+                item_category: 'Apparel',
+                item_category2: 'Adult',
+                item_category3: 'Pants',
+                item_category4: 'Crew',
+                item_category5: 'Regular Fit',
+                item_list_id: 'related_products',
+                item_list_name: 'Related Products',
+                item_variant: 'blue',
+                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                price: itemPrice,
+                quantity: itemQty,
+              },
+            ],
+          },
+          // user properties
+          logged_in: logged,
+          user_id: ui,
+        });
+        displayJSON(logged);
+      } else {
+        message = 'ERROR: Please Sign In!';
+        errorEvent(e, message, logged, ui);
+        return;
+      }
     } else {
-      let en; // event name
-      let cm; // contact method
-      let cc; // country currency
-      let val; // value
-      let vt; // video title
-      let vp; // video provider
-      let vct; // video current time
-      let vd; // video duration
-      let milestone; // video progress milestone
-      let vs; // video status
-      let vpct; // video percent
-      let lu; // link url
-      let lc; // link classes
-      let ol; // outbound link true/false
-      let ld; // link domain
-      let st; // search term
-      let fd; // form destination
-      let up; // form input
-      let message; // alert message
-
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generate_lead';
         cc = 'USD';
-      }
 
-      if (e.id === 'email') {
-        cm = 'email';
-        val = 50;
-      }
-
-      if (e.id === 'phone') {
-        cm = 'phone';
-        val = 25;
+        if (e.id === 'email') {
+          cm = 'email';
+          val = 50;
+        } else {
+          cm = 'phone';
+          val = 25;
+        }
       }
 
       if (e.id === 'form-modal') {
@@ -379,17 +397,23 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'download') {
-        en = 'file_download';
-        ld = window.location.hostname;
-        lc = e.className;
+        if (logged) {
+          en = 'file_download';
+          ld = window.location.hostname;
+          lc = e.className;
+        } else {
+          message = 'ERROR: Please Sign In!';
+          errorEvent(e, message, logged, ui);
+          return;
+        }
       }
 
-      if (e.id === 'extlink') {
+      if (e.id === 'extlink' || e.id === 'banner') {
         en = 'outbound_link';
         lu = e.href;
         const domain = new URL(lu);
         ld = domain.hostname;
-        lc = e.className;
+        lc = e.className ? e.className : undefined;
         ol = true;
       }
 
@@ -436,8 +460,8 @@ elemClick.forEach((e) => {
 
         if (vplay) {
           vprogress += 1;
-          const tstamp = new Date().getTime();
-          const cstamp = timeStamp();
+          // const tstamp = new Date().getTime();
+          // const cstamp = timeStamp();
 
           const sendData = () => {
             window.dataLayer = window.dataLayer || [];
@@ -504,8 +528,14 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'search-modal') {
-        en = 'search_modal_opened';
-        searchModal();
+        if (logged) {
+          en = 'search_modal_opened';
+          searchModal();
+        } else {
+          message = 'ERROR: Please Sign In!';
+          errorEvent(e, message, logged, ui);
+          return;
+        }
       }
 
       if (e.id === 'search') {
@@ -628,6 +658,7 @@ elemClick.forEach((e) => {
         user_id: ui,
         user_profession: up,
       });
+
       displayJSON(logged);
     }
 

@@ -23,8 +23,8 @@
         page_name: 'Web Analytics Implementation - Home Page',
         page_title: document.querySelector('title').innerText,
         // user properties
-        logged_in: localStorage.logged,
-        user_id: localStorage.UUID,
+        logged_in: false,
+        user_id: 'guest',
       });
     </script>
     <!-- END: dataLayers init -->
@@ -124,7 +124,10 @@
           and
           Adobe Analytics (AA) through Tealium IQ and Adobe Launch.
         </h3>
-        <span class="bannergithub"><a href="https://github.com/arsari/AnalyticsWeb">GitHub</a></span>
+        <span class="bannergithub">
+          <a id="banner" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
+            target="_blank">GitHub</a>
+        </span>
       </div>
       <nav class="flex">
         <button id="login" name="action" class="button" type="button">
