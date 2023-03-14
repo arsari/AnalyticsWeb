@@ -15,6 +15,7 @@
       - [Purchase Event](#purchase-event)
       - [Video Events](#video-events)
       - [Error Events](#error-events)
+    - [GTM Setup](#gtm-setup)
     - [References](#references)
 
 <!-- End Document Outline -->
@@ -124,10 +125,6 @@ We classified the implementation of the `dataLayer` array-object and utag.link()
 - A [Purchase Event](#purchase-event) `dataLayer` array-object and `utag.link` data object;
 - A [Video Events](#video-events) `dataLayer` array-object and `utag.link` data object;
 - An [Error Events](#error-events) `dataLayer` array-object and `utag.link` data object.
-
-The `dataLayer` array-object for this four main event objects has been setup in GTM with individual tags and triggers after discovering that using a unique `dataLayer` array-object with multiple events was not working as expected.
-
-![GTM Screenshot](230226-gtm_tags-screenshot.png)
 
 #### General Events
 
@@ -461,6 +458,12 @@ utag.link({
   user_id: u,
 });
 ```
+
+### GTM Setup
+
+The `dataLayer` array-object for the four main event objects has been setup in GTM with individual tags and triggers.
+
+![GTM Screenshot](230226-gtm_tags-screenshot.png)
 
 ### References
 
