@@ -47,9 +47,10 @@ The initial `dataLayer` array-object should be located inside the `<head>...</he
     page_author: "Arturo Santiago-Rivera",
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
+    event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
-    logged_in: localStorage.logged,
-    user_id: localStorage.UUID,
+    logged_in: false,
+    user_id: localStorage.UUID ? localStorage.UUID : "guest",
   });
 </script>
 <!-- END: dataLayers init -->
@@ -68,9 +69,10 @@ The initial `utag_data` object variable should be located inside the `<body>...<
     page_author: "Arturo Santiago-Rivera",
     page_name: "Web Analytics Implementation - Home Page",
     page_title: document.querySelector("title").innerText,
+    event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
-    logged_in: localStorage.logged,
-    user_id: localStorage.UUID,
+    logged_in: false,
+    user_id: localStorage.UUID ? localStorage.UUID : "guest",
   };
 </script>
 <!-- END: utag data object init -->

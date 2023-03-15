@@ -107,7 +107,7 @@ function timeStamp() {
  */
 function errorEvent(e, m, l, u) {
   alert(m);
-  const tstamp = new Date().getTime();
+  const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
 
   window.dataLayer = window.dataLayer || [];
@@ -163,7 +163,7 @@ const vduration = 300;
 
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
-const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
+const UUID = localStorage.UUID ? localStorage.UUID : `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 
 const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
@@ -189,6 +189,8 @@ elemClick.forEach((e) => {
     let fd; // form destination
     let up; // form input
     let message; // alert message
+    let tstamp;
+    let cstamp;
 
     if (e.id === 'purchase') {
       if (logged) {
@@ -199,8 +201,8 @@ elemClick.forEach((e) => {
         const itemQty = Math.floor(Math.random() * 30 + 1);
         const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
         const subtotal = Number(((itemPrice - itemDiscount) * itemQty * 2).toFixed(2));
-        const tstamp = new Date().getTime();
-        const cstamp = timeStamp();
+        tstamp = String(new Date().getTime());
+        cstamp = timeStamp();
 
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -418,8 +420,6 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'intlink') {
-        localStorage.logged = logged;
-        localStorage.UUID = ui;
         en = 'internal_link';
         lu = e.href;
         const domain = new URL(lu);
@@ -428,28 +428,26 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'video') {
-        vt = 'Walk in The Clouds';
         vp = 'Any Video Player';
+        vt = 'Walk in The Clouds';
 
         if (vstop) {
           document.querySelector('#video .text').classList.add('playing');
           en = 'video_start';
           vplay = true;
           vs = 'Play';
-          vct = vprogress;
-          vd = vduration;
-          vpct = Number(((vprogress / vduration) * 100).toFixed(1));
           vstop = false;
         } else {
           document.querySelector('#video .text').classList.remove('playing');
           en = 'video_stop';
           vplay = false;
           vs = 'Stop';
-          vct = vprogress;
-          vd = vduration;
-          vpct = Number(((vprogress / vduration) * 100).toFixed(1));
           vstop = true;
         }
+
+        vct = String(vprogress);
+        vd = String(vduration);
+        vpct = String(Number(((vprogress / vduration) * 100).toFixed(1)));
       }
 
       // Video progress interval after video_start event
@@ -460,8 +458,8 @@ elemClick.forEach((e) => {
 
         if (vplay) {
           vprogress += 1;
-          // const tstamp = new Date().getTime();
-          // const cstamp = timeStamp();
+          tstamp = String(new Date().getTime());
+          cstamp = timeStamp();
 
           const sendData = () => {
             window.dataLayer = window.dataLayer || [];
@@ -469,12 +467,10 @@ elemClick.forEach((e) => {
               event: en,
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
-              button_text: null,
-              tag_name: null,
               event_type: 'content tool',
               video_current_time: vct,
-              video_duration: vduration,
-              video_percent: milestone,
+              video_duration: String(vduration),
+              video_percent: String(milestone),
               video_provider: vp,
               video_status: vs,
               video_title: vt,
@@ -486,11 +482,9 @@ elemClick.forEach((e) => {
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
               event_type: 'content tool',
-              button_text: null,
-              tag_name: null,
               video_current_time: vct,
-              video_duration: vduration,
-              video_percent: milestone,
+              video_duration: String(vduration),
+              video_percent: String(milestone),
               video_provider: vp,
               video_status: vs,
               video_title: vt,
@@ -504,7 +498,7 @@ elemClick.forEach((e) => {
 
           if ([10, 25, 50, 75, 90].includes(milestone)) {
             en = 'video_progress';
-            vct = vprogress;
+            vct = String(vprogress);
             vs = `Progress ${milestone}%`;
             sendData();
           }
@@ -512,7 +506,7 @@ elemClick.forEach((e) => {
           if (vprogress === vduration) {
             document.querySelector('#video .text').classList.remove('playing');
             en = 'video_complete';
-            vct = vprogress;
+            vct = String(vprogress);
             vs = 'Complete';
             vprogress = 0;
             vplay = false;
@@ -570,11 +564,14 @@ elemClick.forEach((e) => {
         }
         logged = true;
         ui = UUID;
+        localStorage.logged = logged;
+        localStorage.UUID = ui;
       }
 
       if (e.id === 'logout') {
         if (logged) {
           logged = false;
+          localStorage.logged = logged;
         } else {
           message = "ERROR: Oops! I'm sorry you need to Sign In first.";
           errorEvent(e, message, logged, ui);
@@ -582,8 +579,8 @@ elemClick.forEach((e) => {
         }
       }
 
-      const tstamp = new Date().getTime();
-      const cstamp = timeStamp();
+      tstamp = String(new Date().getTime());
+      cstamp = timeStamp();
 
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -594,7 +591,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: en === 'generate_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit/.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -603,9 +600,9 @@ elemClick.forEach((e) => {
         form_submit_text: e.id === 'form' ? e.innerText : undefined,
         link_domain: ld,
         link_classes: lc,
-        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
+        link_text: /extlink|intlink|download|banner/.test(e.id) ? e.innerText : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
@@ -618,9 +615,9 @@ elemClick.forEach((e) => {
         video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
         video_title: vt,
         // user properties
+        user_profession: up,
         logged_in: logged,
         user_id: ui,
-        user_profession: up,
       });
       utag.link({
         tealium_event: en || e.id,
@@ -630,7 +627,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: en === 'generate_lead' || en === 'form_submit' ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit/.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -639,9 +636,9 @@ elemClick.forEach((e) => {
         form_submit_text: e.id === 'form' ? e.innerText : undefined,
         link_domain: ld,
         link_classes: lc,
-        link_id: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.id : undefined,
+        link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: e.id === 'extlink' || e.id === 'intlink' || e.id === 'download' ? e.innerText : undefined,
+        link_text: /extlink|intlink|download|banner/.test(e.id) ? e.innerText : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
@@ -654,9 +651,9 @@ elemClick.forEach((e) => {
         video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
         video_title: vt,
         // user properties
+        user_profession: up,
         logged_in: logged,
         user_id: ui,
-        user_profession: up,
       });
 
       displayJSON(logged);
