@@ -173,14 +173,15 @@ elemClick.forEach((e) => {
     let en; // event name
     let cm; // contact method
     let cc; // country currency
-    let val; // value
-    let vt; // video title
-    let vp; // video provider
+    let ev; // event value
+    const vp = 'Any Video Player'; // video title
+    const vt = 'Walk in The Clouds'; // video provider
+    const vu = '/videos/phantom'; // video url
+    const vd = vduration; // video duration
     let vct; // video current time
-    let vd; // video duration
     let milestone; // video progress milestone
+    let vpct; // video progress percentage
     let vs; // video status
-    let vpct; // video percent
     let lu; // link url
     let lc; // link classes
     let ol; // outbound link true/false
@@ -189,8 +190,8 @@ elemClick.forEach((e) => {
     let fd; // form destination
     let up; // form input
     let message; // alert message
-    let tstamp;
-    let cstamp;
+    let tstamp; // event timestamp
+    let cstamp; // custom timestamp
 
     if (e.id === 'purchase') {
       if (logged) {
@@ -356,10 +357,10 @@ elemClick.forEach((e) => {
 
         if (e.id === 'email') {
           cm = 'email';
-          val = 50;
+          ev = 50;
         } else {
           cm = 'phone';
-          val = 25;
+          ev = 25;
         }
       }
 
@@ -389,7 +390,7 @@ elemClick.forEach((e) => {
         cm = 'form filled';
         fd = 'customer service';
         cc = 'USD';
-        val = 100;
+        ev = 100;
         formModal();
       }
 
@@ -428,32 +429,25 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'video') {
-        vp = 'Any Video Player';
-        vt = 'Walk in The Clouds';
-
         if (vstop) {
           document.querySelector('#video .text').classList.add('playing');
           en = 'video_start';
           vplay = true;
-          vs = 'Play';
           vstop = false;
+          vs = 'Play';
         } else {
           document.querySelector('#video .text').classList.remove('playing');
           en = 'video_stop';
           vplay = false;
-          vs = 'Stop';
           vstop = true;
+          vs = 'Stop';
         }
-
-        vct = String(vprogress);
-        vd = String(vduration);
-        vpct = String(Number(((vprogress / vduration) * 100).toFixed(1)));
+        vct = vprogress;
+        vpct = Number(((vprogress / vduration) * 100).toFixed(1));
       }
 
       // Video progress interval after video_start event
       const interval = setInterval(() => {
-        vp = 'Any Video Player';
-        vt = 'Walk in The Clouds';
         ui = logged ? UUID : 'guest';
 
         if (vplay) {
@@ -465,29 +459,31 @@ elemClick.forEach((e) => {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: en,
+              event_type: 'content tool',
+              video_duration: vd,
+              video_current_time: vct,
+              video_percent: vpct,
+              video_status: vs,
+              video_provider: vp,
+              video_title: vt,
+              video_url: vu,
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
-              event_type: 'content tool',
-              video_current_time: vct,
-              video_duration: String(vduration),
-              video_percent: String(milestone),
-              video_provider: vp,
-              video_status: vs,
-              video_title: vt,
               logged_in: logged,
               user_id: ui,
             });
             utag.link({
               tealium_event: en,
+              event_type: 'content tool',
+              video_duration: vd,
+              video_current_time: vct,
+              video_percent: vpct,
+              video_status: vs,
+              video_provider: vp,
+              video_title: vt,
+              video_url: vu,
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
-              event_type: 'content tool',
-              video_current_time: vct,
-              video_duration: String(vduration),
-              video_percent: String(milestone),
-              video_provider: vp,
-              video_status: vs,
-              video_title: vt,
               logged_in: logged,
               user_id: ui,
             });
@@ -498,7 +494,8 @@ elemClick.forEach((e) => {
 
           if ([10, 25, 50, 75, 90].includes(milestone)) {
             en = 'video_progress';
-            vct = String(vprogress);
+            vct = vprogress;
+            vpct = milestone;
             vs = `Progress ${milestone}%`;
             sendData();
           }
@@ -506,7 +503,8 @@ elemClick.forEach((e) => {
           if (vprogress === vduration) {
             document.querySelector('#video .text').classList.remove('playing');
             en = 'video_complete';
-            vct = String(vprogress);
+            vct = vprogress;
+            vpct = milestone;
             vs = 'Complete';
             vprogress = 0;
             vplay = false;
@@ -586,8 +584,6 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        event_timestamp: tstamp, // milliseconds
-        custom_timestamp: cstamp, // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -607,23 +603,24 @@ elemClick.forEach((e) => {
         outbound: ol,
         search_term: st,
         tag_name: e.tagName,
-        value: val,
-        video_current_time: vct,
+        value: ev,
         video_duration: vd,
+        video_current_time: vct,
         video_percent: vpct,
-        video_provider: vp,
         video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: vp,
         video_title: vt,
+        video_url: vu,
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         // user properties
-        user_profession: up,
         logged_in: logged,
         user_id: ui,
+        user_profession: up,
       });
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        event_timestamp: tstamp, // milliseconds
-        custom_timestamp: cstamp, // ISO 8601
         button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
         contact_method: cm,
         currency: cc,
@@ -643,17 +640,20 @@ elemClick.forEach((e) => {
         outbound: ol,
         search_term: st,
         tag_name: e.tagName,
-        value: val,
-        video_current_time: vct,
+        value: ev,
         video_duration: vd,
+        video_current_time: vct,
         video_percent: vpct,
-        video_provider: vp,
         video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: vp,
         video_title: vt,
+        video_url: vu,
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
         // user properties
-        user_profession: up,
         logged_in: logged,
         user_id: ui,
+        user_profession: up,
       });
 
       displayJSON(logged);

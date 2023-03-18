@@ -117,9 +117,12 @@
     <header>
       <div class="headings">
         <h1>
-          AnalyticsWeb
-          <img src="https://img.shields.io/github/last-commit/arsari/Analytics?style=flat-square&logo=github"
+          AnalyticsWeb | ARSARI
+          <img
+            src="https://img.shields.io/github/last-commit/arsari/AnalyticsWeb?color=orange&style=flat-square&logo=github"
             alt="GitHub Last Commit" title="Source Code Last Update" />
+          <img src="https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?logo=github&sort=semver&style=flat-square"
+            alt="GitHub tag (latest SemVer)" title="Source Code Current Version" />
         </h1>
         <h3>
           Playground to explore analytics implementation on a web data stream for Google Analytics 4 (GA4) through GTM
@@ -185,7 +188,7 @@
           <button id="search-close" name="action" class="close-x" title="Close Search Modal">X</button>
           <div class="wrap">
             <div class="searchBar">
-              <input type="text" class="searchInput" placeholder="Enter keyword or phrase">
+              <input type="text" class="searchInput" placeholder="Enter keyword or phrase not PII">
               <button id="search" name="action" class="searchButton" type="submit" title="Click to capture keyword">
                 <i class="fa fa-search"></i>
               </button>
@@ -198,7 +201,7 @@
           <button id="form-close" name="action" class="close-x" title="Close Form Modal">X</button>
           <div class="wrap">
             <input type="text" class="formInput" placeholder="Enter your profession">
-            <button id="form" name="action" class="button form-btn" type="submit">
+            <button id="form" name="action" class="button form-btn" type="submit" title="Submit Form">
               <span class="text">Let's Talk</span>
             </button>
           </div>

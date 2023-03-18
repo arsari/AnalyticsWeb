@@ -1,13 +1,15 @@
 # AnalyticsWeb
 
-## Web Analytic Implementation Playground
+## Web Analytics Implementation Playground
+
+[![AnalyticsMobile](https://img.shields.io/badge/counterpart_repo-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://www.github.com/arsari/AnalyticsMobile "Click Here!")&nbsp;&nbsp;&nbsp;[![Generic badge](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE)
 
 ### Table of Contents
 
 <!-- Start Document Outline -->
 
 - [AnalyticsWeb](#analyticsweb)
-  - [Web Analytic Implementation Playground](#web-analytic-implementation-playground)
+  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
     - [Table of Contents](#table-of-contents)
     - [Introduction](#introduction)
     - [Tagging Implementation](#tagging-implementation)
@@ -16,7 +18,7 @@
       - [Video Events](#video-events)
       - [Error Events](#error-events)
     - [GTM Setup](#gtm-setup)
-    - [References](#references)
+    - [Reference Documentation](#reference-documentation)
 
 <!-- End Document Outline -->
 
@@ -82,42 +84,43 @@ The initial `utag_data` object variable should be located inside the `<body>...<
 
 The tagging implementation consider the followings user interactions and non-interactions (content tools) based on element click `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
-| UI Interaction          | Event               | Type             | Parameters                                                                                                 |
-| ----------------------- | ------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------- |
-| Sign In                 | login               | user interaction | method                                                                                                     |
-| Sign In                 | login_error         | content tool     | error_message<br>alert_impression                                                                          |
-| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                |
-| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                            |
-| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                         |
-| Video                   | video_start         | user interaction | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
-|                         | video_progress      | content tool     | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
-|                         | video_complete      | content tool     | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
-| Video playing           | video_stop          | user interaction | video_current_time<br>video_title<br>video_provider<br>video_duration<br>video_status<br>video_percent     |
-| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                        |
-| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                        |
-| Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                   |
-| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession |
-| \* _`X`_ (close form)   | form_modal_closed   | user interaction | form_id<br>form_name                                                                                       |
-| Form                    | form_error          | content tool     | error_message<br>alert_impression                                                                          |
-| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items      |
-| Search                  | search_modal_opened | user interaction |                                                                                                            |
-| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                |
-| \* _`X`_ (close search) | search_modal_closed | user interaction |                                                                                                            |
-| Search                  | search_error        | content tool     | error_message<br>alert_impression                                                                          |
-| Sign Out                | logout              | user interaction |                                                                                                            |
-| Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                          |
+| UI Interaction          | Event               | Type             | Parameters                                                                                                          | GA4 Scope                                                   | GA4 Custom Definitions                                                                   |
+| ----------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Sign In                 | login               | user interaction | method                                                                                                              | Event                                                       | Predifined                                                                               |
+| Sign In                 | login_error         | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event<br>                                          | Dimension<br>Dimension                                                                   |
+| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
+| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                       |
+| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
+| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
+| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
+| Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                            | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                      |
+| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession          | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Dimension<br>Dimension<br>Dimension<br>Dimension<br>Dimension<br>Predifined<br>Dimension |
+| \* _`X`_ (close form)   | form_modal_closed   | user interaction | form_id<br>form_name                                                                                                | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
+| Form                    | form_error          | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
+| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items               | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                       |
+| Search                  | search_modal_opened | user interaction |                                                                                                                     |                                                             |
+| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                         | Event                                                       | Predifined                                                                               |
+| \* _`X`_ (close search) | search_modal_closed | user interaction |                                                                                                                     |                                                             |
+| Search                  | search_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
+| Sign Out                | logout              | user interaction |                                                                                                                     | Event                                                       | Dimension                                                                                |
+| Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
 
 Ths following global parameters apply to to the majority of the above **events**:
 
-| Global Parameters              |
-| ------------------------------ |
-| event_timestamp (milliseconds) |
-| custom_timestamp (ISO 8601)    |
-| button_text                    |
-| event_type                     |
-| tag_name                       |
-| logged_in (user property)      |
-| user_id (user property)        |
+| Global Parameters              | GA4 Scope | GA4 Custom Definitions |
+| ------------------------------ | --------- | ---------------------- |
+| event_type                     | Event     | Dimension              |
+| button_text                    | Event     | Dimension              |
+| tag_name                       | Event     | Dimension              |
+| event_timestamp (milliseconds) | Event     | Dimension              |
+| custom_timestamp (ISO 8601)    | Event     | Dimension              |
+| custom_user_id                 | User      | Dimension              |
+| logged_in (user property)      | User      | Dimension              |
+| user_id (user property)        | User      | Predifined             |
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
 
@@ -467,7 +470,7 @@ The `dataLayer` array-object for the four main event objects has been setup in G
 
 ![GTM Screenshot](230226-gtm_tags-screenshot.png)
 
-### References
+### Reference Documentation
 
 - [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en)
 - [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer)
@@ -476,4 +479,4 @@ The `dataLayer` array-object for the four main event objects has been setup in G
 
 =====
 
-Copyright 2022-2023 | Arturo Santiago-Rivera | [MIT License](LICENSE)
+Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE)

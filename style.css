@@ -303,6 +303,7 @@ footer {
   }
   .flex {
     flex-wrap: wrap;
+    margin: 15px 10px 0;
   }
   .button {
     margin: 0 auto 10px;
@@ -358,6 +359,7 @@ footer {
     display: block;
     top: 0;
     right: 0;
+    bottom: 10px;
     width: 100px;
     overflow: hidden;
     height: 100px;
@@ -369,11 +371,11 @@ footer {
     position: absolute;
     top: 15px;
     right: -55px;
-    transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -o-transform: rotate(45deg);
+    transform: rotate(45deg);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
   }
 }
