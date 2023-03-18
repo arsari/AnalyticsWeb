@@ -604,13 +604,13 @@ elemClick.forEach((e) => {
         search_term: st,
         tag_name: e.tagName,
         value: ev,
-        video_duration: vd,
+        video_duration: e.id === 'video' && (vplay === true || vstop === true) ? vd : undefined,
         video_current_time: vct,
         video_percent: vpct,
-        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
-        video_provider: vp,
-        video_title: vt,
-        video_url: vu,
+        video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
+        video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
+        video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
         event_timestamp: tstamp, // milliseconds
         custom_timestamp: cstamp, // ISO 8601
         // user properties
