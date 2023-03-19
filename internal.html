@@ -14,13 +14,13 @@
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'initData',
+        page_title: document.querySelector('title').innerText,
+        page_name: 'Web Analytics Implementation Playground - Internal Page',
+        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        page_author: 'Arturo Santiago-Rivera',
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_title: document.querySelector('title').innerText,
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: localStorage.logged ? localStorage.logged : false,
@@ -79,17 +79,18 @@
     <!-- utag dataLayers config -->
     <script type="text/javascript">
       const utag_data = {
+        page_title: document.querySelector('title').innerText,
+        page_name: 'Web Analytics Implementation Playground - Internal Page',
+        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        page_author: 'Arturo Santiago-Rivera',
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_title: document.querySelector('title').innerText,
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: localStorage.logged ? localStorage.logged : false,
         user_id: localStorage.UUID ? localStorage.UUID : 'guest',
+        custom_user_id: localStorage.UUID ? localStorage.UUID : 'guest',
       };
     </script>
     <!-- END: utag dataLayers config -->

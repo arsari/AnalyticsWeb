@@ -113,29 +113,30 @@ function errorEvent(e, m, l, u) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: `${e.id}_error`,
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
     event_type: 'content tool',
     button_text: e.innerText,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: l,
     user_id: u,
   });
   utag.link({
     tealium_event: `${e.id}_error`,
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
     event_type: 'content tool',
     button_text: e.innerText,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: l,
     user_id: u,
+    custom_user_id: ui,
   });
   displayJSON(l);
 }
@@ -180,7 +181,7 @@ elemClick.forEach((e) => {
     const vd = vduration; // video duration
     let vct; // video current time
     let milestone; // video progress milestone
-    let vpct; // video progress percentage
+    let vpct; // video progress percent
     let vs; // video status
     let lu; // link url
     let lc; // link classes
@@ -217,8 +218,6 @@ elemClick.forEach((e) => {
         window.dataLayer.push({
           event: e.id,
           // event parameters
-          event_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
           event_type: 'conversion',
           button_text: e.innerText,
           tag_name: e.tagName,
@@ -275,6 +274,8 @@ elemClick.forEach((e) => {
               },
             ],
           },
+          event_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
           // user properties
           logged_in: logged,
           user_id: ui,
@@ -282,8 +283,6 @@ elemClick.forEach((e) => {
         utag.link({
           tealium_event: e.id,
           // event parameters
-          event_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
           event_type: 'conversion',
           button_text: e.innerText,
           tag_name: e.tagName,
@@ -340,9 +339,12 @@ elemClick.forEach((e) => {
               },
             ],
           },
+          event_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
           // user properties
           logged_in: logged,
           user_id: ui,
+          custom_user_id: ui,
         });
         displayJSON(logged);
       } else {
@@ -443,7 +445,7 @@ elemClick.forEach((e) => {
           vs = 'Stop';
         }
         vct = vprogress;
-        vpct = Number(((vprogress / vduration) * 100).toFixed(1));
+        vpct = `${Number(((vprogress / vduration) * 100).toFixed(1))}%`;
       }
 
       // Video progress interval after video_start event
@@ -469,6 +471,7 @@ elemClick.forEach((e) => {
               video_url: vu,
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
+              // user properties
               logged_in: logged,
               user_id: ui,
             });
@@ -484,8 +487,10 @@ elemClick.forEach((e) => {
               video_url: vu,
               event_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
+              // user properties
               logged_in: logged,
               user_id: ui,
+              custom_user_id: ui,
             });
             displayJSON(logged);
           };
@@ -495,7 +500,7 @@ elemClick.forEach((e) => {
           if ([10, 25, 50, 75, 90].includes(milestone)) {
             en = 'video_progress';
             vct = vprogress;
-            vpct = milestone;
+            vpct = `${milestone}%`;
             vs = `Progress ${milestone}%`;
             sendData();
           }
@@ -504,7 +509,7 @@ elemClick.forEach((e) => {
             document.querySelector('#video .text').classList.remove('playing');
             en = 'video_complete';
             vct = vprogress;
-            vpct = milestone;
+            vpct = `${milestone}%`;
             vs = 'Complete';
             vprogress = 0;
             vplay = false;
@@ -571,7 +576,7 @@ elemClick.forEach((e) => {
           logged = false;
           localStorage.logged = logged;
         } else {
-          message = "ERROR: Oops! I'm sorry you need to Sign In first.";
+          message = "ERROR: Oops! I'm sorry you already Sign Out.";
           errorEvent(e, message, logged, ui);
           return;
         }
@@ -604,9 +609,9 @@ elemClick.forEach((e) => {
         search_term: st,
         tag_name: e.tagName,
         value: ev,
-        video_duration: e.id === 'video' && (vplay === true || vstop === true) ? vd : undefined,
-        video_current_time: vct,
-        video_percent: vpct,
+        video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
+        video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
+        video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
         video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
         video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
         video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
@@ -641,18 +646,19 @@ elemClick.forEach((e) => {
         search_term: st,
         tag_name: e.tagName,
         value: ev,
-        video_duration: vd,
-        video_current_time: vct,
-        video_percent: vpct,
-        video_status: e.id === 'video' && (vplay === true || vstop === true) ? vs : undefined,
-        video_provider: vp,
-        video_title: vt,
-        video_url: vu,
+        video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
+        video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
+        video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
+        video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
+        video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
+        video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
         event_timestamp: tstamp, // milliseconds
         custom_timestamp: cstamp, // ISO 8601
         // user properties
         logged_in: logged,
         user_id: ui,
+        custom_user_id: ui,
         user_profession: up,
       });
 

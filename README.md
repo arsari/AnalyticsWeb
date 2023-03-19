@@ -1,34 +1,41 @@
 # AnalyticsWeb
 
-## Web Analytics Implementation Playground
+[![AnalyticsWeb Releases|tags](https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?color=orange&logo=github&sort=semver&style=for-the-badge)](https://github.com/arsari/AnalyticsWeb/tags "Go to AnalyticsWeb Releases|Tags!")&nbsp;&nbsp;&nbsp;&nbsp;[![MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE "Click to see License")<br>[![AnalyticsMobile](https://img.shields.io/badge/counterpart_repo-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://www.github.com/arsari/AnalyticsMobile "Click Here to Visit Repo!")
 
-[![AnalyticsMobile](https://img.shields.io/badge/counterpart_repo-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://www.github.com/arsari/AnalyticsMobile "Click Here!")&nbsp;&nbsp;&nbsp;[![Generic badge](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE)
+## Web Analytics Implementation Playground
 
 ### Table of Contents
 
 <!-- Start Document Outline -->
 
-- [AnalyticsWeb](#analyticsweb)
-  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
-    - [Table of Contents](#table-of-contents)
-    - [Introduction](#introduction)
-    - [Tagging Implementation](#tagging-implementation)
-      - [General Events](#general-events)
-      - [Purchase Event](#purchase-event)
-      - [Video Events](#video-events)
-      - [Error Events](#error-events)
-    - [GTM Setup](#gtm-setup)
-    - [Reference Documentation](#reference-documentation)
+* [Introduction](#introduction)
+* [Tagging Implementation](#tagging-implementation)
+	* [General Events](#general-events)
+	* [Purchase Event](#purchase-event)
+	* [Video Events](#video-events)
+	* [Error Events](#error-events)
+* [GTM Setup](#gtm-setup)
+* [Reference Documentation](#reference-documentation)
 
 <!-- End Document Outline -->
 
 ### Introduction
 
-A self playground of analytic implementation for a web data stream that allows to explore the implementation of:
+Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a comprehensive and flexible approach to website and apps analytics. To implement GA4 and AA on our website, will need to follow these steps:
 
-- dataLayer objects managed through GTM and analyzing the data in GA4,
-- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
-- Setting of Adobe Launch rules to be analyzed in Adobe Analytics.
+* Create a GA4 property or AA datastream in our corresponding tool account.
+* Set up our GA4 and AA tracking code on our website.
+* Verify the GA4 and AA installation.
+* Configure our GA4 property reports and AA analysis warehouse dashboard settings.
+* Start tracking our website traffic.
+
+Overall, implementing GA4 and AA on our website involves creating a new property and data stream, adding the tracking code to our website, verifying our installation, configuring our analytics settings, and tracking our website traffic.
+
+This is self playground of analytic implementation on a website through GTM and a GA4 web data stream, as well through Tealium IQ and Adobe Analytics. The implementation allows to explore a:
+
+- dataLayer array-objects managed through GTM and analyzing the data in a GA4 web data stream,
+- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in an Adobe Analytics data stream.
+- Initial setup of Adobe Launch rules to see response in the browser console.
 
 ![Playground Screenshot](230224-playground_screenshot.png)
 
@@ -42,13 +49,13 @@ The initial `dataLayer` array-object should be located inside the `<head>...</he
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: "initData",
+    page_title: document.querySelector("title").innerText,
+    page_name: "Web Analytics Implementation - Home Page",
+    page_author: "Arturo Santiago-Rivera",
     author_email: "asantiago@arsari.com",
     content_group: "Implementation",
     content_type: "Playground",
     language_code: "en-US",
-    page_author: "Arturo Santiago-Rivera",
-    page_name: "Web Analytics Implementation - Home Page",
-    page_title: document.querySelector("title").innerText,
     event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
@@ -64,13 +71,13 @@ The initial `utag_data` object variable should be located inside the `<body>...<
 <!-- utag_data object init -->
 <script type="text/javascript">
   const utag_data = {
+    page_title: document.querySelector("title").innerText,
+    page_name: "Web Analytics Implementation - Home Page",
+    page_author: "Arturo Santiago-Rivera",
     author_email: "asantiago@arsari.com",
     content_group: "Implementation",
     content_type: "Playground",
     language_code: "en-US",
-    page_author: "Arturo Santiago-Rivera",
-    page_name: "Web Analytics Implementation - Home Page",
-    page_title: document.querySelector("title").innerText,
     event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
@@ -91,10 +98,10 @@ The tagging implementation consider the followings user interactions and non-int
 | Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
 | Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                       |
 | Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
-| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Metric<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
+| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
 | Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
 | Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
 | Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                            | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                      |
