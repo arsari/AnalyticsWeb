@@ -1,6 +1,6 @@
 # AnalyticsWeb
 
-[![AnalyticsWeb Releases|tags](https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?color=orange&logo=github&sort=semver&style=for-the-badge)](https://github.com/arsari/AnalyticsWeb/tags "Go to AnalyticsWeb Releases|Tags!")&nbsp;&nbsp;&nbsp;&nbsp;[![MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE "Click to see License")<br>[![AnalyticsMobile](https://img.shields.io/badge/counterpart_repo-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://www.github.com/arsari/AnalyticsMobile "Click Here to Visit Repo!")
+[![AnalyticsWeb Releases-Tags](https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?color=orange&logo=github&sort=semver&style=for-the-badge)](https://www.github.com/arsari/AnalyticsWeb/tags "Go to AnalyticsWeb Releases-Tags!")&nbsp;&nbsp;&nbsp;&nbsp;[![MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE "Click to see License")<br>[![AnalyticsMobile](https://img.shields.io/badge/counterpart-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://arsari.github.io/AnalyticsMobile "Click Here to Visit Repo Document!")
 
 ## Web Analytics Implementation Playground
 
@@ -8,14 +8,14 @@
 
 <!-- Start Document Outline -->
 
-* [Introduction](#introduction)
-* [Tagging Implementation](#tagging-implementation)
-	* [General Events](#general-events)
-	* [Purchase Event](#purchase-event)
-	* [Video Events](#video-events)
-	* [Error Events](#error-events)
-* [GTM Setup](#gtm-setup)
-* [Reference Documentation](#reference-documentation)
+- [Introduction](#introduction)
+- [Tagging Implementation](#tagging-implementation)
+  - [General Events](#general-events)
+  - [Purchase Event](#purchase-event)
+  - [Video Events](#video-events)
+  - [Error Events](#error-events)
+- [GTM Setup](#gtm-setup)
+- [Reference Documentation](#reference-documentation)
 
 <!-- End Document Outline -->
 
@@ -23,11 +23,11 @@
 
 Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a comprehensive and flexible approach to website and apps analytics. To implement GA4 and AA on our website, will need to follow these steps:
 
-* Create a GA4 property or AA datastream in our corresponding tool account.
-* Set up our GA4 and AA tracking code on our website.
-* Verify the GA4 and AA installation.
-* Configure our GA4 property reports and AA analysis warehouse dashboard settings.
-* Start tracking our website traffic.
+- Create a GA4 property or AA data stream in our corresponding tool account.
+- Set up our GA4 and AA tracking code on our website.
+- Verify the GA4 and AA installation.
+- Configure our GA4 property reports and AA analysis warehouse dashboard settings.
+- Start tracking our website traffic.
 
 Overall, implementing GA4 and AA on our website involves creating a new property and data stream, adding the tracking code to our website, verifying our installation, configuring our analytics settings, and tracking our website traffic.
 
@@ -37,7 +37,7 @@ This is self playground of analytic implementation on a website through GTM and 
 - utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in an Adobe Analytics data stream.
 - Initial setup of Adobe Launch rules to see response in the browser console.
 
-![Playground Screenshot](230224-playground_screenshot.png)
+![Playground Screenshot](img/playground_screenshot.png)
 
 The implementation add an initial `dataLayer` array-object and a `utag_data` object variable on each web page.
 
@@ -89,34 +89,34 @@ The initial `utag_data` object variable should be located inside the `<body>...<
 
 ### Tagging Implementation
 
-The tagging implementation consider the followings user interactions and non-interactions (content tools) based on element click `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
+The tagging implementation for events log consider the followings user actions (ui interactions), system events (content tools), and errors based on an element click attribute `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
-| UI Interaction          | Event               | Type             | Parameters                                                                                                          | GA4 Scope                                                   | GA4 Custom Definitions                                                                   |
+| User Action             | Event               | Type             | Parameters                                                                                                          | GA4 Scope                                                   | GA4 Custom Definitions                                                                   |
 | ----------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Sign In                 | login               | user interaction | method                                                                                                              | Event                                                       | Predifined                                                                               |
+| Sign In                 | login               | user interaction | method                                                                                                              | Event                                                       | Predefined                                                                               |
 | Sign In                 | login_error         | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event<br>                                          | Dimension<br>Dimension                                                                   |
-| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
-| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                       |
-| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined         |
-| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined        |
-| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
-| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predifined<br>Predifined                                                    |
+| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
+| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                       |
+| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
+| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
+| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
 | Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                            | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                      |
-| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession          | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Dimension<br>Dimension<br>Dimension<br>Dimension<br>Dimension<br>Predifined<br>Dimension |
+| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession          | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Dimension<br>Dimension<br>Dimension<br>Dimension<br>Dimension<br>Predefined<br>Dimension |
 | \* _`X`_ (close form)   | form_modal_closed   | user interaction | form_id<br>form_name                                                                                                | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
 | Form                    | form_error          | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
-| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items               | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                       |
+| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items               | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                       |
 | Search                  | search_modal_opened | user interaction |                                                                                                                     |                                                             |
-| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                         | Event                                                       | Predifined                                                                               |
+| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                         | Event                                                       | Predefined                                                                               |
 | \* _`X`_ (close search) | search_modal_closed | user interaction |                                                                                                                     |                                                             |
 | Search                  | search_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
 | Sign Out                | logout              | user interaction |                                                                                                                     | Event                                                       | Dimension                                                                                |
 | Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
 
-Ths following global parameters apply to to the majority of the above **events**:
+Thes following global parameters apply to to the majority of the above **events**:
 
 | Global Parameters              | GA4 Scope | GA4 Custom Definitions |
 | ------------------------------ | --------- | ---------------------- |
@@ -127,7 +127,7 @@ Ths following global parameters apply to to the majority of the above **events**
 | custom_timestamp (ISO 8601)    | Event     | Dimension              |
 | custom_user_id                 | User      | Dimension              |
 | logged_in (user property)      | User      | Dimension              |
-| user_id (user property)        | User      | Predifined             |
+| user_id (user property)        | User      | Predefined             |
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
 
@@ -475,7 +475,7 @@ utag.link({
 
 The `dataLayer` array-object for the four main event objects has been setup in GTM with individual tags and triggers.
 
-![GTM Screenshot](230226-gtm_tags-screenshot.png)
+![GTM Screenshot](img/gtm_tags-screenshot.png)
 
 ### Reference Documentation
 
