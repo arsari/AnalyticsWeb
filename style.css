@@ -21,7 +21,7 @@ header {
   padding: 0 30px 15px;
 }
 
-img {
+.github-badges {
   margin: auto 10px;
 }
 
@@ -298,7 +298,8 @@ footer {
 }
 
 @media screen and (min-width: 320px) and (max-width: 840px) {
-  img {
+  .github-badges {
+    display: inline-block;
     margin: auto 0;
   }
   .flex {
