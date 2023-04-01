@@ -124,6 +124,7 @@ function errorEvent(e, m, l, u) {
     logged_in: l,
     user_id: u,
   });
+
   utag.link({
     tealium_event: `${e.id}_error`,
     event_type: 'content tool',
@@ -136,7 +137,7 @@ function errorEvent(e, m, l, u) {
     // user properties
     logged_in: l,
     user_id: u,
-    custom_user_id: ui,
+    custom_user_id: u,
   });
   displayJSON(l);
 }
@@ -280,6 +281,7 @@ elemClick.forEach((e) => {
           logged_in: logged,
           user_id: ui,
         });
+
         utag.link({
           tealium_event: e.id,
           // event parameters
@@ -623,6 +625,7 @@ elemClick.forEach((e) => {
         user_id: ui,
         user_profession: up,
       });
+
       utag.link({
         tealium_event: en || e.id,
         // event parameters

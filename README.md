@@ -39,9 +39,9 @@ This is self playground of analytic implementation on a website through GTM and 
 
 ![Playground Screenshot](img/playground_screenshot.png)
 
-The implementation add an initial `dataLayer` array-object and a `utag_data` object variable on each web page.
+The implementation fires an initial `dataLayer` array-object and a `utag_data` object variable on each web page.
 
-The initial `dataLayer` array-object should be located inside the `<head>...</head>` tag of the web page before the GTM snippet.
+The `dataLayer` array-object should be located inside the `<head>...</head>` tag of the web page before the GTM snippet.
 
 ```html
 <!-- dataLayers init -->
@@ -62,13 +62,12 @@ The initial `dataLayer` array-object should be located inside the `<head>...</he
     user_id: localStorage.UUID ? localStorage.UUID : "guest",
   });
 </script>
-<!-- END: dataLayers init -->
 ```
 
-The initial `utag_data` object variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
+The `utag_data` object variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
 
 ```html
-<!-- utag_data object init -->
+<!-- utag data object init -->
 <script type="text/javascript">
   const utag_data = {
     page_title: document.querySelector("title").innerText,
@@ -82,6 +81,7 @@ The initial `utag_data` object variable should be located inside the `<body>...<
     // user properties
     logged_in: false,
     user_id: localStorage.UUID ? localStorage.UUID : "guest",
+    custom_user_id: localStorage.UUID ? localStorage.UUID : "guest",
   };
 </script>
 <!-- END: utag data object init -->
@@ -98,10 +98,10 @@ The tagging implementation for events log consider the followings user actions (
 | Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
 | Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                       |
 | Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
-| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric<br>Metric<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
+| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
 | Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
 | Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
 | Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                            | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                      |
@@ -116,7 +116,7 @@ The tagging implementation for events log consider the followings user actions (
 | Sign Out                | logout              | user interaction |                                                                                                                     | Event                                                       | Dimension                                                                                |
 | Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
 
-Thes following global parameters apply to to the majority of the above **events**:
+The following global parameters apply to most of the above **events**:
 
 | Global Parameters              | GA4 Scope | GA4 Custom Definitions |
 | ------------------------------ | --------- | ---------------------- |
@@ -125,7 +125,7 @@ Thes following global parameters apply to to the majority of the above **events*
 | tag_name                       | Event     | Dimension              |
 | event_timestamp (milliseconds) | Event     | Dimension              |
 | custom_timestamp (ISO 8601)    | Event     | Dimension              |
-| custom_user_id                 | User      | Dimension              |
+| custom_user_id (user Property) | User      | Dimension              |
 | logged_in (user property)      | User      | Dimension              |
 | user_id (user property)        | User      | Predefined             |
 
@@ -147,16 +147,13 @@ window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en || e.id,
   // event parameters
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
   currency: cc,
-  event_type:
-    en === "generate_lead" || en === "form_submit"
-      ? "conversion"
-      : "ui interaction",
+  event_type: /generate_lead|form_submit/.test(en)
+    ? "conversion"
+    : "ui interaction",
   file_extension: e.id === "download" ? "pdf" : undefined,
   file_name: e.id === "download" ? "PDF_to_Download" : undefined,
   form_destination: fd,
@@ -165,27 +162,46 @@ window.dataLayer.push({
   form_submit_text: e.id === "form" ? e.innerText : undefined,
   link_domain: ld,
   link_classes: lc,
-  link_id:
-    e.id === "extlink" || e.id === "intlink" || e.id === "download"
-      ? e.id
-      : undefined,
+  link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
   link_url: lu,
-  link_text:
-    e.id === "extlink" || e.id === "intlink" || e.id === "download"
-      ? e.innerText
-      : undefined,
+  link_text: /extlink|intlink|download|banner/.test(e.id)
+    ? e.innerText
+    : undefined,
   method: e.id === "login" ? "Google" : undefined,
   outbound: ol,
   search_term: st,
   tag_name: e.tagName,
-  value: val,
-  video_current_time: vct,
-  video_duration: vd,
-  video_percent: vpct,
-  video_provider: vp,
+  value: ev,
+  video_duration:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vd
+      : undefined,
+  video_current_time:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vct
+      : undefined,
+  video_percent:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vpct
+      : undefined,
   video_status:
-    e.id === "video" && (vplay === true || vstop === true) ? vs : undefined,
-  video_title: vt,
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vs
+      : undefined,
+  video_provider:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vp
+      : undefined,
+  video_title:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vt
+      : undefined,
+  video_url:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vu
+      : undefined,
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
   user_id: ui,
@@ -195,16 +211,13 @@ window.dataLayer.push({
 utag.link({
   tealium_event: en || e.id,
   // event parameters
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
   button_text:
     e.tagName === "BUTTON" && e.innerText !== "" ? e.innerText : undefined,
   contact_method: cm,
   currency: cc,
-  event_type:
-    en === "generate_lead" || en === "form_submit"
-      ? "conversion"
-      : "ui interaction",
+  event_type: /generate_lead|form_submit/.test(en)
+    ? "conversion"
+    : "ui interaction",
   file_extension: e.id === "download" ? "pdf" : undefined,
   file_name: e.id === "download" ? "PDF_to_Download" : undefined,
   form_destination: fd,
@@ -213,30 +226,50 @@ utag.link({
   form_submit_text: e.id === "form" ? e.innerText : undefined,
   link_domain: ld,
   link_classes: lc,
-  link_id:
-    e.id === "extlink" || e.id === "intlink" || e.id === "download"
-      ? e.id
-      : undefined,
+  link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
   link_url: lu,
-  link_text:
-    e.id === "extlink" || e.id === "intlink" || e.id === "download"
-      ? e.innerText
-      : undefined,
+  link_text: /extlink|intlink|download|banner/.test(e.id)
+    ? e.innerText
+    : undefined,
   method: e.id === "login" ? "Google" : undefined,
   outbound: ol,
   search_term: st,
   tag_name: e.tagName,
-  value: val,
-  video_current_time: vct,
-  video_duration: vd,
-  video_percent: vpct,
-  video_provider: vp,
+  value: ev,
+  video_duration:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vd
+      : undefined,
+  video_current_time:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vct
+      : undefined,
+  video_percent:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vpct
+      : undefined,
   video_status:
-    e.id === "video" && (vplay === true || vstop === true) ? vs : undefined,
-  video_title: vt,
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vs
+      : undefined,
+  video_provider:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vp
+      : undefined,
+  video_title:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vt
+      : undefined,
+  video_url:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vu
+      : undefined,
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
   user_id: ui,
+  custom_user_id: ui,
   user_profession: up,
 });
 ```
@@ -250,13 +283,10 @@ window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   ecommerce: null,
 }); // Clear the previous ecommerce object
-
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: e.id,
   // event parameters
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
   event_type: "conversion",
   button_text: e.innerText,
   tag_name: e.tagName,
@@ -265,79 +295,9 @@ window.dataLayer.push({
     affiliation: "Merchandise Store",
     coupon: "SUMMER_SALE",
     currency: "USD",
-    shipping: Number((total * 0.12).toFixed(2)),
-    tax: Number((total * 0.07).toFixed(2)),
-    value: total,
-    items: [
-      {
-        item_id: sku,
-        item_name: "Stan and Friends Tee",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 0,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Shirts",
-        item_category4: "Crew",
-        item_category5: "Short sleeve",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "green",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-      {
-        item_id: sku2,
-        item_name: "Friends Pants",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 1,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Pants",
-        item_category4: "Crew",
-        item_category5: "Regular Fit",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "blue",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-    ],
-  },
-  // user properties
-  logged_in: logged,
-  user_id: ui,
-});
-
-utag.link({
-  ecommerce: null,
-}); // Clear the previous ecommerce object
-
-utag.link({
-  tealium_event: e.id,
-  // event parameters
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
-  event_type: "conversion",
-  button_text: e.innerText,
-  tag_name: e.tagName,
-  ecommerce: {
-    transaction_id: transactionID,
-    affiliation: "Merchandise Store",
-    coupon: "SUMMER_SALE",
-    currency: "USD",
-    shipping: Number((total * 0.12).toFixed(2)),
-    tax: Number((total * 0.07).toFixed(2)),
-    value: total,
+    shipping: Number((subtotal * 0.12).toFixed(2)),
+    tax: Number((subtotal * 0.07).toFixed(2)),
+    value: subtotal,
     items: [
       {
         item_id: sku1,
@@ -383,9 +343,81 @@ utag.link({
       },
     ],
   },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
   user_id: ui,
+});
+
+utag.link({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+utag.link({
+  tealium_event: e.id,
+  // event parameters
+  event_type: "conversion",
+  button_text: e.innerText,
+  tag_name: e.tagName,
+  ecommerce: {
+    transaction_id: transactionID,
+    affiliation: "Merchandise Store",
+    coupon: "SUMMER_SALE",
+    currency: "USD",
+    shipping: Number((subtotal * 0.12).toFixed(2)),
+    tax: Number((subtotal * 0.07).toFixed(2)),
+    value: subtotal,
+    items: [
+      {
+        item_id: sku1,
+        item_name: "Stan and Friends Tee",
+        affiliation: "Merchandise Store",
+        coupon: "SUMMER_FUN",
+        currency: "USD",
+        discount: itemDiscount,
+        index: 0,
+        item_brand: "MyCollection",
+        item_category: "Apparel",
+        item_category2: "Adult",
+        item_category3: "Shirts",
+        item_category4: "Crew",
+        item_category5: "Short sleeve",
+        item_list_id: "related_products",
+        item_list_name: "Related Products",
+        item_variant: "green",
+        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+        price: itemPrice,
+        quantity: itemQty,
+      },
+      {
+        item_id: sku2,
+        item_name: "Friends Pants",
+        affiliation: "Merchandise Store",
+        coupon: "SUMMER_FUN",
+        currency: "USD",
+        discount: itemDiscount,
+        index: 1,
+        item_brand: "MyCollection",
+        item_category: "Apparel",
+        item_category2: "Adult",
+        item_category3: "Pants",
+        item_category4: "Crew",
+        item_category5: "Regular Fit",
+        item_list_id: "related_products",
+        item_list_name: "Related Products",
+        item_variant: "blue",
+        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+        price: itemPrice,
+        quantity: itemQty,
+      },
+    ],
+  },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
+  // user properties
+  logged_in: logged,
+  user_id: ui,
+  custom_user_id: ui,
 });
 ```
 
@@ -401,36 +433,37 @@ The implemented _video progress event_ `dataLayer` array-object and `utag.link` 
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en,
+  event_type: "content tool",
+  video_duration: vd,
+  video_current_time: vct,
+  video_percent: vpct,
+  video_status: vs,
+  video_provider: vp,
+  video_title: vt,
+  video_url: vu,
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
-  button_text: null,
-  tag_name: null,
-  event_type: "content tool",
-  video_current_time: vct,
-  video_duration: vduration,
-  video_percent: milestone,
-  video_provider: vp,
-  video_status: vs,
-  video_title: vt,
+  // user properties
   logged_in: logged,
   user_id: ui,
 });
 
 utag.link({
   tealium_event: en,
+  event_type: "content tool",
+  video_duration: vd,
+  video_current_time: vct,
+  video_percent: vpct,
+  video_status: vs,
+  video_provider: vp,
+  video_title: vt,
+  video_url: vu,
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
-  button_text: null,
-  tag_name: null,
-  event_type: "content tool",
-  video_current_time: vct,
-  video_duration: vduration,
-  video_percent: milestone,
-  video_provider: vp,
-  video_status: vs,
-  video_title: vt,
+  // user properties
   logged_in: logged,
   user_id: ui,
+  custom_user_id: ui,
 });
 ```
 
@@ -444,13 +477,13 @@ The implemented _error events_ `dataLayer` array-object and `utag.link` data obj
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: `${e.id}_error`,
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
   event_type: "content tool",
   button_text: e.innerText,
   tag_name: e.tagName,
   error_message: m,
   alert_impression: true,
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: l,
   user_id: u,
@@ -458,16 +491,17 @@ window.dataLayer.push({
 
 utag.link({
   tealium_event: `${e.id}_error`,
-  event_timestamp: tstamp, // milliseconds
-  custom_timestamp: cstamp, // ISO 8601
   event_type: "content tool",
   button_text: e.innerText,
   tag_name: e.tagName,
   error_message: m,
   alert_impression: true,
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: l,
   user_id: u,
+  custom_user_id: ui,
 });
 ```
 
