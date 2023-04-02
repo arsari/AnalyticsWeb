@@ -435,12 +435,14 @@ elemClick.forEach((e) => {
       if (e.id === 'video') {
         if (vstop) {
           document.querySelector('#video .text').classList.add('playing');
+          document.querySelector('#video').style = 'background-color: red;';
           en = 'video_start';
           vplay = true;
           vstop = false;
           vs = 'Play';
         } else {
           document.querySelector('#video .text').classList.remove('playing');
+          document.querySelector('#video').style = 'background-color: #4caf50;';
           en = 'video_stop';
           vplay = false;
           vstop = true;
@@ -509,6 +511,7 @@ elemClick.forEach((e) => {
 
           if (vprogress === vduration) {
             document.querySelector('#video .text').classList.remove('playing');
+            document.querySelector('#video').style = 'background-color: #4caf50;';
             en = 'video_complete';
             vct = vprogress;
             vpct = `${milestone}%`;
