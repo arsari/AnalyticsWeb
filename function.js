@@ -139,6 +139,7 @@ function errorEvent(e, m, l, u) {
     user_id: u,
     custom_user_id: u,
   });
+
   displayJSON(l);
 }
 
