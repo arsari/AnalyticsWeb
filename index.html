@@ -59,10 +59,10 @@
       let alaunchEnv;
       if (tealiumEnv !== 'prod') {
         alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js';
-        alaunchEnv = 'production';
+        alaunchEnv = 'development';
       } else {
         alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js';
-        alaunchEnv = 'development';
+        alaunchEnv = 'production';
       }
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -114,7 +114,6 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-
     <header>
       <div class="headings">
         <h1>
@@ -132,8 +131,8 @@
           and
           Adobe Analytics (AA) through Tealium IQ and Adobe Launch.
         </h3>
-        <span class="bannergithub">
-          <a id="banner" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
+        <span class="github-banner">
+          <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
             target="_blank">GitHub</a>
         </span>
       </div>
@@ -167,12 +166,16 @@
           <span class="text">Phone</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="form-modal" name="action" class="button" type="button">
-          <span class="text">Form</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
         <button id="purchase" name="action" class="button" type="button">
           <span class="text">Purchase</span>
+          <i class="fa-solid fa-check icon"></i>
+        </button>
+        <button id="ecommerce-modal" name="action" class="button" type="button">
+          <span class="text">Ecommerce</span>
+          <i class="fa-solid fa-check icon"></i>
+        </button>
+        <button id="form-modal" name="action" class="button" type="button">
+          <span class="text">Form</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
         <button id="search-modal" name="action" class="button" type="button">
@@ -187,11 +190,11 @@
     </header>
     <main>
       <section class="searchModal">
-        <div class="modal-content">
-          <button id="search-close" name="action" class="close-x" title="Close Search Modal">X</button>
-          <div class="wrap">
+        <div class="search-modal-content">
+          <button id="search-close" name="action" class="close-x" title="Close Search Modal">Close</button>
+          <div class="search-wrap">
             <div class="searchBar">
-              <input type="text" class="searchInput" placeholder="Enter keyword or phrase not PII">
+              <input type="text" class="searchInput" name="searchTerm" placeholder="Enter keyword or phrase not PII">
               <button id="search" name="action" class="searchButton" type="submit" title="Click to capture keyword">
                 <i class="fa fa-search"></i>
               </button>
@@ -200,13 +203,75 @@
         </div>
       </section>
       <section class="formModal">
-        <div class="modal-content">
-          <button id="form-close" name="action" class="close-x" title="Close Form Modal">X</button>
-          <div class="wrap">
-            <input type="text" class="formInput" placeholder="Enter your profession">
-            <button id="form" name="action" class="button form-btn" type="submit" title="Submit Form">
-              <span class="text">Let's Talk</span>
-            </button>
+        <div class="form-modal-content">
+          <button id="form-close" name="action" class="close-x" title="Close Form Modal">Close</button>
+          <div class="form-wrap">
+            <form>
+              <label for="fname">Full Name<span>*</span>:</label>
+              <input id="fname" type="text" class="formInput" placeholder="Enter your full name" required>
+              <label for="profession">Profession<span>*</span>:</label>
+              <input id="profession" type="text" class="formInput" placeholder="Enter your profession" required>
+              <button id="form" name="action" class="button form-btn" type="submit" title="Submit Form">
+                <span class="text">Let's Talk</span>
+              </button>
+            </form>
+          </div>
+          <div class="ty-message-wrap">
+            <p id="thank-you-message"></p>
+          </div>
+        </div>
+      </section>
+      <section class="ecommerceModal">
+        <div class="ecommerce-modal-content">
+          <button id="ecommerce-close" name="action" class="close-x" title="Close Ecommerce Modal">Close</button>
+          <div class="add-to-cart-wrap">
+            <div>
+              <h2>Select Product to Add to Cart</h2>
+              <table>
+                <caption>Merchandise Store</caption>
+                <tr>
+                  <th>Selection</th>
+                  <th>Brand</th>
+                  <th>Product Description</th>
+                  <th>Color</th>
+                  <th>Price Each</th>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" id="item-1" name="item-1" value="item-1" required></td>
+                  <td>MyCollection</td>
+                  <td>Stands and Friends Tee<br>Adult Shirt<br>Short Sleeve</td>
+                  <td>Green</td>
+                  <td>$29.95</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" id="item-2" name="item-2" value="item-2" required></td>
+                  <td>MyCollection</td>
+                  <td>Friends Pants<br>Adult Pants<br>Regular Fit</td>
+                  <td>Blue</td>
+                  <td>$39.95</td>
+                </tr>
+              </table>
+              <button id="add_to_cart" name="action" class="button ecommerce-btn" type="submit" title="View Cart">
+                <span class="text">View Cart</span>
+              </button>
+            </div>
+          </div>
+          <div class="view-cart-wrap">
+            <div>
+              <button id="checkout-s1" name="action" class="button ecommerce-btn" type="submit" title="Checkout">
+                <span class="text">Checkout</span>
+              </button>
+            </div>
+          </div>
+          <div class="purchase-wrap">
+            <div>
+              <button id="checkout-s3" name="action" class="button ecommerce-btn" type="submit" title="Purchase Order">
+                <span class="text">Purchase Order</span>
+              </button>
+            </div>
+          </div>
+          <div class="purchase-message-wrap">
+            <p id="purchase-message"></p>
           </div>
         </div>
       </section>

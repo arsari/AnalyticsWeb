@@ -39,6 +39,19 @@ function displayJSON(status) {
 }
 
 /**
+ * The function ecommerceModal() toggles the class 'show-modal' on the element with
+ * the id 'ecommerce-modal'
+ */
+function ecommerceModal() {
+  eModal.classList.toggle('show-modal');
+  document.querySelector('.add-to-cart-wrap').classList.remove('hide');
+  document.querySelector('.view-cart-wrap').classList.remove('show');
+  document.querySelector('#item-1').checked = false;
+  document.querySelector('#item-2').checked = false;
+  itemsSelection = [];
+}
+
+/**
  * The function searchModal() toggles the class 'show-modal' on the element with
  * the id 'search-modal'
  */
@@ -52,6 +65,10 @@ function searchModal() {
  */
 function formModal() {
   fModal.classList.toggle('show-modal');
+  document.querySelector('.ty-message-wrap').classList.remove('show');
+  document.querySelector('.form-wrap').classList.remove('hide');
+  document.getElementById('fname').value = '';
+  document.getElementById('profession').value = '';
 }
 
 /**
@@ -166,6 +183,8 @@ const vduration = 300;
 
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
+const eModal = document.querySelector('.ecommerceModal');
+let itemsSelection = [];
 const UUID = localStorage.UUID ? localStorage.UUID : `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 
 const elemClick = document.querySelectorAll('[name="action"]');
@@ -173,14 +192,15 @@ elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
 
-    let en; // event name
-    let cm; // contact method
-    let cc; // country currency
-    let ev; // event value
+    const bt = e.innerText; // button text
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
     const vu = '/videos/phantom'; // video url
     const vd = vduration; // video duration
+    let en; // event name
+    let cm; // contact method
+    let cc; // country currency
+    let ev; // event value
     let vct; // video current time
     let milestone; // video progress milestone
     let vpct; // video progress percent
@@ -191,12 +211,123 @@ elemClick.forEach((e) => {
     let ld; // link domain
     let st; // search term
     let fd; // form destination
-    let up; // form input
+    let fst; // form submission text
+    let up; // user profession
     let message; // alert message
     let tstamp; // event timestamp
     let cstamp; // custom timestamp
 
-    if (e.id === 'purchase') {
+    if (e.id === 'add_to_cart') {
+      const item1 = document.querySelector('#item-1');
+      const item2 = document.querySelector('#item-2');
+      let itemsValue = 0;
+      if (!item1.checked && !item2.checked) {
+        message = 'ERROR: Please Select a Product!';
+        errorEvent(e, message, logged, ui);
+        return;
+      }
+
+      if (item1.checked) {
+        const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
+        const prod1 = {
+          item_id: sku1,
+          item_name: 'Stan and Friends Tee',
+          affiliation: 'Merchandise Store',
+          currency: 'USD',
+          index: 0,
+          item_brand: 'MyCollection',
+          item_category: 'Apparel',
+          item_category2: 'Adult',
+          item_category3: 'Shirts',
+          item_category4: 'Crew',
+          item_category5: 'Short sleeve',
+          item_list_id: 'related_products',
+          item_list_name: 'Related Products',
+          item_variant: 'green',
+          location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+          price: 29.95,
+          quantity: 1,
+        };
+        itemsSelection.push(prod1);
+        itemsValue += prod1.price;
+      }
+
+      if (item2.checked) {
+        const sku2 = `SKU_${Math.floor(Math.random() * 10000)}`;
+        const prod2 = {
+          item_id: sku2,
+          item_name: 'Friends Pants',
+          affiliation: 'Merchandise Store',
+          currency: 'USD',
+          index: itemsSelection.length === 0 ? 0 : 1,
+          item_brand: 'MyCollection',
+          item_category: 'Apparel',
+          item_category2: 'Adult',
+          item_category3: 'Pants',
+          item_category4: 'Crew',
+          item_category5: 'Regular Fit',
+          item_list_id: 'related_products',
+          item_list_name: 'Related Products',
+          item_variant: 'blue',
+          location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+          price: 39.95,
+          quantity: 1,
+        };
+        itemsSelection.push(prod2);
+        itemsValue += prod2.price;
+      }
+
+      document.querySelector('.add-to-cart-wrap').classList.add('hide');
+      document.querySelector('.view-cart-wrap').classList.add('show');
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        ecommerce: null,
+      }); // Clear the previous ecommerce object
+      utag.link({
+        ecommerce: null,
+      }); // Clear the previous ecommerce object
+      displayJSON(logged);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: e.id,
+        // event parameters
+        event_type: 'ui interaction',
+        button_text: bt,
+        tag_name: e.tagName,
+        ecommerce: {
+          currency: 'USD',
+          value: itemsValue,
+          items: itemsSelection,
+        },
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
+        // user properties
+        logged_in: logged,
+        user_id: ui,
+      });
+
+      utag.link({
+        tealium_event: e.id,
+        // event parameters
+        event_type: 'ui interaction',
+        button_text: bt,
+        tag_name: e.tagName,
+        ecommerce: {
+          currency: 'USD',
+          value: itemsValue,
+          items: itemsSelection,
+        },
+        event_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
+        // user properties
+        logged_in: logged,
+        user_id: ui,
+        custom_user_id: ui,
+      });
+      displayJSON(logged);
+      ecommerceModal();
+    } else if (e.id === 'purchase') {
       if (logged) {
         const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
         const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
@@ -221,7 +352,7 @@ elemClick.forEach((e) => {
           event: e.id,
           // event parameters
           event_type: 'conversion',
-          button_text: e.innerText,
+          button_text: bt,
           tag_name: e.tagName,
           ecommerce: {
             transaction_id: transactionID,
@@ -287,7 +418,7 @@ elemClick.forEach((e) => {
           tealium_event: e.id,
           // event parameters
           event_type: 'conversion',
-          button_text: e.innerText,
+          button_text: bt,
           tag_name: e.tagName,
           ecommerce: {
             transaction_id: transactionID,
@@ -356,6 +487,22 @@ elemClick.forEach((e) => {
         return;
       }
     } else {
+      if (e.id === 'ecommerce-modal') {
+        if (logged) {
+          en = 'ecommerce_modal_opened';
+          ecommerceModal();
+        } else {
+          message = 'ERROR: Please Sign In!';
+          errorEvent(e, message, logged, ui);
+          return;
+        }
+      }
+
+      if (e.id === 'ecommerce-close') {
+        en = 'ecommerce_modal_closed';
+        ecommerceModal();
+      }
+
       if (e.id === 'email' || e.id === 'phone') {
         en = 'generate_lead';
         cc = 'USD';
@@ -376,27 +523,38 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'form') {
-        if (e.previousElementSibling.value.trim()) {
-          const verify = e.previousElementSibling.value.trim();
-          if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            message = 'ERROR: PII not allowed in form input.';
+        const userName = document.getElementById('fname').value;
+        const userProf = document.getElementById('profession').value;
+        if (userName.trim() && userProf.trim()) {
+          if (userName.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
+            message = 'ERROR: PII or special characters not allowed in Full Name input.';
             errorEvent(e, message, logged, ui);
-            e.previousElementSibling.value = '';
+            document.getElementById('fname').value = '';
             return;
           }
-          up = capitalize(verify);
-          e.previousElementSibling.value = '';
+          if (userProf.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
+            message = 'ERROR: PII or special characters not allowed in Profession input.';
+            errorEvent(e, message, logged, ui);
+            document.getElementById('profession').value = '';
+            return;
+          }
+          up = capitalize(userProf);
         } else {
-          message = "ERROR: Form input can't be blank.";
+          message = "ERROR: Form inputs can't be blank.";
           errorEvent(e, message, logged, ui);
           return;
         }
+
         en = 'form_submit';
         cm = 'form filled';
         fd = 'customer service';
+        fst = `Thank you for your submission, ${capitalize(userName)}! We will be in touch shortly.`;
         cc = 'USD';
-        ev = 100;
-        formModal();
+
+        document.querySelector('.form-wrap').classList.add('hide');
+        document.querySelector('.ty-message-wrap').classList.add('show');
+        document.querySelector('#thank-you-message').innerHTML = fst;
+        setTimeout(formModal, 5000);
       }
 
       if (e.id === 'form-close') {
@@ -416,7 +574,7 @@ elemClick.forEach((e) => {
         }
       }
 
-      if (e.id === 'extlink' || e.id === 'banner') {
+      if (e.id === 'extlink' || e.id === 'github') {
         en = 'outbound_link';
         lu = e.href;
         const domain = new URL(lu);
@@ -544,8 +702,8 @@ elemClick.forEach((e) => {
       if (e.id === 'search') {
         if (e.previousElementSibling.value.trim()) {
           const verify = e.previousElementSibling.value.trim();
-          if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+/gi)) {
-            message = 'ERROR: PII not allowed as search term.';
+          if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
+            message = 'ERROR: PII or special characters not allowed as Search Term.';
             errorEvent(e, message, logged, ui);
             e.previousElementSibling.value = '';
             return;
@@ -595,21 +753,21 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
+        button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit/.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit|ecommerce_start/.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
         form_id: e.id.includes('form') ? e.id : undefined,
         form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
-        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        form_submit_text: e.id === 'form' ? fst : undefined,
         link_domain: ld,
         link_classes: lc,
         link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: /extlink|intlink|download|banner/.test(e.id) ? e.innerText : undefined,
+        link_text: /extlink|intlink|download|banner/.test(e.id) ? bt : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
@@ -633,21 +791,21 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        button_text: e.tagName === 'BUTTON' && e.innerText !== '' ? e.innerText : undefined,
+        button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit/.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit|ecommerce_start/.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
         form_id: e.id.includes('form') ? e.id : undefined,
         form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
-        form_submit_text: e.id === 'form' ? e.innerText : undefined,
+        form_submit_text: e.id === 'form' ? fst : undefined,
         link_domain: ld,
         link_classes: lc,
         link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: /extlink|intlink|download|banner/.test(e.id) ? e.innerText : undefined,
+        link_text: /extlink|intlink|download|banner/.test(e.id) ? bt : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
@@ -676,6 +834,8 @@ elemClick.forEach((e) => {
       element.removeAttribute('disabled');
     });
 
-    e.setAttribute('disabled', '');
+    if (!e.id.match(/close/i)) {
+      e.setAttribute('disabled', '');
+    }
   });
 });
