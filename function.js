@@ -246,7 +246,7 @@ elemClick.forEach((e) => {
             en === 'ecommerce_modal_closed'
               ? undefined
               : {
-                  currency: 'USD',
+                  currency: en !== 'select_item' ? 'USD' : undefined,
                   item_list_id: en === 'select_item' ? 'related_products' : undefined,
                   item_list_name: en === 'select_item' ? 'Related products' : undefined,
                   value: en !== 'select_item' ? itemsValue : undefined,
@@ -258,6 +258,7 @@ elemClick.forEach((e) => {
           logged_in: logged,
           user_id: ui,
         });
+
         utag.link({
           tealium_event: en,
           // event parameters
@@ -265,7 +266,7 @@ elemClick.forEach((e) => {
           event_type: 'ui interaction',
           tag_name: tag,
           ecommerce: {
-            currency: 'USD',
+            currency: en !== 'select_item' ? 'USD' : undefined,
             item_list_id: en === 'select_item' ? 'related_products' : undefined,
             item_list_name: en === 'select_item' ? 'Related products' : undefined,
             value: en !== 'select_item' ? itemsValue : undefined,
@@ -282,7 +283,7 @@ elemClick.forEach((e) => {
       };
 
       if (e.id === 'item1') {
-        const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
+        const sku1 = `SKU_1-${Math.floor(Math.random() * 1000)}`;
         const prod1 = {
           item_id: sku1,
           item_name: 'Stan and Friends Tee',
@@ -302,7 +303,7 @@ elemClick.forEach((e) => {
           price: 29.95,
           quantity: 1,
         };
-        itemsSelection.push(prod1);
+        itemsSelected.push(prod1);
         selection.push(prod1);
         itemsValue = prod1.price;
         en = 'select_item';
@@ -312,7 +313,7 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'item2') {
-        const sku2 = `SKU_${Math.floor(Math.random() * 10000)}`;
+        const sku2 = `SKU_2-${Math.floor(Math.random() * 1000)}`;
         const prod2 = {
           item_id: sku2,
           item_name: 'Friends Pants',
@@ -376,8 +377,8 @@ elemClick.forEach((e) => {
     } else if (e.id === 'purchase') {
       if (logged) {
         const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-        const sku1 = `SKU_${Math.floor(Math.random() * 10000)}`;
-        const sku2 = `SKU_${Math.floor(Math.random() * 10000 + 1)}`;
+        const sku1 = `SKU_1-${Math.floor(Math.random() * 1000)}`;
+        const sku2 = `SKU_2-${Math.floor(Math.random() * 1000)}`;
         const itemPrice = Math.floor(Math.random() * 200 + 1);
         const itemQty = Math.floor(Math.random() * 30 + 1);
         const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
@@ -535,14 +536,139 @@ elemClick.forEach((e) => {
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
-          en = 'ecommerce_modal_opened';
+          en = 'view_item_list';
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            ecommerce: null,
+          }); // Clear the previous ecommerce object
+          utag.link({
+            ecommerce: null,
+          }); // Clear the previous ecommerce object
+          displayJSON(logged);
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: en,
+            // event parameters
+            button_text: `${bt} [modal open]`,
+            event_type: 'ui interaction',
+            tag_name: e.tagName,
+            ecommerce: {
+              item_list_id: 'related_products',
+              item_list_name: 'Related products',
+              items: [
+                {
+                  item_id: 'SKU_1-0000',
+                  item_name: 'Stan and Friends Tee',
+                  affiliation: 'Merchandise Store',
+                  currency: 'USD',
+                  index: 0,
+                  item_brand: 'MyCollection',
+                  item_category: 'Apparel',
+                  item_category2: 'Adult',
+                  item_category3: 'Shirts',
+                  item_category4: 'Crew',
+                  item_category5: 'Short sleeve',
+                  item_list_id: 'related_products',
+                  item_list_name: 'Related Products',
+                  item_variant: 'green',
+                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                  price: 29.95,
+                  quantity: 1,
+                },
+                {
+                  item_id: 'SKU_2-0000',
+                  item_name: 'Friends Pants',
+                  affiliation: 'Merchandise Store',
+                  currency: 'USD',
+                  index: 1,
+                  item_brand: 'MyCollection',
+                  item_category: 'Apparel',
+                  item_category2: 'Adult',
+                  item_category3: 'Pants',
+                  item_category4: 'Crew',
+                  item_category5: 'Regular Fit',
+                  item_list_id: 'related_products',
+                  item_list_name: 'Related Products',
+                  item_variant: 'blue',
+                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                  price: 39.95,
+                  quantity: 1,
+                },
+              ],
+            },
+            event_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: ui,
+          });
+
+          utag.link({
+            tealium_event: en,
+            // event parameters
+            button_text: `${bt} [modal open]`,
+            event_type: 'ui interaction',
+            tag_name: e.tagName,
+            ecommerce: {
+              item_list_id: 'related_products',
+              item_list_name: 'Related products',
+              items: [
+                {
+                  item_id: 'SKU_1-0000',
+                  item_name: 'Stan and Friends Tee',
+                  affiliation: 'Merchandise Store',
+                  currency: 'USD',
+                  index: 0,
+                  item_brand: 'MyCollection',
+                  item_category: 'Apparel',
+                  item_category2: 'Adult',
+                  item_category3: 'Shirts',
+                  item_category4: 'Crew',
+                  item_category5: 'Short sleeve',
+                  item_list_id: 'related_products',
+                  item_list_name: 'Related Products',
+                  item_variant: 'green',
+                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                  price: 29.95,
+                  quantity: 1,
+                },
+                {
+                  item_id: 'SKU_2-0000',
+                  item_name: 'Friends Pants',
+                  affiliation: 'Merchandise Store',
+                  currency: 'USD',
+                  index: 1,
+                  item_brand: 'MyCollection',
+                  item_category: 'Apparel',
+                  item_category2: 'Adult',
+                  item_category3: 'Pants',
+                  item_category4: 'Crew',
+                  item_category5: 'Regular Fit',
+                  item_list_id: 'related_products',
+                  item_list_name: 'Related Products',
+                  item_variant: 'blue',
+                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+                  price: 39.95,
+                  quantity: 1,
+                },
+              ],
+            },
+            event_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: ui,
+            custom_user_id: ui,
+          });
           storeEnable = true;
           ecommerceModal();
-        } else {
-          message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, logged, ui);
+          displayJSON(logged);
           return;
         }
+        message = 'ERROR: Please Sign In!';
+        errorEvent(e, message, logged, ui);
+        return;
       }
 
       if (e.id === 'email' || e.id === 'phone') {
