@@ -384,8 +384,9 @@ label > span {
 }
 
 .ecommerce-btn {
-  left: 75%;
+  left: 70%;
   margin: 30px;
+  width: 170px;
 }
 
 table {
