@@ -161,10 +161,8 @@ function errorEvent(e, m, l, u) {
   displayJSON(l);
 }
 
-/**
- * Section element set up by getting the height of the header and adding 25px to it, and then setting
- * the margin-top of the section to that value.
- */
+/* Section element set up by getting the height of the header and adding 25px to it, and then
+setting the margin-top of the section to that value. */
 const headerHeight = document.querySelector('header').offsetHeight;
 document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 
@@ -173,27 +171,33 @@ document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
   </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
 
-/**
- * Element listeners start here
- */
+/* Element listeners and global variables dependency start here */
 let logged = false;
+let storeEnable = false;
+let itemsSelected = [];
+let itemsValue = 0;
 let vplay = false;
 let vstop = true;
 let vprogress = 0;
 const vduration = 300;
-
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const eModal = document.querySelector('.ecommerceModal');
-let storeEnable = false;
-let itemsSelected = [];
-let itemsValue = 0;
+const sku = Math.floor(Math.random() * 1000);
+
+/* The follow code is checking if there is a value stored in the Universally Unique Identifier (UUID)
+key of the localStorage object. If there is a value, it assigns that value to the constant UUID. If
+there is no value, it generates a new UUID using the crypto.getRandomValues method and assigns it to
+the constant UUID. */
 const UUID = localStorage.UUID ? localStorage.UUID : `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 
 const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
+    const sku1 = `SKU_1-${sku}`;
+    const sku2 = `SKU_2-${sku + 5}`;
+
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
@@ -224,6 +228,7 @@ elemClick.forEach((e) => {
       tstamp = String(new Date().getTime());
       cstamp = timeStamp();
       let tag;
+      let et;
       let selection = [];
 
       const ecommerceSent = () => {
@@ -240,18 +245,18 @@ elemClick.forEach((e) => {
           event: en,
           // event parameters
           button_text: bt,
-          event_type: 'ui interaction',
+          event_type: et ?? 'ui interaction',
           tag_name: tag,
           ecommerce:
             en === 'ecommerce_modal_closed'
               ? undefined
               : {
-                  currency: en !== 'select_item' ? 'USD' : undefined,
-                  item_list_id: en === 'select_item' ? 'related_products' : undefined,
-                  item_list_name: en === 'select_item' ? 'Related products' : undefined,
-                  value: en !== 'select_item' ? itemsValue : undefined,
-                  items: en === 'select_item' ? selection : itemsSelected,
-                },
+                currency: en !== 'select_item' ? 'USD' : undefined,
+                item_list_id: en === 'select_item' ? 'related_products' : undefined,
+                item_list_name: en === 'select_item' ? 'Related products' : undefined,
+                value: en !== 'select_item' ? itemsValue : undefined,
+                items: en === 'select_item' ? selection : itemsSelected,
+              },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
           // user properties
@@ -263,7 +268,7 @@ elemClick.forEach((e) => {
           tealium_event: en,
           // event parameters
           button_text: bt,
-          event_type: 'ui interaction',
+          event_type: et ?? 'ui interaction',
           tag_name: tag,
           ecommerce: {
             currency: en !== 'select_item' ? 'USD' : undefined,
@@ -283,7 +288,6 @@ elemClick.forEach((e) => {
       };
 
       if (e.id === 'item1') {
-        const sku1 = `SKU_1-${Math.floor(Math.random() * 1000)}`;
         const prod1 = {
           item_id: sku1,
           item_name: 'Stan and Friends Tee',
@@ -313,7 +317,6 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'item2') {
-        const sku2 = `SKU_2-${Math.floor(Math.random() * 1000)}`;
         const prod2 = {
           item_id: sku2,
           item_name: 'Friends Pants',
@@ -353,16 +356,42 @@ elemClick.forEach((e) => {
           return;
         }
 
-        document.querySelector('.add-to-cart-wrap').classList.add('hide');
-        document.querySelector('.view-cart-wrap').classList.add('show');
-
         en = e.id;
         tag = e.tagName;
         for (let i = 0; i < itemsSelected.length; i++) {
           itemsValue += itemsSelected[i].price;
         }
         ecommerceSent();
+
+        document.querySelector('.add-to-cart-wrap').classList.add('hide');
+        document.querySelector('.view-cart-wrap').classList.add('show');
+
+        for (const element of itemsSelected) {
+          const row = document.createElement('tr');
+          const keys = [element["item_id"], element["item_name"], element["price"], element["quantity"], element["price"] * element["quantity"]];
+          for (const key in keys) {
+            const column = document.createElement('td');
+            if (/sku/i.test(keys[key])) {
+              column.appendChild(document.createTextNode(keys[key]));
+              column.insertAdjacentHTML('beforeend', '<a href="#" style="margin-left: 15px;">remove</a>');
+            } else {
+              column.appendChild(document.createTextNode(keys[key]))
+            }
+            row.appendChild(column);
+            document.querySelector('#itemsRows').appendChild(row);
+          }
+        }
+        document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+
+        en = 'view_cart';
+        et = 'content tool';
+        tag = e.tagName;
+        ecommerceSent();
+      }
+
+      if (e.id === 'begin_checkout') {
         ecommerceModal();
+        document.querySelector('#itemsRows').innerHTML = '';
         storeEnable = false;
         selection = [];
       }
@@ -377,8 +406,6 @@ elemClick.forEach((e) => {
     } else if (e.id === 'purchase') {
       if (logged) {
         const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-        const sku1 = `SKU_1-${Math.floor(Math.random() * 1000)}`;
-        const sku2 = `SKU_2-${Math.floor(Math.random() * 1000)}`;
         const itemPrice = Math.floor(Math.random() * 200 + 1);
         const itemQty = Math.floor(Math.random() * 30 + 1);
         const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
@@ -536,6 +563,10 @@ elemClick.forEach((e) => {
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
+          if (document.querySelector('#item1').nextElementSibling) { document.querySelector('#item1').nextElementSibling.remove() };
+          document.querySelector('#item1').insertAdjacentHTML('afterend', `<span>${sku1}</span>`);
+          if (document.querySelector('#item2').nextElementSibling) { document.querySelector('#item2').nextElementSibling.remove() };
+          document.querySelector('#item2').insertAdjacentHTML('afterend', `<span>${sku2}</span>`);
           en = 'view_item_list';
 
           window.dataLayer = window.dataLayer || [];
@@ -558,7 +589,7 @@ elemClick.forEach((e) => {
               item_list_name: 'Related products',
               items: [
                 {
-                  item_id: 'SKU_1-0000',
+                  item_id: sku1,
                   item_name: 'Stan and Friends Tee',
                   affiliation: 'Merchandise Store',
                   currency: 'USD',
@@ -577,7 +608,7 @@ elemClick.forEach((e) => {
                   quantity: 1,
                 },
                 {
-                  item_id: 'SKU_2-0000',
+                  item_id: sku2,
                   item_name: 'Friends Pants',
                   affiliation: 'Merchandise Store',
                   currency: 'USD',

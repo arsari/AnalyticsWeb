@@ -292,6 +292,13 @@ label > span {
   display: block;
 }
 
+.checkout1-wrap {
+  display: none;
+}
+
+.checkout1-wrap.show {
+  display: block;
+}
 .purchase-wrap {
   display: none;
 }
@@ -384,9 +391,9 @@ label > span {
 }
 
 .ecommerce-btn {
-  left: 70%;
+  left: 65%;
   margin: 30px;
-  width: 170px;
+  width: 15rem;
 }
 
 table {
@@ -405,10 +412,6 @@ th {
   border: 1px solid #9d2b2b;
   text-align: left;
   padding: 8px;
-}
-
-tr:nth-child(odd) {
-  background-color: #f5efef;
 }
 
 caption {
