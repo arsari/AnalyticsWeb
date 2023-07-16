@@ -229,27 +229,31 @@
               <h2>Select Product for Add to Cart</h2>
               <table>
                 <caption>Merchandise Store</caption>
-                <tr>
-                  <th>Selection</th>
-                  <th>Brand</th>
-                  <th>Product Description</th>
-                  <th>Color</th>
-                  <th>Price</th>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" id="item1" name="action" value="Item 1"></td>
-                  <td>MyCollection</td>
-                  <td>Stands and Friends Tee<br>Adult Shirt<br>Short Sleeve</td>
-                  <td>Green</td>
-                  <td>$29.95</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" id="item2" name="action" value="Item 2"></td>
-                  <td>MyCollection</td>
-                  <td>Friends Pants<br>Adult Pants<br>Regular Fit</td>
-                  <td>Blue</td>
-                  <td>$39.95</td>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>Product ID</th>
+                    <th>Brand</th>
+                    <th>Product Description</th>
+                    <th>Color</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" id="item1" name="action" value="Item 1"></td>
+                    <td>MyCollection</td>
+                    <td>Stands and Friends Tee<br>Adult Shirt<br>Short Sleeve</td>
+                    <td>Green</td>
+                    <td>$29.95</td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" id="item2" name="action" value="Item 2"></td>
+                    <td>MyCollection</td>
+                    <td>Friends Pants<br>Adult Pants<br>Regular Fit</td>
+                    <td>Blue</td>
+                    <td>$39.95</td>
+                  </tr>
+                </tbody>
               </table>
               <button id="add_to_cart" type="submit" name="action" class="button ecommerce-btn" title="Add to Cart">
                 <span class="text">Add to Cart</span>
@@ -263,7 +267,7 @@
                 <caption>Merchandise Store</caption>
                 <thead>
                   <tr>
-                    <th>Brand</th>
+                    <th>Product ID</thcolspan>
                     <th>Product Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -273,8 +277,8 @@
                 <tbody id="itemsRows"></tbody>
                 <tfoot>
                   <tr>
-                    <th colspan="4" style="text-align: right">Subtotal</th>
-                    <th id="subtotal" style="text-align: right;"></th>
+                    <th colspan="4" style="text-align:right">Subtotal</th>
+                    <th id="subtotal" style="text-align:right;"></th>
                   </tr>
                 </tfoot>
               </table>

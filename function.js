@@ -10,6 +10,16 @@
 
 // ================== //
 
+/* Section element set up by getting the height of the header and adding 25px to it, and then
+setting the margin-top of the section to that value. */
+const headerHeight = document.querySelector('header').offsetHeight;
+document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
+
+/* Footer labeling set up */
+document.querySelector('footer').innerHTML = `<span class="env">Env->[
+  <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
+  </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
+
 /**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
  * then it adds a preformatted block of JSON to the output
@@ -46,6 +56,8 @@ function ecommerceModal() {
   eModal.classList.toggle('show-modal');
   document.querySelector('.add-to-cart-wrap').classList.remove('hide');
   document.querySelector('.view-cart-wrap').classList.remove('show');
+  document.querySelector('#begin_checkout').classList.remove('inactive');
+  document.querySelector('#itemsRows').innerHTML = '';
   document.querySelector('#item1').checked = false;
   document.querySelector('#item2').checked = false;
   itemsSelected = [];
@@ -161,15 +173,73 @@ function errorEvent(e, m, l, u) {
   displayJSON(l);
 }
 
-/* Section element set up by getting the height of the header and adding 25px to it, and then
-setting the margin-top of the section to that value. */
-const headerHeight = document.querySelector('header').offsetHeight;
-document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
+function removeItem(i, l, ui) {
+  const tstamp = String(new Date().getTime());
+  const cstamp = timeStamp();
+  const el = document.querySelector(`#removeItem${i}`);
 
-/* Footer labeling set up */
-document.querySelector('footer').innerHTML = `<span class="env">Env->[
-  <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
-  </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best view in Desktop</span>`;
+  const b = itemsSelected.length < 2 ? 0 : i;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  utag.link({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  displayJSON(logged);
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'remove_from_cart',
+    // event parameters
+    button_text: el.innerText,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    ecommerce: {
+      currency: 'USD',
+      value: itemsSelected[b].price,
+      items: itemsSelected[b],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+  });
+
+  utag.link({
+    tealium_event: 'remove_from_cart',
+    // event parameters
+    button_text: el.innerText,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    ecommerce: {
+      currency: 'USD',
+      value: itemsSelected[b].price,
+      items: itemsSelected[b],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+    custom_user_id: ui,
+  });
+  displayJSON(l);
+
+  document.querySelector('#itemsRows').removeChild(document.querySelector(`#removeItem${i}`).parentNode.parentNode);
+  itemsValue -= itemsSelected[b].price;
+  document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+  itemsSelected.splice(b, 1);
+  if (itemsSelected.length === 0) {
+    document.querySelector('#itemsRows').innerHTML =
+      '<tr><td class="empty-cart" colspan="5">Shopping Cart is Empty</td></tr>';
+    document.querySelector('#begin_checkout').classList.add('inactive');
+  }
+  alert('Product removed from Shopping Cart');
+  console.log('items: ', itemsSelected);
+}
 
 /* Element listeners and global variables dependency start here */
 let logged = false;
@@ -197,7 +267,6 @@ elemClick.forEach((e) => {
     let ui = logged ? UUID : 'guest';
     const sku1 = `SKU_1-${sku}`;
     const sku2 = `SKU_2-${sku + 5}`;
-
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
@@ -249,14 +318,14 @@ elemClick.forEach((e) => {
           tag_name: tag,
           ecommerce:
             en === 'ecommerce_modal_closed'
-              ? undefined
+              ? null
               : {
-                currency: en !== 'select_item' ? 'USD' : undefined,
-                item_list_id: en === 'select_item' ? 'related_products' : undefined,
-                item_list_name: en === 'select_item' ? 'Related products' : undefined,
-                value: en !== 'select_item' ? itemsValue : undefined,
-                items: en === 'select_item' ? selection : itemsSelected,
-              },
+                  currency: en !== 'select_item' ? 'USD' : undefined,
+                  item_list_id: en === 'select_item' ? 'related_products' : undefined,
+                  item_list_name: en === 'select_item' ? 'Related products' : undefined,
+                  value: en !== 'select_item' ? itemsValue : undefined,
+                  items: en === 'select_item' ? selection : itemsSelected,
+                },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
           // user properties
@@ -270,13 +339,16 @@ elemClick.forEach((e) => {
           button_text: bt,
           event_type: et ?? 'ui interaction',
           tag_name: tag,
-          ecommerce: {
-            currency: en !== 'select_item' ? 'USD' : undefined,
-            item_list_id: en === 'select_item' ? 'related_products' : undefined,
-            item_list_name: en === 'select_item' ? 'Related products' : undefined,
-            value: en !== 'select_item' ? itemsValue : undefined,
-            items: en === 'select_item' ? selection : itemsSelected,
-          },
+          ecommerce:
+            en === 'ecommerce_modal_closed'
+              ? null
+              : {
+                  currency: en !== 'select_item' ? 'USD' : undefined,
+                  item_list_id: en === 'select_item' ? 'related_products' : undefined,
+                  item_list_name: en === 'select_item' ? 'Related products' : undefined,
+                  value: en !== 'select_item' ? itemsValue : undefined,
+                  items: en === 'select_item' ? selection : itemsSelected,
+                },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
           // user properties
@@ -363,19 +435,29 @@ elemClick.forEach((e) => {
         }
         ecommerceSent();
 
+        /* view_cart event */
         document.querySelector('.add-to-cart-wrap').classList.add('hide');
         document.querySelector('.view-cart-wrap').classList.add('show');
 
         for (const element of itemsSelected) {
           const row = document.createElement('tr');
-          const keys = [element["item_id"], element["item_name"], element["price"], element["quantity"], element["price"] * element["quantity"]];
+          const keys = [
+            element.item_id,
+            element.item_name,
+            element.price,
+            element.quantity,
+            element.price * element.quantity,
+          ];
           for (const key in keys) {
             const column = document.createElement('td');
+            column.setAttribute('id', `item${element.index}`);
             if (/sku/i.test(keys[key])) {
-              column.appendChild(document.createTextNode(keys[key]));
-              column.insertAdjacentHTML('beforeend', '<a href="#" style="margin-left: 15px;">remove</a>');
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${logged}","${ui}")>remove</button><span style="margin-left:15px">${keys[key]}</span>`,
+              );
             } else {
-              column.appendChild(document.createTextNode(keys[key]))
+              column.appendChild(document.createTextNode(keys[key]));
             }
             row.appendChild(column);
             document.querySelector('#itemsRows').appendChild(row);
@@ -563,10 +645,18 @@ elemClick.forEach((e) => {
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
-          if (document.querySelector('#item1').nextElementSibling) { document.querySelector('#item1').nextElementSibling.remove() };
-          document.querySelector('#item1').insertAdjacentHTML('afterend', `<span>${sku1}</span>`);
-          if (document.querySelector('#item2').nextElementSibling) { document.querySelector('#item2').nextElementSibling.remove() };
-          document.querySelector('#item2').insertAdjacentHTML('afterend', `<span>${sku2}</span>`);
+          if (document.querySelector('#item1').nextElementSibling) {
+            document.querySelector('#item1').nextElementSibling.remove();
+          }
+          document
+            .querySelector('#item1')
+            .insertAdjacentHTML('afterend', `<span style="margin-left:15px;">${sku1}</span>`);
+          if (document.querySelector('#item2').nextElementSibling) {
+            document.querySelector('#item2').nextElementSibling.remove();
+          }
+          document
+            .querySelector('#item2')
+            .insertAdjacentHTML('afterend', `<span style="margin-left:15px;">${sku2}</span>`);
           en = 'view_item_list';
 
           window.dataLayer = window.dataLayer || [];

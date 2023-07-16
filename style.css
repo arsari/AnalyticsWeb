@@ -325,8 +325,8 @@ label > span {
   background-color: lightgray;
   display: flex;
   position: relative;
-  top: -55px;
-  left: 25px;
+  top: -50px;
+  left: 20px;
 }
 
 .close-x:hover {
@@ -424,6 +424,20 @@ input[type="checkbox"] {
   width: 15px;
   height: 15px;
   color: #9d2b2b;
+}
+
+.empty-cart {
+  color: #9d2b2b;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 25px;
+}
+
+.inactive {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
 }
 
 @media screen and (min-width: 320px) and (max-width: 840px) {
