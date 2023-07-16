@@ -54,12 +54,11 @@ function displayJSON(status) {
  */
 function ecommerceModal() {
   eModal.classList.toggle('show-modal');
+  document.querySelector('#itemsSelectedRows').innerHTML = '';
+  document.querySelector('#itemsListRows').innerHTML = '';
   document.querySelector('.add-to-cart-wrap').classList.remove('hide');
   document.querySelector('.view-cart-wrap').classList.remove('show');
   document.querySelector('#begin_checkout').classList.remove('inactive');
-  document.querySelector('#itemsRows').innerHTML = '';
-  document.querySelector('#item1').checked = false;
-  document.querySelector('#item2').checked = false;
   itemsSelected = [];
   itemsValue = 0;
 }
@@ -177,8 +176,7 @@ function removeItem(i, l, ui) {
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
   const el = document.querySelector(`#removeItem${i}`);
-
-  const b = itemsSelected.length < 2 ? 0 : i;
+  const ap = itemsSelected.indexOf(itemsSelected[i]) !== i ? itemsSelected.indexOf(itemsSelected[i]) : i;
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -198,8 +196,8 @@ function removeItem(i, l, ui) {
     tag_name: el.tagName,
     ecommerce: {
       currency: 'USD',
-      value: itemsSelected[b].price,
-      items: itemsSelected[b],
+      value: itemsSelected[ap].price,
+      items: itemsSelected[ap],
     },
     event_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
@@ -216,8 +214,8 @@ function removeItem(i, l, ui) {
     tag_name: el.tagName,
     ecommerce: {
       currency: 'USD',
-      value: itemsSelected[b].price,
-      items: itemsSelected[b],
+      value: itemsSelected[ap].price,
+      items: itemsSelected[ap],
     },
     event_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
@@ -228,24 +226,83 @@ function removeItem(i, l, ui) {
   });
   displayJSON(l);
 
-  document.querySelector('#itemsRows').removeChild(document.querySelector(`#removeItem${i}`).parentNode.parentNode);
-  itemsValue -= itemsSelected[b].price;
+  document
+    .querySelector('#itemsSelectedRows')
+    .removeChild(document.querySelector(`#removeItem${i}`).parentNode.parentNode);
+  itemsValue -= itemsSelected[ap].price;
   document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
-  itemsSelected.splice(b, 1);
+  itemsSelected.splice(ap, 1);
   if (itemsSelected.length === 0) {
-    document.querySelector('#itemsRows').innerHTML =
+    document.querySelector('#itemsSelectedRows').innerHTML =
       '<tr><td class="empty-cart" colspan="5">Shopping Cart is Empty</td></tr>';
     document.querySelector('#begin_checkout').classList.add('inactive');
   }
   alert('Product removed from Shopping Cart');
-  console.log('items: ', itemsSelected);
 }
 
-/* Element listeners and global variables dependency start here */
+function selectItem(i, l, ui) {
+  const tstamp = String(new Date().getTime());
+  const cstamp = timeStamp();
+  const el = document.querySelector(`#Item${i}`);
+  itemsList[i].index = itemsSelected.length * 1;
+  itemsList[i].quantity = 1;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  utag.link({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  displayJSON(logged);
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'select_item',
+    // event parameters
+    button_text: el.id,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    ecommerce: {
+      item_list_id: 'related_products',
+      item_list_name: 'Related products',
+      items: itemsList[i],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+  });
+
+  utag.link({
+    tealium_event: 'select_item',
+    // event parameters
+    button_text: el.innerText,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    ecommerce: {
+      item_list_id: 'related_products',
+      item_list_name: 'Related products',
+      items: itemsList[i],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+    custom_user_id: ui,
+  });
+  displayJSON(l);
+  itemsSelected.push(itemsList[i]);
+  itemsValue = itemsList[i].price;
+  el.setAttribute('disabled', '');
+}
+
+/**
+ * Element listeners and global variables dependency start here
+ */
 let logged = false;
-let storeEnable = false;
-let itemsSelected = [];
-let itemsValue = 0;
 let vplay = false;
 let vstop = true;
 let vprogress = 0;
@@ -253,7 +310,60 @@ const vduration = 300;
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const eModal = document.querySelector('.ecommerceModal');
-const sku = Math.floor(Math.random() * 1000);
+let storeEnable = false;
+let itemsSelected = [];
+let itemsValue = 0;
+const sku = Math.floor(Math.random() * 10000);
+const itemsList = [
+  {
+    item_name: 'Stan and Friends Tee',
+    affiliation: 'Merchandise Store',
+    currency: 'USD',
+    item_brand: 'MyCollection',
+    item_category: 'Apparel',
+    item_category2: 'Adult',
+    item_category3: 'Shirts',
+    item_category4: 'Crew',
+    item_category5: 'Short sleeve',
+    item_list_id: 'related_products',
+    item_list_name: 'Related Products',
+    item_variant: 'green',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 29.95,
+  },
+  {
+    item_name: 'Friends Pants',
+    affiliation: 'Merchandise Store',
+    currency: 'USD',
+    item_brand: 'MyCollection',
+    item_category: 'Apparel',
+    item_category2: 'Adult',
+    item_category3: 'Pants',
+    item_category4: 'Crew',
+    item_category5: 'Regular Fit',
+    item_list_id: 'related_products',
+    item_list_name: 'Related Products',
+    item_variant: 'blue',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 39.95,
+  },
+  {
+    item_name: 'Canyonlands Full-Zip Hoodie',
+    affiliation: 'Merchandise Store',
+    currency: 'USD',
+    item_brand: 'MyCollection',
+    item_category: 'Apparel',
+    item_category2: 'Adult',
+    item_category3: 'Jackets',
+    item_category4: 'Crew',
+    item_category5: 'Long sleeve',
+    item_list_id: 'related_products',
+    item_list_name: 'Related Products',
+    item_variant: 'black',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 99.0,
+  },
+];
 
 /* The follow code is checking if there is a value stored in the Universally Unique Identifier (UUID)
 key of the localStorage object. If there is a value, it assigns that value to the constant UUID. If
@@ -266,13 +376,13 @@ elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
     const sku1 = `SKU_1-${sku}`;
-    const sku2 = `SKU_2-${sku + 5}`;
+    const sku2 = `SKU_2-${sku + 7}`;
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
     const vu = '/videos/phantom'; // video url
     const vd = vduration; // video duration
-    let bt = e.innerText; // button text
+    const bt = e.innerText; // button text
     let en; // event name
     let cm; // contact method
     let cc; // country currency
@@ -298,7 +408,6 @@ elemClick.forEach((e) => {
       cstamp = timeStamp();
       let tag;
       let et;
-      let selection = [];
 
       const ecommerceSent = () => {
         window.dataLayer = window.dataLayer || [];
@@ -320,11 +429,9 @@ elemClick.forEach((e) => {
             en === 'ecommerce_modal_closed'
               ? null
               : {
-                  currency: en !== 'select_item' ? 'USD' : undefined,
-                  item_list_id: en === 'select_item' ? 'related_products' : undefined,
-                  item_list_name: en === 'select_item' ? 'Related products' : undefined,
-                  value: en !== 'select_item' ? itemsValue : undefined,
-                  items: en === 'select_item' ? selection : itemsSelected,
+                  currency: 'USD',
+                  value: itemsValue,
+                  items: itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
@@ -343,11 +450,9 @@ elemClick.forEach((e) => {
             en === 'ecommerce_modal_closed'
               ? null
               : {
-                  currency: en !== 'select_item' ? 'USD' : undefined,
-                  item_list_id: en === 'select_item' ? 'related_products' : undefined,
-                  item_list_name: en === 'select_item' ? 'Related products' : undefined,
-                  value: en !== 'select_item' ? itemsValue : undefined,
-                  items: en === 'select_item' ? selection : itemsSelected,
+                  currency: 'USD',
+                  value: itemsValue,
+                  items: itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
@@ -359,70 +464,10 @@ elemClick.forEach((e) => {
         displayJSON(logged);
       };
 
-      if (e.id === 'item1') {
-        const prod1 = {
-          item_id: sku1,
-          item_name: 'Stan and Friends Tee',
-          affiliation: 'Merchandise Store',
-          currency: 'USD',
-          index: itemsSelected.length === 0 ? 0 : 1,
-          item_brand: 'MyCollection',
-          item_category: 'Apparel',
-          item_category2: 'Adult',
-          item_category3: 'Shirts',
-          item_category4: 'Crew',
-          item_category5: 'Short sleeve',
-          item_list_id: 'related_products',
-          item_list_name: 'Related Products',
-          item_variant: 'green',
-          location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-          price: 29.95,
-          quantity: 1,
-        };
-        itemsSelected.push(prod1);
-        selection.push(prod1);
-        itemsValue = prod1.price;
-        en = 'select_item';
-        bt = e.value;
-        tag = e.tagName;
-        ecommerceSent();
-      }
-
-      if (e.id === 'item2') {
-        const prod2 = {
-          item_id: sku2,
-          item_name: 'Friends Pants',
-          affiliation: 'Merchandise Store',
-          currency: 'USD',
-          index: itemsSelected.length === 0 ? 0 : 1,
-          item_brand: 'MyCollection',
-          item_category: 'Apparel',
-          item_category2: 'Adult',
-          item_category3: 'Pants',
-          item_category4: 'Crew',
-          item_category5: 'Regular Fit',
-          item_list_id: 'related_products',
-          item_list_name: 'Related Products',
-          item_variant: 'blue',
-          location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-          price: 39.95,
-          quantity: 1,
-        };
-        itemsSelected.push(prod2);
-        selection.push(prod2);
-        itemsValue = prod2.price;
-        en = 'select_item';
-        bt = e.value;
-        tag = e.tagName;
-        ecommerceSent();
-      }
-
       if (e.id === 'add_to_cart') {
-        const item1 = document.querySelector('#item1');
-        const item2 = document.querySelector('#item2');
         itemsValue = 0;
 
-        if (!item1.checked && !item2.checked) {
+        if (itemsSelected.length === 0) {
           message = 'ERROR: Please Select a Product!';
           errorEvent(e, message, logged, ui);
           return;
@@ -444,13 +489,12 @@ elemClick.forEach((e) => {
           const keys = [
             element.item_id,
             element.item_name,
-            element.price,
+            element.price.toFixed(2),
             element.quantity,
-            element.price * element.quantity,
+            `$ ${element.price * element.quantity}`,
           ];
           for (const key in keys) {
             const column = document.createElement('td');
-            column.setAttribute('id', `item${element.index}`);
             if (/sku/i.test(keys[key])) {
               column.insertAdjacentHTML(
                 'afterbegin',
@@ -460,7 +504,7 @@ elemClick.forEach((e) => {
               column.appendChild(document.createTextNode(keys[key]));
             }
             row.appendChild(column);
-            document.querySelector('#itemsRows').appendChild(row);
+            document.querySelector('#itemsSelectedRows').appendChild(row);
           }
         }
         document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
@@ -473,9 +517,8 @@ elemClick.forEach((e) => {
 
       if (e.id === 'begin_checkout') {
         ecommerceModal();
-        document.querySelector('#itemsRows').innerHTML = '';
+        document.querySelector('#itemsSelectedRows').innerHTML = '';
         storeEnable = false;
-        selection = [];
       }
 
       if (e.id === 'ecommerce-close') {
@@ -645,18 +688,39 @@ elemClick.forEach((e) => {
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
-          if (document.querySelector('#item1').nextElementSibling) {
-            document.querySelector('#item1').nextElementSibling.remove();
+          ecommerceModal();
+          for (const element of itemsList) {
+            const row = document.createElement('tr');
+            const itemSKU = Math.floor(Math.random() * 10000);
+            element.item_id = `SKU_${itemSKU}`;
+            const keys = [
+              element.item_id,
+              element.item_brand,
+              element.item_name,
+              element.item_variant,
+              `$${element.price.toFixed(2)}`,
+            ];
+            for (const key in keys) {
+              const column = document.createElement('td');
+              if (/sku/i.test(keys[key])) {
+                column.insertAdjacentHTML(
+                  'afterbegin',
+                  `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
+                    element,
+                  )},"${logged}","${ui}")><span style="margin-left:15px">${keys[key]}</span>`,
+                );
+              } else if (key === '2') {
+                column.insertAdjacentHTML(
+                  'afterbegin',
+                  `${element.item_name}<br>${element.item_category2} ${element.item_category3} ${element.item_category5}`,
+                );
+              } else {
+                column.appendChild(document.createTextNode(keys[key]));
+              }
+              row.appendChild(column);
+              document.querySelector('#itemsListRows').appendChild(row);
+            }
           }
-          document
-            .querySelector('#item1')
-            .insertAdjacentHTML('afterend', `<span style="margin-left:15px;">${sku1}</span>`);
-          if (document.querySelector('#item2').nextElementSibling) {
-            document.querySelector('#item2').nextElementSibling.remove();
-          }
-          document
-            .querySelector('#item2')
-            .insertAdjacentHTML('afterend', `<span style="margin-left:15px;">${sku2}</span>`);
           en = 'view_item_list';
 
           window.dataLayer = window.dataLayer || [];
@@ -677,46 +741,7 @@ elemClick.forEach((e) => {
             ecommerce: {
               item_list_id: 'related_products',
               item_list_name: 'Related products',
-              items: [
-                {
-                  item_id: sku1,
-                  item_name: 'Stan and Friends Tee',
-                  affiliation: 'Merchandise Store',
-                  currency: 'USD',
-                  index: 0,
-                  item_brand: 'MyCollection',
-                  item_category: 'Apparel',
-                  item_category2: 'Adult',
-                  item_category3: 'Shirts',
-                  item_category4: 'Crew',
-                  item_category5: 'Short sleeve',
-                  item_list_id: 'related_products',
-                  item_list_name: 'Related Products',
-                  item_variant: 'green',
-                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                  price: 29.95,
-                  quantity: 1,
-                },
-                {
-                  item_id: sku2,
-                  item_name: 'Friends Pants',
-                  affiliation: 'Merchandise Store',
-                  currency: 'USD',
-                  index: 1,
-                  item_brand: 'MyCollection',
-                  item_category: 'Apparel',
-                  item_category2: 'Adult',
-                  item_category3: 'Pants',
-                  item_category4: 'Crew',
-                  item_category5: 'Regular Fit',
-                  item_list_id: 'related_products',
-                  item_list_name: 'Related Products',
-                  item_variant: 'blue',
-                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                  price: 39.95,
-                  quantity: 1,
-                },
-              ],
+              items: itemsList,
             },
             event_timestamp: tstamp, // milliseconds
             custom_timestamp: cstamp, // ISO 8601
@@ -734,46 +759,7 @@ elemClick.forEach((e) => {
             ecommerce: {
               item_list_id: 'related_products',
               item_list_name: 'Related products',
-              items: [
-                {
-                  item_id: 'SKU_1-0000',
-                  item_name: 'Stan and Friends Tee',
-                  affiliation: 'Merchandise Store',
-                  currency: 'USD',
-                  index: 0,
-                  item_brand: 'MyCollection',
-                  item_category: 'Apparel',
-                  item_category2: 'Adult',
-                  item_category3: 'Shirts',
-                  item_category4: 'Crew',
-                  item_category5: 'Short sleeve',
-                  item_list_id: 'related_products',
-                  item_list_name: 'Related Products',
-                  item_variant: 'green',
-                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                  price: 29.95,
-                  quantity: 1,
-                },
-                {
-                  item_id: 'SKU_2-0000',
-                  item_name: 'Friends Pants',
-                  affiliation: 'Merchandise Store',
-                  currency: 'USD',
-                  index: 1,
-                  item_brand: 'MyCollection',
-                  item_category: 'Apparel',
-                  item_category2: 'Adult',
-                  item_category3: 'Pants',
-                  item_category4: 'Crew',
-                  item_category5: 'Regular Fit',
-                  item_list_id: 'related_products',
-                  item_list_name: 'Related Products',
-                  item_variant: 'blue',
-                  location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                  price: 39.95,
-                  quantity: 1,
-                },
-              ],
+              items: itemsList,
             },
             event_timestamp: tstamp, // milliseconds
             custom_timestamp: cstamp, // ISO 8601
@@ -783,7 +769,6 @@ elemClick.forEach((e) => {
             custom_user_id: ui,
           });
           storeEnable = true;
-          ecommerceModal();
           displayJSON(logged);
           return;
         }
@@ -1125,14 +1110,6 @@ elemClick.forEach((e) => {
 
     if (!e.id.match(/close/i)) {
       e.setAttribute('disabled', '');
-    }
-
-    if (document.querySelector('#item1').checked) {
-      document.querySelector('#item1').setAttribute('disabled', '');
-    }
-
-    if (document.querySelector('#item2').checked) {
-      document.querySelector('#item2').setAttribute('disabled', '');
     }
   });
 });
