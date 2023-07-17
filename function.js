@@ -55,7 +55,6 @@ function displayJSON(status) {
 function ecommerceModal() {
   eModal.classList.toggle('show-modal');
   document.querySelector('#itemsSelectedRows').innerHTML = '';
-  document.querySelector('#itemsListRows').innerHTML = '';
   document.querySelector('.add-to-cart-wrap').classList.remove('hide');
   document.querySelector('.view-cart-wrap').classList.remove('show');
   document.querySelector('#begin_checkout').classList.remove('inactive');
@@ -116,67 +115,67 @@ function timeStamp() {
 }
 
 /**
- * "When an error occurs, send an event to Google Analytics and Tealium with the
- * error message, and the user's login status and user ID."
- *
- * The function takes four parameters:
- *
- * * `e`: the event object
- * * `m`: the error message
- * * `l`: the user's login status
- * * `u`: the user's ID
- *
- * The function uses the `window.dataLayer` object to send the event to Google
- * Analytics. The `window.dataLayer` object is a JavaScript array that stores data.
- * The `push()` method adds data to the array
- * @param e - the event object
- * @param m - error message
- * @param l - logged in
- * @param u - user id
+ * The function handles error events by displaying an alert message, pushing data
+ * to the dataLayer and sending a link event to utag, and then displaying JSON
+ * data.
+ * @param e - The parameter "e" represents an element object, which is used to
+ * capture information about the element that triggered the error event.
+ * @param m - The parameter "m" in the function errorEvent represents the error
+ * message that will be displayed in the alert.
+ * @param u - The parameter "u" represents the user ID.
  */
-function errorEvent(e, m, l, u) {
+function errorEvent(e, m, ui) {
   alert(m);
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    event: `${e.id}_error`,
+    event: /item/i.test(e.id) ? 'select_item_error' : `${e.id}_error`,
     event_type: 'content tool',
-    button_text: e.innerText,
+    button_text: /item/i.test(e.id) ? e.id : e.innerText,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
-    logged_in: l,
-    user_id: u,
+    logged_in: logged,
+    user_id: ui,
   });
 
   utag.link({
-    tealium_event: `${e.id}_error`,
+    tealium_event: /item/i.test(e.id) ? 'select_item_error' : `${e.id}_error`,
     event_type: 'content tool',
-    button_text: e.innerText,
+    button_text: /item/i.test(e.id) ? e.id : e.innerText,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
-    logged_in: l,
-    user_id: u,
-    custom_user_id: u,
+    logged_in: logged,
+    user_id: ui,
+    custom_user_id: ui,
   });
-
-  displayJSON(l);
+  displayJSON(logged);
 }
 
-function removeItem(i, l, ui) {
+/**
+ * The function `removeItem` is used to remove an item from the shopping cart and
+ * update the cart's total value.
+ * @param i - The parameter "i" in the removeItem function represents the index of
+ * the item that needs to be removed from the shopping cart.
+ * @param ui - The parameter `ui` represents the user ID. It is used to identify
+ * the user who is performing the action of removing an item from the shopping
+ * cart.
+ */
+function removeItem(i, ui) {
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
   const el = document.querySelector(`#removeItem${i}`);
-  const ap = itemsSelected.indexOf(itemsSelected[i]) !== i ? itemsSelected.indexOf(itemsSelected[i]) : i;
+  const ap = itemsSelected.length === 1 ? 0 : itemsSelected.findIndex((e) => e.index === i);
+  const message = 'Product Removed from Shopping Cart';
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -194,6 +193,8 @@ function removeItem(i, l, ui) {
     button_text: el.innerText,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    alert_message: message,
+    alert_impression: true,
     ecommerce: {
       currency: 'USD',
       value: itemsSelected[ap].price,
@@ -212,6 +213,8 @@ function removeItem(i, l, ui) {
     button_text: el.innerText,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    alert_message: message,
+    alert_impression: true,
     ecommerce: {
       currency: 'USD',
       value: itemsSelected[ap].price,
@@ -224,12 +227,12 @@ function removeItem(i, l, ui) {
     user_id: ui,
     custom_user_id: ui,
   });
-  displayJSON(l);
+  displayJSON(logged);
 
   document
     .querySelector('#itemsSelectedRows')
     .removeChild(document.querySelector(`#removeItem${i}`).parentNode.parentNode);
-  itemsValue -= itemsSelected[ap].price;
+  itemsValue -= itemsSelected[ap].price * itemsSelected[ap].quantity;
   document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
   itemsSelected.splice(ap, 1);
   if (itemsSelected.length === 0) {
@@ -237,15 +240,30 @@ function removeItem(i, l, ui) {
       '<tr><td class="empty-cart" colspan="5">Shopping Cart is Empty</td></tr>';
     document.querySelector('#begin_checkout').classList.add('inactive');
   }
-  alert('Product removed from Shopping Cart');
+  alert(message);
 }
 
-function selectItem(i, l, ui) {
+/**
+ * The function `selectItem` is used to handle the selection of an item, update the
+ * data layer and perform other related actions.
+ * @param i - The parameter `i` is the index of the item being selected.
+ * @param ui - The parameter `ui` is the user ID. It is used to identify the user
+ * who is interacting with the UI.
+ * @returns The function does not explicitly return anything.
+ */
+function selectItem(i, ui) {
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
   const el = document.querySelector(`#Item${i}`);
+  const qty = parseInt(document.querySelector(`#qty${i}`).value);
+  if (qty === 0) {
+    el.checked = false;
+    const message = 'ERROR: Selected Item Quantity is Zero!';
+    errorEvent(el, message, ui);
+    return;
+  }
   itemsList[i].index = itemsSelected.length * 1;
-  itemsList[i].quantity = 1;
+  itemsList[i].quantity = qty;
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -293,10 +311,43 @@ function selectItem(i, l, ui) {
     user_id: ui,
     custom_user_id: ui,
   });
-  displayJSON(l);
+  displayJSON(logged);
   itemsSelected.push(itemsList[i]);
   itemsValue = itemsList[i].price;
   el.setAttribute('disabled', '');
+}
+
+/**
+ * The function `chgQTY` is used to update the quantity of an item and calculate
+ * the total price based on the quantity.
+ * @param i - The parameter `i` represents the index of the item. It is used to
+ * identify the specific item in the HTML document.
+ * @param q - The parameter `q` is a string that represents the action to be
+ * performed. It can have two possible values: 'plus' or any other value. If `q` is
+ * 'plus', it means that the quantity should be increased by 1. If `q` is any other
+ * value,
+ */
+function chgQTY(i, q) {
+  let v = parseInt(document.querySelector(`#qty${i}`).value);
+  const t = document.querySelector(`#total${i}`) ?? null;
+
+  if (q === 'plus') {
+    v += 1;
+  } else {
+    v = v === 0 ? 0 : v - 1;
+  }
+
+  document.querySelector(`#qty${i}`).value = v;
+
+  if (t !== null) {
+    t.innerHTML = `$${(itemsSelected[itemsSelected.findIndex((e) => e.index === i)].price * v).toFixed(2)}`;
+    itemsSelected[itemsSelected.findIndex((e) => e.index === i)].quantity = v;
+    itemsValue = 0;
+    for (let j = 0; j < itemsSelected.length; j++) {
+      itemsValue += itemsSelected[j].price * itemsSelected[j].quantity;
+    }
+    document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+  }
 }
 
 /**
@@ -469,19 +520,20 @@ elemClick.forEach((e) => {
 
         if (itemsSelected.length === 0) {
           message = 'ERROR: Please Select a Product!';
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
 
         en = e.id;
         tag = e.tagName;
         for (let i = 0; i < itemsSelected.length; i++) {
-          itemsValue += itemsSelected[i].price;
+          itemsValue += itemsSelected[i].price * itemsSelected[i].quantity;
         }
         ecommerceSent();
 
         /* view_cart event */
         document.querySelector('.add-to-cart-wrap').classList.add('hide');
+        document.querySelector('#itemsListRows').innerHTML = '';
         document.querySelector('.view-cart-wrap').classList.add('show');
 
         for (const element of itemsSelected) {
@@ -491,15 +543,22 @@ elemClick.forEach((e) => {
             element.item_name,
             element.price.toFixed(2),
             element.quantity,
-            `$ ${element.price * element.quantity}`,
+            (element.price * element.quantity).toFixed(2),
           ];
           for (const key in keys) {
             const column = document.createElement('td');
-            if (/sku/i.test(keys[key])) {
+            if (key === '0') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${logged}","${ui}")>remove</button><span style="margin-left:15px">${keys[key]}</span>`,
+                `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${ui}")>remove</button><span style="margin-left:15px">${keys[key]}</span>`,
               );
+            } else if (key === '3') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `<button onclick=chgQTY(${element.index},"minus")>-</button><input id="qty${element.index}" class="qty" type="text" value="${keys[key]}"><button onclick=chgQTY(${element.index},"plus")>+</button>`,
+              );
+            } else if (key === '4') {
+              column.insertAdjacentHTML('afterbegin', `<span id="total${element.index}">$${keys[key]}</span>`);
             } else {
               column.appendChild(document.createTextNode(keys[key]));
             }
@@ -682,7 +741,7 @@ elemClick.forEach((e) => {
         displayJSON(logged);
       } else {
         message = 'ERROR: Please Sign In!';
-        errorEvent(e, message, logged, ui);
+        errorEvent(e, message, ui);
         return;
       }
     } else {
@@ -693,26 +752,37 @@ elemClick.forEach((e) => {
             const row = document.createElement('tr');
             const itemSKU = Math.floor(Math.random() * 10000);
             element.item_id = `SKU_${itemSKU}`;
+            element.quantity = 0;
             const keys = [
               element.item_id,
               element.item_brand,
               element.item_name,
               element.item_variant,
               `$${element.price.toFixed(2)}`,
+              element.quantity,
             ];
             for (const key in keys) {
               const column = document.createElement('td');
-              if (/sku/i.test(keys[key])) {
+              if (key === '0') {
                 column.insertAdjacentHTML(
                   'afterbegin',
                   `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
                     element,
-                  )},"${logged}","${ui}")><span style="margin-left:15px">${keys[key]}</span>`,
+                  )},"${ui}")><span style="margin-left:15px">${keys[key]}</span>`,
                 );
               } else if (key === '2') {
                 column.insertAdjacentHTML(
                   'afterbegin',
                   `${element.item_name}<br>${element.item_category2} ${element.item_category3} ${element.item_category5}`,
+                );
+              } else if (key === '5') {
+                column.insertAdjacentHTML(
+                  'afterbegin',
+                  `<button onclick=chgQTY(${itemsList.indexOf(
+                    element,
+                  )},"minus")>-</button><input id="qty${itemsList.indexOf(element)}" class="qty" type="text" value="${
+                    keys[key]
+                  }"><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
                 );
               } else {
                 column.appendChild(document.createTextNode(keys[key]));
@@ -773,7 +843,7 @@ elemClick.forEach((e) => {
           return;
         }
         message = 'ERROR: Please Sign In!';
-        errorEvent(e, message, logged, ui);
+        errorEvent(e, message, ui);
         return;
       }
 
@@ -802,20 +872,20 @@ elemClick.forEach((e) => {
         if (userName.trim() && userProf.trim()) {
           if (userName.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
             message = 'ERROR: PII or special characters not allowed in Full Name input.';
-            errorEvent(e, message, logged, ui);
+            errorEvent(e, message, ui);
             document.getElementById('fname').value = '';
             return;
           }
           if (userProf.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
             message = 'ERROR: PII or special characters not allowed in Profession input.';
-            errorEvent(e, message, logged, ui);
+            errorEvent(e, message, ui);
             document.getElementById('profession').value = '';
             return;
           }
           up = capitalize(userProf);
         } else {
           message = "ERROR: Form inputs can't be blank.";
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
 
@@ -843,7 +913,7 @@ elemClick.forEach((e) => {
           lc = e.className;
         } else {
           message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
       }
@@ -968,7 +1038,7 @@ elemClick.forEach((e) => {
           searchModal();
         } else {
           message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
       }
@@ -978,7 +1048,7 @@ elemClick.forEach((e) => {
           const verify = e.previousElementSibling.value.trim();
           if (verify.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
             message = 'ERROR: PII or special characters not allowed as Search Term.';
-            errorEvent(e, message, logged, ui);
+            errorEvent(e, message, ui);
             e.previousElementSibling.value = '';
             return;
           }
@@ -986,7 +1056,7 @@ elemClick.forEach((e) => {
           e.previousElementSibling.value = '';
         } else {
           message = "ERROR: Search term can't be blank.";
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
         searchModal();
@@ -1000,7 +1070,7 @@ elemClick.forEach((e) => {
       if (e.id === 'login') {
         if (logged) {
           message = "ERROR: Oops! I'm sorry you already Sign In.";
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
         logged = true;
@@ -1015,7 +1085,7 @@ elemClick.forEach((e) => {
           localStorage.logged = logged;
         } else {
           message = "ERROR: Oops! I'm sorry you already Sign Out.";
-          errorEvent(e, message, logged, ui);
+          errorEvent(e, message, ui);
           return;
         }
       }
@@ -1030,7 +1100,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit|ecommerce_start/.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit|ecommerce_start/i.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1039,9 +1109,9 @@ elemClick.forEach((e) => {
         form_submit_text: e.id === 'form' ? fst : undefined,
         link_domain: ld,
         link_classes: lc,
-        link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
+        link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: /extlink|intlink|download|banner/.test(e.id) ? bt : undefined,
+        link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
@@ -1068,7 +1138,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit|ecommerce_start/.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit|ecommerce_start/i.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1077,9 +1147,9 @@ elemClick.forEach((e) => {
         form_submit_text: e.id === 'form' ? fst : undefined,
         link_domain: ld,
         link_classes: lc,
-        link_id: /extlink|intlink|download|banner/.test(e.id) ? e.id : undefined,
+        link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
         link_url: lu,
-        link_text: /extlink|intlink|download|banner/.test(e.id) ? bt : undefined,
+        link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
