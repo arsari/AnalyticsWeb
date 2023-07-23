@@ -33,7 +33,7 @@ function displayJSON(status) {
     userLogged = '<span class="alert">User Logged Out</span>';
   }
 
-  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
+  document.querySelector('#json').innerHTML += `<p id="tab"><em>dataLayer.push and utag.link [${
     window.dataLayer.length
   }]</em>${userLogged}</p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
 
@@ -54,12 +54,6 @@ function displayJSON(status) {
  */
 function ecommerceModal() {
   eModal.classList.toggle('show-modal');
-  document.querySelector('#itemsSelectedRows').innerHTML = '';
-  document.querySelector('.add-to-cart-wrap').classList.remove('hide');
-  document.querySelector('.view-cart-wrap').classList.remove('show');
-  document.querySelector('#begin_checkout').classList.remove('inactive');
-  itemsSelected = [];
-  itemsValue = 0;
 }
 
 /**
@@ -128,12 +122,31 @@ function errorEvent(e, m, ui) {
   alert(m);
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
+  let en;
+  let bt;
+  switch (e.id) {
+    case /item/i.test(e.id):
+      en = 'select_item';
+      (bt = e), id;
+      break;
+    case 'checkout2':
+      en = 'add_shipping_info';
+      bt = 'Add Shipping Info';
+      break;
+    case 'checkout3':
+      en = 'add_payment_info';
+      bt = 'Add Payment Info';
+      break;
+    default:
+      en = e.id;
+      bt = e.innerText;
+  }
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    event: /item/i.test(e.id) ? 'select_item_error' : `${e.id}_error`,
+    event: `${en}_error`,
     event_type: 'content tool',
-    button_text: /item/i.test(e.id) ? e.id : e.innerText,
+    button_text: bt,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
@@ -145,9 +158,9 @@ function errorEvent(e, m, ui) {
   });
 
   utag.link({
-    tealium_event: /item/i.test(e.id) ? 'select_item_error' : `${e.id}_error`,
+    tealium_event: en,
     event_type: 'content tool',
-    button_text: /item/i.test(e.id) ? e.id : e.innerText,
+    button_text: bt,
     tag_name: e.tagName,
     error_message: m,
     alert_impression: true,
@@ -238,7 +251,8 @@ function removeItem(i, ui) {
   if (itemsSelected.length === 0) {
     document.querySelector('#itemsSelectedRows').innerHTML =
       '<tr><td class="empty-cart" colspan="5">Shopping Cart is Empty</td></tr>';
-    document.querySelector('#begin_checkout').classList.add('inactive');
+    document.querySelector('#checkout1').classList.add('inactive');
+    document.querySelector('#coupon').classList.add('ghost');
   }
   alert(message);
 }
@@ -343,11 +357,85 @@ function chgQTY(i, q) {
     t.innerHTML = `$${(itemsSelected[itemsSelected.findIndex((e) => e.index === i)].price * v).toFixed(2)}`;
     itemsSelected[itemsSelected.findIndex((e) => e.index === i)].quantity = v;
     itemsValue = 0;
-    for (let j = 0; j < itemsSelected.length; j++) {
-      itemsValue += itemsSelected[j].price * itemsSelected[j].quantity;
+    for (const element of itemsSelected) {
+      itemsValue += Number((element.price * element.quantity).toFixed(2));
     }
     document.querySelector('#subtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
   }
+}
+
+/**
+ * The function `creditCardType` takes a credit card number as input and returns
+ * the type of credit card (e.g., VISA, AMEX, MASTERCARD, etc.) based on the card
+ * number pattern.
+ * @param cc - cc is the credit card number that needs to be checked for its type.
+ * @returns the type of credit card based on the provided credit card number.
+ */
+function creditCardType() {
+  const cc = document.querySelector('#cardnum').value;
+
+  if (/^(?:2131|1800|35\d{3})\d{11}$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://www.global.jcb/en/about-us/brand-concept/images/index/pic_jcbcard_02.png" alt="JCB"/>',
+      );
+  }
+  if (/^3[47][0-9]{13}$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://www.aexp-static.com/cdaas/one/statics/axp-static-assets/1.8.0/package/dist/img/logos/dls-logo-bluebox-solid.svg" alt="American Express"/>',
+      );
+  }
+  if (/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://www.dinersclub.com/content/experience-fragments/diners-club/home-header-xf/master/_jcr_content/root/header/image.coreimg.svg/1627886360030/dci-logo-default.svg" alt="DinersClub"/>',
+      );
+  }
+  if (/^4[0-9]{12}(?:[0-9]{3})?$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png" alt="Visa"/>',
+      );
+  }
+  if (/^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://www.mastercard.us/content/dam/public/mastercardcom/na/us/en/homepage/Home/mc-logo-52.svg" alt="MasterCard"/>',
+      );
+  }
+  if (/^6(?:011|5[0-9]{2})[0-9]{12}$/.test(cc)) {
+    return document
+      .querySelector('#cclogo')
+      .insertAdjacentHTML(
+        'afterbegin',
+        '<img src="https://www.discover.com/content/dam/discover/en_us/global/logos/discover-logo.svg" alt="Discover"/>',
+      );
+  }
+  return (document.querySelector('#cclogo').innerHTML = '');
+}
+
+/**
+ * The function `maskNumber` takes a number as input and replaces all digits
+ * between the third and third-to-last positions with asterisks.
+ * @param n - The parameter `n` is a number that needs to be masked.
+ * @returns the masked version of the input number.
+ */
+function maskNumber(n) {
+  let m = n.slice(0, 2);
+  m += '*'.repeat(n.length - 4);
+  m += n.slice(-4);
+  return m;
 }
 
 /**
@@ -364,12 +452,16 @@ const eModal = document.querySelector('.ecommerceModal');
 let storeEnable = false;
 let itemsSelected = [];
 let itemsValue = 0;
-const sku = Math.floor(Math.random() * 10000);
+let adjustValue = 0; // adjusted value
+let tax = 0; // tax
+let shipping = 0; // shipping
+let userCoupon = '';
+let discount = 0;
+const customerInfo = {};
 const itemsList = [
   {
     item_name: 'Stan and Friends Tee',
     affiliation: 'Merchandise Store',
-    currency: 'USD',
     item_brand: 'MyCollection',
     item_category: 'Apparel',
     item_category2: 'Adult',
@@ -385,7 +477,6 @@ const itemsList = [
   {
     item_name: 'Friends Pants',
     affiliation: 'Merchandise Store',
-    currency: 'USD',
     item_brand: 'MyCollection',
     item_category: 'Apparel',
     item_category2: 'Adult',
@@ -401,7 +492,6 @@ const itemsList = [
   {
     item_name: 'Canyonlands Full-Zip Hoodie',
     affiliation: 'Merchandise Store',
-    currency: 'USD',
     item_brand: 'MyCollection',
     item_category: 'Apparel',
     item_category2: 'Adult',
@@ -426,14 +516,13 @@ const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
     let ui = logged ? UUID : 'guest';
-    const sku1 = `SKU_1-${sku}`;
-    const sku2 = `SKU_2-${sku + 7}`;
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
     const vu = '/videos/phantom'; // video url
     const vd = vduration; // video duration
     const bt = e.innerText; // button text
+    let transactionID; // transaction ID
     let en; // event name
     let cm; // contact method
     let cc; // country currency
@@ -457,8 +546,10 @@ elemClick.forEach((e) => {
     if (storeEnable) {
       tstamp = String(new Date().getTime());
       cstamp = timeStamp();
-      let tag;
-      let et;
+      let tag = e.tagName;
+      let userShipping;
+      let userCCBrand;
+      let et = 'ui interaction';
 
       const ecommerceSent = () => {
         window.dataLayer = window.dataLayer || [];
@@ -474,14 +565,20 @@ elemClick.forEach((e) => {
           event: en,
           // event parameters
           button_text: bt,
-          event_type: et ?? 'ui interaction',
+          event_type: et,
           tag_name: tag,
           ecommerce:
-            en === 'ecommerce_modal_closed'
+            en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
               ? null
               : {
+                  transaction_id: transactionID ?? undefined,
+                  value: Number((itemsValue - discount).toFixed(2)),
+                  tax: tax === 0 ? undefined : tax,
+                  shipping: shipping === 0 ? undefined : shipping,
                   currency: 'USD',
-                  value: itemsValue,
+                  coupon: userCoupon ?? undefined,
+                  shipping_tier: userShipping ?? undefined,
+                  payment_type: userCCBrand ?? undefined,
                   items: itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
@@ -495,14 +592,20 @@ elemClick.forEach((e) => {
           tealium_event: en,
           // event parameters
           button_text: bt,
-          event_type: et ?? 'ui interaction',
+          event_type: et,
           tag_name: tag,
           ecommerce:
-            en === 'ecommerce_modal_closed'
+            en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
               ? null
               : {
+                  transaction_id: transactionID ?? undefined,
+                  value: Number((itemsValue - discount).toFixed(2)),
+                  tax: tax === 0 ? undefined : tax,
+                  shipping: shipping === 0 ? undefined : shipping,
                   currency: 'USD',
-                  value: itemsValue,
+                  coupon: userCoupon ?? undefined,
+                  shipping_tier: userShipping ?? undefined,
+                  payment_type: userCCBrand ?? undefined,
                   items: itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
@@ -525,9 +628,8 @@ elemClick.forEach((e) => {
         }
 
         en = e.id;
-        tag = e.tagName;
         for (let i = 0; i < itemsSelected.length; i++) {
-          itemsValue += itemsSelected[i].price * itemsSelected[i].quantity;
+          itemsValue += Number((itemsSelected[i].price * itemsSelected[i].quantity).toFixed(2));
         }
         ecommerceSent();
 
@@ -552,10 +654,15 @@ elemClick.forEach((e) => {
                 'afterbegin',
                 `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${ui}")>remove</button><span style="margin-left:15px">${keys[key]}</span>`,
               );
+            } else if (key === '1') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `${element.item_name} Color: ${element.item_variant.toUpperCase()}<br>${element.item_brand}`,
+              );
             } else if (key === '3') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `<button onclick=chgQTY(${element.index},"minus")>-</button><input id="qty${element.index}" class="qty" type="text" value="${keys[key]}"><button onclick=chgQTY(${element.index},"plus")>+</button>`,
+                `<button onclick=chgQTY(${element.index},"minus")>-</button><input id="qty${element.index}" class="qty" type="text" value="${keys[key]}" readonly><button onclick=chgQTY(${element.index},"plus")>+</button>`,
               );
             } else if (key === '4') {
               column.insertAdjacentHTML('afterbegin', `<span id="total${element.index}">$${keys[key]}</span>`);
@@ -570,179 +677,228 @@ elemClick.forEach((e) => {
 
         en = 'view_cart';
         et = 'content tool';
-        tag = e.tagName;
         ecommerceSent();
       }
 
-      if (e.id === 'begin_checkout') {
+      if (e.id === 'checkout1') {
+        document.querySelector('.view-cart-wrap').classList.remove('show');
+        document.querySelector('.checkout2-wrap').classList.add('show');
+
+        en = 'begin_checkout';
+        userCoupon = /summer fun/i.test(document.querySelector('#couponField').value) ? 'SUMMER FUN' : undefined;
+        if (userCoupon !== undefined) {
+          itemsValue = 0;
+          for (const element of itemsSelected) {
+            element.coupon = userCoupon;
+            discount = Number((element.price * 0.1).toFixed(2));
+            element.discount = discount;
+            itemsValue += Number((element.price * element.quantity).toFixed(2));
+          }
+        }
+        document.querySelector('#couponField').value = '';
+        ecommerceSent();
+      }
+
+      if (e.id === 'checkout2') {
+        customerInfo.name = document.querySelector('#sname').value.trim();
+        customerInfo.email = document.querySelector('#semail').value.trim();
+        customerInfo.address = document.querySelector('#saddress').value.trim();
+        customerInfo.city = document.querySelector('#scity').value.trim();
+        customerInfo.state = document.querySelector('#sstate').value.trim();
+        customerInfo.zip = document.querySelector('#szip').value.trim();
+        customerInfo.shipping = document.querySelector('#shipping').value;
+
+        if (
+          customerInfo.name === '' ||
+          customerInfo.email === '' ||
+          customerInfo.address === '' ||
+          customerInfo.city === '' ||
+          customerInfo.state === '' ||
+          customerInfo.zip === ''
+        ) {
+          message = "ERROR: Input fields can't be blank.";
+          errorEvent(e, message, ui);
+          return;
+        }
+
+        document.querySelector('.checkout2-wrap').classList.remove('show');
+        document.querySelector('.checkout3-wrap').classList.add('show');
+
+        en = 'add_shipping_info';
+        userShipping = customerInfo.shipping;
+        ecommerceSent();
+      }
+
+      if (e.id === 'checkout3') {
+        customerInfo.ccnumber = maskNumber(document.querySelector('#cardnum').value.trim());
+        customerInfo.ccexpiration = document.querySelector('#cardexp').value.trim();
+        customerInfo.cccvv = document.querySelector('#cardcvv').value.trim();
+
+        if (customerInfo.ccnumber === '' || customerInfo.ccexpiration === '' || customerInfo.cccvv === '') {
+          message = "ERROR: Input fields can't be blank.";
+          errorEvent(e, message, ui);
+          return;
+        }
+
+        customerInfo.cclogo = document.querySelector('#cclogo').innerHTML;
+        customerInfo.ccbrand = document.querySelector('#cclogo').firstElementChild.alt;
+
+        document.querySelector('.checkout3-wrap').classList.remove('show');
+        document.querySelector('.summary-wrap').classList.add('show');
+
+        en = 'add_payment_info';
+        userCCBrand = customerInfo.ccbrand;
+        discount = 0;
+        itemsValue = 0;
+        for (const element of itemsSelected) {
+          discount += Number(((element.discount ?? 0) * element.quantity).toFixed(2));
+          itemsValue += Number((element.price * element.quantity).toFixed(2));
+          userCoupon = element.coupon ?? undefined;
+        }
+        ecommerceSent();
+
+        adjustValue = itemsValue - discount;
+        tax = Number((adjustValue * 0.07).toFixed(2));
+        shipping = Number((adjustValue * 0.12).toFixed(2));
+        switch (customerInfo.shipping) {
+          case 'express':
+            shipping += 10;
+            break;
+          case 'overnight':
+            shipping += 20;
+            break;
+          default:
+            shipping += 0;
+        }
+
+        document.querySelector('#sbname').innerHTML = customerInfo.name;
+        document.querySelector('#sbaddress').innerHTML = customerInfo.address;
+        document.querySelector('#sbemail').innerHTML = customerInfo.email;
+        document.querySelector('#sbcity').innerHTML = `${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`;
+
+        for (const element of itemsSelected) {
+          const row = document.createElement('tr');
+          const keys = [
+            element.item_id,
+            element.item_name,
+            element.price.toFixed(2),
+            element.quantity,
+            (element.price * element.quantity).toFixed(2),
+          ];
+          for (const key in keys) {
+            const column = document.createElement('td');
+            if (key === '1') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `${element.item_name}<br>Color: ${element.item_variant.toUpperCase()}<br>${element.item_category2} ${
+                  element.item_category3
+                } ${element.item_category5}`,
+              );
+            } else {
+              column.appendChild(document.createTextNode(keys[key]));
+            }
+            row.appendChild(column);
+            document.querySelector('#productRows').appendChild(row);
+          }
+        }
+
+        document.querySelector('#productsSubtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+        document.querySelector('#uCoupon').innerHTML = userCoupon === undefined ? '' : `: ${userCoupon}`;
+        document.querySelector('#discountTotal').innerHTML = `($ ${discount.toFixed(2)})`;
+        document.querySelector('#taxes').innerHTML = `$ ${tax.toFixed(2)}`;
+        document.querySelector('#uShipping').innerHTML = customerInfo.shipping.toUpperCase();
+        document.querySelector('#shippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
+        document.querySelector('#total').innerHTML = `$ ${(adjustValue + tax + shipping).toFixed(2)}`;
+
+        document.querySelector('#cctype').innerHTML = customerInfo.cclogo;
+        document.querySelector('#ccbrand').innerHTML = customerInfo.ccbrand;
+        document.querySelector('#ccnumber').innerHTML = customerInfo.ccnumber;
+        document.querySelector('#ccexp').innerHTML = customerInfo.ccexpiration;
+      }
+
+      if (e.id === 'purchase') {
+        document.querySelector('.summary-wrap').classList.remove('show');
+        document.querySelector('#productRows').innerHTML = '';
+        document.querySelector('.purchase-wrap').classList.add('show');
+
+        transactionID = `T-${Math.floor(Math.random() * 10000)}`;
+        en = e.id;
+        et = 'çonversion';
+        ecommerceSent();
+
+        document.querySelector('#ocname').innerHTML = customerInfo.name;
+        document.querySelector('#ocemail').innerHTML = customerInfo.email;
+        document.querySelector('#ocaddress').innerHTML = customerInfo.address;
+        document.querySelector('#occity').innerHTML = `${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`;
+        document.querySelector('#ocorderID').innerHTML = `Order Number ${transactionID}`;
+        document.querySelector('#occustomerID').innerHTML = `Customer Number: ${ui}`;
+        const d = new Date();
+        document.querySelector(
+          '#ocdate',
+        ).innerHTML = `Date: ${d.toDateString()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        document.querySelector('#ocshipping').innerHTML = `Shipping Method: ${customerInfo.shipping.toUpperCase()}`;
+
+        for (const element of itemsSelected) {
+          const row = document.createElement('tr');
+          const keys = [
+            element.item_id,
+            element.item_name,
+            element.price.toFixed(2),
+            element.quantity,
+            (element.price * element.quantity).toFixed(2),
+          ];
+          for (const key in keys) {
+            const column = document.createElement('td');
+            if (key === '1') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `${element.item_name}<br>Color: ${element.item_variant.toUpperCase()}<br>${element.item_category2} ${
+                  element.item_category3
+                } ${element.item_category5}`,
+              );
+            } else {
+              column.appendChild(document.createTextNode(keys[key]));
+            }
+            row.appendChild(column);
+            document.querySelector('#ocproductRows').appendChild(row);
+          }
+        }
+
+        document.querySelector('#ocproductsSubtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+        document.querySelector('#ocCoupon').innerHTML = userCoupon === undefined ? '' : `: ${userCoupon}`;
+        document.querySelector('#ocdiscountTotal').innerHTML = `($ ${discount.toFixed(2)})`;
+        document.querySelector('#octaxes').innerHTML = `$ ${tax.toFixed(2)}`;
+        document.querySelector('#ocShipping').innerHTML = `: ${customerInfo.shipping.toUpperCase()}`;
+        document.querySelector('#ocshippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
+        document.querySelector('#octotal').innerHTML = `$ ${(adjustValue + tax + shipping).toFixed(2)}`;
+
+        document.querySelector('#occtype').innerHTML = customerInfo.cclogo;
+        document.querySelector('#occbrand').innerHTML = customerInfo.ccbrand;
+        document.querySelector('#occnumber').innerHTML = customerInfo.ccnumber;
+        document.querySelector('#occexp').innerHTML = customerInfo.ccexpiration;
+      }
+
+      if (e.id === 'ecommerce-close' || e.id === 'ecommerce-end') {
+        en = e.id === 'ecommerce-close' ? 'ecommerce_modal_closed' : 'ecommerce_funnel_complete';
+        tag = e.tagName;
+        ecommerceSent();
         ecommerceModal();
+        storeEnable = false;
+        document.querySelector('#itemsListRows').innerHTML = '';
         document.querySelector('#itemsSelectedRows').innerHTML = '';
-        storeEnable = false;
-      }
+        document.querySelector('#productRows').innerHTML = '';
+        document.querySelector('#ocproductRows').innerHTML = '';
+        document.querySelector('.add-to-cart-wrap').classList.remove('hide');
+        document.querySelector('.view-cart-wrap').classList.remove('show');
+        document.querySelector('#checkout1').classList.remove('inactive');
+        document.querySelector('#coupon').classList.remove('ghost');
+        document.querySelector('.checkout2-wrap').classList.remove('show');
+        document.querySelector('.checkout3-wrap').classList.remove('show');
+        document.querySelector('.summary-wrap').classList.remove('show');
+        document.querySelector('.purchase-wrap').classList.remove('show');
 
-      if (e.id === 'ecommerce-close') {
-        en = 'ecommerce_modal_closed';
-        tag = e.tagName;
-        ecommerceSent();
-        storeEnable = false;
-        ecommerceModal();
-      }
-    } else if (e.id === 'purchase') {
-      if (logged) {
-        const transactionID = `T-${Math.floor(Math.random() * 10000)}`;
-        const itemPrice = Math.floor(Math.random() * 200 + 1);
-        const itemQty = Math.floor(Math.random() * 30 + 1);
-        const itemDiscount = Number((itemPrice * 0.15).toFixed(2));
-        const subtotal = Number(((itemPrice - itemDiscount) * itemQty * 2).toFixed(2));
-        tstamp = String(new Date().getTime());
-        cstamp = timeStamp();
-
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          ecommerce: null,
-        }); // Clear the previous ecommerce object
-        utag.link({
-          ecommerce: null,
-        }); // Clear the previous ecommerce object
-        displayJSON(logged);
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: e.id,
-          // event parameters
-          button_text: bt,
-          event_type: 'conversion',
-          tag_name: e.tagName,
-          ecommerce: {
-            transaction_id: transactionID,
-            affiliation: 'Merchandise Store',
-            coupon: 'SUMMER_SALE',
-            currency: 'USD',
-            shipping: Number((subtotal * 0.12).toFixed(2)),
-            tax: Number((subtotal * 0.07).toFixed(2)),
-            value: subtotal,
-            items: [
-              {
-                item_id: sku1,
-                item_name: 'Stan and Friends Tee',
-                affiliation: 'Merchandise Store',
-                coupon: 'SUMMER_FUN',
-                currency: 'USD',
-                discount: itemDiscount,
-                index: 0,
-                item_brand: 'MyCollection',
-                item_category: 'Apparel',
-                item_category2: 'Adult',
-                item_category3: 'Shirts',
-                item_category4: 'Crew',
-                item_category5: 'Short sleeve',
-                item_list_id: 'related_products',
-                item_list_name: 'Related Products',
-                item_variant: 'green',
-                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                price: itemPrice,
-                quantity: itemQty,
-              },
-              {
-                item_id: sku2,
-                item_name: 'Friends Pants',
-                affiliation: 'Merchandise Store',
-                coupon: 'SUMMER_FUN',
-                currency: 'USD',
-                discount: itemDiscount,
-                index: 1,
-                item_brand: 'MyCollection',
-                item_category: 'Apparel',
-                item_category2: 'Adult',
-                item_category3: 'Pants',
-                item_category4: 'Crew',
-                item_category5: 'Regular Fit',
-                item_list_id: 'related_products',
-                item_list_name: 'Related Products',
-                item_variant: 'blue',
-                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                price: itemPrice,
-                quantity: itemQty,
-              },
-            ],
-          },
-          event_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
-          // user properties
-          logged_in: logged,
-          user_id: ui,
-        });
-
-        utag.link({
-          tealium_event: e.id,
-          // event parameters
-          button_text: bt,
-          event_type: 'conversion',
-          tag_name: e.tagName,
-          ecommerce: {
-            transaction_id: transactionID,
-            affiliation: 'Merchandise Store',
-            coupon: 'SUMMER_SALE',
-            currency: 'USD',
-            shipping: Number((subtotal * 0.12).toFixed(2)),
-            tax: Number((subtotal * 0.07).toFixed(2)),
-            value: subtotal,
-            items: [
-              {
-                item_id: sku1,
-                item_name: 'Stan and Friends Tee',
-                affiliation: 'Merchandise Store',
-                coupon: 'SUMMER_FUN',
-                currency: 'USD',
-                discount: itemDiscount,
-                index: 0,
-                item_brand: 'MyCollection',
-                item_category: 'Apparel',
-                item_category2: 'Adult',
-                item_category3: 'Shirts',
-                item_category4: 'Crew',
-                item_category5: 'Short sleeve',
-                item_list_id: 'related_products',
-                item_list_name: 'Related Products',
-                item_variant: 'green',
-                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                price: itemPrice,
-                quantity: itemQty,
-              },
-              {
-                item_id: sku2,
-                item_name: 'Friends Pants',
-                affiliation: 'Merchandise Store',
-                coupon: 'SUMMER_FUN',
-                currency: 'USD',
-                discount: itemDiscount,
-                index: 1,
-                item_brand: 'MyCollection',
-                item_category: 'Apparel',
-                item_category2: 'Adult',
-                item_category3: 'Pants',
-                item_category4: 'Crew',
-                item_category5: 'Regular Fit',
-                item_list_id: 'related_products',
-                item_list_name: 'Related Products',
-                item_variant: 'blue',
-                location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-                price: itemPrice,
-                quantity: itemQty,
-              },
-            ],
-          },
-          event_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
-          // user properties
-          logged_in: logged,
-          user_id: ui,
-          custom_user_id: ui,
-        });
-        displayJSON(logged);
-      } else {
-        message = 'ERROR: Please Sign In!';
-        errorEvent(e, message, ui);
-        return;
+        itemsSelected = [];
+        itemsValue = 0;
       }
     } else {
       if (e.id === 'ecommerce-modal') {
@@ -768,7 +924,7 @@ elemClick.forEach((e) => {
                   'afterbegin',
                   `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
                     element,
-                  )},"${ui}")><span style="margin-left:15px">${keys[key]}</span>`,
+                  )},"${ui}") title="Click to Select Item"><span style="margin-left:15px">${keys[key]}</span>`,
                 );
               } else if (key === '2') {
                 column.insertAdjacentHTML(
@@ -782,7 +938,7 @@ elemClick.forEach((e) => {
                     element,
                   )},"minus")>-</button><input id="qty${itemsList.indexOf(element)}" class="qty" type="text" value="${
                     keys[key]
-                  }"><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
+                  }" readonly><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
                 );
               } else {
                 column.appendChild(document.createTextNode(keys[key]));
@@ -871,13 +1027,13 @@ elemClick.forEach((e) => {
         const userProf = document.getElementById('profession').value;
         if (userName.trim() && userProf.trim()) {
           if (userName.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
-            message = 'ERROR: PII or special characters not allowed in Full Name input.';
+            message = 'ERROR: PII or special characters not allowed in First Name input!';
             errorEvent(e, message, ui);
             document.getElementById('fname').value = '';
             return;
           }
           if (userProf.match(/mailto:|tel:|^[\w\-.]+@[\w\-.]+|@/i)) {
-            message = 'ERROR: PII or special characters not allowed in Profession input.';
+            message = 'ERROR: PII or special characters not allowed in Profession input!';
             errorEvent(e, message, ui);
             document.getElementById('profession').value = '';
             return;

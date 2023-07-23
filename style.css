@@ -48,7 +48,9 @@ h1 {
   cursor: pointer;
   border-radius: 10px;
   margin: 0 5px 15px;
-  transition: width 0.5s, border-radius 0.5s;
+  transition:
+    width 0.5s,
+    border-radius 0.5s;
 }
 
 .button * {
@@ -92,17 +94,35 @@ main {
   margin: 0 30px 90px;
 }
 
-p {
+#tab,
+.tab,
+.coupon {
   background-color: #9d2b2b;
   color: #ffffff;
   padding: 10px 10px;
   max-width: -moz-fit-content;
   max-width: fit-content;
   border-radius: 10px 10px 0 0;
-  margin: 15px 0 0 0;
+  margin: 15px 0 0;
 }
 
-p > span {
+.coupon {
+  margin: 20px 0 0 15px;
+  border-radius: 10px;
+}
+
+.couponField {
+  width: 64%;
+  border: 1px solid #9d2b2b;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  outline: none;
+  margin-left: 5px;
+}
+
+#tab > span,
+.tab > span {
   background-color: #619408;
   color: #ffff00;
   padding: 5px;
@@ -201,7 +221,10 @@ footer {
   opacity: 0;
   visibility: hidden;
   transform: scale(1.1);
-  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  transition:
+    visibility 0s linear 0.25s,
+    opacity 0.25s 0s,
+    transform 0.25s;
 }
 
 .search-modal-content {
@@ -235,7 +258,7 @@ footer {
   background-color: white;
   padding: 4rem 2rem;
   width: 50rem;
-  height: 21rem;
+  height: fit-content;
   border-radius: 0.5rem;
 }
 
@@ -256,63 +279,52 @@ footer {
   transform: translate(-50%, -50%);
 }
 
-.form-wrap {
-  display: block;
-}
-
-.form-wrap.hide {
-  display: none;
-}
-
 label > span {
   color: red;
 }
 
-.ty-message-wrap {
-  display: none;
-}
-
-.ty-message-wrap.show {
-  display: block;
-}
-
+.form-wrap,
 .add-to-cart-wrap {
   display: block;
 }
 
-.add-to-cart-wrap.hide {
-  display: none;
-}
-
-.view-cart-wrap {
-  display: none;
-}
-
-.view-cart-wrap.show {
-  display: block;
-}
-
-.checkout1-wrap {
-  display: none;
-}
-
-.checkout1-wrap.show {
-  display: block;
-}
+.ty-message-wrap,
+.view-cart-wrap,
+.checkout1-wrap,
+.checkout2-wrap,
+.checkout3-wrap,
+.summary-wrap,
 .purchase-wrap {
   display: none;
 }
 
-.purchase-wrap.show {
-  display: block;
-}
-
-.purchase-message-wrap {
+.hide {
   display: none;
 }
 
-.purchase-message-wrap.show {
+.show {
   display: block;
+}
+
+.inactive {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+  transform: scale(1.1);
+  transition:
+    visibility 0s linear 0.25s,
+    opacity 0.25s 0s,
+    transform 0.25s;
+}
+
+.ghost {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition:
+    visibility 0s linear 0.25s,
+    opacity 0.25s 0s,
+    transform 0.25s;
 }
 
 .close-x {
@@ -337,7 +349,10 @@ label > span {
   opacity: 1;
   visibility: visible;
   transform: scale(1);
-  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+  transition:
+    visibility 0s linear 0s,
+    opacity 0.25s 0s,
+    transform 0.25s;
 }
 
 .searchBar {
@@ -354,7 +369,6 @@ label > span {
   font-size: 20px;
   border-radius: 5px 0 0 5px;
   outline: none;
-  color: #9dbfaf;
 }
 
 .formInput {
@@ -365,12 +379,11 @@ label > span {
   border-radius: 5px;
   outline: none;
   margin: 5px 10px 10px -5px;
-  color: #9dbfaf;
 }
 
 .searchInput:focus,
 .formInput:focus {
-  color: #000000;
+  color: #9d2b2b;
 }
 
 .searchButton {
@@ -390,10 +403,17 @@ label > span {
   margin: 5px;
 }
 
-.ecommerce-btn {
+.ecommerce-btn,
+.ecommerce-btn2 {
   left: 65%;
-  margin: 30px;
-  width: 15rem;
+  margin: 20px 0 0;
+  width: 16rem;
+}
+
+.ecommerce-btn2 {
+  bottom: 50px;
+  display: flex;
+  margin: 0;
 }
 
 table {
@@ -434,12 +454,6 @@ input[type="checkbox"] {
   padding: 25px;
 }
 
-.inactive {
-  pointer-events: none;
-  cursor: default;
-  opacity: 0.5;
-}
-
 .qty {
   width: 50px;
   height: 20px;
@@ -449,7 +463,57 @@ input[type="checkbox"] {
   color: #9d2b2b;
   margin: 0 5px;
   pointer-events: none;
-  cursor: default;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+  margin: 0;
+}
+
+.cclogo {
+  border: 1px solid #9d2b2b;
+  padding: 10px;
+  display: flex;
+  width: fit-content;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.cclogo > img {
+  float: left;
+  width: 50px;
+  object-fit: cover;
+}
+
+.shipping {
+  border: 2px solid blue;
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.customer,
+.brand {
+  display: flex;
+  justify-content: space-around;
+}
+
+.brand {
+  justify-content: space-between;
+}
+
+.info {
+  border: 1px solid #9d2b2b;
+  border-radius: 10px;
+  padding: 0 15px;
+  width: 90%;
+}
+
+.products {
+  margin-top: 20px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 840px) {

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
     <link rel="stylesheet" href="style.css" />
     <title>AnalyticsWeb | Arsari</title>
     <!-- dataLayers init -->
@@ -166,12 +166,8 @@
           <span class="text">Phone</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="purchase" name="action" class="button" type="button" title="Sign In First...">
-          <span class="text">Purchase</span>
-          <i class="fa-solid fa-check icon"></i>
-        </button>
         <button id="ecommerce-modal" name="action" class="button" type="button" title="Ecommerce Funnel">
-          <span class="text">Ecommerce</span>
+          <span class="text">Ecommerce Funnel</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
         <button id="form-modal" name="action" class="button" type="button">
@@ -253,7 +249,7 @@
                 <caption>Merchandise Store</caption>
                 <thead>
                   <tr>
-                    <th>Product ID</thcolspan>
+                    <th>Product ID</th>
                     <th>Product Description</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -268,29 +264,208 @@
                   </tr>
                 </tfoot>
               </table>
-              <button id="begin_checkout" type="submit" name="action" class="button ecommerce-btn"
-                title="Checkout Step 1">
+              <p id="coupon" class="coupon">Get 10%
+                <input id="couponField" type="text" class="couponField" placeholder="Enter coupon code"
+                  title="Enter: Summer Fun">
+              </p>
+              <button id="checkout1" type="submit" name="action" class="button ecommerce-btn2" title="Begin Checkout">
                 <span class="text">Checkout</span>
               </button>
             </div>
           </div>
-          <div class="checkout1-wrap">
+          <div class="checkout2-wrap">
             <div>
-              <button id="add_payment_info" type="submit" name="action" class="button ecommerce-btn"
-                title="Payment Information Step 2">
+              <h2>Enter Shipping/Billing Address</h2>
+              <form>
+                <label for="sname">Full Name<span>*</span>:</label>
+                <input id="sname" type="text" class="formInput" placeholder="Enter your full name" required>
+                <label for="semail">Email<span>*</span>:</label>
+                <input id="semail" type="email" class="formInput" placeholder="Enter your email" required>
+                <label for="saddress">Address<span>*</span>:</label>
+                <input id="saddress" type="text" class="formInput" placeholder="Enter your address" required>
+                <label for="scity">City<span>*</span>:</label>
+                <input id="scity" type="text" class="formInput" placeholder="Enter your city" required>
+                <label for="sstate">State<span>*</span>:</label>
+                <input id="sstate" type="text" class="formInput" placeholder="Enter your state" required>
+                <label for="szip">Zip Code<span>*</span>:</label>
+                <input id="szip" type="text" class="formInput" placeholder="Enter your zip code" required>
+                <div class="shipping">
+                  <label for="shipping">Shipping Method<span>*</span>:</label>
+                  <select id="shipping" class="formInput" required>
+                    <option value="standard">Standard</option>
+                    <option value="express">Express</option>
+                    <option value="overnight">Overnight</option>
+                  </select>
+                </div>
+              </form>
+              <button id="checkout2" type="submit" name="action" class="button ecommerce-btn" title="Add Shipping Info">
+                <span class="text">Add Shipping Info</span>
+              </button>
+            </div>
+          </div>
+          <div class="checkout3-wrap">
+            <div>
+              <h2>Enter Credit Card Information</h2>
+              <form>
+                <div id="cclogo" class="cclogo"></div>
+                <label for="cardnum">Credit Card Number<span>*</span>:</label>
+                <input id="cardnum" type="number" class="formInput"
+                  placeholder="Enter your credit card number no spaces" required oninput="creditCardType()">
+                <label for="cardexp">Expiration Date<span>*</span>:</label>
+                <input id="cardexp" type="text" class="formInput" placeholder=" Enter your expiration date mm\yy"
+                  required>
+                <label for="cardcvv">CVV<span>*</span>:</label>
+                <input id="cardcvv" type="number" class="formInput" placeholder="Enter your CVV" required>
+              </form>
+              <button id="checkout3" type="submit" name="action" class="button ecommerce-btn" title="Add Payment Info">
                 <span class="text">Add Payment Info</span>
               </button>
             </div>
           </div>
-          <div class="purchase-wrap">
-            <div>
-              <button id="newpurchase" type="submit" name="action" class="button ecommerce-btn" title="Purchase">
+          <div class="summary-wrap">
+            <div id="order-summary">
+              <h2>Summary</h2>
+              <div class="customer">
+                <div class="address">
+                  <h3>Customer Shipping/Billing Address</h3>
+                  <div class="info">
+                    <p id="sbname"></p>
+                    <p id="sbemail"></p>
+                    <p id="sbaddress"></p>
+                    <p id="sbcity"></p>
+                  </div>
+                </div>
+                <div class="payment">
+                  <h3>Customer Payment Information</h3>
+                  <div class="info">
+                    <div class="brand">
+                      <p id="cctype" class="cclogo"></p>
+                      <p id="ccbrand"></p>
+                    </div>
+                    <p id="ccnumber"></p>
+                    <p id="ccexp"></p>
+                  </div>
+                </div>
+              </div>
+              <h3>Products to Buy</h3>
+              <table>
+                <caption>Merchandise Store</caption>
+                <thead>
+                  <tr>
+                    <th>Product ID</th>
+                    <th>Product Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="productRows"></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="4" style="text-align:right">Products SubTotal</th>
+                    <th id="productsSubtotal" style="text-align:right;"></th>
+                  </tr>
+                  <tr>
+                    <td colspan="4" style="text-align:right">Discount<span id="uCoupon"></span></td>
+                    <td id="discountTotal" style="text-align:right;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4" style="text-align:right">Taxes</td>
+                    <td id="taxes" style="text-align:right;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4" style="text-align:right">Shipping: <span id="uShipping"></span></td>
+                    <td id="shippingCost" style="text-align:right;"></td>
+                  </tr>
+                  <tr>
+                    <th colspan="4" style="text-align:right">Order Total</th>
+                    <th id="total" style="text-align:right;"></th>
+                  </tr>
+                </tfoot>
+              </table>
+              <button id="purchase" type="submit" name="action" class="button ecommerce-btn" title="Purchase">
                 <span class="text">Purchase</span>
               </button>
             </div>
           </div>
-          <div class="purchase-message-wrap">
-            <p id="purchase-message"></p>
+          <div class="purchase-wrap">
+            <div id="order-confirmation">
+              <h2 style="text-align:center;">======== Order Confirmation ========</h2>
+              <div class="customer">
+                <div class="address">
+                  <h3>Shipping Address</h3>
+                  <div class="info">
+                    <p id="ocname"></p>
+                    <p id="ocemail"></p>
+                    <p id="ocaddress"></p>
+                    <p id="occity"></p>
+                  </div>
+                </div>
+                <div class="transaction">
+                  <h3>Transaction</h3>
+                  <div class="info">
+                    <p id="ocorderID"></p>
+                    <p id="occustomerID"></p>
+                    <p id="ocdate"></p>
+                    <p id="ocshipping"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="products">
+                <table>
+                  <caption>Merchandise Store</caption>
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Product Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ocproductRows"></tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="4" style="text-align:right">Products SubTotal</th>
+                      <th id="ocproductsSubtotal" style="text-align:right;"></th>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="text-align:right">Discount<span id="ocCoupon"></span></td>
+                      <td id="ocdiscountTotal" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="text-align:right">Taxes</td>
+                      <td id="octaxes" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="text-align:right">Shipping<span id="ocShipping"></span></td>
+                      <td id="ocshippingCost" style="text-align:right;"></td>
+                    </tr>
+                    <tr>
+                      <th colspan="4" style="text-align:right">Order Total</th>
+                      <th id="octotal" style="text-align:right;"></th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="customer">
+                <div class="payment">
+                  <h3>Customer Payment Information</h3>
+                  <div class="info">
+                    <div class="brand">
+                      <p id="occtype" class="cclogo"></p>
+                      <p id="occbrand"></p>
+                    </div>
+                    <p id="occnumber"></p>
+                    <p id="occexp"></p>
+                  </div>
+                </div>
+              </div>
+              <button id="ecommerce-end" type="submit" name="action" class="button ecommerce-btn"
+                title="Close Ecommerce Funnel">
+                <span class="text">Close</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -298,12 +473,14 @@
     </main>
     <footer></footer>
 
-    <script type="text/javascript" src="function.min.js"></script>
+    <script type="text/javascript" src="function.js"></script>
     <script type="text/javascript">
       /**
        * Populate section element with initial data layer object
        */
-      document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+      document.querySelector(
+        '#json',
+      ).innerHTML += `<p class="tab"><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0).event === 'initData' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
         undefined,
         2,
