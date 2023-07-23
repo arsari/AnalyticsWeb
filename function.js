@@ -33,7 +33,7 @@ function displayJSON(status) {
     userLogged = '<span class="alert">User Logged Out</span>';
   }
 
-  document.querySelector('#json').innerHTML += `<p id="tab"><em>dataLayer.push and utag.link [${
+  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
     window.dataLayer.length
   }]</em>${userLogged}</p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
 
@@ -122,12 +122,13 @@ function errorEvent(e, m, ui) {
   alert(m);
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
+  const si = /item/i.test(e.id) ? 'yes' : e.id;
   let en;
   let bt;
-  switch (e.id) {
-    case /item/i.test(e.id):
+  switch (si) {
+    case 'yes':
       en = 'select_item';
-      (bt = e), id;
+      bt = e.id;
       break;
     case 'checkout2':
       en = 'add_shipping_info';
@@ -148,6 +149,7 @@ function errorEvent(e, m, ui) {
     event_type: 'content tool',
     button_text: bt,
     tag_name: e.tagName,
+    step: step.at(-1),
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
@@ -158,10 +160,11 @@ function errorEvent(e, m, ui) {
   });
 
   utag.link({
-    tealium_event: en,
+    event: `${en}_error`,
     event_type: 'content tool',
     button_text: bt,
     tag_name: e.tagName,
+    step: step.at(-1),
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
@@ -206,6 +209,7 @@ function removeItem(i, ui) {
     button_text: el.innerText,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    step: step.at(-1),
     alert_message: message,
     alert_impression: true,
     ecommerce: {
@@ -226,6 +230,7 @@ function removeItem(i, ui) {
     button_text: el.innerText,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    step: step.at(-1),
     alert_message: message,
     alert_impression: true,
     ecommerce: {
@@ -272,7 +277,7 @@ function selectItem(i, ui) {
   const qty = parseInt(document.querySelector(`#qty${i}`).value);
   if (qty === 0) {
     el.checked = false;
-    const message = 'ERROR: Selected Item Quantity is Zero!';
+    const message = 'ERROR: Selected item has zero quantity!';
     errorEvent(el, message, ui);
     return;
   }
@@ -295,6 +300,7 @@ function selectItem(i, ui) {
     button_text: el.id,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    step: step.at(-1),
     ecommerce: {
       item_list_id: 'related_products',
       item_list_name: 'Related products',
@@ -313,6 +319,7 @@ function selectItem(i, ui) {
     button_text: el.innerText,
     event_type: 'ui interaction',
     tag_name: el.tagName,
+    step: step.at(-1),
     ecommerce: {
       item_list_id: 'related_products',
       item_list_name: 'Related products',
@@ -452,11 +459,11 @@ const eModal = document.querySelector('.ecommerceModal');
 let storeEnable = false;
 let itemsSelected = [];
 let itemsValue = 0;
-let adjustValue = 0; // adjusted value
 let tax = 0; // tax
 let shipping = 0; // shipping
-let userCoupon = '';
-let discount = 0;
+let userCoupon; // coupon
+let discountTotal = 0;
+let step = []; // funnel step
 const customerInfo = {};
 const itemsList = [
   {
@@ -522,7 +529,6 @@ elemClick.forEach((e) => {
     const vu = '/videos/phantom'; // video url
     const vd = vduration; // video duration
     const bt = e.innerText; // button text
-    let transactionID; // transaction ID
     let en; // event name
     let cm; // contact method
     let cc; // country currency
@@ -546,10 +552,11 @@ elemClick.forEach((e) => {
     if (storeEnable) {
       tstamp = String(new Date().getTime());
       cstamp = timeStamp();
-      let tag = e.tagName;
       let userShipping;
       let userCCBrand;
       let et = 'ui interaction';
+      let transactionID; // transaction ID
+      let discount = 0; // discount
 
       const ecommerceSent = () => {
         window.dataLayer = window.dataLayer || [];
@@ -566,13 +573,14 @@ elemClick.forEach((e) => {
           // event parameters
           button_text: bt,
           event_type: et,
-          tag_name: tag,
+          tag_name: e.tagName,
+          step: step.at(-1),
           ecommerce:
             en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
-              ? null
+              ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: Number((itemsValue - discount).toFixed(2)),
+                  value: itemsValue,
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
                   currency: 'USD',
@@ -593,13 +601,14 @@ elemClick.forEach((e) => {
           // event parameters
           button_text: bt,
           event_type: et,
-          tag_name: tag,
+          tag_name: e.tagName,
+          step: step.at(-1),
           ecommerce:
             en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
-              ? null
+              ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: Number((itemsValue - discount).toFixed(2)),
+                  value: itemsValue,
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
                   currency: 'USD',
@@ -628,6 +637,7 @@ elemClick.forEach((e) => {
         }
 
         en = e.id;
+        step.push('funnel-2');
         for (let i = 0; i < itemsSelected.length; i++) {
           itemsValue += Number((itemsSelected[i].price * itemsSelected[i].quantity).toFixed(2));
         }
@@ -685,18 +695,24 @@ elemClick.forEach((e) => {
         document.querySelector('.checkout2-wrap').classList.add('show');
 
         en = 'begin_checkout';
+        step.push('checkout-1');
         userCoupon = /summer fun/i.test(document.querySelector('#couponField').value) ? 'SUMMER FUN' : undefined;
         if (userCoupon !== undefined) {
+          discountTotal = 0;
           itemsValue = 0;
+          tax = 0;
+          shipping = 0;
           for (const element of itemsSelected) {
             element.coupon = userCoupon;
             discount = Number((element.price * 0.1).toFixed(2));
             element.discount = discount;
-            itemsValue += Number((element.price * element.quantity).toFixed(2));
+            itemsValue += Number(((element.price - element.discount) * element.quantity).toFixed(2));
+            discountTotal += Number((element.discount * element.quantity).toFixed(2));
           }
         }
         document.querySelector('#couponField').value = '';
         ecommerceSent();
+        step.push('checkout-2');
       }
 
       if (e.id === 'checkout2') {
@@ -727,6 +743,7 @@ elemClick.forEach((e) => {
         en = 'add_shipping_info';
         userShipping = customerInfo.shipping;
         ecommerceSent();
+        step.push('checkout-3');
       }
 
       if (e.id === 'checkout3') {
@@ -748,18 +765,12 @@ elemClick.forEach((e) => {
 
         en = 'add_payment_info';
         userCCBrand = customerInfo.ccbrand;
-        discount = 0;
-        itemsValue = 0;
-        for (const element of itemsSelected) {
-          discount += Number(((element.discount ?? 0) * element.quantity).toFixed(2));
-          itemsValue += Number((element.price * element.quantity).toFixed(2));
-          userCoupon = element.coupon ?? undefined;
-        }
         ecommerceSent();
+        step.push('checkout-4');
 
-        adjustValue = itemsValue - discount;
-        tax = Number((adjustValue * 0.07).toFixed(2));
-        shipping = Number((adjustValue * 0.12).toFixed(2));
+        // order summary
+        tax = Number((itemsValue * 0.07).toFixed(2));
+        shipping = Number((itemsValue * 0.12).toFixed(2));
         switch (customerInfo.shipping) {
           case 'express':
             shipping += 10;
@@ -794,6 +805,9 @@ elemClick.forEach((e) => {
                   element.item_category3
                 } ${element.item_category5}`,
               );
+            } else if (key === '3') {
+              column.style.cssText = 'text-align: center;';
+              column.appendChild(document.createTextNode(keys[key]));
             } else {
               column.appendChild(document.createTextNode(keys[key]));
             }
@@ -802,13 +816,13 @@ elemClick.forEach((e) => {
           }
         }
 
-        document.querySelector('#productsSubtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+        document.querySelector('#productsSubtotal').innerHTML = `$ ${(itemsValue + discountTotal).toFixed(2)}`;
         document.querySelector('#uCoupon').innerHTML = userCoupon === undefined ? '' : `: ${userCoupon}`;
-        document.querySelector('#discountTotal').innerHTML = `($ ${discount.toFixed(2)})`;
+        document.querySelector('#discountTotal').innerHTML = `($ ${discountTotal.toFixed(2)})`;
         document.querySelector('#taxes').innerHTML = `$ ${tax.toFixed(2)}`;
         document.querySelector('#uShipping').innerHTML = customerInfo.shipping.toUpperCase();
         document.querySelector('#shippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
-        document.querySelector('#total').innerHTML = `$ ${(adjustValue + tax + shipping).toFixed(2)}`;
+        document.querySelector('#total').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
 
         document.querySelector('#cctype').innerHTML = customerInfo.cclogo;
         document.querySelector('#ccbrand').innerHTML = customerInfo.ccbrand;
@@ -823,8 +837,10 @@ elemClick.forEach((e) => {
 
         transactionID = `T-${Math.floor(Math.random() * 10000)}`;
         en = e.id;
-        et = 'çonversion';
+        et = 'conversion';
+        step.push('checkout-end');
         ecommerceSent();
+        step.push('confirmation');
 
         document.querySelector('#ocname').innerHTML = customerInfo.name;
         document.querySelector('#ocemail').innerHTML = customerInfo.email;
@@ -856,6 +872,9 @@ elemClick.forEach((e) => {
                   element.item_category3
                 } ${element.item_category5}`,
               );
+            } else if (key === '3') {
+              column.style.cssText = 'text-align: center;';
+              column.appendChild(document.createTextNode(keys[key]));
             } else {
               column.appendChild(document.createTextNode(keys[key]));
             }
@@ -864,13 +883,13 @@ elemClick.forEach((e) => {
           }
         }
 
-        document.querySelector('#ocproductsSubtotal').innerHTML = `$ ${itemsValue.toFixed(2)}`;
+        document.querySelector('#ocproductsSubtotal').innerHTML = `$ ${(itemsValue + discountTotal).toFixed(2)}`;
         document.querySelector('#ocCoupon').innerHTML = userCoupon === undefined ? '' : `: ${userCoupon}`;
-        document.querySelector('#ocdiscountTotal').innerHTML = `($ ${discount.toFixed(2)})`;
+        document.querySelector('#ocdiscountTotal').innerHTML = `($ ${discountTotal.toFixed(2)})`;
         document.querySelector('#octaxes').innerHTML = `$ ${tax.toFixed(2)}`;
         document.querySelector('#ocShipping').innerHTML = `: ${customerInfo.shipping.toUpperCase()}`;
         document.querySelector('#ocshippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
-        document.querySelector('#octotal').innerHTML = `$ ${(adjustValue + tax + shipping).toFixed(2)}`;
+        document.querySelector('#octotal').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
 
         document.querySelector('#occtype').innerHTML = customerInfo.cclogo;
         document.querySelector('#occbrand').innerHTML = customerInfo.ccbrand;
@@ -880,7 +899,6 @@ elemClick.forEach((e) => {
 
       if (e.id === 'ecommerce-close' || e.id === 'ecommerce-end') {
         en = e.id === 'ecommerce-close' ? 'ecommerce_modal_closed' : 'ecommerce_funnel_complete';
-        tag = e.tagName;
         ecommerceSent();
         ecommerceModal();
         storeEnable = false;
@@ -896,14 +914,82 @@ elemClick.forEach((e) => {
         document.querySelector('.checkout3-wrap').classList.remove('show');
         document.querySelector('.summary-wrap').classList.remove('show');
         document.querySelector('.purchase-wrap').classList.remove('show');
-
         itemsSelected = [];
         itemsValue = 0;
+        step = [];
       }
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
+          tstamp = String(new Date().getTime());
+          cstamp = timeStamp();
+          let et = 'ui interaction';
           ecommerceModal();
+
+          const ecommerceStart = () => {
+            if (en !== 'ecommerce_modal_opened') {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({
+                ecommerce: null,
+              }); // Clear the previous ecommerce object
+              utag.link({
+                ecommerce: null,
+              }); // Clear the previous ecommerce object
+              displayJSON(logged);
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: en,
+              // event parameters
+              button_text: bt,
+              event_type: et,
+              tag_name: e.tagName,
+              step: step.at(-1),
+              ecommerce:
+                en === 'ecommerce_modal_opened'
+                  ? undefined
+                  : {
+                      item_list_id: 'related_products',
+                      item_list_name: 'Related products',
+                      items: itemsList,
+                    },
+              event_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
+              // user properties
+              logged_in: logged,
+              user_id: ui,
+            });
+
+            utag.link({
+              tealium_event: en,
+              // event parameters
+              button_text: bt,
+              event_type: et,
+              tag_name: e.tagName,
+              step: step.at(-1),
+              ecommerce:
+                en === 'ecommerce_modal_opened'
+                  ? undefined
+                  : {
+                      item_list_id: 'related_products',
+                      item_list_name: 'Related products',
+                      items: itemsList,
+                    },
+              event_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
+              // user properties
+              logged_in: logged,
+              user_id: ui,
+              custom_user_id: ui,
+            });
+            displayJSON(logged);
+          };
+
+          en = 'ecommerce_modal_opened';
+          et = 'ui interaction';
+          ecommerceStart();
+
+          // view_item_list
           for (const element of itemsList) {
             const row = document.createElement('tr');
             const itemSKU = Math.floor(Math.random() * 10000);
@@ -948,54 +1034,10 @@ elemClick.forEach((e) => {
             }
           }
           en = 'view_item_list';
-
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            ecommerce: null,
-          }); // Clear the previous ecommerce object
-          utag.link({
-            ecommerce: null,
-          }); // Clear the previous ecommerce object
-          displayJSON(logged);
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: en,
-            // event parameters
-            button_text: `${bt} [modal open]`,
-            event_type: 'ui interaction',
-            tag_name: e.tagName,
-            ecommerce: {
-              item_list_id: 'related_products',
-              item_list_name: 'Related products',
-              items: itemsList,
-            },
-            event_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: ui,
-          });
-
-          utag.link({
-            tealium_event: en,
-            // event parameters
-            button_text: `${bt} [modal open]`,
-            event_type: 'ui interaction',
-            tag_name: e.tagName,
-            ecommerce: {
-              item_list_id: 'related_products',
-              item_list_name: 'Related products',
-              items: itemsList,
-            },
-            event_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: ui,
-            custom_user_id: ui,
-          });
+          et = 'content tool';
+          step.push('funnel-1');
+          ecommerceStart();
           storeEnable = true;
-          displayJSON(logged);
           return;
         }
         message = 'ERROR: Please Sign In!';

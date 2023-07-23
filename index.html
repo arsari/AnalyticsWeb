@@ -307,7 +307,7 @@
             <div>
               <h2>Enter Credit Card Information</h2>
               <form>
-                <div id="cclogo" class="cclogo"></div>
+                <div id="cclogo" class="cclogo revert"></div>
                 <label for="cardnum">Credit Card Number<span>*</span>:</label>
                 <input id="cardnum" type="number" class="formInput"
                   placeholder="Enter your credit card number no spaces" required oninput="creditCardType()">
@@ -329,21 +329,21 @@
                 <div class="address">
                   <h3>Customer Shipping/Billing Address</h3>
                   <div class="info">
-                    <p id="sbname"></p>
-                    <p id="sbemail"></p>
-                    <p id="sbaddress"></p>
-                    <p id="sbcity"></p>
+                    <p id="sbname" class="revert"></p>
+                    <p id="sbemail" class="revert"></p>
+                    <p id="sbaddress" class="revert"></p>
+                    <p id="sbcity" class="revert"></p>
                   </div>
                 </div>
                 <div class="payment">
                   <h3>Customer Payment Information</h3>
                   <div class="info">
                     <div class="brand">
-                      <p id="cctype" class="cclogo"></p>
-                      <p id="ccbrand"></p>
+                      <p id="cctype" class="cclogo revert"></p>
+                      <p id="ccbrand" class="revert"></p>
                     </div>
-                    <p id="ccnumber"></p>
-                    <p id="ccexp"></p>
+                    <p id="ccnumber" class="revert"></p>
+                    <p id="ccexp" class="revert"></p>
                   </div>
                 </div>
               </div>
@@ -395,19 +395,19 @@
                 <div class="address">
                   <h3>Shipping Address</h3>
                   <div class="info">
-                    <p id="ocname"></p>
-                    <p id="ocemail"></p>
-                    <p id="ocaddress"></p>
-                    <p id="occity"></p>
+                    <p id="ocname" class="revert"></p>
+                    <p id="ocemail" class="revert"></p>
+                    <p id="ocaddress" class="revert"></p>
+                    <p id="occity" class="revert"></p>
                   </div>
                 </div>
                 <div class="transaction">
                   <h3>Transaction</h3>
                   <div class="info">
-                    <p id="ocorderID"></p>
-                    <p id="occustomerID"></p>
-                    <p id="ocdate"></p>
-                    <p id="ocshipping"></p>
+                    <p id="ocorderID" class="revert"></p>
+                    <p id="occustomerID" class="revert"></p>
+                    <p id="ocdate" class="revert"></p>
+                    <p id="ocshipping" class="revert"></p>
                   </div>
                 </div>
               </div>
@@ -454,10 +454,10 @@
                   <div class="info">
                     <div class="brand">
                       <p id="occtype" class="cclogo"></p>
-                      <p id="occbrand"></p>
+                      <p id="occbrand" class="revert"></p>
                     </div>
-                    <p id="occnumber"></p>
-                    <p id="occexp"></p>
+                    <p id="occnumber" class="revert"></p>
+                    <p id="occexp" class="revert"></p>
                   </div>
                 </div>
               </div>
@@ -473,14 +473,12 @@
     </main>
     <footer></footer>
 
-    <script type="text/javascript" src="function.js"></script>
+    <script type="text/javascript" src="function.min.js"></script>
     <script type="text/javascript">
       /**
        * Populate section element with initial data layer object
        */
-      document.querySelector(
-        '#json',
-      ).innerHTML += `<p class="tab"><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+      document.querySelector('#json').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0).event === 'initData' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
         undefined,
         2,

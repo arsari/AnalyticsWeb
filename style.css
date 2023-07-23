@@ -94,8 +94,7 @@ main {
   margin: 0 30px 90px;
 }
 
-#tab,
-.tab,
+p,
 .coupon {
   background-color: #9d2b2b;
   color: #ffffff;
@@ -121,8 +120,7 @@ main {
   margin-left: 5px;
 }
 
-#tab > span,
-.tab > span {
+p > span {
   background-color: #619408;
   color: #ffff00;
   padding: 5px;
@@ -130,6 +128,10 @@ main {
   margin-right: -5px;
   border: none;
   border-radius: 5px;
+}
+
+.revert {
+  all: revert;
 }
 
 .alert {
