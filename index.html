@@ -25,7 +25,7 @@
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: false,
-        user_id: localStorage.UUID !== undefined && localStorage.UUID ? localStorage.UUID : 'guest',
+        user_id: localStorage.UUID ?? 'guest',
       });
     </script>
     <!-- END: dataLayers init -->
@@ -90,8 +90,8 @@
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: false,
-        user_id: localStorage.UUID ? localStorage.UUID : 'guest',
-        custom_user_id: localStorage.customID ? localStorage.customID : 'guest',
+        user_id: localStorage.UUID ?? 'guest',
+        custom_user_id: localStorage.customID ?? 'guest',
       };
     </script>
     <!-- END: utag data object init -->
@@ -128,8 +128,7 @@
         </h1>
         <h3>
           Playground to explore analytics implementation on a web data stream for Google Analytics 4 (GA4) through GTM
-          and
-          Adobe Analytics (AA) through Tealium IQ and Adobe Launch.
+          and Adobe Analytics (AA) through Tealium IQ. We use Adobe Launch as experimental tool not fully implemented.
         </h3>
         <span class="github-banner" title="Github Repository">
           <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"

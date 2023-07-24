@@ -8,14 +8,21 @@
 
 <!-- Start Document Outline -->
 
-- [Introduction](#introduction)
-- [Tagging Implementation](#tagging-implementation)
-  - [General Events](#general-events)
-  - [Purchase Event](#purchase-event)
-  - [Video Events](#video-events)
-  - [Error Events](#error-events)
-- [GTM Setup](#gtm-setup)
-- [Reference Documentation](#reference-documentation)
+- [AnalyticsWeb](#analyticsweb)
+  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
+    - [Table of Contents](#table-of-contents)
+    - [Introduction](#introduction)
+    - [Tagging Implementation](#tagging-implementation)
+      - [General Events](#general-events)
+      - [Ecommerce Funnel Events](#ecommerce-funnel-events)
+      - [Video Events](#video-events)
+      - [Error Events](#error-events)
+    - [GTM Setup](#gtm-setup)
+      - [General Events](#general-events-1)
+      - [Ecommerce Funnel Events](#ecommerce-funnel-events-1)
+      - [Error Events](#error-events-1)
+      - [Video Events](#video-events-1)
+    - [Reference Documentation](#reference-documentation)
 
 <!-- End Document Outline -->
 
@@ -24,18 +31,16 @@
 Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a comprehensive and flexible approach to website and apps analytics. To implement GA4 and AA on our website, will need to follow these steps:
 
 - Create a GA4 property or AA data stream in our corresponding tool account.
-- Set up our GA4 and AA tracking code on our website.
+- Install our GA4 and AA tracking code on our website.
 - Verify the GA4 and AA installation.
-- Configure our GA4 property reports and AA analysis warehouse dashboard settings.
+- Configure our GA4 property reports and AA analysis workspace dashboard settings.
 - Start tracking our website traffic.
 
-Overall, implementing GA4 and AA on our website involves creating a new property and data stream, adding the tracking code to our website, verifying our installation, configuring our analytics settings, and tracking our website traffic.
-
-This is self playground of analytic implementation on a website through GTM and a GA4 web data stream, as well through Tealium IQ and Adobe Analytics. The implementation allows to explore a:
+This is playground of analytic implementation on a website using GTM and a GA4 web data stream, as well using Tealium IQ and Adobe Analytics. The implementation allows to explore a:
 
 - dataLayer array-objects managed through GTM and analyzing the data in a GA4 web data stream,
-- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in an Adobe Analytics data stream.
-- Initial setup of Adobe Launch rules to see response in the browser console.
+- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
+- Initial setup of Adobe Launch rules to see response in the browser console (experimental implementation).
 
 ![Playground Screenshot](img/playground_screenshot.png)
 
@@ -59,9 +64,10 @@ The `dataLayer` array-object should be located inside the `<head>...</head>` tag
     event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
-    user_id: localStorage.UUID ? localStorage.UUID : "guest",
+    user_id: localStorage.UUID ?? "guest",
   });
 </script>
+<!-- END: dataLayers init -->
 ```
 
 The `utag_data` object variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
@@ -80,8 +86,8 @@ The `utag_data` object variable should be located inside the `<body>...</body>` 
     event_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
-    user_id: localStorage.UUID ? localStorage.UUID : "guest",
-    custom_user_id: localStorage.UUID ? localStorage.UUID : "guest",
+    user_id: localStorage.UUID ?? "guest",
+    custom_user_id: localStorage.customID ?? "guest",
   };
 </script>
 <!-- END: utag data object init -->
@@ -89,32 +95,43 @@ The `utag_data` object variable should be located inside the `<body>...</body>` 
 
 ### Tagging Implementation
 
-The tagging implementation for events log consider the followings user actions (ui interactions), system events (content tools), and errors based on an element click attribute `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
+The tagging implementation for events consider the followings user actions (ui interactions), system events (content tools), and errors based on an element click attribute `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
-| User Action             | Event               | Type             | Parameters                                                                                                          | GA4 Scope                                                   | GA4 Custom Definitions                                                                   |
-| ----------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Sign In                 | login               | user interaction | method                                                                                                              | Event                                                       | Predefined                                                                               |
-| Sign In                 | login_error         | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event<br>                                          | Dimension<br>Dimension                                                                   |
-| Outbound Link           | outbound_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                         | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
-| Internal Link           | internal_link       | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                     | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                       |
-| Download                | file_download       | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                  | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined         |
-| Video                   | video_start         | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-|                         | video_progress      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-|                         | video_complete      | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-| Video playing           | video_stop          | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined     |
-| Email                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
-| Phone                   | generate_lead       | user interaction | contact_method<br>currency<br>value                                                                                 | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                    |
-| Form                    | form_start          | user interaction | form_destination<br>form_id<br>form_name                                                                            | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                      |
-| \* _Submit Button_      | form_submit         | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession          | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Dimension<br>Dimension<br>Dimension<br>Dimension<br>Dimension<br>Predefined<br>Dimension |
-| \* _`X`_ (close form)   | form_modal_closed   | user interaction | form_id<br>form_name                                                                                                | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
-| Form                    | form_error          | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
-| Purchase                | purchase            | user interaction | ecommerce.transaction_id<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.items               | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                       |
-| Search                  | search_modal_opened | user interaction |                                                                                                                     |                                                             |
-| \* _Magnified Glass_    | search              | user interaction | search_term                                                                                                         | Event                                                       | Predefined                                                                               |
-| \* _`X`_ (close search) | search_modal_closed | user interaction |                                                                                                                     |                                                             |
-| Search                  | search_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
-| Sign Out                | logout              | user interaction |                                                                                                                     | Event                                                       | Dimension                                                                                |
-| Sign Out                | logout_error        | content tool     | error_message<br>alert_impression                                                                                   | Event<br>Event                                              | Dimension<br>Dimension                                                                   |
+| User Action                | Event                       | Type             | Parameters                                                                                                                                      | GA4 Scope                                                   | GA4 Custom Definitions                                                                           |
+| -------------------------- | --------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Sign In                    | login                       | user interaction | method                                                                                                                                          | Event                                                       | Predefined                                                                                       |
+| Sign In                    | login_error                 | content tool     | error_message<br>alert_impression                                                                                                               | Event<br>Event                                              | Dimension<br>Dimension                                                                           |
+| Outbound Link              | outbound_link               | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                                                     | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                 |
+| Internal Link              | internal_link               | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                                                 | Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                               |
+| Download                   | file_download               | user interaction | file_name<br>file_extension<br>link_domain<br>link_classes<br>link_id<br>link_text                                                              | Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                 |
+| Video                      | video_start                 | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url                             | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined |
+| Video Playing              | video_progress              | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url                             | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined |
+| Video Playing              | video_complete              | content tool     | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url                             | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined |
+| Video playing              | video_stop                  | user interaction | video_duration<br>video_current_time<br>video_percent<br>video_status<br>video_provider<br>video_title<br>video_url                             | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Metric (sec)<br>Metric (sec)<br>Dimension<br>Dimension<br>Predefined<br>Predefined<br>Predefined |
+| Email                      | generate_lead               | user interaction | contact_method<br>currency<br>value                                                                                                             | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                            |
+| Phone                      | generate_lead               | user interaction | contact_method<br>currency<br>value                                                                                                             | Event<br>Event<br>Event                                     | Dimension<br>Predefined<br>Predefined                                                            |
+| Form                       | form_start                  | user interaction | form_destination<br>form_id<br>form_name                                                                                                        | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                              |
+| \* _Submit Button_         | form_submit                 | user interaction | contact_method<br>form_destination<br>form_id<br>form_name<br>form_submit_text<br>value<br>user_profession                                      | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Dimension<br>Dimension<br>Dimension<br>Dimension<br>Dimension<br>Predefined<br>Dimension         |
+| \* _`X`_ (close form)      | form_modal_closed           | user interaction | form_id<br>form_name                                                                                                                            | Event<br>Event                                              | Dimension<br>Dimension                                                                           |
+| Form                       | form_error                  | content tool     | error_message<br>alert_impression                                                                                                               | Event<br>Event                                              | Dimension<br>Dimension                                                                           |
+| Ecommerce Funnel           | ecommerce_modal_opened      | user interaction |                                                                                                                                                 |                                                             |                                                                                                  |
+| Ecommerce Funnel           | view_item_list              | content tool     | ecommerce.item_list_id<br>ecommerce.item_list_name<br>ecommerce.items                                                                           | Event<br>Event<br>Event                                     | Predefined<br>Predefined<br>Predefined                                                           |
+| Ecommerce Funnel           | select_item                 | user interaction | ecommerce.item_list_id<br>ecommerce.item_list_name<br>ecommerce.items                                                                           | Event<br>Event<br>Event                                     | Predefined<br>Predefined<br>Predefined                                                           |
+| Ecommerce Funnel           | add_to_cart                 | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.items                                                                                        | Event<br>Event<br>Event                                     | Predifined<br>Predifined<br>Predifined                                                           |
+| Ecommerce Funnel           | view_cart                   | content tool     | ecommerce.currency<br>ecommerce.value<br>ecommerce.items                                                                                        | Event<br>Event<br>Event                                     | Predifined<br>Predifined<br>Predifined                                                           |
+| Ecommerce Funnel           | remove_from_cart            | user interaction | alert_message<br>alert_impression<br>ecommerce.currency<br>ecommerce.value<br>ecommerce.items                                                   | Event<br>Event<br>Event<br>Event<br>Event                   | Dimension<br>Dimension<br>Predifined<br>Predifined<br>Predifined                                 |
+| Ecommerce Funnel           | begin_checkout              | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.coupon<br>ecommerce.items                                                                    | Event<br>Event<br>Event<br>Event                            | Predifined<br>Predifined<br>Predifined<br>Predifined                                             |
+| Ecommerce Funnel           | add_shipping_info           | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.coupon<br>ecommerce.shipping_tier<br>ecommerce.items                                         | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                               |
+| Ecommerce Funnel           | add_payment_info            | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.coupon<br>ecommerce.payment_type<br>ecommerce.items                                          | Event<br>Event<br>Event<br>Event<br>Event                   | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                               |
+| Ecommerce Funnel           | purchase                    | user interaction | ecommerce.transaction_id<br>ecommerce.currency<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.coupon<br>ecommerce.items | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined   |
+| Ecommerce Funnel           | \<ecommerce events\>\_error | content tool     | error_message<br>alert_impression<br>step                                                                                                       | Event<br>Event<br>Event                                     | Dimension<br>Dimension<br>Dimension                                                              |
+| \* _`X`_ (close ecommerce) | ecommerce_modal_closed      | user interaction |                                                                                                                                                 |                                                             |
+| Search                     | search_modal_opened         | user interaction |                                                                                                                                                 |                                                             |
+| \* _Magnified Glass_       | search                      | user interaction | search_term                                                                                                                                     | Event                                                       | Predefined                                                                                       |
+| \* _`X`_ (close search)    | search_modal_closed         | user interaction |                                                                                                                                                 |                                                             |
+| Search                     | search_error                | content tool     | error_message<br>alert_impression                                                                                                               | Event<br>Event                                              | Dimension<br>Dimension                                                                           |
+| Sign Out                   | logout                      | user interaction |                                                                                                                                                 | Event                                                       | Dimension                                                                                        |
+| Sign Out                   | logout_error                | content tool     | error_message<br>alert_impression                                                                                                               | Event<br>Event                                              | Dimension<br>Dimension                                                                           |
 
 The following global parameters apply to most of the above **events**:
 
@@ -123,6 +140,7 @@ The following global parameters apply to most of the above **events**:
 | event_type                     | Event     | Dimension              |
 | button_text                    | Event     | Dimension              |
 | tag_name                       | Event     | Dimension              |
+| step (ecommerce events only)   | Event     | Dimension              |
 | event_timestamp (milliseconds) | Event     | Dimension              |
 | custom_timestamp (ISO 8601)    | Event     | Dimension              |
 | custom_user_id (user Property) | User      | Dimension              |
@@ -134,7 +152,7 @@ The events `dataLayer` array-object is based on [Google Analytics 4](https://sup
 We classified the implementation of the `dataLayer` array-object and utag.link() data into the following:
 
 - A [General Events](#general-events) `dataLayer` array-object and `utag.link` data object;
-- A [Purchase Event](#purchase-event) `dataLayer` array-object and `utag.link` data object;
+- An [Ecommerce Funnel Events](#ecommerce-funnel-events) `dataLayer` array-object and `utag.link` data object;
 - A [Video Events](#video-events) `dataLayer` array-object and `utag.link` data object;
 - An [Error Events](#error-events) `dataLayer` array-object and `utag.link` data object.
 
@@ -274,75 +292,124 @@ utag.link({
 });
 ```
 
-#### Purchase Event
+#### Ecommerce Funnel Events
 
-The implemented _purchase event_ `dataLayer` array-object and `utag.link` data object is composed of:
+We have set up the _ecommerce funnel events_ in way that collect information about the shopping behavior of your users. This approach for this was based on the [Google Measure Ecommerce|https://developers.google.com/analytics/devguides/collection/ga4/ecommerce?client_type=gtm] guide in the Google Analytics 4 documentation.
+
+The following is a collection of items, `items` array-object, that we are using in our implementation. The items array can include up to 200 elements.
+
+```js
+const itemsList = [
+  {
+    item_name: "Stan and Friends Tee",
+    affiliation: "Merchandise Store",
+    item_brand: "MyCollection",
+    item_category: "Apparel",
+    item_category2: "Adult",
+    item_category3: "Shirts",
+    item_category4: "Crew",
+    item_category5: "Short sleeve",
+    item_list_id: "related_products",
+    item_list_name: "Related Products",
+    item_variant: "green",
+    location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+    price: 29.95,
+  },
+  {
+    item_name: "Friends Pants",
+    affiliation: "Merchandise Store",
+    item_brand: "MyCollection",
+    item_category: "Apparel",
+    item_category2: "Adult",
+    item_category3: "Pants",
+    item_category4: "Crew",
+    item_category5: "Regular Fit",
+    item_list_id: "related_products",
+    item_list_name: "Related Products",
+    item_variant: "blue",
+    location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+    price: 39.95,
+  },
+  {
+    item_name: "Canyonlands Full-Zip Hoodie",
+    affiliation: "Merchandise Store",
+    item_brand: "MyCollection",
+    item_category: "Apparel",
+    item_category2: "Adult",
+    item_category3: "Jackets",
+    item_category4: "Crew",
+    item_category5: "Long sleeve",
+    item_list_id: "related_products",
+    item_list_name: "Related Products",
+    item_variant: "black",
+    location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+    price: 99.0,
+  },
+];
+```
+
+When the user complete the ecommerce funnel by placing a purchase and firing the purchase event with one or more items defined with the relevant fields, the `items` array-object could look like this:
+
+```js
+{
+  items: [
+    {
+      item_id: "SKU_12345",
+      item_name: "Canyonlands Full-Zip Hoodie",
+      affiliation: "Merchandise Store",
+      coupon: "SUMMER_FUN",
+      discount: 9.9,
+      index: 0,
+      item_brand: "MyCollection",
+      item_category: "Apparel",
+      item_category2: "Adult",
+      item_category3: "Jackets",
+      item_category4: "Crew",
+      item_category5: "Long sleeve",
+      item_list_id: "related_products",
+      item_list_name: "Related Products",
+      item_variant: "black",
+      location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
+      price: 99.0,
+      quantity: 1,
+    },
+  ];
+}
+```
+
+The implemented _ecommerece funnel events_ `dataLayer` array-object and `utag.link` data object is composed of:
 
 ```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   ecommerce: null,
 }); // Clear the previous ecommerce object
+utag.link({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+displayJSON(logged);
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
-  event: e.id,
+  event: en,
   // event parameters
-  event_type: "conversion",
-  button_text: e.innerText,
+  button_text: bt,
+  event_type: et,
   tag_name: e.tagName,
-  ecommerce: {
-    transaction_id: transactionID,
-    affiliation: "Merchandise Store",
-    coupon: "SUMMER_SALE",
-    currency: "USD",
-    shipping: Number((subtotal * 0.12).toFixed(2)),
-    tax: Number((subtotal * 0.07).toFixed(2)),
-    value: subtotal,
-    items: [
-      {
-        item_id: sku1,
-        item_name: "Stan and Friends Tee",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 0,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Shirts",
-        item_category4: "Crew",
-        item_category5: "Short sleeve",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "green",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-      {
-        item_id: sku2,
-        item_name: "Friends Pants",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 1,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Pants",
-        item_category4: "Crew",
-        item_category5: "Regular Fit",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "blue",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-    ],
-  },
+  step: step.at(-1),
+  ecommerce:
+    en === "ecommerce_modal_closed" || en === "ecommerce_funnel_complete"
+      ? undefined
+      : {
+          transaction_id: transactionID ?? undefined,
+          value: itemsValue,
+          tax: tax === 0 ? undefined : tax,
+          shipping: shipping === 0 ? undefined : shipping,
+          currency: "USD",
+          coupon: userCoupon ?? undefined,
+          shipping_tier: userShipping ?? undefined,
+          payment_type: userCCBrand ?? undefined,
+          items: itemsSelected,
+        },
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
@@ -351,67 +418,26 @@ window.dataLayer.push({
 });
 
 utag.link({
-  ecommerce: null,
-}); // Clear the previous ecommerce object
-utag.link({
-  tealium_event: e.id,
+  tealium_event: en,
   // event parameters
-  event_type: "conversion",
-  button_text: e.innerText,
+  button_text: bt,
+  event_type: et,
   tag_name: e.tagName,
-  ecommerce: {
-    transaction_id: transactionID,
-    affiliation: "Merchandise Store",
-    coupon: "SUMMER_SALE",
-    currency: "USD",
-    shipping: Number((subtotal * 0.12).toFixed(2)),
-    tax: Number((subtotal * 0.07).toFixed(2)),
-    value: subtotal,
-    items: [
-      {
-        item_id: sku1,
-        item_name: "Stan and Friends Tee",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 0,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Shirts",
-        item_category4: "Crew",
-        item_category5: "Short sleeve",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "green",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-      {
-        item_id: sku2,
-        item_name: "Friends Pants",
-        affiliation: "Merchandise Store",
-        coupon: "SUMMER_FUN",
-        currency: "USD",
-        discount: itemDiscount,
-        index: 1,
-        item_brand: "MyCollection",
-        item_category: "Apparel",
-        item_category2: "Adult",
-        item_category3: "Pants",
-        item_category4: "Crew",
-        item_category5: "Regular Fit",
-        item_list_id: "related_products",
-        item_list_name: "Related Products",
-        item_variant: "blue",
-        location_id: "ChIJIQBpAG2ahYAR_6128GcTUEo",
-        price: itemPrice,
-        quantity: itemQty,
-      },
-    ],
-  },
+  step: step.at(-1),
+  ecommerce:
+    en === "ecommerce_modal_closed" || en === "ecommerce_funnel_complete"
+      ? undefined
+      : {
+          transaction_id: transactionID ?? undefined,
+          value: itemsValue,
+          tax: tax === 0 ? undefined : tax,
+          shipping: shipping === 0 ? undefined : shipping,
+          currency: "USD",
+          coupon: userCoupon ?? undefined,
+          shipping_tier: userShipping ?? undefined,
+          payment_type: userCCBrand ?? undefined,
+          items: itemsSelected,
+        },
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
@@ -476,40 +502,60 @@ The implemented _error events_ `dataLayer` array-object and `utag.link` data obj
 ```js
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
-  event: `${e.id}_error`,
+  event: `${en}_error`,
   event_type: "content tool",
-  button_text: e.innerText,
+  button_text: bt,
   tag_name: e.tagName,
+  step: step.at(-1),
   error_message: m,
   alert_impression: true,
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
-  logged_in: l,
-  user_id: u,
+  logged_in: logged,
+  user_id: ui,
 });
 
 utag.link({
-  tealium_event: `${e.id}_error`,
+  event: `${en}_error`,
   event_type: "content tool",
-  button_text: e.innerText,
+  button_text: bt,
   tag_name: e.tagName,
+  step: step.at(-1),
   error_message: m,
   alert_impression: true,
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
-  logged_in: l,
-  user_id: u,
+  logged_in: logged,
+  user_id: ui,
   custom_user_id: ui,
 });
 ```
 
 ### GTM Setup
 
-The `dataLayer` array-object for the four main event objects has been setup in GTM with individual tags and triggers.
+The `dataLayer` array-object for the four main event has been setup in GTM comprised in four individual tags:
 
-![GTM Screenshot](img/gtm_tags-screenshot.png)
+![GTM Tags Screenshot](img/gtm_tags.png)
+
+The set up for each tag and triggers is as follows:
+
+#### General Events
+
+![General Events Screenshot](img/general-events.png)
+
+#### Ecommerce Funnel Events
+
+![Ecommerce Funnel Events Screenshot](img/ecommerce-funnel-events.png)
+
+#### Error Events
+
+![Error Events Screenshot](img/error-events.png)
+
+#### Video Events
+
+![Video Events Screenshot](img/video-events.png)
 
 ### Reference Documentation
 
@@ -520,4 +566,4 @@ The `dataLayer` array-object for the four main event objects has been setup in G
 
 =====
 
-Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE)
+Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: July 24, 2023
