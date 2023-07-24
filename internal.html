@@ -69,7 +69,7 @@
       script.async = true;
       document.head.appendChild(script);
 
-      const ids = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv };
+      const ids = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv, userID: dataLayer[0].user_id };
       console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
@@ -90,7 +90,7 @@
         // user properties
         logged_in: localStorage.logged ? localStorage.logged : false,
         user_id: localStorage.UUID ? localStorage.UUID : 'guest',
-        custom_user_id: localStorage.UUID ? localStorage.UUID : 'guest',
+        custom_user_id: localStorage.customID ? localStorage.customID : 'guest',
       };
     </script>
     <!-- END: utag dataLayers config -->

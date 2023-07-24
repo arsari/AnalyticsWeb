@@ -336,6 +336,8 @@ function selectItem(i, ui) {
   itemsSelected.push(itemsList[i]);
   itemsValue = itemsList[i].price;
   el.setAttribute('disabled', '');
+  document.querySelector(`#qty${i}`).previousElementSibling.setAttribute('disabled', '');
+  document.querySelector(`#qty${i}`).nextElementSibling.setAttribute('disabled', '');
 }
 
 /**
@@ -372,6 +374,33 @@ function chgQTY(i, q) {
 }
 
 /**
+ * The function `chgSHIPPING` calculates the shipping cost and updates the total
+ * cost based on the selected shipping option.
+ */
+function chgSHIPPING() {
+  const s = document.querySelector('#chgSHIPP').value;
+  let c = shipping;
+
+  switch (s) {
+    case 'Express':
+      c = Number((itemsValue * 0.12).toFixed(2)) + 10;
+      break;
+    case 'Overnight':
+      c = Number((itemsValue * 0.12).toFixed(2)) + 20;
+      break;
+    case 'Standard':
+      c = Number((itemsValue * 0.12).toFixed(2));
+      break;
+    default:
+      c = shipping;
+  }
+
+  document.querySelector('#shippingCost').innerHTML = `$ ${c.toFixed(2)}`;
+  document.querySelector('#total').innerHTML = `$ ${(itemsValue + tax + c).toFixed(2)}`;
+  customerInfo.shipping = s;
+}
+
+/**
  * The function `creditCardType` takes a credit card number as input and returns
  * the type of credit card (e.g., VISA, AMEX, MASTERCARD, etc.) based on the card
  * number pattern.
@@ -380,6 +409,7 @@ function chgQTY(i, q) {
  */
 function creditCardType() {
   const cc = document.querySelector('#cardnum').value;
+  document.querySelector('#cclogo').innerHTML = '';
 
   if (/^(?:2131|1800|35\d{3})\d{11}$/.test(cc)) {
     return document
@@ -429,7 +459,7 @@ function creditCardType() {
         '<img src="https://www.discover.com/content/dam/discover/en_us/global/logos/discover-logo.svg" alt="Discover"/>',
       );
   }
-  return (document.querySelector('#cclogo').innerHTML = '');
+  return (document.querySelector('#cclogo').innerHTML = 'Invalid Card Number');
 }
 
 /**
@@ -517,12 +547,12 @@ const itemsList = [
 key of the localStorage object. If there is a value, it assigns that value to the constant UUID. If
 there is no value, it generates a new UUID using the crypto.getRandomValues method and assigns it to
 the constant UUID. */
-const UUID = localStorage.UUID ? localStorage.UUID : `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
+const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 
 const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
-    let ui = logged ? UUID : 'guest';
+    let ui = localStorage.UUID;
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
@@ -692,6 +722,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'checkout1') {
         document.querySelector('.view-cart-wrap').classList.remove('show');
+        document.querySelector('#itemsSelectedRows').innerHTML = '';
         document.querySelector('.checkout2-wrap').classList.add('show');
 
         en = 'begin_checkout';
@@ -738,6 +769,7 @@ elemClick.forEach((e) => {
         }
 
         document.querySelector('.checkout2-wrap').classList.remove('show');
+        document.querySelector('#customerAddress').reset();
         document.querySelector('.checkout3-wrap').classList.add('show');
 
         en = 'add_shipping_info';
@@ -747,20 +779,22 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'checkout3') {
-        customerInfo.ccnumber = maskNumber(document.querySelector('#cardnum').value.trim());
+        const ccnumber = document.querySelector('#cardnum').value.trim();
         customerInfo.ccexpiration = document.querySelector('#cardexp').value.trim();
         customerInfo.cccvv = document.querySelector('#cardcvv').value.trim();
 
-        if (customerInfo.ccnumber === '' || customerInfo.ccexpiration === '' || customerInfo.cccvv === '') {
+        if (ccnumber === '' || customerInfo.ccexpiration === '' || customerInfo.cccvv === '') {
           message = "ERROR: Input fields can't be blank.";
           errorEvent(e, message, ui);
           return;
         }
-
+        customerInfo.ccnumber = maskNumber(ccnumber);
         customerInfo.cclogo = document.querySelector('#cclogo').innerHTML;
         customerInfo.ccbrand = document.querySelector('#cclogo').firstElementChild.alt;
 
         document.querySelector('.checkout3-wrap').classList.remove('show');
+        document.querySelector('#customerPayment').reset();
+        document.querySelector('#cclogo').innerHTML = '';
         document.querySelector('.summary-wrap').classList.add('show');
 
         en = 'add_payment_info';
@@ -772,10 +806,10 @@ elemClick.forEach((e) => {
         tax = Number((itemsValue * 0.07).toFixed(2));
         shipping = Number((itemsValue * 0.12).toFixed(2));
         switch (customerInfo.shipping) {
-          case 'express':
+          case 'Express':
             shipping += 10;
             break;
-          case 'overnight':
+          case 'Overnight':
             shipping += 20;
             break;
           default:
@@ -820,7 +854,12 @@ elemClick.forEach((e) => {
         document.querySelector('#uCoupon').innerHTML = userCoupon === undefined ? '' : `: ${userCoupon}`;
         document.querySelector('#discountTotal').innerHTML = `($ ${discountTotal.toFixed(2)})`;
         document.querySelector('#taxes').innerHTML = `$ ${tax.toFixed(2)}`;
-        document.querySelector('#uShipping').innerHTML = customerInfo.shipping.toUpperCase();
+        document
+          .querySelector('#uShipping')
+          .insertAdjacentHTML(
+            'afterbegin',
+            `<form class="shipp"><select id="chgSHIPP" class="formInput" onchange="chgSHIPPING()"><option value="">${customerInfo.shipping}</option><option value="Standard">Standard</option><option value="Express">Express</option><option value="Overnight">Overnight</option></select></form>`,
+          );
         document.querySelector('#shippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
         document.querySelector('#total').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
 
@@ -832,13 +871,15 @@ elemClick.forEach((e) => {
 
       if (e.id === 'purchase') {
         document.querySelector('.summary-wrap').classList.remove('show');
-        document.querySelector('#productRows').innerHTML = '';
+        document.querySelector('#uShipping').innerHTML = '';
         document.querySelector('.purchase-wrap').classList.add('show');
 
         transactionID = `T-${Math.floor(Math.random() * 10000)}`;
         en = e.id;
         et = 'conversion';
         step.push('checkout-end');
+        shipping = document.querySelector('#shippingCost').innerHTML.slice(2) * 1;
+        userShipping = customerInfo.shipping;
         ecommerceSent();
         step.push('confirmation');
 
@@ -916,7 +957,11 @@ elemClick.forEach((e) => {
         document.querySelector('.purchase-wrap').classList.remove('show');
         itemsSelected = [];
         itemsValue = 0;
+        userCoupon = undefined;
         step = [];
+        tax = 0;
+        shipping = 0;
+        discountTotal = 0;
       }
     } else {
       if (e.id === 'ecommerce-modal') {
@@ -1272,9 +1317,10 @@ elemClick.forEach((e) => {
           return;
         }
         logged = true;
-        ui = UUID;
+        ui = localStorage.UUID === undefined || localStorage.UUID === 'guest' ? UUID : localStorage.UUID;
         localStorage.logged = logged;
         localStorage.UUID = ui;
+        localStorage.customID = ui;
       }
 
       if (e.id === 'logout') {

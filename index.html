@@ -25,7 +25,7 @@
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: false,
-        user_id: localStorage.UUID ? localStorage.UUID : 'guest',
+        user_id: localStorage.UUID !== undefined && localStorage.UUID ? localStorage.UUID : 'guest',
       });
     </script>
     <!-- END: dataLayers init -->
@@ -70,7 +70,7 @@
       script.async = true;
       document.head.appendChild(script);
 
-      const ids = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv };
+      const ids = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv, userID: dataLayer[0].user_id };
       console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
@@ -91,7 +91,7 @@
         // user properties
         logged_in: false,
         user_id: localStorage.UUID ? localStorage.UUID : 'guest',
-        custom_user_id: localStorage.UUID ? localStorage.UUID : 'guest',
+        custom_user_id: localStorage.customID ? localStorage.customID : 'guest',
       };
     </script>
     <!-- END: utag data object init -->
@@ -276,7 +276,7 @@
           <div class="checkout2-wrap">
             <div>
               <h2>Enter Shipping/Billing Address</h2>
-              <form>
+              <form id="customerAddress">
                 <label for="sname">Full Name<span>*</span>:</label>
                 <input id="sname" type="text" class="formInput" placeholder="Enter your full name" required>
                 <label for="semail">Email<span>*</span>:</label>
@@ -291,10 +291,10 @@
                 <input id="szip" type="text" class="formInput" placeholder="Enter your zip code" required>
                 <div class="shipping">
                   <label for="shipping">Shipping Method<span>*</span>:</label>
-                  <select id="shipping" class="formInput" required>
-                    <option value="standard">Standard</option>
-                    <option value="express">Express</option>
-                    <option value="overnight">Overnight</option>
+                  <select id="shipping" class="formInput">
+                    <option value="Standard">Standard</option>
+                    <option value="Express">Express</option>
+                    <option value="Overnight">Overnight</option>
                   </select>
                 </div>
               </form>
@@ -306,7 +306,7 @@
           <div class="checkout3-wrap">
             <div>
               <h2>Enter Credit Card Information</h2>
-              <form>
+              <form id="customerPayment">
                 <div id="cclogo" class="cclogo revert"></div>
                 <label for="cardnum">Credit Card Number<span>*</span>:</label>
                 <input id="cardnum" type="number" class="formInput"
@@ -374,7 +374,7 @@
                     <td id="taxes" style="text-align:right;"></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="text-align:right">Shipping: <span id="uShipping"></span></td>
+                    <td colspan="4" style="text-align:right">Shipping<span id="uShipping"></span></td>
                     <td id="shippingCost" style="text-align:right;"></td>
                   </tr>
                   <tr>
@@ -453,7 +453,7 @@
                   <h3>Customer Payment Information</h3>
                   <div class="info">
                     <div class="brand">
-                      <p id="occtype" class="cclogo"></p>
+                      <p id="occtype" class="cclogo revert"></p>
                       <p id="occbrand" class="revert"></p>
                     </div>
                     <p id="occnumber" class="revert"></p>
@@ -473,7 +473,7 @@
     </main>
     <footer></footer>
 
-    <script type="text/javascript" src="function.min.js"></script>
+    <script type="text/javascript" src="function.js"></script>
     <script type="text/javascript">
       /**
        * Populate section element with initial data layer object

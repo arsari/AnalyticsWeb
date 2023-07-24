@@ -467,6 +467,16 @@ input[type="checkbox"] {
   pointer-events: none;
 }
 
+.shipp {
+  width: fit-content;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.shipp > .formInput {
+  font-size: small;
+  margin: 0;
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
