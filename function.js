@@ -382,13 +382,13 @@ function chgSHIPPING() {
   let c = shipping;
 
   switch (s) {
-    case 'Express':
+    case 'express':
       c = Number((itemsValue * 0.12).toFixed(2)) + 10;
       break;
-    case 'Overnight':
+    case 'overnight':
       c = Number((itemsValue * 0.12).toFixed(2)) + 20;
       break;
-    case 'Standard':
+    case 'standard':
       c = Number((itemsValue * 0.12).toFixed(2));
       break;
     default:
@@ -753,6 +753,7 @@ elemClick.forEach((e) => {
         customerInfo.city = document.querySelector('#scity').value.trim();
         customerInfo.state = document.querySelector('#sstate').value.trim();
         customerInfo.zip = document.querySelector('#szip').value.trim();
+        customerInfo.phone = document.querySelector('#sphone').value.trim();
         customerInfo.shipping = document.querySelector('#shipping').value;
 
         if (
@@ -761,7 +762,8 @@ elemClick.forEach((e) => {
           customerInfo.address === '' ||
           customerInfo.city === '' ||
           customerInfo.state === '' ||
-          customerInfo.zip === ''
+          customerInfo.zip === '' ||
+          customerInfo.phone === ''
         ) {
           message = "ERROR: Input fields can't be blank.";
           errorEvent(e, message, ui);
@@ -782,8 +784,14 @@ elemClick.forEach((e) => {
         const ccnumber = document.querySelector('#cardnum').value.trim();
         customerInfo.ccexpiration = document.querySelector('#cardexp').value.trim();
         customerInfo.cccvv = document.querySelector('#cardcvv').value.trim();
+        customerInfo.ccname = document.querySelector('#cardname').value.trim();
 
-        if (ccnumber === '' || customerInfo.ccexpiration === '' || customerInfo.cccvv === '') {
+        if (
+          ccnumber === '' ||
+          customerInfo.ccexpiration === '' ||
+          customerInfo.cccvv === '' ||
+          customerInfo.ccname === ''
+        ) {
           message = "ERROR: Input fields can't be blank.";
           errorEvent(e, message, ui);
           return;
@@ -820,6 +828,7 @@ elemClick.forEach((e) => {
         document.querySelector('#sbaddress').innerHTML = customerInfo.address;
         document.querySelector('#sbemail').innerHTML = customerInfo.email;
         document.querySelector('#sbcity').innerHTML = `${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`;
+        document.querySelector('#sbphone').innerHTML = customerInfo.phone;
 
         for (const element of itemsSelected) {
           const row = document.createElement('tr');
@@ -858,7 +867,7 @@ elemClick.forEach((e) => {
           .querySelector('#uShipping')
           .insertAdjacentHTML(
             'afterbegin',
-            `<form class="shipp"><select id="chgSHIPP" class="formInput" onchange="chgSHIPPING()"><option value="">${customerInfo.shipping}</option><option value="Standard">Standard</option><option value="Express">Express</option><option value="Overnight">Overnight</option></select></form>`,
+            `<form class="shipp"><select id="chgSHIPP" class="formInput" onchange="chgSHIPPING()"><option value="">${customerInfo.shipping}</option><option value="standard">Standard</option><option value="express">Express</option><option value="overnight">Overnight</option></select></form>`,
           );
         document.querySelector('#shippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
         document.querySelector('#total').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
@@ -887,12 +896,13 @@ elemClick.forEach((e) => {
         document.querySelector('#ocemail').innerHTML = customerInfo.email;
         document.querySelector('#ocaddress').innerHTML = customerInfo.address;
         document.querySelector('#occity').innerHTML = `${customerInfo.city}, ${customerInfo.state} ${customerInfo.zip}`;
+        document.querySelector('#ocphone').innerHTML = customerInfo.phone;
         document.querySelector('#ocorderID').innerHTML = `Order Number ${transactionID}`;
         document.querySelector('#occustomerID').innerHTML = `Customer Number: ${ui}`;
         const d = new Date();
         document.querySelector(
           '#ocdate',
-        ).innerHTML = `Date: ${d.toDateString()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        ).innerHTML = `Date: ${d.toDateString()} / ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         document.querySelector('#ocshipping').innerHTML = `Shipping Method: ${customerInfo.shipping.toUpperCase()}`;
 
         for (const element of itemsSelected) {
@@ -936,10 +946,11 @@ elemClick.forEach((e) => {
         document.querySelector('#occbrand').innerHTML = customerInfo.ccbrand;
         document.querySelector('#occnumber').innerHTML = customerInfo.ccnumber;
         document.querySelector('#occexp').innerHTML = customerInfo.ccexpiration;
+        document.querySelector('#occname').innerHTML = customerInfo.ccname;
       }
 
-      if (e.id === 'ecommerce-close' || e.id === 'ecommerce-end') {
-        en = e.id === 'ecommerce-close' ? 'ecommerce_modal_closed' : 'ecommerce_funnel_complete';
+      if (e.id === 'ecommerce-cancel' || e.id === 'ecommerce-end') {
+        en = e.id === 'ecommerce-cancel' ? 'ecommerce_modal_closed' : 'ecommerce_funnel_complete';
         ecommerceSent();
         ecommerceModal();
         storeEnable = false;

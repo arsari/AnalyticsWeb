@@ -407,9 +407,9 @@ label > span {
 
 .ecommerce-btn,
 .ecommerce-btn2 {
-  left: 65%;
+  left: 60%;
   margin: 20px 0 0;
-  width: 16rem;
+  width: 20rem;
 }
 
 .ecommerce-btn2 {
@@ -496,15 +496,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .cclogo > img {
   float: left;
-  width: 50px;
+  width: 100px;
   object-fit: cover;
-}
-
-.shipping {
-  border: 2px solid blue;
-  border-radius: 15px;
-  padding: 10px 15px;
-  margin-top: 10px;
 }
 
 .customer,
@@ -517,10 +510,34 @@ input[type="number"]::-webkit-inner-spin-button {
   justify-content: space-between;
 }
 
+.brand > .cclogo > img {
+  width: 50px;
+}
+
 .info {
   border: 1px solid #9d2b2b;
   border-radius: 10px;
   padding: 0 15px;
+  width: 90%;
+}
+
+.expcvv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.exp,
+.cvv {
+  width: 50%;
+}
+
+.cvv {
+  margin: 0 -40px 0 0;
+}
+
+.exp > .formInput,
+.cvv > .formInput {
+  display: block;
   width: 90%;
 }
 
