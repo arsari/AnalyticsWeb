@@ -223,20 +223,42 @@
           <div class="add-to-cart-wrap">
             <div>
               <h2>Select Products:</h2>
-              <table>
-                <caption>Merchandise Store</caption>
-                <thead>
-                  <tr>
-                    <th>Product ID</th>
-                    <th>Brand</th>
-                    <th>Product Description</th>
-                    <th>Color</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody id="itemsListRows"></tbody>
-              </table>
+              <button id="productList-1" class="accordion" name="action">Section 1<i class="fa fa-caret-down"
+                  style="margin-left: 10px;"></i></button>
+              <div class="panel">
+                <table>
+                  <caption>Merchandise Store</caption>
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Brand</th>
+                      <th>Product Description</th>
+                      <th>Color</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody id="itemsList-1" name="itemsList"></tbody>
+                </table>
+              </div>
+              <button id="productList-2" class="accordion" name="action">Section 2<i class="fa fa-caret-down"
+                  style="margin-left: 10px;"></i></button>
+              <div class="panel">
+                <table>
+                  <caption>Merchandise Store</caption>
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Brand</th>
+                      <th>Product Description</th>
+                      <th>Color</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody id="itemsList-2" name="itemsList"></tbody>
+                </table>
+              </div>
               <button id="add_to_cart" type="submit" name="action" class="button ecommerce-btn" title="Add to Cart">
                 <span class="text">Add to Cart</span>
               </button>
@@ -488,7 +510,6 @@
       <section id="json"></section>
     </main>
     <footer></footer>
-
     <script type="text/javascript" src="function.min.js"></script>
     <script type="text/javascript">
       /**

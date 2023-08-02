@@ -125,10 +125,12 @@ function errorEvent(e, m, ui) {
   const si = /item/i.test(e.id) ? 'yes' : e.id;
   let en;
   let bt;
+  let sh;
   switch (si) {
     case 'yes':
       en = 'select_item';
       bt = e.id;
+      sh = e.parentNode.parentNode.parentNode.parentNode.parentNode.previousElementSibling.innerText;
       break;
     case 'checkout2':
       en = 'add_shipping_info';
@@ -148,6 +150,7 @@ function errorEvent(e, m, ui) {
     event: `${en}_error`,
     event_type: 'content tool',
     button_text: bt,
+    section_heading: sh ?? undefined,
     tag_name: e.tagName,
     step: step.at(-1),
     error_message: m,
@@ -163,6 +166,7 @@ function errorEvent(e, m, ui) {
     event: `${en}_error`,
     event_type: 'content tool',
     button_text: bt,
+    section_heading: sh ?? undefined,
     tag_name: e.tagName,
     step: step.at(-1),
     error_message: m,
@@ -274,6 +278,7 @@ function selectItem(i, ui) {
   const tstamp = String(new Date().getTime());
   const cstamp = timeStamp();
   const el = document.querySelector(`#Item${i}`);
+  const sh = el.parentNode.parentNode.parentNode.parentNode.parentNode.previousElementSibling.innerText;
   const qty = parseInt(document.querySelector(`#qty${i}`).value);
   if (qty === 0) {
     el.checked = false;
@@ -298,12 +303,13 @@ function selectItem(i, ui) {
     event: 'select_item',
     // event parameters
     button_text: el.id,
+    section_heading: sh ?? undefined,
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
     ecommerce: {
-      item_list_id: 'related_products',
-      item_list_name: 'Related products',
+      item_list_id: itemsList[i].item_list_id,
+      item_list_name: itemsList[i].item_list_name,
       items: itemsList[i],
     },
     event_timestamp: tstamp, // milliseconds
@@ -316,13 +322,14 @@ function selectItem(i, ui) {
   utag.link({
     tealium_event: 'select_item',
     // event parameters
-    button_text: el.innerText,
+    button_text: el.id,
+    section_heading: sh ?? undefined,
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
     ecommerce: {
-      item_list_id: 'related_products',
-      item_list_name: 'Related products',
+      item_list_id: itemsList[i].item_list_id,
+      item_list_name: itemsList[i].item_list_name,
       items: itemsList[i],
     },
     event_timestamp: tstamp, // milliseconds
@@ -487,7 +494,10 @@ const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const eModal = document.querySelector('.ecommerceModal');
 let storeEnable = false;
-let itemsSelected = [];
+let itemsSelected = []; // list of all items selected by user
+let itemsList = []; // list of all list items view by user
+let tempList; // temporary list for view_item_list
+let panelFilled = [];
 let itemsValue = 0;
 let tax = 0; // tax
 let shipping = 0; // shipping
@@ -495,7 +505,7 @@ let userCoupon; // coupon
 let discountTotal = 0;
 let step = []; // funnel step
 const customerInfo = {};
-const itemsList = [
+const productList_1 = [
   {
     item_name: 'Stan and Friends Tee',
     affiliation: 'Merchandise Store',
@@ -540,6 +550,23 @@ const itemsList = [
     item_variant: 'black',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
     price: 99.0,
+  },
+];
+const productList_2 = [
+  {
+    item_name: 'Shoes',
+    affiliation: 'Merchandise Store',
+    item_brand: 'MyCollection',
+    item_category: 'Apparel',
+    item_category2: 'Adult',
+    item_category3: 'Shirts',
+    item_category4: 'Crew',
+    item_category5: 'Short sleeve',
+    item_list_id: 'other_products',
+    item_list_name: 'Other Products',
+    item_variant: 'white',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 69.95,
   },
 ];
 
@@ -610,14 +637,16 @@ elemClick.forEach((e) => {
               ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: itemsValue,
+                  value: itemsValue === 0 ? undefined : itemsValue,
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
-                  currency: 'USD',
+                  currency: itemsValue === 0 ? undefined : 'USD',
                   coupon: userCoupon ?? undefined,
                   shipping_tier: userShipping ?? undefined,
                   payment_type: userCCBrand ?? undefined,
-                  items: itemsSelected,
+                  item_list_id: /productList/i.test(e.id) ? tempList[0].item_list_id : undefined,
+                  item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
+                  items: /productList/i.test(e.id) ? tempList : itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
@@ -638,14 +667,16 @@ elemClick.forEach((e) => {
               ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: itemsValue,
+                  value: itemsValue === 0 ? undefined : itemsValue,
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
-                  currency: 'USD',
+                  currency: itemsValue === 0 ? undefined : 'USD',
                   coupon: userCoupon ?? undefined,
                   shipping_tier: userShipping ?? undefined,
                   payment_type: userCCBrand ?? undefined,
-                  items: itemsSelected,
+                  item_list_id: /productList/i.test(e.id) ? tempList[0].item_list_id : undefined,
+                  item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
+                  items: /productList/i.test(e.id) ? tempList : itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
@@ -656,6 +687,86 @@ elemClick.forEach((e) => {
         });
         displayJSON(logged);
       };
+
+      const togglePanel = (p) => {
+        p.classList.toggle('active');
+        const panel = p.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+          panel.style.paddingBottom = null;
+        } else {
+          panel.style.maxHeight = `${panel.scrollHeight}px`;
+          panel.style.paddingBottom = '18px';
+        }
+      };
+
+      const makeList = (l, arr) => {
+        tempList = arr;
+        itemsList = itemsList.concat(arr);
+        for (const element of tempList) {
+          const row = document.createElement('tr');
+          const itemSKU = Math.floor(Math.random() * 10000);
+          element.item_id = `SKU_${itemSKU}`;
+          element.quantity = 0;
+          const keys = [
+            element.item_id,
+            element.item_brand,
+            element.item_name,
+            element.item_variant,
+            `$${element.price.toFixed(2)}`,
+            element.quantity,
+          ];
+          for (const key in keys) {
+            const column = document.createElement('td');
+            if (key === '0') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
+                  element,
+                )},"${ui}") title="Click to Select Item"><span style="margin-left:15px">${keys[key]}</span>`,
+              );
+            } else if (key === '2') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `${element.item_name}<br>${element.item_category2} ${element.item_category3} ${element.item_category5}`,
+              );
+            } else if (key === '5') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `<button onclick=chgQTY(${itemsList.indexOf(
+                  element,
+                )},"minus")>-</button><input id="qty${itemsList.indexOf(element)}" class="qty" type="text" value="${
+                  keys[key]
+                }" readonly><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
+              );
+            } else {
+              column.appendChild(document.createTextNode(keys[key]));
+            }
+            row.appendChild(column);
+            document.querySelector(`#itemsList-${l}`).appendChild(row);
+          }
+        }
+        en = 'view_item_list';
+        et = 'ui interaction';
+        step.push('funnel-1');
+        ecommerceSent();
+        tempList = undefined; // reset tempList
+        panelFilled.push(l);
+      };
+
+      if (e.id === 'productList-1') {
+        if (!panelFilled.includes(1)) {
+          makeList(1, productList_1);
+        }
+        togglePanel(e);
+      }
+
+      if (e.id === 'productList-2') {
+        if (!panelFilled.includes(2)) {
+          makeList(2, productList_2);
+        }
+        togglePanel(e);
+      }
 
       if (e.id === 'add_to_cart') {
         itemsValue = 0;
@@ -668,14 +779,23 @@ elemClick.forEach((e) => {
 
         en = e.id;
         step.push('funnel-2');
-        for (let i = 0; i < itemsSelected.length; i++) {
-          itemsValue += Number((itemsSelected[i].price * itemsSelected[i].quantity).toFixed(2));
+        for (const element of itemsSelected) {
+          itemsValue += Number((element.price * element.quantity).toFixed(2));
         }
         ecommerceSent();
 
         /* view_cart event */
         document.querySelector('.add-to-cart-wrap').classList.add('hide');
-        document.querySelector('#itemsListRows').innerHTML = '';
+        for (const cel of document.querySelectorAll('[name="itemsList"]')) {
+          cel.innerHTML = '';
+        }
+        for (const cel of document.querySelectorAll('.accordion')) {
+          if (cel.classList.contains('active')) {
+            togglePanel(cel);
+          } else {
+            null;
+          }
+        }
         document.querySelector('.view-cart-wrap').classList.add('show');
 
         for (const element of itemsSelected) {
@@ -814,10 +934,10 @@ elemClick.forEach((e) => {
         tax = Number((itemsValue * 0.07).toFixed(2));
         shipping = Number((itemsValue * 0.12).toFixed(2));
         switch (customerInfo.shipping) {
-          case 'Express':
+          case 'express':
             shipping += 10;
             break;
-          case 'Overnight':
+          case 'overnight':
             shipping += 20;
             break;
           default:
@@ -954,7 +1074,16 @@ elemClick.forEach((e) => {
         ecommerceSent();
         ecommerceModal();
         storeEnable = false;
-        document.querySelector('#itemsListRows').innerHTML = '';
+        for (const cel of document.querySelectorAll('[name="itemsList"]')) {
+          cel.innerHTML = '';
+        }
+        for (const cel of document.querySelectorAll('.accordion')) {
+          if (cel.classList.contains('active')) {
+            togglePanel(cel);
+          } else {
+            null;
+          }
+        }
         document.querySelector('#itemsSelectedRows').innerHTML = '';
         document.querySelector('#productRows').innerHTML = '';
         document.querySelector('#ocproductRows').innerHTML = '';
@@ -966,6 +1095,8 @@ elemClick.forEach((e) => {
         document.querySelector('.checkout3-wrap').classList.remove('show');
         document.querySelector('.summary-wrap').classList.remove('show');
         document.querySelector('.purchase-wrap').classList.remove('show');
+        panelFilled = [];
+        itemsList = [];
         itemsSelected = [];
         itemsValue = 0;
         userCoupon = undefined;
@@ -977,128 +1108,14 @@ elemClick.forEach((e) => {
     } else {
       if (e.id === 'ecommerce-modal') {
         if (logged) {
-          tstamp = String(new Date().getTime());
-          cstamp = timeStamp();
-          let et = 'ui interaction';
-          ecommerceModal();
-
-          const ecommerceStart = () => {
-            if (en !== 'ecommerce_modal_opened') {
-              window.dataLayer = window.dataLayer || [];
-              window.dataLayer.push({
-                ecommerce: null,
-              }); // Clear the previous ecommerce object
-              utag.link({
-                ecommerce: null,
-              }); // Clear the previous ecommerce object
-              displayJSON(logged);
-            }
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: en,
-              // event parameters
-              button_text: bt,
-              event_type: et,
-              tag_name: e.tagName,
-              step: step.at(-1),
-              ecommerce:
-                en === 'ecommerce_modal_opened'
-                  ? undefined
-                  : {
-                      item_list_id: 'related_products',
-                      item_list_name: 'Related products',
-                      items: itemsList,
-                    },
-              event_timestamp: tstamp, // milliseconds
-              custom_timestamp: cstamp, // ISO 8601
-              // user properties
-              logged_in: logged,
-              user_id: ui,
-            });
-
-            utag.link({
-              tealium_event: en,
-              // event parameters
-              button_text: bt,
-              event_type: et,
-              tag_name: e.tagName,
-              step: step.at(-1),
-              ecommerce:
-                en === 'ecommerce_modal_opened'
-                  ? undefined
-                  : {
-                      item_list_id: 'related_products',
-                      item_list_name: 'Related products',
-                      items: itemsList,
-                    },
-              event_timestamp: tstamp, // milliseconds
-              custom_timestamp: cstamp, // ISO 8601
-              // user properties
-              logged_in: logged,
-              user_id: ui,
-              custom_user_id: ui,
-            });
-            displayJSON(logged);
-          };
-
           en = 'ecommerce_modal_opened';
-          et = 'ui interaction';
-          ecommerceStart();
-
-          // view_item_list
-          for (const element of itemsList) {
-            const row = document.createElement('tr');
-            const itemSKU = Math.floor(Math.random() * 10000);
-            element.item_id = `SKU_${itemSKU}`;
-            element.quantity = 0;
-            const keys = [
-              element.item_id,
-              element.item_brand,
-              element.item_name,
-              element.item_variant,
-              `$${element.price.toFixed(2)}`,
-              element.quantity,
-            ];
-            for (const key in keys) {
-              const column = document.createElement('td');
-              if (key === '0') {
-                column.insertAdjacentHTML(
-                  'afterbegin',
-                  `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
-                    element,
-                  )},"${ui}") title="Click to Select Item"><span style="margin-left:15px">${keys[key]}</span>`,
-                );
-              } else if (key === '2') {
-                column.insertAdjacentHTML(
-                  'afterbegin',
-                  `${element.item_name}<br>${element.item_category2} ${element.item_category3} ${element.item_category5}`,
-                );
-              } else if (key === '5') {
-                column.insertAdjacentHTML(
-                  'afterbegin',
-                  `<button onclick=chgQTY(${itemsList.indexOf(
-                    element,
-                  )},"minus")>-</button><input id="qty${itemsList.indexOf(element)}" class="qty" type="text" value="${
-                    keys[key]
-                  }" readonly><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
-                );
-              } else {
-                column.appendChild(document.createTextNode(keys[key]));
-              }
-              row.appendChild(column);
-              document.querySelector('#itemsListRows').appendChild(row);
-            }
-          }
-          en = 'view_item_list';
-          et = 'content tool';
-          step.push('funnel-1');
-          ecommerceStart();
+          ecommerceModal();
           storeEnable = true;
+        } else {
+          message = 'ERROR: Please Sign In!';
+          errorEvent(e, message, ui);
           return;
         }
-        message = 'ERROR: Please Sign In!';
-        errorEvent(e, message, ui);
-        return;
       }
 
       if (e.id === 'email' || e.id === 'phone') {
@@ -1355,7 +1372,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit|ecommerce_start/i.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1393,7 +1410,7 @@ elemClick.forEach((e) => {
         button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
         contact_method: cm,
         currency: cc,
-        event_type: /generate_lead|form_submit|ecommerce_start/i.test(en) ? 'conversion' : 'ui interaction',
+        event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1433,7 +1450,7 @@ elemClick.forEach((e) => {
       element.removeAttribute('disabled');
     });
 
-    if (!e.id.match(/close/i)) {
+    if (!e.id.match(/close/i) && !/productList/i.test(e.id)) {
       e.setAttribute('disabled', '');
     }
   });
