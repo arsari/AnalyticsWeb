@@ -511,13 +511,13 @@ const productList_1 = [
     item_name: 'Stan and Friends Tee',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
-    item_category: 'Apparel',
+    item_category: 'Clothing',
     item_category2: 'Adult',
     item_category3: 'Shirts',
     item_category4: 'Crew',
     item_category5: 'Short Sleeve',
-    item_list_id: 'related_products',
-    item_list_name: 'Related Products',
+    item_list_id: 'adult_products',
+    item_list_name: 'Adult Products',
     item_variant: 'green',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
     price: 29.95,
@@ -526,28 +526,28 @@ const productList_1 = [
     item_name: 'Friends Pants',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
-    item_category: 'Apparel',
-    item_category2: 'Adult',
+    item_category: 'Clothing',
+    item_category2: 'Kids',
     item_category3: 'Pants',
     item_category4: 'Crew',
     item_category5: 'Regular Fit',
-    item_list_id: 'related_products',
-    item_list_name: 'Related Products',
+    item_list_id: 'kids_clothing',
+    item_list_name: 'Kids Clothing',
     item_variant: 'blue',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-    price: 39.95,
+    price: 59.99,
   },
   {
     item_name: 'Canyonlands Full-Zip Hoodie',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
-    item_category: 'Apparel',
+    item_category: 'Clothing',
     item_category2: 'Adult',
     item_category3: 'Jackets',
     item_category4: 'Crew',
     item_category5: 'Long Sleeve',
-    item_list_id: 'related_products',
-    item_list_name: 'Related Products',
+    item_list_id: 'adult_products',
+    item_list_name: 'Adult Products',
     item_variant: 'black',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
     price: 99.0,
@@ -555,19 +555,49 @@ const productList_1 = [
 ];
 const productList_2 = [
   {
-    item_name: 'Shoes',
+    item_name: 'GreenStride Motion 6 Waterproof Mid Hiker',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
-    item_category: 'Apparel',
-    item_category2: 'Adult',
-    item_category3: 'Shirts',
-    item_category4: 'Crew',
-    item_category5: 'Short Sleeve',
-    item_list_id: 'other_products',
-    item_list_name: 'Other Products',
-    item_variant: 'white',
+    item_category: 'Footwear',
+    item_category2: 'Mens',
+    item_category3: 'GreenStride',
+    item_category4: 'TemberDry',
+    item_category5: 'Mid Hiker',
+    item_list_id: 'mens_footwear',
+    item_list_name: 'Mens Footwear',
+    item_variant: 'leather/black',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
-    price: 69.95,
+    price: 119.95,
+  },
+  {
+    item_name: 'Stone Street Timberland Premiun Platform',
+    affiliation: 'Merchandise Store',
+    item_brand: 'MyCollection',
+    item_category: 'Footwear',
+    item_category2: 'Womens',
+    item_category3: 'Chukka',
+    item_category4: 'Waterproof',
+    item_category5: 'Platform',
+    item_list_id: 'womens_footwear',
+    item_list_name: 'Womens Footwear',
+    item_variant: 'black',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 140.0,
+  },
+  {
+    item_name: 'Classic 6 Waterproof Boot',
+    affiliation: 'Merchandise Store',
+    item_brand: 'MyCollection',
+    item_category: 'Footwear',
+    item_category2: 'Kids',
+    item_category3: 'Classic',
+    item_category4: 'Waterproof',
+    item_category5: 'Boot',
+    item_list_id: 'kids_footwear',
+    item_list_name: 'Kids Footwear',
+    item_variant: 'leather',
+    location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
+    price: 100.0,
   },
 ];
 
@@ -848,7 +878,7 @@ elemClick.forEach((e) => {
 
         en = 'begin_checkout';
         step.push('checkout-1');
-        userCoupon = /summer fun/i.test(document.querySelector('#couponField').value) ? 'SUMMER FUN' : undefined;
+        userCoupon = /summer sale/i.test(document.querySelector('#couponField').value) ? 'SUMMER SALE' : undefined;
         if (userCoupon !== undefined) {
           discountTotal = 0;
           itemsValue = 0;
@@ -856,7 +886,7 @@ elemClick.forEach((e) => {
           shipping = 0;
           for (const element of itemsSelected) {
             element.coupon = userCoupon;
-            discount = Number((element.price * 0.1).toFixed(2));
+            discount = Number((element.price * 0.15).toFixed(2));
             element.discount = discount;
             itemsValue += Number(((element.price - element.discount) * element.quantity).toFixed(2));
             discountTotal += Number((element.discount * element.quantity).toFixed(2));
