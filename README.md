@@ -135,17 +135,18 @@ The tagging implementation for events consider the followings user actions (ui i
 
 The following global parameters apply to most of the above **events**:
 
-| Global Parameters              | GA4 Scope | GA4 Custom Definitions |
-| ------------------------------ | --------- | ---------------------- |
-| event_type                     | Event     | Dimension              |
-| button_text                    | Event     | Dimension              |
-| tag_name                       | Event     | Dimension              |
-| step (ecommerce events only)   | Event     | Dimension              |
-| event_timestamp (milliseconds) | Event     | Dimension              |
-| custom_timestamp (ISO 8601)    | Event     | Dimension              |
-| custom_user_id (user Property) | User      | Dimension              |
-| logged_in (user property)      | User      | Dimension              |
-| user_id (user property)        | User      | Predefined             |
+| Global Parameters                       | GA4 Scope | GA4 Custom Definitions |
+| --------------------------------------- | --------- | ---------------------- |
+| event_type                              | Event     | Dimension              |
+| button_text                             | Event     | Dimension              |
+| tag_name                                | Event     | Dimension              |
+| section_heading (ecommerce events only) | Event     | Dimension              |
+| step (ecommerce events only)            | Event     | Dimension              |
+| event_timestamp (milliseconds)          | Event     | Dimension              |
+| custom_timestamp (ISO 8601)             | Event     | Dimension              |
+| custom_user_id (user Property)          | User      | Dimension              |
+| logged_in (user property)               | User      | Dimension              |
+| user_id (user property)                 | User      | Predefined             |
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
 
@@ -294,12 +295,12 @@ utag.link({
 
 #### Ecommerce Funnel Events
 
-We have set up the _ecommerce funnel events_ in way that collect information about the shopping behavior of your users. This approach for this was based on the [Google Measure Ecommerce|https://developers.google.com/analytics/devguides/collection/ga4/ecommerce?client_type=gtm] guide in the Google Analytics 4 documentation.
+We have set up the _ecommerce funnel events_ in way that collect information about the shopping behavior of the users. The approach for this was based on the [Google Measure Ecommerce|https://developers.google.com/analytics/devguides/collection/ga4/ecommerce?client_type=gtm] guide in the Google Analytics 4 documentation.
 
-The following is a collection of items, `items` array-object, that we are using in our implementation. The items array can include up to 200 elements.
+The following is an example of a collection of items, `items` array-object, that we are using in our implementation. The items array can include up to 200 elements.
 
 ```js
-const itemsList = [
+const productList = [
   {
     item_name: "Stan and Friends Tee",
     affiliation: "Merchandise Store",
@@ -377,7 +378,9 @@ When the user complete the ecommerce funnel by placing a purchase and firing the
 }
 ```
 
-The implemented _ecommerece funnel events_ `dataLayer` array-object and `utag.link` data object is composed of:
+*Clear the ecommerce object*
+
+It's recommended that we use the following command to clear the ecommerce object prior to pushing an ecommerce event to the data layer. Clearing the object will prevent multiple ecommerce events on a page from affecting each other.
 
 ```js
 window.dataLayer = window.dataLayer || [];
@@ -387,7 +390,19 @@ window.dataLayer.push({
 utag.link({
   ecommerce: null,
 }); // Clear the previous ecommerce object
-displayJSON(logged);
+```
+
+For most of the _ecommerce funnel events_ the implemented `dataLayer` array-object and `utag.link` data object is composed of:
+
+```js
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+utag.link({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   event: en,
@@ -401,14 +416,20 @@ window.dataLayer.push({
       ? undefined
       : {
           transaction_id: transactionID ?? undefined,
-          value: itemsValue,
+          value: itemsValue === 0 ? undefined : itemsValue,
           tax: tax === 0 ? undefined : tax,
           shipping: shipping === 0 ? undefined : shipping,
-          currency: "USD",
+          currency: itemsValue === 0 ? undefined : "USD",
           coupon: userCoupon ?? undefined,
           shipping_tier: userShipping ?? undefined,
           payment_type: userCCBrand ?? undefined,
-          items: itemsSelected,
+          item_list_id: /productList/i.test(e.id)
+            ? tempList[0].item_list_id
+            : undefined,
+          item_list_name: /productList/i.test(e.id)
+            ? tempList[0].item_list_name
+            : undefined,
+          items: /productList/i.test(e.id) ? tempList : itemsSelected,
         },
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
@@ -429,14 +450,20 @@ utag.link({
       ? undefined
       : {
           transaction_id: transactionID ?? undefined,
-          value: itemsValue,
+          value: itemsValue === 0 ? undefined : itemsValue,
           tax: tax === 0 ? undefined : tax,
           shipping: shipping === 0 ? undefined : shipping,
-          currency: "USD",
+          currency: itemsValue === 0 ? undefined : "USD",
           coupon: userCoupon ?? undefined,
           shipping_tier: userShipping ?? undefined,
           payment_type: userCCBrand ?? undefined,
-          items: itemsSelected,
+          item_list_id: /productList/i.test(e.id)
+            ? tempList[0].item_list_id
+            : undefined,
+          item_list_name: /productList/i.test(e.id)
+            ? tempList[0].item_list_name
+            : undefined,
+          items: /productList/i.test(e.id) ? tempList : itemsSelected,
         },
   event_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
@@ -445,6 +472,116 @@ utag.link({
   user_id: ui,
   custom_user_id: ui,
 });
+```
+
+For the _select item_ event the implemented `dataLayer` array-object and `utag.link` data object is composed of:
+
+```js
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  utag.link({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'select_item',
+    // event parameters
+    button_text: el.id,
+    section_heading: sh ?? undefined,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    step: step.at(-1),
+    ecommerce: {
+      item_list_id: itemsList[i].item_list_id,
+      item_list_name: itemsList[i].item_list_name,
+      items: itemsList[i],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+  });
+
+  utag.link({
+    tealium_event: 'select_item',
+    // event parameters
+    button_text: el.id,
+    section_heading: sh ?? undefined,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    step: step.at(-1),
+    ecommerce: {
+      item_list_id: itemsList[i].item_list_id,
+      item_list_name: itemsList[i].item_list_name,
+      items: itemsList[i],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+    custom_user_id: ui,
+  });
+```
+
+For the _remove from cart_ event the implemented `dataLayer` array-object and `utag.link` data object is composed of:
+
+```js
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+  utag.link({
+    ecommerce: null,
+  }); // Clear the previous ecommerce object
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'remove_from_cart',
+    // event parameters
+    button_text: el.innerText,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    step: step.at(-1),
+    alert_message: message,
+    alert_impression: true,
+    ecommerce: {
+      currency: 'USD',
+      value: itemsSelected[ap].price,
+      items: itemsSelected[ap],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+  });
+
+  utag.link({
+    tealium_event: 'remove_from_cart',
+    // event parameters
+    button_text: el.innerText,
+    event_type: 'ui interaction',
+    tag_name: el.tagName,
+    step: step.at(-1),
+    alert_message: message,
+    alert_impression: true,
+    ecommerce: {
+      currency: 'USD',
+      value: itemsSelected[ap].price,
+      items: itemsSelected[ap],
+    },
+    event_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+    // user properties
+    logged_in: logged,
+    user_id: ui,
+    custom_user_id: ui,
+  });
 ```
 
 #### Video Events
@@ -505,6 +642,7 @@ window.dataLayer.push({
   event: `${en}_error`,
   event_type: "content tool",
   button_text: bt,
+  section_heading: sh,
   tag_name: e.tagName,
   step: step.at(-1),
   error_message: m,
@@ -520,6 +658,7 @@ utag.link({
   event: `${en}_error`,
   event_type: "content tool",
   button_text: bt,
+  section_heading: sh,
   tag_name: e.tagName,
   step: step.at(-1),
   error_message: m,
@@ -543,19 +682,19 @@ The set up for each tag and triggers is as follows:
 
 #### General Events Tag
 
-![General Events Screenshot](img/general-events.png)
+![General Events Screenshot](img/general-events-tag.png)
 
 #### Ecommerce Funnel Tag
 
-![Ecommerce Funnel Events Screenshot](img/ecommerce-funnel-events.png)
+![Ecommerce Funnel Events Screenshot](img/ecommerce-funnel-tag.png)
 
 #### Error Events Tag
 
-![Error Events Screenshot](img/error-events.png)
+![Error Events Screenshot](img/error-events-tag.png)
 
 #### Video Events Tag
 
-![Video Events Screenshot](img/video-events.png)
+![Video Events Screenshot](img/video-events-tag.png)
 
 ### Reference Documentation
 
@@ -566,4 +705,4 @@ The set up for each tag and triggers is as follows:
 
 =====
 
-Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: July 25, 2023
+Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: August 4, 2023

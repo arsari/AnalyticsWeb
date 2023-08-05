@@ -340,6 +340,7 @@ function selectItem(i, ui) {
     custom_user_id: ui,
   });
   displayJSON(logged);
+
   itemsSelected.push(itemsList[i]);
   itemsValue = itemsList[i].price;
   el.setAttribute('disabled', '');
@@ -514,7 +515,7 @@ const productList_1 = [
     item_category2: 'Adult',
     item_category3: 'Shirts',
     item_category4: 'Crew',
-    item_category5: 'Short sleeve',
+    item_category5: 'Short Sleeve',
     item_list_id: 'related_products',
     item_list_name: 'Related Products',
     item_variant: 'green',
@@ -544,7 +545,7 @@ const productList_1 = [
     item_category2: 'Adult',
     item_category3: 'Jackets',
     item_category4: 'Crew',
-    item_category5: 'Long sleeve',
+    item_category5: 'Long Sleeve',
     item_list_id: 'related_products',
     item_list_name: 'Related Products',
     item_variant: 'black',
@@ -561,7 +562,7 @@ const productList_2 = [
     item_category2: 'Adult',
     item_category3: 'Shirts',
     item_category4: 'Crew',
-    item_category5: 'Short sleeve',
+    item_category5: 'Short Sleeve',
     item_list_id: 'other_products',
     item_list_name: 'Other Products',
     item_variant: 'white',
@@ -723,7 +724,7 @@ elemClick.forEach((e) => {
                 'afterbegin',
                 `<input id="Item${itemsList.indexOf(element)}" type="checkbox" onclick=selectItem(${itemsList.indexOf(
                   element,
-                )},"${ui}") title="Click to Select Item"><span style="margin-left:15px">${keys[key]}</span>`,
+                )},"${ui}") title="Click to Select Item"><span>${keys[key]}</span>`,
               );
             } else if (key === '2') {
               column.insertAdjacentHTML(
@@ -733,11 +734,11 @@ elemClick.forEach((e) => {
             } else if (key === '5') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `<button onclick=chgQTY(${itemsList.indexOf(
+                `<div class="container"><button onclick=chgQTY(${itemsList.indexOf(
                   element,
                 )},"minus")>-</button><input id="qty${itemsList.indexOf(element)}" class="qty" type="text" value="${
                   keys[key]
-                }" readonly><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button>`,
+                }" readonly><button onclick=chgQTY(${itemsList.indexOf(element)},"plus")>+</button></div>`,
               );
             } else {
               column.appendChild(document.createTextNode(keys[key]));
@@ -812,17 +813,17 @@ elemClick.forEach((e) => {
             if (key === '0') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${ui}")>remove</button><span style="margin-left:15px">${keys[key]}</span>`,
+                `<button id="removeItem${element.index}" type="submit" onclick=removeItem(${element.index},"${ui}")>remove</button><span style="margin-left:5px">${keys[key]}</span>`,
               );
             } else if (key === '1') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `${element.item_name} Color: ${element.item_variant.toUpperCase()}<br>${element.item_brand}`,
+                `${element.item_name}<br>Color: ${element.item_variant.toUpperCase()}<br>${element.item_brand}`,
               );
             } else if (key === '3') {
               column.insertAdjacentHTML(
                 'afterbegin',
-                `<button onclick=chgQTY(${element.index},"minus")>-</button><input id="qty${element.index}" class="qty" type="text" value="${keys[key]}" readonly><button onclick=chgQTY(${element.index},"plus")>+</button>`,
+                `<div class="container"><button onclick=chgQTY(${element.index},"minus")>-</button><input id="qty${element.index}" class="qty" type="text" value="${keys[key]}" readonly><button onclick=chgQTY(${element.index},"plus")>+</button></div>`,
               );
             } else if (key === '4') {
               column.insertAdjacentHTML('afterbegin', `<span id="total${element.index}">$${keys[key]}</span>`);
