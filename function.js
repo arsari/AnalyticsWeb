@@ -150,9 +150,9 @@ function errorEvent(e, m, ui) {
     event: `${en}_error`,
     event_type: 'content tool',
     button_text: bt,
-    section_heading: sh ?? undefined,
     tag_name: e.tagName,
     step: step.at(-1),
+    section_heading: sh ?? undefined,
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
@@ -166,9 +166,9 @@ function errorEvent(e, m, ui) {
     event: `${en}_error`,
     event_type: 'content tool',
     button_text: bt,
-    section_heading: sh ?? undefined,
     tag_name: e.tagName,
     step: step.at(-1),
+    section_heading: sh ?? undefined,
     error_message: m,
     alert_impression: true,
     event_timestamp: tstamp, // milliseconds
@@ -182,13 +182,12 @@ function errorEvent(e, m, ui) {
 }
 
 /**
- * The function `removeItem` is used to remove an item from the shopping cart and
+ * The function `removeItem` is used to remove an item from a shopping cart and
  * update the cart's total value.
- * @param i - The parameter "i" in the removeItem function represents the index of
- * the item that needs to be removed from the shopping cart.
- * @param ui - The parameter `ui` represents the user ID. It is used to identify
- * the user who is performing the action of removing an item from the shopping
- * cart.
+ * @param i - The parameter `i` in the `removeItem` function represents the index
+ * of the item that needs to be removed from the shopping cart.
+ * @param ui - The parameter `ui` is the user ID. It is used to identify the user
+ * who performed the action of removing an item from the shopping cart.
  */
 function removeItem(i, ui) {
   const tstamp = String(new Date().getTime());
@@ -214,6 +213,7 @@ function removeItem(i, ui) {
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
+    section_heading: itemsSelected[ap].item_category.toUpperCase(),
     alert_message: message,
     alert_impression: true,
     ecommerce: {
@@ -235,6 +235,7 @@ function removeItem(i, ui) {
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
+    section_heading: itemsSelected[ap].item_category.toUpperCase(),
     alert_message: message,
     alert_impression: true,
     ecommerce: {
@@ -267,12 +268,13 @@ function removeItem(i, ui) {
 }
 
 /**
- * The function `selectItem` is used to handle the selection of an item, update the
- * data layer and perform other related actions.
- * @param i - The parameter `i` is the index of the item being selected.
+ * The `selectItem` function is used to handle the selection of an item and trigger
+ * various tracking events and actions.
+ * @param i - The parameter `i` represents the index of the selected item in the
+ * `itemsList` array.
  * @param ui - The parameter `ui` is the user ID. It is used to identify the user
  * who is interacting with the UI.
- * @returns The function does not explicitly return anything.
+ * @returns The function does not explicitly return a value.
  */
 function selectItem(i, ui) {
   const tstamp = String(new Date().getTime());
@@ -303,10 +305,10 @@ function selectItem(i, ui) {
     event: 'select_item',
     // event parameters
     button_text: el.id,
-    section_heading: sh ?? undefined,
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
+    section_heading: sh ?? undefined,
     ecommerce: {
       item_list_id: itemsList[i].item_list_id,
       item_list_name: itemsList[i].item_list_name,
@@ -323,10 +325,10 @@ function selectItem(i, ui) {
     tealium_event: 'select_item',
     // event parameters
     button_text: el.id,
-    section_heading: sh ?? undefined,
     event_type: 'ui interaction',
     tag_name: el.tagName,
     step: step.at(-1),
+    section_heading: sh ?? undefined,
     ecommerce: {
       item_list_id: itemsList[i].item_list_id,
       item_list_name: itemsList[i].item_list_name,
@@ -409,11 +411,13 @@ function chgSHIPPING() {
 }
 
 /**
- * The function `creditCardType` takes a credit card number as input and returns
- * the type of credit card (e.g., VISA, AMEX, MASTERCARD, etc.) based on the card
- * number pattern.
- * @param cc - cc is the credit card number that needs to be checked for its type.
- * @returns the type of credit card based on the provided credit card number.
+ * The function `creditCardType` checks the inputted credit card number and
+ * displays the corresponding credit card logo based on the card type.
+ * @returns the HTML code for the corresponding credit card logo based on the input
+ * card number. If the card number matches any of the specified patterns, the
+ * function inserts the corresponding logo image into the HTML element with the id
+ * "cclogo". If the card number does not match any of the patterns, the function
+ * sets the innerHTML of the "cclogo" element to "Invalid Card Number".
  */
 function creditCardType() {
   const cc = document.querySelector('#cardnum').value;
@@ -516,8 +520,8 @@ const productList_1 = [
     item_category3: 'Shirts',
     item_category4: 'Crew',
     item_category5: 'Short Sleeve',
-    item_list_id: 'adult_products',
-    item_list_name: 'Adult Products',
+    item_list_id: 'adult_clothing',
+    item_list_name: 'Adult Clothing',
     item_variant: 'green',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
     price: 29.95,
@@ -546,8 +550,8 @@ const productList_1 = [
     item_category3: 'Jackets',
     item_category4: 'Crew',
     item_category5: 'Long Sleeve',
-    item_list_id: 'adult_products',
-    item_list_name: 'Adult Products',
+    item_list_id: 'adult_clothing',
+    item_list_name: 'Adult Clothing',
     item_variant: 'black',
     location_id: 'ChIJIQBpAG2ahYAR_6128GcTUEo',
     price: 99.0,
@@ -555,13 +559,13 @@ const productList_1 = [
 ];
 const productList_2 = [
   {
-    item_name: 'GreenStride Motion 6 Waterproof Mid Hiker',
+    item_name: 'GreenStride Motion 6 Mid Hiker',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
     item_category: 'Footwear',
     item_category2: 'Mens',
     item_category3: 'GreenStride',
-    item_category4: 'TemberDry',
+    item_category4: 'Waterproof',
     item_category5: 'Mid Hiker',
     item_list_id: 'mens_footwear',
     item_list_name: 'Mens Footwear',
@@ -570,7 +574,7 @@ const productList_2 = [
     price: 119.95,
   },
   {
-    item_name: 'Stone Street Timberland Premiun Platform',
+    item_name: 'Stone Street Premiun Platform',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
     item_category: 'Footwear',
@@ -585,7 +589,7 @@ const productList_2 = [
     price: 140.0,
   },
   {
-    item_name: 'Classic 6 Waterproof Boot',
+    item_name: 'Classic 6 Boot',
     affiliation: 'Merchandise Store',
     item_brand: 'MyCollection',
     item_category: 'Footwear',
@@ -607,6 +611,7 @@ there is no value, it generates a new UUID using the crypto.getRandomValues meth
 the constant UUID. */
 const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 
+/* Start of principal function */
 const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
@@ -621,6 +626,8 @@ elemClick.forEach((e) => {
     let cm; // contact method
     let cc; // country currency
     let ev; // event value
+    let sh; // section heading
+    let list; // section list
     let vct; // video current time
     let milestone; // video progress milestone
     let vpct; // video progress percent
@@ -663,6 +670,7 @@ elemClick.forEach((e) => {
           event_type: et,
           tag_name: e.tagName,
           step: step.at(-1),
+          section_heading: sh ?? undefined,
           ecommerce:
             en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
               ? undefined
@@ -675,8 +683,8 @@ elemClick.forEach((e) => {
                   coupon: userCoupon ?? undefined,
                   shipping_tier: userShipping ?? undefined,
                   payment_type: userCCBrand ?? undefined,
-                  item_list_id: /productList/i.test(e.id) ? tempList[0].item_list_id : undefined,
-                  item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
+                  item_list_id: /productList/i.test(e.id) ? `${list.toLowerCase()}_products` : undefined,
+                  item_list_name: /productList/i.test(e.id) ? `${list} Products` : undefined,
                   items: /productList/i.test(e.id) ? tempList : itemsSelected,
                 },
           event_timestamp: tstamp, // milliseconds
@@ -693,6 +701,7 @@ elemClick.forEach((e) => {
           event_type: et,
           tag_name: e.tagName,
           step: step.at(-1),
+          section_heading: sh ?? undefined,
           ecommerce:
             en === 'ecommerce_modal_closed' || en === 'ecommerce_funnel_complete'
               ? undefined
@@ -780,6 +789,9 @@ elemClick.forEach((e) => {
         en = 'view_item_list';
         et = 'ui interaction';
         step.push('funnel-1');
+        sh = tempList[0].item_category.toUpperCase();
+        list = document.querySelector(`#productList-${l}`).innerText;
+        list = list.charAt(0).toUpperCase() + list.slice(1).toLowerCase();
         ecommerceSent();
         tempList = undefined; // reset tempList
         panelFilled.push(l);
@@ -809,7 +821,7 @@ elemClick.forEach((e) => {
         }
 
         en = e.id;
-        step.push('funnel-2');
+        step.push('funnel-1');
         for (const element of itemsSelected) {
           itemsValue += Number((element.price * element.quantity).toFixed(2));
         }
@@ -868,6 +880,7 @@ elemClick.forEach((e) => {
 
         en = 'view_cart';
         et = 'content tool';
+        step.push('funnel-2');
         ecommerceSent();
       }
 
