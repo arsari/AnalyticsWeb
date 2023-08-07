@@ -137,11 +137,12 @@ The following global parameters apply to most of the above **events**:
 
 | Global Parameters                       | GA4 Scope | GA4 Custom Definitions |
 | --------------------------------------- | --------- | ---------------------- |
+| event_id (gtm config parameter)         | Event     | Dimension              |
 | event_type                              | Event     | Dimension              |
 | button_text                             | Event     | Dimension              |
 | tag_name                                | Event     | Dimension              |
-| section_heading (ecommerce events only) | Event     | Dimension              |
 | step (ecommerce events only)            | Event     | Dimension              |
+| section_heading (ecommerce events only) | Event     | Dimension              |
 | event_timestamp (milliseconds)          | Event     | Dimension              |
 | custom_timestamp (ISO 8601)             | Event     | Dimension              |
 | custom_user_id (user Property)          | User      | Dimension              |
@@ -378,7 +379,7 @@ When the user complete the ecommerce funnel by placing a purchase and firing the
 }
 ```
 
-*Clear the ecommerce object*
+_Clear the ecommerce object_
 
 It's recommended that we use the following command to clear the ecommerce object prior to pushing an ecommerce event to the data layer. Clearing the object will prevent multiple ecommerce events on a page from affecting each other.
 
@@ -477,111 +478,111 @@ utag.link({
 For the _select item_ event the implemented `dataLayer` array-object and `utag.link` data object is composed of:
 
 ```js
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    ecommerce: null,
-  }); // Clear the previous ecommerce object
-  utag.link({
-    ecommerce: null,
-  }); // Clear the previous ecommerce object
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+utag.link({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: 'select_item',
-    // event parameters
-    button_text: el.id,
-    section_heading: sh ?? undefined,
-    event_type: 'ui interaction',
-    tag_name: el.tagName,
-    step: step.at(-1),
-    ecommerce: {
-      item_list_id: itemsList[i].item_list_id,
-      item_list_name: itemsList[i].item_list_name,
-      items: itemsList[i],
-    },
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
-    // user properties
-    logged_in: logged,
-    user_id: ui,
-  });
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: "select_item",
+  // event parameters
+  button_text: el.id,
+  section_heading: sh ?? undefined,
+  event_type: "ui interaction",
+  tag_name: el.tagName,
+  step: step.at(-1),
+  ecommerce: {
+    item_list_id: itemsList[i].item_list_id,
+    item_list_name: itemsList[i].item_list_name,
+    items: itemsList[i],
+  },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
+  // user properties
+  logged_in: logged,
+  user_id: ui,
+});
 
-  utag.link({
-    tealium_event: 'select_item',
-    // event parameters
-    button_text: el.id,
-    section_heading: sh ?? undefined,
-    event_type: 'ui interaction',
-    tag_name: el.tagName,
-    step: step.at(-1),
-    ecommerce: {
-      item_list_id: itemsList[i].item_list_id,
-      item_list_name: itemsList[i].item_list_name,
-      items: itemsList[i],
-    },
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
-    // user properties
-    logged_in: logged,
-    user_id: ui,
-    custom_user_id: ui,
-  });
+utag.link({
+  tealium_event: "select_item",
+  // event parameters
+  button_text: el.id,
+  section_heading: sh ?? undefined,
+  event_type: "ui interaction",
+  tag_name: el.tagName,
+  step: step.at(-1),
+  ecommerce: {
+    item_list_id: itemsList[i].item_list_id,
+    item_list_name: itemsList[i].item_list_name,
+    items: itemsList[i],
+  },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
+  // user properties
+  logged_in: logged,
+  user_id: ui,
+  custom_user_id: ui,
+});
 ```
 
 For the _remove from cart_ event the implemented `dataLayer` array-object and `utag.link` data object is composed of:
 
 ```js
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    ecommerce: null,
-  }); // Clear the previous ecommerce object
-  utag.link({
-    ecommerce: null,
-  }); // Clear the previous ecommerce object
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
+utag.link({
+  ecommerce: null,
+}); // Clear the previous ecommerce object
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: 'remove_from_cart',
-    // event parameters
-    button_text: el.innerText,
-    event_type: 'ui interaction',
-    tag_name: el.tagName,
-    step: step.at(-1),
-    alert_message: message,
-    alert_impression: true,
-    ecommerce: {
-      currency: 'USD',
-      value: itemsSelected[ap].price,
-      items: itemsSelected[ap],
-    },
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
-    // user properties
-    logged_in: logged,
-    user_id: ui,
-  });
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: "remove_from_cart",
+  // event parameters
+  button_text: el.innerText,
+  event_type: "ui interaction",
+  tag_name: el.tagName,
+  step: step.at(-1),
+  alert_message: message,
+  alert_impression: true,
+  ecommerce: {
+    currency: "USD",
+    value: itemsSelected[ap].price,
+    items: itemsSelected[ap],
+  },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
+  // user properties
+  logged_in: logged,
+  user_id: ui,
+});
 
-  utag.link({
-    tealium_event: 'remove_from_cart',
-    // event parameters
-    button_text: el.innerText,
-    event_type: 'ui interaction',
-    tag_name: el.tagName,
-    step: step.at(-1),
-    alert_message: message,
-    alert_impression: true,
-    ecommerce: {
-      currency: 'USD',
-      value: itemsSelected[ap].price,
-      items: itemsSelected[ap],
-    },
-    event_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
-    // user properties
-    logged_in: logged,
-    user_id: ui,
-    custom_user_id: ui,
-  });
+utag.link({
+  tealium_event: "remove_from_cart",
+  // event parameters
+  button_text: el.innerText,
+  event_type: "ui interaction",
+  tag_name: el.tagName,
+  step: step.at(-1),
+  alert_message: message,
+  alert_impression: true,
+  ecommerce: {
+    currency: "USD",
+    value: itemsSelected[ap].price,
+    items: itemsSelected[ap],
+  },
+  event_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
+  // user properties
+  logged_in: logged,
+  user_id: ui,
+  custom_user_id: ui,
+});
 ```
 
 #### Video Events

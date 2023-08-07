@@ -787,7 +787,6 @@ elemClick.forEach((e) => {
           }
         }
         en = 'view_item_list';
-        et = 'ui interaction';
         step.push('funnel-1');
         sh = tempList[0].item_category.toUpperCase();
         list = document.querySelector(`#productList-${l}`).innerText;
