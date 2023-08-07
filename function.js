@@ -615,7 +615,7 @@ const UUID = `U-${self.crypto.getRandomValues(new Uint32Array(1))}`;
 const elemClick = document.querySelectorAll('[name="action"]');
 elemClick.forEach((e) => {
   e.addEventListener('click', () => {
-    let ui = localStorage.UUID;
+    let ui = localStorage.UUID ?? 'guest';
 
     const vp = 'Any Video Player'; // video title
     const vt = 'Walk in The Clouds'; // video provider
@@ -1271,8 +1271,6 @@ elemClick.forEach((e) => {
 
       // Video progress interval after video_start event
       const interval = setInterval(() => {
-        ui = logged ? UUID : 'guest';
-
         if (vplay) {
           vprogress += 1;
           tstamp = String(new Date().getTime());
@@ -1412,10 +1410,11 @@ elemClick.forEach((e) => {
       window.dataLayer.push({
         event: en || e.id,
         // event parameters
-        button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
+        button_text: bt,
         contact_method: cm,
         currency: cc,
         event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1430,7 +1429,6 @@ elemClick.forEach((e) => {
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
-        tag_name: e.tagName,
         value: ev,
         video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
         video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
@@ -1450,10 +1448,11 @@ elemClick.forEach((e) => {
       utag.link({
         tealium_event: en || e.id,
         // event parameters
-        button_text: e.tagName === 'BUTTON' && bt !== '' ? bt : undefined,
+        button_text: bt,
         contact_method: cm,
         currency: cc,
         event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
         file_extension: e.id === 'download' ? 'pdf' : undefined,
         file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
         form_destination: fd,
@@ -1468,7 +1467,6 @@ elemClick.forEach((e) => {
         method: e.id === 'login' ? 'Google' : undefined,
         outbound: ol,
         search_term: st,
-        tag_name: e.tagName,
         value: ev,
         video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
         video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
