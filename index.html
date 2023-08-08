@@ -91,7 +91,7 @@
         // user properties
         logged_in: false,
         user_id: localStorage.UUID ?? 'guest',
-        custom_user_id: localStorage.customID ?? 'guest',
+        custom_user_id: localStorage.UUID ?? 'guest',
       };
     </script>
     <!-- END: utag data object init -->
@@ -137,48 +137,49 @@
         </span>
       </div>
       <nav class="flex">
-        <button id="login" name="action" class="button" type="button">
+        <button id="login" name="action" class="button" type="button" title="Login Event">
           <span class="text">Sign In</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
         <a id="extlink" name="action" class="button" href="https://arsari.wpengine.com" rel="noopener nofollow"
-          target="_blank">
+          target="_blank" title="Outbound Link Event">
           <span class="text">Outbound Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
-        <a id="intlink" name="action" class="button" href="internal.html" rel="noopener nofollow" target="_blank">
+        <a id="intlink" name="action" class="button" href="internal.html" rel="noopener nofollow" target="_blank"
+          title="Internal Link Event">
           <span class="text">Internal Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
-        <button id="download" name="action" class="button" type="button" title="Sign In First...">
+        <button id="download" name="action" class="button" type="button" title="Download Event">
           <span class="text">Download</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="video" name="action" class="button" type="button">
+        <button id="video" name="action" class="button" type="button" title="Video Events">
           <span class="text">Video</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="email" name="action" class="button" type="button">
+        <button id="email" name="action" class="button" type="button" title="Generate Lead Event">
           <span class="text">Email</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="phone" name="action" class="button" type="button">
+        <button id="phone" name="action" class="button" type="button" title="Generate Lead Event">
           <span class="text">Phone</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="ecommerce-modal" name="action" class="button" type="button" title="Ecommerce Funnel">
+        <button id="ecommerce-modal" name="action" class="button" type="button" title="Ecommerce Funnel Events">
           <span class="text">Ecommerce Funnel</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="form-modal" name="action" class="button" type="button">
+        <button id="form-modal" name="action" class="button" type="button" title="Form Event">
           <span class="text">Form</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="search-modal" name="action" class="button" type="button" title="Sign In First...">
+        <button id="search-modal" name="action" class="button" type="button" title="Search Event">
           <span class="text">Search</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="logout" name="action" class="button" type="button">
+        <button id="logout" name="action" class="button" type="button" title="Log Out Event">
           <span class="text">Sign Out</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
@@ -223,8 +224,8 @@
           <div class="add-to-cart-wrap">
             <div>
               <h2>Select Products:</h2>
-              <button id="productList-1" class="accordion" name="action">CLOTHING<i class="fa fa-caret-down"
-                  style="margin-left: 10px;"></i></button>
+              <button id="productList-1" class="accordion" name="action" title="Clothing Section">CLOTHING<i
+                  class="fa fa-caret-down" style="margin-left: 10px;"></i></button>
               <div class="panel">
                 <table>
                   <caption>Merchandise Store</caption>
@@ -241,8 +242,8 @@
                   <tbody id="itemsList-1" name="itemsList"></tbody>
                 </table>
               </div>
-              <button id="productList-2" class="accordion" name="action">FOOTWEAR<i class="fa fa-caret-down"
-                  style="margin-left: 10px;"></i></button>
+              <button id="productList-2" class="accordion" name="action" title="Footwear Section">FOOTWEAR<i
+                  class="fa fa-caret-down" style="margin-left: 10px;"></i></button>
               <div class="panel">
                 <table>
                   <caption>Merchandise Store</caption>

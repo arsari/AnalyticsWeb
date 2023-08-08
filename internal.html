@@ -23,8 +23,8 @@
         language_code: 'en-US',
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
-        logged_in: localStorage.logged ? localStorage.logged : false,
-        user_id: localStorage.UUID ? localStorage.UUID : 'guest',
+        logged_in: localStorage.logged ?? false,
+        user_id: localStorage.UUID ?? 'guest',
       });
     </script>
     <!-- END: dataLayers config -->
@@ -88,9 +88,9 @@
         language_code: 'en-US',
         event_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
-        logged_in: localStorage.logged ? localStorage.logged : false,
-        user_id: localStorage.UUID ? localStorage.UUID : 'guest',
-        custom_user_id: localStorage.customID ? localStorage.customID : 'guest',
+        logged_in: localStorage.logged ?? false,
+        user_id: localStorage.UUID ?? 'guest',
+        custom_user_id: localStorage.UUID ?? 'guest',
       };
     </script>
     <!-- END: utag dataLayers config -->

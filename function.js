@@ -49,6 +49,17 @@ function displayJSON(status) {
 }
 
 /**
+ * The function `toogleBtns` toggles the 'inactive' class on a list of elements
+ * that require user to be login.
+ */
+function toggleBtns() {
+  const arr = ['#logout', '#search-modal', '#ecommerce-modal', '#download', '#intlink'];
+  for (const element of arr) {
+    document.querySelector(element).classList.toggle('inactive');
+  }
+}
+
+/**
  * The function ecommerceModal() toggles the class 'show-modal' on the element with
  * the id 'ecommerce-modal'
  */
@@ -490,6 +501,7 @@ function maskNumber(n) {
 /**
  * Element listeners and global variables dependency start here
  */
+toggleBtns();
 let logged = false;
 let vplay = false;
 let vstop = true;
@@ -1150,15 +1162,9 @@ elemClick.forEach((e) => {
       }
     } else {
       if (e.id === 'ecommerce-modal') {
-        if (logged) {
-          en = 'ecommerce_modal_opened';
-          ecommerceModal();
-          storeEnable = true;
-        } else {
-          message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, ui);
-          return;
-        }
+        en = 'ecommerce_modal_opened';
+        ecommerceModal();
+        storeEnable = true;
       }
 
       if (e.id === 'email' || e.id === 'phone') {
@@ -1221,15 +1227,9 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'download') {
-        if (logged) {
-          en = 'file_download';
-          ld = window.location.hostname;
-          lc = e.className;
-        } else {
-          message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, ui);
-          return;
-        }
+        en = 'file_download';
+        ld = window.location.hostname;
+        lc = e.className;
       }
 
       if (e.id === 'extlink' || e.id === 'github') {
@@ -1345,14 +1345,8 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'search-modal') {
-        if (logged) {
-          en = 'search_modal_opened';
-          searchModal();
-        } else {
-          message = 'ERROR: Please Sign In!';
-          errorEvent(e, message, ui);
-          return;
-        }
+        en = 'search_modal_opened';
+        searchModal();
       }
 
       if (e.id === 'search') {
@@ -1380,27 +1374,19 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'login') {
-        if (logged) {
-          message = "ERROR: Oops! I'm sorry you already Sign In.";
-          errorEvent(e, message, ui);
-          return;
-        }
         logged = true;
-        ui = localStorage.UUID === undefined || localStorage.UUID === 'guest' ? UUID : localStorage.UUID;
+        ui = localStorage.UUID ?? UUID;
         localStorage.logged = logged;
         localStorage.UUID = ui;
-        localStorage.customID = ui;
+        toggleBtns();
+        e.classList.add('inactive');
       }
 
       if (e.id === 'logout') {
-        if (logged) {
-          logged = false;
-          localStorage.logged = logged;
-        } else {
-          message = "ERROR: Oops! I'm sorry you already Sign Out.";
-          errorEvent(e, message, ui);
-          return;
-        }
+        logged = false;
+        localStorage.logged = logged;
+        toggleBtns();
+        document.querySelector('#login').classList.remove('inactive');
       }
 
       tstamp = String(new Date().getTime());
