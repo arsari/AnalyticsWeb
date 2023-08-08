@@ -53,6 +53,11 @@ h1 {
     border-radius 0.5s;
 }
 
+.button:hover {
+  background-color: #000000;
+  border: 3px solid darkorange;
+}
+
 .button * {
   position: absolute;
   top: 50%;
@@ -547,7 +552,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .payment {
- width: 40%;
+  width: 34%;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
