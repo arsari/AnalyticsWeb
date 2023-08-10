@@ -486,6 +486,46 @@ function creditCardType() {
 }
 
 /**
+ * The function `creditCardDate` checks if a given credit card expiration date is
+ * in the correct format and if it is not expired.
+ * @param e - The parameter "e" is likely an event object, which is commonly used
+ * in event handlers to represent an event that has occurred (e.g., a button click,
+ * a form submission).
+ * @param d - The parameter "d" represents the expiration date of a credit card in
+ * the format "MM/YY".
+ * @param ui - The `ui` parameter is not explicitly defined in the code snippet
+ * provided. It is likely a reference to some user interface element or object that
+ * is being used to display error messages or handle user interactions.
+ * @returns a boolean value. It returns true if the credit card has not expired,
+ * and false if the credit card has expired or if the expiration date format is not
+ * correct.
+ */
+function creditCardDate(e, d, ui) {
+  if (!d.match(/(0[1-9]|1[0-2])[/][0-9]{2}/)) {
+    const message = 'ERROR: Expire date format not correct [MM/YY]!';
+    document.querySelector('.result').innerText = message;
+    errorEvent(e, message, ui);
+    return false;
+  }
+  // get current year and month
+  const cd = new Date();
+  const currentYear = cd.getFullYear();
+  const currentMonth = cd.getMonth() + 1;
+  // get parts of the expiration date
+  const parts = d.split('/');
+  const year = parseInt(parts[1], 10) + 2000;
+  const month = parseInt(parts[0], 10);
+  // compare the dates
+  if (year < currentYear || (year === currentYear && month < currentMonth)) {
+    const message = 'ERROR: The credit card has expired.';
+    document.querySelector('.result').innerText = message;
+    errorEvent(e, message, ui);
+    return false;
+  }
+  return true;
+}
+
+/**
  * The function `maskNumber` takes a number as input and replaces all digits
  * between the third and third-to-last positions with asterisks.
  * @param n - The parameter `n` is a number that needs to be masked.
@@ -957,21 +997,24 @@ elemClick.forEach((e) => {
 
       if (e.id === 'checkout3') {
         const ccnumber = document.querySelector('#cardnum').value.trim();
-        customerInfo.ccexpiration = document.querySelector('#cardexp').value.trim();
-        customerInfo.cccvv = document.querySelector('#cardcvv').value.trim();
-        customerInfo.ccname = document.querySelector('#cardname').value.trim();
+        const ccexpiration = document.querySelector('#cardexp').value.trim();
+        const cccvv = document.querySelector('#cardcvv').value.trim();
+        const ccname = document.querySelector('#cardname').value.trim();
 
-        if (
-          ccnumber === '' ||
-          customerInfo.ccexpiration === '' ||
-          customerInfo.cccvv === '' ||
-          customerInfo.ccname === ''
-        ) {
+        if (ccnumber === '' || ccexpiration === '' || cccvv === '' || ccname === '') {
           message = "ERROR: Input fields can't be blank.";
           errorEvent(e, message, ui);
           return;
         }
+
+        if (!creditCardDate(e, ccexpiration, ui)) {
+          return;
+        }
+
         customerInfo.ccnumber = maskNumber(ccnumber);
+        customerInfo.ccexpiration = ccexpiration;
+        customerInfo.cccvv = cccvv;
+        customerInfo.ccname = ccname;
         customerInfo.cclogo = document.querySelector('#cclogo').innerHTML;
         customerInfo.ccbrand = document.querySelector('#cclogo').firstElementChild.alt;
 

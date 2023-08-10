@@ -336,14 +336,15 @@
                 <div id="cclogo" class="cclogo revert"></div>
                 <label for="cardnum">Card Number<span>*</span>:</label>
                 <input id="cardnum" type="number" class="formInput"
-                  placeholder="Enter your credit card number no spaces" required oninput="creditCardType()">
+                  placeholder="Enter your credit card number no spaces" oninput="creditCardType()" required>
                 <label for="cardname">Name<span>*</span>:</label>
                 <input id="cardname" type="text" class="formInput" placeholder="Enter name on card" required>
                 <div class="expcvv">
                   <div class="exp">
                     <label for="cardexp">Expiration Date<span>*</span>:</label>
-                    <input id="cardexp" type="text" pattern="[0-9]{2}/[0-9]{2}" class="formInput"
-                      placeholder=" Enter expiration date (mm\yy)" required>
+                    <input id="cardexp" type="text" class="formInput" placeholder="Enter expiration date [MM/YY]"
+                      required>
+                    <span class="result"></span>
                   </div>
                   <div class="cvv">
                     <label for="cardcvv">CVV<span>*</span>:</label>
