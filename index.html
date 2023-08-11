@@ -337,6 +337,7 @@
                 <label for="cardnum">Card Number<span>*</span>:</label>
                 <input id="cardnum" type="number" class="formInput"
                   placeholder="Enter your credit card number no spaces" oninput="creditCardType()" required>
+                <span id="errmsgnumber" class="result"></span>
                 <label for="cardname">Name<span>*</span>:</label>
                 <input id="cardname" type="text" class="formInput" placeholder="Enter name on card" required>
                 <div class="expcvv">
@@ -344,11 +345,12 @@
                     <label for="cardexp">Expiration Date<span>*</span>:</label>
                     <input id="cardexp" type="text" class="formInput" placeholder="Enter expiration date [MM/YY]"
                       required>
-                    <span class="result"></span>
+                    <span id="errmsgdate" class="result"></span>
                   </div>
                   <div class="cvv">
                     <label for="cardcvv">CVV<span>*</span>:</label>
                     <input id="cardcvv" type="number" class="formInput" placeholder="Enter CVV" required>
+                    <span id="errmsgcvv" class="result"></span>
                   </div>
                 </div>
               </form>

@@ -431,8 +431,7 @@ function chgSHIPPING() {
  * sets the innerHTML of the "cclogo" element to "Invalid Card Number".
  */
 function creditCardType() {
-  const cc = document.querySelector('#cardnum').value;
-  document.querySelector('#cclogo').innerHTML = '';
+  const cc = document.querySelector('#cardnum').value.trim();
 
   if (/^(?:2131|1800|35\d{3})\d{11}$/.test(cc)) {
     return document
@@ -482,7 +481,7 @@ function creditCardType() {
         '<img src="https://www.discover.com/content/dam/discover/en_us/global/logos/discover-logo.svg" alt="Discover"/>',
       );
   }
-  return (document.querySelector('#cclogo').innerHTML = 'Invalid Card Number');
+  return (document.querySelector('#cclogo').innerHTML = '');
 }
 
 /**
@@ -503,7 +502,7 @@ function creditCardType() {
 function creditCardDate(e, d, ui) {
   if (!d.match(/(0[1-9]|1[0-2])[/][0-9]{2}/)) {
     const message = 'ERROR: Expire date format not correct [MM/YY]!';
-    document.querySelector('.result').innerText = message;
+    document.querySelector('#errmsgdate').innerText = message;
     errorEvent(e, message, ui);
     return false;
   }
@@ -518,7 +517,7 @@ function creditCardDate(e, d, ui) {
   // compare the dates
   if (year < currentYear || (year === currentYear && month < currentMonth)) {
     const message = 'ERROR: The credit card has expired.';
-    document.querySelector('.result').innerText = message;
+    document.querySelector('#errmsgdate').innerText = message;
     errorEvent(e, message, ui);
     return false;
   }
@@ -1000,22 +999,39 @@ elemClick.forEach((e) => {
         const ccexpiration = document.querySelector('#cardexp').value.trim();
         const cccvv = document.querySelector('#cardcvv').value.trim();
         const ccname = document.querySelector('#cardname').value.trim();
+        const cclogo = document.querySelector('#cclogo').innerHTML;
 
-        if (ccnumber === '' || ccexpiration === '' || cccvv === '' || ccname === '') {
+        if (ccnumber === '' || ccname === '' || ccexpiration === '' || cccvv === '') {
           message = "ERROR: Input fields can't be blank.";
           errorEvent(e, message, ui);
           return;
+        }
+
+        if (cclogo === '') {
+          return (
+            (message = 'ERROR: Invalid Card Number.'),
+            (document.querySelector('#errmsgnumber').innerText = message),
+            errorEvent(e, message, ui)
+          );
         }
 
         if (!creditCardDate(e, ccexpiration, ui)) {
           return;
         }
 
+        if (cccvv.length !== 3) {
+          return (
+            (message = 'ERROR: CVV must be 3 digits long.'),
+            (document.querySelector('#errmsgcvv').innerText = message),
+            errorEvent(e, message, ui)
+          );
+        }
+
         customerInfo.ccnumber = maskNumber(ccnumber);
         customerInfo.ccexpiration = ccexpiration;
         customerInfo.cccvv = cccvv;
         customerInfo.ccname = ccname;
-        customerInfo.cclogo = document.querySelector('#cclogo').innerHTML;
+        customerInfo.cclogo = cclogo;
         customerInfo.ccbrand = document.querySelector('#cclogo').firstElementChild.alt;
 
         document.querySelector('.checkout3-wrap').classList.remove('show');

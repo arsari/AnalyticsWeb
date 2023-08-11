@@ -558,6 +558,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .result {
   color: red;
   font-style: italic;
+  display: block;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
