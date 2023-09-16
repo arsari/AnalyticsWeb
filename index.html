@@ -502,12 +502,57 @@
                   </div>
                 </div>
               </div>
-              <button id="ecommerce-end" type="submit" name="action" class="button ecommerce-btn"
+              <button id="refund" type="submit" name="action" class="refund-btn" title="Order Refund">
+                <span class="text">Refund Order</span>
+              </button>
+              <button id="ecommerce-end" type="submit" name="action" class="button ecommerce-btn3"
                 title="Close Ecommerce Funnel">
                 <span class="text">Close Funnel</span>
               </button>
             </div>
           </div>
+          <div class="refund-wrap">
+            <div id="refund-confirmation">
+              <h2 style="text-align:center;">======== Refund Confirmation ========</h2>
+              <div class="customer2">
+                <div class="transaction">
+                  <h3>Transaction</h3>
+                  <div class="info">
+                    <p id="rcorderID" class="revert"></p>
+                    <p id="rccustomerID" class="revert"></p>
+                    <p id="rcdate" class="revert"></p>
+                    <p id="rcshipping" class="revert"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="products">
+                <table>
+                  <caption>Merchandise Store</caption>
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Product Description</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rcproductRows"></tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="4" style="text-align:right">Refund Total</th>
+                      <th id="rctotal" style="text-align:right;"></th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <button id="ecommerce-end-2" type="submit" name="action" class="button ecommerce-btn4"
+                title="Close Ecommerce Funnel">
+                <span class="text">Close Funnel</span>
+              </button>
+            </div>
+          </div>
+
         </div>
       </section>
       <section id="json"></section>

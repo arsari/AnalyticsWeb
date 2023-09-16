@@ -36,7 +36,8 @@ h1 {
   margin: 0 20px;
 }
 
-.button {
+.button,
+.refund-btn {
   text-decoration: none;
   display: inline-block;
   position: relative;
@@ -301,7 +302,8 @@ label > span {
 .checkout2-wrap,
 .checkout3-wrap,
 .summary-wrap,
-.purchase-wrap {
+.purchase-wrap,
+.refund-wrap {
   display: none;
 }
 
@@ -411,8 +413,10 @@ label > span {
 }
 
 .ecommerce-btn,
-.ecommerce-btn2 {
-  left: 57%;
+.ecommerce-btn2,
+.ecommerce-btn3,
+.ecommerce-btn4 {
+  left: 60%;
   margin: 20px 0 0;
   width: 20rem;
 }
@@ -421,6 +425,37 @@ label > span {
   bottom: 50px;
   display: flex;
   margin: 0;
+}
+
+.ecommerce-btn3 {
+  left: 45%;
+  width: 13rem;
+}
+
+.ecommerce-btn4 {
+  left: 73%;
+  width: 13rem;
+}
+
+.refund-btn {
+  left: 2%;
+  width: 13rem;
+  margin: 20px 0 0;
+  background-color: #ffffff;
+  border: 2px solid #4caf50;
+}
+
+.refund-btn > .text {
+  color: #4caf50;
+}
+
+.refund-btn:hover {
+  background-color: #444444;
+  border: 2px solid #ffffff;
+}
+
+.refund-btn:hover > .text {
+  color: #ffffff;
 }
 
 table {
@@ -507,6 +542,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .customer,
+.customer2,
 .brand {
   display: flex;
   justify-content: space-around;
@@ -514,6 +550,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .brand {
   justify-content: space-between;
+}
+
+.customer2 {
+  justify-content: normal;
 }
 
 .brand > .cclogo > img {

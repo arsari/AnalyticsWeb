@@ -560,6 +560,7 @@ let shipping = 0; // shipping
 let userCoupon; // coupon
 let discountTotal = 0;
 let step = []; // funnel step
+let transactionID; // transaction ID
 const customerInfo = {};
 const productList_1 = [
   {
@@ -701,7 +702,6 @@ elemClick.forEach((e) => {
       let userShipping;
       let userCCBrand;
       let et = 'ui interaction';
-      let transactionID; // transaction ID
       let discount = 0; // discount
 
       const ecommerceSent = () => {
@@ -727,7 +727,7 @@ elemClick.forEach((e) => {
               ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: itemsValue === 0 ? undefined : itemsValue,
+                  value: itemsValue === 0 ? undefined : itemsValue.toFixed(2),
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
                   currency: itemsValue === 0 ? undefined : 'USD',
@@ -758,7 +758,7 @@ elemClick.forEach((e) => {
               ? undefined
               : {
                   transaction_id: transactionID ?? undefined,
-                  value: itemsValue === 0 ? undefined : itemsValue,
+                  value: itemsValue === 0 ? undefined : itemsValue.toFixed(2),
                   tax: tax === 0 ? undefined : tax,
                   shipping: shipping === 0 ? undefined : shipping,
                   currency: itemsValue === 0 ? undefined : 'USD',
@@ -1183,7 +1183,55 @@ elemClick.forEach((e) => {
         document.querySelector('#occname').innerHTML = customerInfo.ccname;
       }
 
-      if (e.id === 'ecommerce-cancel' || e.id === 'ecommerce-end') {
+      if (e.id === 'refund') {
+        document.querySelector('.purchase-wrap').classList.remove('show');
+        document.querySelector('.refund-wrap').classList.add('show');
+
+        en = e.id;
+        step.push('confirmation');
+        ecommerceSent();
+
+        document.querySelector('#rcorderID').innerHTML = `Order Number ${transactionID}`;
+        document.querySelector('#rccustomerID').innerHTML = `Customer Number: ${ui}`;
+        const d = new Date();
+        document.querySelector(
+          '#rcdate',
+        ).innerHTML = `Date: ${d.toDateString()} / ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        document.querySelector('#rcshipping').innerHTML = `Shipping Method: ${customerInfo.shipping.toUpperCase()}`;
+
+        for (const element of itemsSelected) {
+          const row = document.createElement('tr');
+          const keys = [
+            element.item_id,
+            element.item_name,
+            element.price.toFixed(2),
+            element.quantity,
+            (element.price * element.quantity).toFixed(2),
+          ];
+          for (const key in keys) {
+            const column = document.createElement('td');
+            if (key === '1') {
+              column.insertAdjacentHTML(
+                'afterbegin',
+                `${element.item_name}<br>Color: ${element.item_variant.toUpperCase()}<br>${element.item_category2} ${
+                  element.item_category3
+                } ${element.item_category5}`,
+              );
+            } else if (key === '3') {
+              column.style.cssText = 'text-align: center;';
+              column.appendChild(document.createTextNode(keys[key]));
+            } else {
+              column.appendChild(document.createTextNode(keys[key]));
+            }
+            row.appendChild(column);
+            document.querySelector('#rcproductRows').appendChild(row);
+          }
+        }
+
+        document.querySelector('#rctotal').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
+      }
+
+      if (e.id === 'ecommerce-cancel' || e.id.includes('ecommerce-end')) {
         en = e.id === 'ecommerce-cancel' ? 'ecommerce_modal_closed' : 'ecommerce_funnel_complete';
         ecommerceSent();
         ecommerceModal();
@@ -1209,6 +1257,7 @@ elemClick.forEach((e) => {
         document.querySelector('.checkout3-wrap').classList.remove('show');
         document.querySelector('.summary-wrap').classList.remove('show');
         document.querySelector('.purchase-wrap').classList.remove('show');
+        document.querySelector('.refund-wrap').classList.remove('show');
         panelFilled = [];
         itemsList = [];
         itemsSelected = [];
@@ -1418,6 +1467,7 @@ elemClick.forEach((e) => {
             return;
           }
           st = capitalize(verify);
+          bt = 'Magnifying Glass';
           e.previousElementSibling.value = '';
         } else {
           message = "ERROR: Search term can't be blank.";
