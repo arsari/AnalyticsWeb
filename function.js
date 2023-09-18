@@ -1228,6 +1228,10 @@ elemClick.forEach((e) => {
           }
         }
 
+        document.querySelector('#rcproductsSubtotal').innerHTML = `$ ${(itemsValue + discountTotal).toFixed(2)}`;
+        document.querySelector('#rcdiscountTotal').innerHTML = `($ ${discountTotal.toFixed(2)})`;
+        document.querySelector('#rctaxes').innerHTML = `$ ${tax.toFixed(2)}`;
+        document.querySelector('#rcshippingCost').innerHTML = `$ ${shipping.toFixed(2)}`;
         document.querySelector('#rctotal').innerHTML = `$ ${(itemsValue + tax + shipping).toFixed(2)}`;
       }
 
@@ -1263,6 +1267,7 @@ elemClick.forEach((e) => {
         itemsSelected = [];
         itemsValue = 0;
         userCoupon = undefined;
+        transactionID = undefined;
         step = [];
         tax = 0;
         shipping = 0;

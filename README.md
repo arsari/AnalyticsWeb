@@ -123,6 +123,7 @@ The tagging implementation for events consider the followings user actions (ui i
 | Ecommerce Funnel     | add_shipping_info           | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.coupon<br>ecommerce.shipping_tier<br>ecommerce.items                                                                    | Event<br>Event<br>Event<br>Event<br>Event                            | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                                           |
 | Ecommerce Funnel     | add_payment_info            | user interaction | ecommerce.currency<br>ecommerce.value<br>ecommerce.coupon<br>ecommerce.payment_type<br>ecommerce.items                                                                     | Event<br>Event<br>Event<br>Event<br>Event                            | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined                                           |
 | Ecommerce Funnel     | purchase                    | user interaction | ecommerce.transaction_id<br>ecommerce.currency<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.coupon<br>ecommerce.shipping_tier<br>ecommerce.items | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined |
+| Ecommerce Funnel     | refund                      | user interaction | ecommerce.transaction_id<br>ecommerce.currency<br>ecommerce.value<br>ecommerce.tax<br>ecommerce.shipping<br>ecommerce.coupon<br>ecommerce.items                            | Event<br>Event<br>Event<br>Event<br>Event<br>Event<br>Event          | Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined<br>Predifined               |
 | Ecommerce Funnel     | \<ecommerce events\>\_error | content tool     | error_message<br>alert_impression<br>step                                                                                                                                  | Event<br>Event<br>Event                                              | Dimension<br>Dimension<br>Dimension                                                                          |
 | \* Cancel            | ecommerce_modal_closed      | user interaction |                                                                                                                                                                            |                                                                      |
 | Search               | search_modal_opened         | user interaction |                                                                                                                                                                            |                                                                      |
@@ -415,7 +416,7 @@ window.dataLayer.push({
       ? undefined
       : {
           transaction_id: transactionID ?? undefined,
-          value: itemsValue === 0 ? undefined : itemsValue,
+          value: itemsValue === 0 ? undefined : itemsValue.tofixed(2),
           tax: tax === 0 ? undefined : tax,
           shipping: shipping === 0 ? undefined : shipping,
           currency: itemsValue === 0 ? undefined : "USD",
@@ -449,7 +450,7 @@ utag.link({
       ? undefined
       : {
           transaction_id: transactionID ?? undefined,
-          value: itemsValue === 0 ? undefined : itemsValue,
+          value: itemsValue === 0 ? undefined : itemsValue.toFixed(2),
           tax: tax === 0 ? undefined : tax,
           shipping: shipping === 0 ? undefined : shipping,
           currency: itemsValue === 0 ? undefined : "USD",
