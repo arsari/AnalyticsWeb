@@ -134,8 +134,8 @@
       /**
        * Populate section element with initial data layer object
        */
-      document.querySelector('#data').innerHTML += `<p><em>Initial dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
-        window.dataLayer.at(0).event === 'initData' ? window.dataLayer.at(0) : window.dataLayer.at(-1),
+      document.querySelector('#data').innerHTML += `<p><em>Initial dataLayer.push and utag_data message</em></p><pre>${JSON.stringify(
+        window.dataLayer.at(0)
         undefined,
         2,
       )}</pre>`;

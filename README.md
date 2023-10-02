@@ -53,7 +53,6 @@ The `dataLayer` array-object should be located inside the `<head>...</head>` tag
 <script type="text/javascript">
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    event: "initData",
     page_title: document.querySelector("title").innerText,
     page_name: "Web Analytics Implementation - Home Page",
     page_author: "Arturo Santiago-Rivera",
