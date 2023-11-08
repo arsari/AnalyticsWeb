@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <title>AnalyticsWeb | Internal Page</title>
-    <!-- dataLayers config -->
+    <!-- dataLayer message -->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation Playground - Internal Page',
+        page_category: 'support',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
@@ -26,7 +27,7 @@
         user_id: localStorage.UUID ?? 'guest',
       });
     </script>
-    <!-- END: dataLayers config -->
+    <!-- END: dataLayer message -->
     <!--Google Tag Manager-->
     <script>
       (function (w, d, s, l, i) {
@@ -75,11 +76,12 @@
   </head>
 
   <body>
-    <!-- utag dataLayers config -->
+    <!-- utag data object message -->
     <script type="text/javascript">
       const utag_data = {
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation Playground - Internal Page',
+        page_category: 'support',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
@@ -92,7 +94,7 @@
         custom_user_id: localStorage.UUID ?? 'guest',
       };
     </script>
-    <!-- END: utag dataLayers config -->
+    <!-- END: utag data object message -->
     <!-- Tealium IQ Loading script asynchronously -->
     <script type="text/javascript">
       (function (a, b, c, d) {
