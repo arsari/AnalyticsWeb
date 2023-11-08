@@ -1286,10 +1286,10 @@ elemClick.forEach((e) => {
 
         if (e.id === 'email') {
           cm = 'email';
-          ev = 50;
+          ev = 25;
         } else {
           cm = 'phone';
-          ev = 25;
+          ev = 50;
         }
       }
 
@@ -1327,6 +1327,7 @@ elemClick.forEach((e) => {
         fd = 'customer service';
         fst = `Thank you for your submission, ${capitalize(userName)}! We will be in touch shortly.`;
         cc = 'USD';
+        ev = 75;
 
         document.querySelector('.form-wrap').classList.add('hide');
         document.querySelector('.ty-message-wrap').classList.add('show');
