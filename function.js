@@ -1332,7 +1332,7 @@ elemClick.forEach((e) => {
         document.querySelector('.form-wrap').classList.add('hide');
         document.querySelector('.ty-message-wrap').classList.add('show');
         document.querySelector('#thank-you-message').innerHTML = fst;
-        setTimeout(formModal, 5000);
+        setTimeout(formModal, 3000);
       }
 
       if (e.id === 'form-close') {
