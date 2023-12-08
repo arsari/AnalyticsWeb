@@ -60,7 +60,7 @@ The `dataLayer` array-object should be located inside the `<head>...</head>` tag
     content_group: "Implementation",
     content_type: "Playground",
     language_code: "en-US",
-    event_timestamp: String(new Date().getTime()), // milliseconds
+    e_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
     user_id: localStorage.UUID ?? "guest",
@@ -82,7 +82,7 @@ The `utag_data` object variable should be located inside the `<body>...</body>` 
     content_group: "Implementation",
     content_type: "Playground",
     language_code: "en-US",
-    event_timestamp: String(new Date().getTime()), // milliseconds
+    e_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
     user_id: localStorage.UUID ?? "guest",
@@ -141,7 +141,7 @@ The following global parameters apply to most of the above **events**:
 | tag_name                                | Event     | Dimension              |
 | step (ecommerce events only)            | Event     | Dimension              |
 | section_heading (ecommerce events only) | Event     | Dimension              |
-| event_timestamp (milliseconds)          | Event     | Dimension              |
+| e_timestamp (milliseconds)          | Event     | Dimension              |
 | custom_timestamp (ISO 8601)             | Event     | Dimension              |
 | custom_user_id (user Property)          | User      | Dimension              |
 | logged_in (user property)               | User      | Dimension              |
@@ -218,7 +218,7 @@ window.dataLayer.push({
     e.id.includes("video") && (vplay === true || vstop === true)
       ? vu
       : undefined,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -282,7 +282,7 @@ utag.link({
     e.id.includes("video") && (vplay === true || vstop === true)
       ? vu
       : undefined,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -430,7 +430,7 @@ window.dataLayer.push({
             : undefined,
           items: /productList/i.test(e.id) ? tempList : itemsSelected,
         },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -464,7 +464,7 @@ utag.link({
             : undefined,
           items: /productList/i.test(e.id) ? tempList : itemsSelected,
         },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -498,7 +498,7 @@ window.dataLayer.push({
     item_list_name: itemsList[i].item_list_name,
     items: itemsList[i],
   },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -518,7 +518,7 @@ utag.link({
     item_list_name: itemsList[i].item_list_name,
     items: itemsList[i],
   },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -553,7 +553,7 @@ window.dataLayer.push({
     value: itemsSelected[ap].price,
     items: itemsSelected[ap],
   },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -574,7 +574,7 @@ utag.link({
     value: itemsSelected[ap].price,
     items: itemsSelected[ap],
   },
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -603,7 +603,7 @@ window.dataLayer.push({
   video_provider: vp,
   video_title: vt,
   video_url: vu,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -620,7 +620,7 @@ utag.link({
   video_provider: vp,
   video_title: vt,
   video_url: vu,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -646,7 +646,7 @@ window.dataLayer.push({
   step: step.at(-1),
   error_message: m,
   alert_impression: true,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,
@@ -662,7 +662,7 @@ utag.link({
   step: step.at(-1),
   error_message: m,
   alert_impression: true,
-  event_timestamp: tstamp, // milliseconds
+  e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
   logged_in: logged,

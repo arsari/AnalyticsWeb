@@ -166,7 +166,7 @@ function errorEvent(e, m, ui) {
     section_heading: sh ?? undefined,
     error_message: m,
     alert_impression: true,
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -182,7 +182,7 @@ function errorEvent(e, m, ui) {
     section_heading: sh ?? undefined,
     error_message: m,
     alert_impression: true,
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -232,7 +232,7 @@ function removeItem(i, ui) {
       value: itemsSelected[ap].price,
       items: itemsSelected[ap],
     },
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -254,7 +254,7 @@ function removeItem(i, ui) {
       value: itemsSelected[ap].price,
       items: itemsSelected[ap],
     },
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -325,7 +325,7 @@ function selectItem(i, ui) {
       item_list_name: itemsList[i].item_list_name,
       items: itemsList[i],
     },
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -345,7 +345,7 @@ function selectItem(i, ui) {
       item_list_name: itemsList[i].item_list_name,
       items: itemsList[i],
     },
-    event_timestamp: tstamp, // milliseconds
+    e_timestamp: tstamp, // milliseconds
     custom_timestamp: cstamp, // ISO 8601
     // user properties
     logged_in: logged,
@@ -738,7 +738,7 @@ elemClick.forEach((e) => {
                   item_list_name: /productList/i.test(e.id) ? `${list} Products` : undefined,
                   items: /productList/i.test(e.id) ? tempList : itemsSelected,
                 },
-          event_timestamp: tstamp, // milliseconds
+          e_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
           // user properties
           logged_in: logged,
@@ -769,7 +769,7 @@ elemClick.forEach((e) => {
                   item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
                   items: /productList/i.test(e.id) ? tempList : itemsSelected,
                 },
-          event_timestamp: tstamp, // milliseconds
+          e_timestamp: tstamp, // milliseconds
           custom_timestamp: cstamp, // ISO 8601
           // user properties
           logged_in: logged,
@@ -1402,7 +1402,7 @@ elemClick.forEach((e) => {
               video_provider: vp,
               video_title: vt,
               video_url: vu,
-              event_timestamp: tstamp, // milliseconds
+              e_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
               // user properties
               logged_in: logged,
@@ -1418,7 +1418,7 @@ elemClick.forEach((e) => {
               video_provider: vp,
               video_title: vt,
               video_url: vu,
-              event_timestamp: tstamp, // milliseconds
+              e_timestamp: tstamp, // milliseconds
               custom_timestamp: cstamp, // ISO 8601
               // user properties
               logged_in: logged,
@@ -1538,7 +1538,7 @@ elemClick.forEach((e) => {
         video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
         video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
         video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
-        event_timestamp: tstamp, // milliseconds
+        e_timestamp: tstamp, // milliseconds
         custom_timestamp: cstamp, // ISO 8601
         // user properties
         logged_in: logged,
@@ -1576,7 +1576,7 @@ elemClick.forEach((e) => {
         video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
         video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
         video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
-        event_timestamp: tstamp, // milliseconds
+        e_timestamp: tstamp, // milliseconds
         custom_timestamp: cstamp, // ISO 8601
         // user properties
         logged_in: logged,
