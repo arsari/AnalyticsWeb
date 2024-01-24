@@ -8,96 +8,134 @@
 
 <!-- Start Document Outline -->
 
-- [AnalyticsWeb](#analyticsweb)
-  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
-    - [Table of Contents](#table-of-contents)
-    - [Introduction](#introduction)
-    - [Tagging Implementation](#tagging-implementation)
-      - [General Events](#general-events)
-      - [Ecommerce Funnel Events](#ecommerce-funnel-events)
-      - [Video Events](#video-events)
-      - [Error Events](#error-events)
-    - [GTM Setup](#gtm-setup)
-      - [General Events Tag](#general-events-tag)
-      - [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
-      - [Error Events Tag](#error-events-tag)
-      - [Video Events Tag](#video-events-tag)
-    - [Reference Documentation](#reference-documentation)
+* [Introduction](#introduction)
+* [Tagging Strategy and Implementation](#tagging-strategy-and-implementation)
+	* [General Events](#general-events)
+		* [`dataLayer`](#datalayer)
+		* [`utag.link()`](#utaglink)
+		* [`amplitude.track()`](#amplitudetrack)
+	* [Ecommerce Funnel Events](#ecommerce-funnel-events)
+	* [Video Events](#video-events)
+	* [Error Events](#error-events)
+* [GTM Setup](#gtm-setup)
+	* [General Events Tag](#general-events-tag)
+	* [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
+	* [Error Events Tag](#error-events-tag)
+	* [Video Events Tag](#video-events-tag)
+* [Reference Documentation](#reference-documentation)
 
 <!-- End Document Outline -->
 
 ### Introduction
 
-Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a comprehensive and flexible approach to website and apps analytics. To implement GA4 and AA on our website, will need to follow these steps:
+Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a comprehensive and flexible approach to website and apps analytics. Amplitude Analytics is another tool that lets you answer questions, make better decisions and drive outcomes with product analytics. For any of the aforementioned tools, to do an implementation on our website, will need to follow these steps:
 
-- Create a GA4 property or AA data stream in our corresponding tool account.
-- Install our GA4 and AA tracking code on our website.
-- Verify the GA4 and AA installation.
-- Configure our GA4 property reports and AA analysis workspace dashboard settings.
-- Start tracking our website traffic.
+1. Create an account or property in the corresponding tool account.
+2. Install the tool tracking code or instrumentation on our website.
+3. Verify the tool installation.
+4. Configure tool reports, analysis workspace, and dashboard settings.
+5. Start tracking our website traffic.
 
-This is playground of analytic implementation on a website using GTM and a GA4 web data stream, as well using Tealium IQ and Adobe Analytics. The implementation allows to explore a:
+This is a playground of analytic implementation for a website using GTM and a GA4 web data stream, Tealium iQ and Adobe Analytics, and Amplitude Analytics. The implementation allows to explore:
 
-- dataLayer array-objects managed through GTM and analyzing the data in a GA4 web data stream,
-- utag.link() data objects managed through Tealium IQ tag manager and analyzing the data in Adobe Analytics.
-- Initial setup of Adobe Launch rules to see response in the browser console (experimental implementation).
+- a dataLayer array-objects managed through GTM and analyzing the data in a GA4 web data stream,
+- a utag_data variable object and utag.link() data objects managed through Tealium iQ tag management and analyzing the data in Adobe Analytics.
+- amplitude data objects to analyze the data in Amplitude Analytics.
+- an initial setup of Adobe Launch rules to see response in the browser console (experimental implementation).
+
+Before we start with the playground set up and back end, we should already have a GTM container linked to a Google Analytics 4 web data stream, a Tealium iQ account setup with AA tag, an Adobe Analytics account, and an Amplitude Analytics account. Having them created and configured will facilitate the use of playground as a data source for the tools.
 
 ![Playground Screenshot](img/playground_screenshot.png)
 
-The implementation fires an initial `dataLayer` array-object and a `utag_data` object variable on each web page.
+### Tagging Strategy and Implementation
+
+The implementation fires an initial `dataLayer` object, `utag_data` object variable and `enrichEventsPlugin` function on each website page.
 
 The `dataLayer` array-object should be located inside the `<head>...</head>` tag of the web page before the GTM snippet.
 
 ```html
-<!-- dataLayers init -->
+<!-- dataLayers message -->
 <script type="text/javascript">
+  const userInit = localStorage.UUID ?? 'guest';
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    page_title: document.querySelector("title").innerText,
-    page_name: "Web Analytics Implementation - Home Page",
-    page_author: "Arturo Santiago-Rivera",
-    author_email: "asantiago@arsari.com",
-    content_group: "Implementation",
-    content_type: "Playground",
-    language_code: "en-US",
+    page_title: document.querySelector('title').innerText,
+    page_name: 'Web Analytics Implementation - Home Page',
+    page_category: 'home',
+    page_author: 'Arturo Santiago-Rivera',
+    author_email: 'asantiago@arsari.com',
+    content_group: 'Implementation',
+    content_type: 'Playground',
+    language_code: 'en-US',
     e_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
-    user_id: localStorage.UUID ?? "guest",
+    user_id: userInit,
   });
 </script>
-<!-- END: dataLayers init -->
+<!-- END: dataLayers message -->
 ```
 
-The `utag_data` object variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
+The `utag_data` variable should be located inside the `<body>...</body>` tag of the web page before the Tealium IQ snippet.
 
 ```html
-<!-- utag data object init -->
+<!-- utag data object message -->
 <script type="text/javascript">
   const utag_data = {
-    page_title: document.querySelector("title").innerText,
-    page_name: "Web Analytics Implementation - Home Page",
-    page_author: "Arturo Santiago-Rivera",
-    author_email: "asantiago@arsari.com",
-    content_group: "Implementation",
-    content_type: "Playground",
-    language_code: "en-US",
+    page_title: document.querySelector('title').innerText,
+    page_name: 'Web Analytics Implementation - Home Page',
+    page_category: 'home',
+    page_author: 'Arturo Santiago-Rivera',
+    author_email: 'asantiago@arsari.com',
+    content_group: 'Implementation',
+    content_type: 'Playground',
+    language_code: 'en-US',
     e_timestamp: String(new Date().getTime()), // milliseconds
     // user properties
     logged_in: false,
-    user_id: localStorage.UUID ?? "guest",
-    custom_user_id: localStorage.customID ?? "guest",
+    user_id: userInit,
+    custom_user_id: userInit,
   };
 </script>
-<!-- END: utag data object init -->
+<!-- END: utag data object message -->
 ```
 
-### Tagging Implementation
+The Amplitude data object should be located inside the `<head>...</head>` tag of the web page after the Amplitude snippet but before to their statement of initialization. The initial Amplitude data object, that include events properties and user properties applicable to all the events, is coded in an enrich plugin variable. The enrich plugin variable needs to be called before the amplitude statement of initialization..
+
+```js
+/* Amplitude data object init */
+const enrichEventsPlugin = () => ({
+    execute: async (event) => {
+      event.event_properties = {
+        ...event.event_properties,
+        page_title: document.querySelector('title').innerText,
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_category: 'home',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        content_group: 'Implementation',
+        content_type: 'Playground',
+        language_code: 'en-US',
+        e_timestamp: String(new Date().getTime()), // milliseconds
+        env_viewed: tealiumEnv,
+      };
+      event.user_properties = {
+        ...event.user_properties,
+        $set: {
+          logged_in: logged ?? false,
+        },
+      };
+      return event;
+    },
+});
+amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
+amplitude.init(<<AMPLITUDE_API_KEY>>, userInit); // amplitude init statement
+```
 
 The tagging implementation for events consider the followings user actions (ui interactions), system events (content tools), and errors based on an element click attribute `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
-| User Action          | Event                       | Type             | Parameters                                                                                                                                                                 | GA4 Scope                                                            | GA4 Custom Definitions                                                                                       |
-| -------------------- | --------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| User Action | Event Name | Type | Parameters/Event Properties | GA4 Scope | GA4 Custom Definitions |
+| --- | --- | --- | --- | --- | --- |
 | Sign In              | login                       | user interaction | method                                                                                                                                                                     | Event                                                                | Predefined                                                                                                   |
 | Outbound Link        | outbound_link               | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text<br>outbound                                                                                                | Event<br>Event<br>Event<br>Event<br>Event<br>Event                   | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                             |
 | Internal Link        | internal_link               | user interaction | link_domain<br>link_classes<br>link_id<br>link_url<br>link_text                                                                                                            | Event<br>Event<br>Event<br>Event<br>Event                            | Predefined<br>Predefined<br>Predefined<br>Predefined<br>Predefined                                           |
@@ -131,34 +169,39 @@ The tagging implementation for events consider the followings user actions (ui i
 | Search               | search_error                | content tool     | error_message<br>alert_impression                                                                                                                                          | Event<br>Event                                                       | Dimension<br>Dimension                                                                                       |
 | Sign Out             | logout                      | user interaction |                                                                                                                                                                            | Event                                                                | Dimension                                                                                                    |
 
-The following global parameters apply to most of the above **events**:
+The following global parameters/event properties apply to most of the above **events**:
 
-| Global Parameters                       | GA4 Scope | GA4 Custom Definitions |
+| Global Parameters/Event Properties      | GA4 Scope | GA4 Custom Definitions |
 | --------------------------------------- | --------- | ---------------------- |
 | event_id (gtm config parameter)         | Event     | Dimension              |
 | event_type                              | Event     | Dimension              |
 | button_text                             | Event     | Dimension              |
 | tag_name                                | Event     | Dimension              |
+| env_viewed (only amplitude)             | n/a       | n/a                    |
 | step (ecommerce events only)            | Event     | Dimension              |
 | section_heading (ecommerce events only) | Event     | Dimension              |
-| e_timestamp (milliseconds)          | Event     | Dimension              |
+| e_timestamp (milliseconds)              | Event     | Dimension              |
 | custom_timestamp (ISO 8601)             | Event     | Dimension              |
 | custom_user_id (user Property)          | User      | Dimension              |
 | logged_in (user property)               | User      | Dimension              |
 | user_id (user property)                 | User      | Predefined             |
 
-The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects.
+> For Amplitude Analytics the event name is modified in the events list as noun+verb capitalizing each word. The event properties naming is sneak_case.
 
-We classified the implementation of the `dataLayer` array-object and utag.link() data into the following:
+The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects. The Amplitude Analytics data object is based on the Amplitude source [Browser SDK 2.0](https://www.docs.developers.amplitude.com/data/sdks/browser-2/).
 
-- A [General Events](#general-events) `dataLayer` array-object and `utag.link` data object;
-- An [Ecommerce Funnel Events](#ecommerce-funnel-events) `dataLayer` array-object and `utag.link` data object;
-- A [Video Events](#video-events) `dataLayer` array-object and `utag.link` data object;
-- An [Error Events](#error-events) `dataLayer` array-object and `utag.link` data object.
+We classified the implementation of the `dataLayer[]` array-object, `utag.link()` data object, and `amplitude.track()` data object into the following event groups:
+
+- [General Events](#general-events)
+- [Ecommerce Funnel Events](#ecommerce-funnel-events)
+- [Video Events](#video-events)
+- [Error Events](#error-events)
 
 #### General Events
 
-The implemented _general events_ `dataLayer` array-object and `utag.link` data object is composed of:
+The implemented _general events_ `dataLayer` array-object, `utag.link` data object, and `amplitude.track` data object is composed of:
+
+##### `dataLayer`
 
 ```js
 window.dataLayer = window.dataLayer || [];
@@ -225,7 +268,11 @@ window.dataLayer.push({
   user_id: ui,
   user_profession: up,
 });
+```
 
+##### `utag.link()`
+
+```js
 utag.link({
   tealium_event: en || e.id,
   // event parameters
@@ -289,6 +336,51 @@ utag.link({
   user_id: ui,
   custom_user_id: ui,
   user_profession: up,
+});
+```
+
+##### `amplitude.track()`
+
+```js
+amplitude.setUserId(ui);
+amplitude.track({
+    event_type: en || e.id,
+    event_properties: {
+        button_text: bt,
+        contact_method: cm,
+        currency: cc,
+        event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
+        form_destination: fd,
+        form_id: e.id.includes('form') ? e.id : undefined,
+        form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
+        form_submit_text: e.id === 'form' ? fst : undefined,
+        link_domain: ld,
+        link_classes: lc,
+        link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
+        link_url: lu,
+        link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
+        method: e.id === 'login' ? 'Google' : undefined,
+        outbound: ol,
+        search_term: st,
+        value: ev,
+        video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
+        video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
+        video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
+        video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
+        video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
+        video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
+        e_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
+    },
+    user_properties: {
+        $set: {
+            user_profession: up,
+        },
+    },
 });
 ```
 
@@ -701,7 +793,8 @@ The set up for each tag and triggers is as follows:
 - [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer)
 - [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009)
 - [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html)
+- [Amplitude Analytics](https://www.docs.developers.amplitude.com/documentation-home/)
 
 =====
 
-Copyright 2022-2023 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: August 4, 2023
+Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: January 24, 2024

@@ -1491,7 +1491,7 @@ elemClick.forEach((e) => {
       if (e.id === 'login') {
         logged = true;
         ui = localStorage.UUID ?? UUID;
-        localStorage.logged = logged;
+        sessionStorage.logged = logged;
         localStorage.UUID = ui;
         toggleBtns();
         e.classList.add('inactive');
@@ -1499,7 +1499,7 @@ elemClick.forEach((e) => {
 
       if (e.id === 'logout') {
         logged = false;
-        localStorage.logged = logged;
+        sessionStorage.logged = logged;
         toggleBtns();
         document.querySelector('#login').classList.remove('inactive');
       }
@@ -1507,6 +1507,7 @@ elemClick.forEach((e) => {
       tstamp = String(new Date().getTime());
       cstamp = timeStamp();
 
+      /* Send data to Google Tag manager and GA4 */
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: en || e.id,
@@ -1546,6 +1547,7 @@ elemClick.forEach((e) => {
         user_profession: up,
       });
 
+      /* Send data to Tealium */
       utag.link({
         tealium_event: en || e.id,
         // event parameters
@@ -1583,6 +1585,48 @@ elemClick.forEach((e) => {
         user_id: ui,
         custom_user_id: ui,
         user_profession: up,
+      });
+
+      /* Send data to Amplitude */
+      amplitude.setUserId(ui);
+      amplitude.track({
+        event_type: en || e.id,
+        event_properties: {
+          button_text: bt,
+          contact_method: cm,
+          currency: cc,
+          event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
+          tag_name: e.tagName,
+          file_extension: e.id === 'download' ? 'pdf' : undefined,
+          file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
+          form_destination: fd,
+          form_id: e.id.includes('form') ? e.id : undefined,
+          form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
+          form_submit_text: e.id === 'form' ? fst : undefined,
+          link_domain: ld,
+          link_classes: lc,
+          link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
+          link_url: lu,
+          link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
+          method: e.id === 'login' ? 'Google' : undefined,
+          outbound: ol,
+          search_term: st,
+          value: ev,
+          video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
+          video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
+          video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
+          video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
+          video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
+          video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
+          video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
+          e_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+        },
+        user_properties: {
+          $set: {
+            user_profession: up,
+          },
+        },
       });
 
       displayJSON(logged);

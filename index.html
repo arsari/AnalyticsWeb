@@ -12,6 +12,7 @@
     <title>AnalyticsWeb | Arsari</title>
     <!-- dataLayers message -->
     <script type="text/javascript">
+      const userInit = localStorage.UUID ?? 'guest';
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         page_title: document.querySelector('title').innerText,
@@ -22,10 +23,10 @@
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        event_timestamp: String(new Date().getTime()), // milliseconds
+        e_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: false,
-        user_id: localStorage.UUID ?? 'guest',
+        user_id: userInit,
       });
     </script>
     <!-- END: dataLayers message -->
@@ -48,9 +49,13 @@
     <!-- End Google Tag Manager -->
     <!-- Tracking Variables Setup -->
     <script type="text/javascript">
-      const setTealiumEnv =
-        location.search.indexOf('dev') === 1 ? 'dev' : location.search.indexOf('qa') === 1 ? 'qa' : 'prod';
-      const tealiumEnv = document.location.host.includes('127.0.0.1') ? 'dev/qa' : setTealiumEnv;
+      /* Tealium iQ */
+      const tealiumEnv =
+        location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
+          ? 'dev'
+          : location.search.indexOf('qa') === 1
+            ? 'qa'
+            : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
 
@@ -70,7 +75,152 @@
       script.async = true;
       document.head.appendChild(script);
 
-      const ids = { Env: tealiumEnv, GA4: ga4Prop, GTM: gtmContainer, Launch: alaunchEnv, userID: dataLayer[0].user_id };
+      /* Amplitude Analytics */
+      !(function () {
+        !(function (e, t) {
+          const n = e.amplitude || { _q: [], _iq: {} };
+          if (n.invoked) e.console && console.error && console.error('Amplitude snippet has been loaded.');
+          else {
+            const r = function (e, t) {
+              e.prototype[t] = function () {
+                return this._q.push({ name: t, args: Array.prototype.slice.call(arguments, 0) }), this;
+              };
+            };
+            const s = function (e, t, n) {
+              return function (r) {
+                e._q.push({ name: t, args: Array.prototype.slice.call(n, 0), resolve: r });
+              };
+            };
+            const o = function (e, t, n) {
+              e[t] = function () {
+                if (n) return { promise: new Promise(s(e, t, Array.prototype.slice.call(arguments))) };
+              };
+            };
+            const i = function (e) {
+              for (let t = 0; t < m.length; t++) o(e, m[t], !1);
+              for (let n = 0; n < g.length; n++) o(e, g[n], !0);
+            };
+            n.invoked = !0;
+            const u = t.createElement('script');
+            (u.type = 'text/javascript'),
+              (u.integrity = 'sha384-x0ik2D45ZDEEEpYpEuDpmj05fY91P7EOZkgdKmq4dKL/ZAVcufJ+nULFtGn0HIZE'),
+              (u.crossOrigin = 'anonymous'),
+              (u.async = !0),
+              (u.src = 'https://cdn.amplitude.com/libs/analytics-browser-2.0.0-min.js.gz'),
+              (u.onload = function () {
+                e.amplitude.runQueuedFunctions || console.log('[Amplitude] Error: could not load SDK');
+              });
+            const a = t.getElementsByTagName('script')[0];
+            a.parentNode.insertBefore(u, a);
+            for (
+              var c = function () {
+                return (this._q = []), this;
+              },
+              p = [
+                'add',
+                'append',
+                'clearAll',
+                'prepend',
+                'set',
+                'setOnce',
+                'unset',
+                'preInsert',
+                'postInsert',
+                'remove',
+                'getUserProperties',
+              ],
+              l = 0;
+              l < p.length;
+              l++
+            )
+              r(c, p[l]);
+            n.Identify = c;
+            for (
+              var d = function () {
+                return (this._q = []), this;
+              },
+              f = [
+                'getEventProperties',
+                'setProductId',
+                'setQuantity',
+                'setPrice',
+                'setRevenue',
+                'setRevenueType',
+                'setEventProperties',
+              ],
+              v = 0;
+              v < f.length;
+              v++
+            )
+              r(d, f[v]);
+            n.Revenue = d;
+            var m = [
+              'getDeviceId',
+              'setDeviceId',
+              'getSessionId',
+              'setSessionId',
+              'getUserId',
+              'setUserId',
+              'setOptOut',
+              'setTransport',
+              'reset',
+              'extendSession',
+            ];
+            var g = [
+              'init',
+              'add',
+              'remove',
+              'track',
+              'logEvent',
+              'identify',
+              'groupIdentify',
+              'setGroup',
+              'revenue',
+              'flush',
+            ];
+            i(n),
+              (n.createInstance = function (e) {
+                return (n._iq[e] = { _q: [] }), i(n._iq[e]), n._iq[e];
+              }),
+              (e.amplitude = n);
+          }
+        })(window, document);
+      })();
+      const enrichEventsPlugin = () => ({
+        execute: async (event) => {
+          event.event_properties = {
+            ...event.event_properties,
+            page_title: document.querySelector('title').innerText,
+            page_name: 'Web Analytics Implementation - Home Page',
+            page_category: 'home',
+            page_author: 'Arturo Santiago-Rivera',
+            author_email: 'asantiago@arsari.com',
+            content_group: 'Implementation',
+            content_type: 'Playground',
+            language_code: 'en-US',
+            e_timestamp: String(new Date().getTime()), // milliseconds
+            env_viewed: tealiumEnv,
+          };
+          event.user_properties = {
+            ...event.user_properties,
+            $set: {
+              logged_in: logged ?? false,
+            },
+          };
+          return event;
+        },
+      });
+      amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
+      amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit); // amplitude init statement
+
+      /* Console Table */
+      const ids = {
+        Env: tealiumEnv,
+        GA4: ga4Prop,
+        GTM: gtmContainer,
+        Launch: alaunchEnv,
+        userID: userInit,
+      };
       console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
@@ -88,18 +238,18 @@
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        event_timestamp: String(new Date().getTime()), // milliseconds
+        e_timestamp: String(new Date().getTime()), // milliseconds
         // user properties
         logged_in: false,
-        user_id: localStorage.UUID ?? 'guest',
-        custom_user_id: localStorage.UUID ?? 'guest',
+        user_id: userInit,
+        custom_user_id: userInit,
       };
     </script>
     <!-- END: utag data object message -->
     <!-- Tealium IQ Loading script asynchronously -->
     <script type="text/javascript">
       (function (a, b, c, d) {
-        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${setTealiumEnv}/utag.js`;
+        a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
         b = document;
         c = 'script';
         d = b.createElement(c);
@@ -128,9 +278,9 @@
           </span>
         </h1>
         <h3>
-          Playground to explore analytics implementation on a web data stream for Google Analytics 4 (GA4) through GTM
-          and Adobe Analytics (AA) through Tealium IQ. We use Adobe Launch as experimental tool not fully
-          implemented.
+          Playground to explore analytics implementation on a web data stream for Google Analytics 4 (GA4) through GTM,
+          Adobe Analytics (AA) through Tealium IQ, and Amplitude Analytics. We use Adobe Launch as experimental tool not
+          fully implemented.
         </h3>
         <span class="github-banner" title="Github Repository">
           <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
