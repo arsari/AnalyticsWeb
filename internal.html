@@ -212,6 +212,88 @@
       amplitude.add(enrichEventsPlugin());
       amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit);
 
+      /* Mixpanel */
+      (function (f, b) {
+        if (!b.__SV) {
+          let e;
+          let g;
+          let i;
+          let h;
+          window.mixpanel = b;
+          b._i = [];
+          b.init = function (e, f, c) {
+            function g(a, d) {
+              const b = d.split('.');
+              b.length == 2 && ((a = a[b[0]]), (d = b[1]));
+              a[d] = function () {
+                a.push([d].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            }
+            let a = b;
+            typeof c !== 'undefined' ? (a = b[c] = []) : (c = 'mixpanel');
+            a.people = a.people || [];
+            a.toString = function (a) {
+              let d = 'mixpanel';
+              c !== 'mixpanel' && (d += `.${c}`);
+              a || (d += ' (stub)');
+              return d;
+            };
+            a.people.toString = function () {
+              return `${a.toString(1)}.people (stub)`;
+            };
+            i =
+              'disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove'.split(
+                ' ',
+              );
+            for (h = 0; h < i.length; h++) g(a, i[h]);
+            const j = 'set set_once union unset remove delete'.split(' ');
+            a.get_group = function () {
+              function b(c) {
+                d[c] = function () {
+                  call2_args = arguments;
+                  call2 = [c].concat(Array.prototype.slice.call(call2_args, 0));
+                  a.push([e, call2]);
+                };
+              }
+              for (var d = {}, e = ['get_group'].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)
+                b(j[c]);
+              return d;
+            };
+            b._i.push([e, f, c]);
+          };
+          b.__SV = 1.2;
+          e = f.createElement('script');
+          e.type = 'text/javascript';
+          e.async = !0;
+          e.src =
+            typeof MIXPANEL_CUSTOM_LIB_URL !== 'undefined'
+              ? MIXPANEL_CUSTOM_LIB_URL
+              : f.location.protocol === 'file:' && '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'.match(/^\/\//)
+                ? 'https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
+                : '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js';
+          g = f.getElementsByTagName('script')[0];
+          g.parentNode.insertBefore(e, g);
+        }
+      })(document, window.mixpanel || []);
+      mixpanel.init('9d684b4f1063f3d1e965ca6d15510376'); // mixpanel init statement
+      mixpanel.identify(userInit); // mixpanel user identify
+      mixpanel.people.set({
+        logged_in: sessionStorage.logged ?? false,
+        custom_user_id: userInit,
+      });
+      mixpanel.track_pageview({
+        page_title: document.querySelector('title').innerText,
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_category: 'home',
+        page_author: 'Arturo Santiago-Rivera',
+        author_email: 'asantiago@arsari.com',
+        content_group: 'Implementation',
+        content_type: 'Playground',
+        language_code: 'en-US',
+        e_timestamp: String(new Date().getTime()), // milliseconds
+        env_viewed: tealiumEnv,
+      }); // mixpanel page view statement
+
       /* Console Table */
       const ids = {
         Env: tealiumEnv,
@@ -268,7 +350,7 @@
       <h1>Web Analytics Implementation Playground</h1>
       <h3>
         <span>Intentionally Internal Blank Page. =></span>
-        <span class="alert">This Tab will close automatically after 8 seconds.</span>
+        <span class="alert">This Tab will close automatically after 10 seconds.</span>
       </h3>
     </header>
     <main>

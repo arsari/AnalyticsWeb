@@ -55,8 +55,8 @@ h1 {
 }
 
 .button:hover {
-  background-color: #9d2b2b;
-  border: 3px solid darkorange;
+  background-color: orangered;
+  border: 3px solid darkblue;
 }
 
 .button * {
