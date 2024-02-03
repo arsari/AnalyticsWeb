@@ -776,6 +776,62 @@ elemClick.forEach((e) => {
           user_id: ui,
           custom_user_id: ui,
         });
+
+        amplitude.setUserId(ui);
+        amplitude.track({
+          event_type: en,
+          event_properties: {
+            button_text: bt,
+            event_type: et,
+            tag_name: e.tagName,
+            step: step.at(-1),
+            section_heading: sh ?? undefined,
+            transaction_id: transactionID ?? undefined,
+            value: itemsValue === 0 ? undefined : itemsValue.toFixed(2),
+            tax: tax === 0 ? undefined : tax,
+            shipping: shipping === 0 ? undefined : shipping,
+            currency: itemsValue === 0 ? undefined : 'USD',
+            coupon: userCoupon ?? undefined,
+            shipping_tier: userShipping ?? undefined,
+            payment_type: userCCBrand ?? undefined,
+            item_list_id: /productList/i.test(e.id) ? tempList[0].item_list_id : undefined,
+            item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+          },
+        });
+        if (en === 'purchase' || en === 'refund') {
+          for (const element of itemsSelected) {
+            const d = element.discount > 0 ? element.discount : 0;
+            const eventRevenue = new amplitude.Revenue()
+              .setProductId(element.item_id)
+              .setPrice(Number((element.price - d).toFixed(2)))
+              .setQuantity(element.quantity)
+              .setRevenueType(en)
+              .setEventProperties({
+                transaction_id: transactionID,
+                item_name: element.item_name,
+                affiliation: element.affiliation,
+                item_brand: element.item_brand,
+                item_category: element.item_category,
+                item_category2: element.item_category2,
+                item_category3: element.item_category3,
+                item_category4: element.item_category4,
+                item_category5: element.item_category5,
+                item_list_id: element.item_list_id,
+                item_list_name: element.item_list_name,
+                item_variant: element.item_variant,
+                location_id: element.location_id,
+                currency: 'USD',
+                item_price: element.price,
+                coupon: element.coupon,
+                discount: d,
+                shipping_tier: userShipping ?? undefined,
+              });
+
+            amplitude.revenue(eventRevenue);
+          }
+        }
         displayJSON(logged);
       };
 
@@ -1425,6 +1481,41 @@ elemClick.forEach((e) => {
               user_id: ui,
               custom_user_id: ui,
             });
+            amplitude.setUserId(ui);
+            amplitude.track({
+              event_type: en,
+              event_properties: {
+                event_type: 'content tool',
+                video_duration: vd,
+                video_current_time: vct,
+                video_percent: vpct,
+                video_status: vs,
+                video_provider: vp,
+                video_title: vt,
+                video_url: vu,
+                e_timestamp: tstamp, // milliseconds
+                custom_timestamp: cstamp, // ISO 8601
+              },
+            });
+            mixpanel.identify(ui);
+            mixpanel.people.set({
+              logged_in: logged,
+              custom_user_id: ui,
+              user_profession: up,
+            });
+            mixpanel.track(en, {
+              event_type: 'content tool',
+              video_duration: vd,
+              video_current_time: vct,
+              video_percent: vpct,
+              video_status: vs,
+              video_provider: vp,
+              video_title: vt,
+              video_url: vu,
+              e_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
+            });
+
             displayJSON(logged);
           };
 
@@ -1547,7 +1638,7 @@ elemClick.forEach((e) => {
         user_profession: up,
       });
 
-      /* Send data to Tealium */
+      /* Send data to Tealium and AA */
       utag.link({
         tealium_event: en || e.id,
         // event parameters
@@ -1627,6 +1718,45 @@ elemClick.forEach((e) => {
             user_profession: up,
           },
         },
+      });
+
+      /* Send data to Mixpanel */
+      mixpanel.identify(ui);
+      mixpanel.people.set({
+        logged_in: logged,
+        custom_user_id: ui,
+        user_profession: up,
+      });
+      mixpanel.track(en || e.id, {
+        button_text: bt,
+        contact_method: cm,
+        currency: cc,
+        event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
+        tag_name: e.tagName,
+        file_extension: e.id === 'download' ? 'pdf' : undefined,
+        file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
+        form_destination: fd,
+        form_id: e.id.includes('form') ? e.id : undefined,
+        form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
+        form_submit_text: e.id === 'form' ? fst : undefined,
+        link_domain: ld,
+        link_classes: lc,
+        link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
+        link_url: lu,
+        link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
+        method: e.id === 'login' ? 'Google' : undefined,
+        outbound: ol,
+        search_term: st,
+        value: ev,
+        video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
+        video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
+        video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
+        video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
+        video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
+        video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
+        video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
+        e_timestamp: tstamp, // milliseconds
+        custom_timestamp: cstamp, // ISO 8601
       });
 
       displayJSON(logged);
