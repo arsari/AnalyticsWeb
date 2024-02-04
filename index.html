@@ -201,12 +201,6 @@
             e_timestamp: String(new Date().getTime()), // milliseconds
             env_viewed: tealiumEnv,
           };
-          event.user_properties = {
-            ...event.user_properties,
-            $set: {
-              logged_in: logged ?? false,
-            },
-          };
           return event;
         },
       });

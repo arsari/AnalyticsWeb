@@ -206,6 +206,7 @@ function errorEvent(e, m, ui) {
     },
     user_properties: {
       $set: {
+        logged_in: logged,
         custom_user_id: ui,
       },
     },
@@ -300,6 +301,7 @@ function removeItem(i, ui) {
     user_id: ui,
     custom_user_id: ui,
   });
+
   displayJSON(logged);
 
   document
@@ -391,6 +393,7 @@ function selectItem(i, ui) {
     user_id: ui,
     custom_user_id: ui,
   });
+
   displayJSON(logged);
 
   itemsSelected.push(itemsList[i]);
@@ -840,6 +843,7 @@ elemClick.forEach((e) => {
           },
           user_properties: {
             $set: {
+              logged_in: logged,
               custom_user_id: ui,
             },
           },
@@ -876,6 +880,7 @@ elemClick.forEach((e) => {
             amplitude.revenue(eventRevenue);
           }
         }
+
         displayJSON(logged);
       };
 
@@ -1508,6 +1513,7 @@ elemClick.forEach((e) => {
               logged_in: logged,
               user_id: ui,
             });
+
             utag.link({
               tealium_event: en,
               event_type: 'content tool',
@@ -1525,6 +1531,7 @@ elemClick.forEach((e) => {
               user_id: ui,
               custom_user_id: ui,
             });
+
             amplitude.setUserId(ui);
             amplitude.track({
               event_type: en,
@@ -1542,15 +1549,16 @@ elemClick.forEach((e) => {
               },
               user_properties: {
                 $set: {
+                  logged_in: logged,
                   custom_user_id: ui,
                 },
               },
             });
+
             mixpanel.identify(ui);
             mixpanel.people.set({
               logged_in: logged,
               custom_user_id: ui,
-              user_profession: up,
             });
             mixpanel.track(en, {
               event_type: 'content tool',
@@ -1764,6 +1772,7 @@ elemClick.forEach((e) => {
         },
         user_properties: {
           $set: {
+            logged_in: logged,
             custom_user_id: ui,
             user_profession: up,
           },
