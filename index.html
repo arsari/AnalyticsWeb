@@ -217,7 +217,6 @@
             content_group: 'Implementation',
             content_type: 'Playground',
             language_code: 'en-US',
-            e_timestamp: String(new Date().getTime()), // milliseconds
             env_viewed: tealiumEnv,
           };
           return event;
@@ -292,7 +291,7 @@
       mixpanel.init('9d684b4f1063f3d1e965ca6d15510376'); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
       mixpanel.people.set({ logged_in: false });
-      mixpanel.track_pageview({
+      mixpanel.register({
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation - Home Page',
         page_category: 'home',
@@ -301,9 +300,11 @@
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        e_timestamp: String(new Date().getTime()), // milliseconds
         env_viewed: tealiumEnv,
-      }); // mixpanel page view statement
+      });
+      mixpanel.track_pageview({
+        e_timestamp: String(new Date().getTime()), // milliseconds
+      });
 
       /* Console Table */
       const ids = {

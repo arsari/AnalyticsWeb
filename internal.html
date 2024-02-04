@@ -216,7 +216,6 @@
             content_group: 'Implementation',
             content_type: 'Playground',
             language_code: 'en-US',
-            e_timestamp: String(new Date().getTime()), // milliseconds
             env_viewed: tealiumEnv,
           };
           return event;
@@ -294,18 +293,20 @@
         logged_in: sessionStorage.logged ?? false,
         custom_user_id: userInit,
       });
-      mixpanel.track_pageview({
+      mixpanel.register({
         page_title: document.querySelector('title').innerText,
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_category: 'home',
+        page_name: 'Web Analytics Implementation - Internal Page',
+        page_category: 'support',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
         language_code: 'en-US',
-        e_timestamp: String(new Date().getTime()), // milliseconds
         env_viewed: tealiumEnv,
-      }); // mixpanel page view statement
+      });
+      mixpanel.track_pageview({
+        e_timestamp: String(new Date().getTime()), // milliseconds
+      });
 
       /* Console Table */
       const ids = {
