@@ -39,12 +39,12 @@ Google Analytics 4 (GA4) and Adobe Analytics (AA) are the most used tools for a 
 4. Configure tool reports, analysis workspace, and dashboard settings.
 5. Start tracking our website traffic.
 
-This is a playground of analytic implementation for a website using GTM and a GA4 web data stream, Tealium iQ and Adobe Analytics, and Amplitude Analytics. The implementation allows to explore:
+This is a playground of analytic implementation for a website using GTM and a GA4 web data stream, Tealium iQ and Adobe Analytics, Amplitude Analytics, and Mixpanel Product Analytics. The implementation allows to explore:
 
 - a dataLayer array-objects managed through GTM and analyzing the data in a GA4 web data stream,
 - a utag_data variable object and utag.link() data objects managed through Tealium iQ tag management and analyzing the data in Adobe Analytics.
 - Amplitude data objects to analyze the data in Amplitude Analytics.
-- an initial setup of Mixpanel data object to analyze data in Mixpanel Product Analytics.
+- Mixpanel data object to analyze data in Mixpanel Product Analytics.
 - an initial setup of Adobe Launch rules to see response in the browser console (experimental implementation).
 
 Before we start with the playground set up and back end, we should already have a GTM container linked to a Google Analytics 4 web data stream, a Tealium iQ account setup with AA tag, an Adobe Analytics account, an Amplitude Analytics account, and a  Mixpanel Product Analytics account. Having them created and configured will facilitate the use of playground as a data source for the tools.

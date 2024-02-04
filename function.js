@@ -189,6 +189,45 @@ function errorEvent(e, m, ui) {
     user_id: ui,
     custom_user_id: ui,
   });
+
+  amplitude.setUserId(ui);
+  amplitude.track({
+    event_type: `${en}_error`,
+    event_properties: {
+      event_type: 'content tool',
+      button_text: bt,
+      tag_name: e.tagName,
+      step: step.at(-1),
+      section_heading: sh ?? undefined,
+      error_message: m,
+      alert_impression: true,
+      e_timestamp: tstamp, // milliseconds
+      custom_timestamp: cstamp, // ISO 8601
+    },
+    user_properties: {
+      $set: {
+        custom_user_id: ui,
+      },
+    },
+  });
+
+  mixpanel.identify(ui);
+  mixpanel.people.set({
+    logged_in: logged,
+    custom_user_id: ui,
+  });
+  mixpanel.track(`${en}_error`, {
+    event_type: 'content tool',
+    button_text: bt,
+    tag_name: e.tagName,
+    step: step.at(-1),
+    section_heading: sh ?? undefined,
+    error_message: m,
+    alert_impression: true,
+    e_timestamp: tstamp, // milliseconds
+    custom_timestamp: cstamp, // ISO 8601
+  });
+
   displayJSON(logged);
 }
 
@@ -798,6 +837,11 @@ elemClick.forEach((e) => {
             item_list_name: /productList/i.test(e.id) ? tempList[0].item_list_name : undefined,
             e_timestamp: tstamp, // milliseconds
             custom_timestamp: cstamp, // ISO 8601
+          },
+          user_properties: {
+            $set: {
+              custom_user_id: ui,
+            },
           },
         });
         if (en === 'purchase' || en === 'refund') {
@@ -1496,6 +1540,11 @@ elemClick.forEach((e) => {
                 e_timestamp: tstamp, // milliseconds
                 custom_timestamp: cstamp, // ISO 8601
               },
+              user_properties: {
+                $set: {
+                  custom_user_id: ui,
+                },
+              },
             });
             mixpanel.identify(ui);
             mixpanel.people.set({
@@ -1715,6 +1764,7 @@ elemClick.forEach((e) => {
         },
         user_properties: {
           $set: {
+            custom_user_id: ui,
             user_profession: up,
           },
         },
