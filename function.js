@@ -2,7 +2,7 @@
  * Web Analytics Implementation Playground
  *
  * Main function file with the source code of the different events and parameters
- * that are being sent to Google Analytics and Tealium.
+ * that are being sent to different analytics tools..
  *
  * @author:	Arturo Santiago-Rivera (asantiago@arsari.com)
  * @license: MIT License
@@ -1828,5 +1828,7 @@ elemClick.forEach((e) => {
     if (!e.id.match(/close/i) && !/productList/i.test(e.id)) {
       e.setAttribute('disabled', '');
     }
+
+    return true;
   });
 });
