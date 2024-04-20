@@ -41,7 +41,7 @@ h1 {
   text-decoration: none;
   display: inline-block;
   position: relative;
-  width: 150px;
+  width: 130px;
   height: 50px;
   background-color: #4caf50;
   border: none;
@@ -699,6 +699,81 @@ input[type="number"]::-webkit-inner-spin-button {
 .github-banner a::after {
   bottom: 1px;
   top: auto;
+}
+
+.cookie-consent-banner {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ebeef1;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  color: black;
+  padding: 15px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.text-consent-banner {
+  background-color: #ebeef1;
+  color: black;
+  padding: 0 0 15px;
+  border-radius: 0;
+  margin: 0;
+  max-width: none;
+}
+
+.cookie-consent-button {
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cookie-consent-button:hover {
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cookie-consent-button:active {
+  opacity: 0.5;
+}
+
+.cookie-consent-button.btn-success {
+  background-color: #34a853;
+  color: white;
+}
+
+.cookie-consent-button.btn-grayscale {
+  background-color: #dfe1e5;
+  color: black;
+}
+
+.cookie-consent-button.btn-outline {
+  background-color: #e6f4ea;
+  color: #34a853;
+}
+
+.cookie-consent-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.cookie-consent-options label {
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+.cookie-consent-options input {
+  margin-right: 5px;
 }
 
 @media screen and (min-width: 800px) {
