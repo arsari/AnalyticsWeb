@@ -49,9 +49,11 @@
       if (localStorage.getItem('consentMode') === null) {
         gtag('consent', 'default', {
           ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
           analytics_storage: 'denied',
-          personalization_storage: 'denied',
           functionality_storage: 'denied',
+          personalization_storage: 'denied',
           security_storage: 'denied',
         });
       } else {
@@ -879,14 +881,14 @@
        */
       document.querySelector(
         '#json',
-      ).innerHTML += `<p><em>Initial State: Consent Mode Default</em></p><pre>${JSON.stringify(
+      ).innerHTML += `<p><em>Initial State: Consent Mode</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0),
         undefined,
         2,
       )}</pre>`;
       document.querySelector(
         '#json',
-      ).innerHTML += `<p><em>Initial State: dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+      ).innerHTML += `<p><em>Configaration: dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
         window.dataLayer.at(2),
         undefined,
         2,
@@ -946,11 +948,13 @@
 
       function setConsent(consent) {
         const consentMode = {
-          functionality_storage: consent.necessary ? 'granted' : 'denied',
-          security_storage: consent.necessary ? 'granted' : 'denied',
           ad_storage: consent.marketing ? 'granted' : 'denied',
+          ad_user_data: consent.marketing ? 'granted' : 'denied',
+          ad_personalization: consent.marketing ? 'granted' : 'denied',
           analytics_storage: consent.analytics ? 'granted' : 'denied',
-          personalization: consent.preferences ? 'granted' : 'denied',
+          functionality_storage: consent.necessary ? 'granted' : 'denied',
+          personalization_storage: consent.preferences ? 'granted' : 'denied',
+          security_storage: consent.necessary ? 'granted' : 'denied',
         };
         gtag('consent', 'update', consentMode);
         localStorage.setItem('consentMode', JSON.stringify(consentMode));
