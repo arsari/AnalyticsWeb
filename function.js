@@ -18,14 +18,14 @@ document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
-  </span><span class="me">Coded with &hearts; by ARSARI &boxV; Best viewed in Desktop</span>`;
+  </span><span class="me">Coded with <span style="color: red;">&hearts;</span> by ARSARI &boxV; Best viewed in Desktop &boxV; <a href="javascript:showBanner()" class="me">Privacy Settings</a></span>`;
 
 /**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
  * then it adds a preformatted block of JSON to the output
  * @param status - true/false - whether the user is logged in or not
  */
-function displayJSON(status) {
+function displayJSON(status, tabMsg) {
   let userLogged = '';
   if (status) {
     userLogged = '<span>User Logged In</span>';
@@ -33,19 +33,34 @@ function displayJSON(status) {
     userLogged = '<span class="alert">User Logged Out</span>';
   }
 
-  document.querySelector('#json').innerHTML += `<p><em>dataLayer.push and utag.link [${
-    window.dataLayer.length
+  document.querySelector('#json').innerHTML += `<p><em>${tabMsg} [${
+    window.dataLayer.length - 1
   }]</em>${userLogged}</p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
 
   document.querySelectorAll('pre').forEach((e) => {
-    e.className = 'normal';
-    e.previousElementSibling.className = 'normal';
+    if (e.className === 'denied' || e.className === 'normal blocked') {
+      e.className = 'normal blocked';
+      e.previousElementSibling.className = 'normal';
+    } else {
+      e.className = 'normal';
+      e.previousElementSibling.className = 'normal';
+    }
+
+    tabMessage = 'dataLayer.push';
   });
 
+  const state = JSON.parse(localStorage.getItem('consentMode'));
   const focusThis = document.querySelector('#json');
-  focusThis.lastElementChild.scrollIntoView();
-  focusThis.lastElementChild.className = 'highlight';
-  focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+
+  if (state.analytics_storage === 'denied') {
+    focusThis.lastElementChild.scrollIntoView();
+    focusThis.lastElementChild.className = 'denied';
+    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+  } else {
+    focusThis.lastElementChild.scrollIntoView();
+    focusThis.lastElementChild.className = 'highlight';
+    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+  }
 }
 
 /**
@@ -229,7 +244,7 @@ function errorEvent(e, m, ui) {
     custom_timestamp: cstamp, // ISO 8601
   });
 
-  displayJSON(logged);
+  displayJSON(logged, tabMessage);
 }
 
 /**
@@ -254,7 +269,7 @@ function removeItem(i, ui) {
   utag.link({
     ecommerce: null,
   }); // Clear the previous ecommerce object
-  displayJSON(logged);
+  displayJSON(logged, tabMessage);
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -302,7 +317,7 @@ function removeItem(i, ui) {
     custom_user_id: ui,
   });
 
-  displayJSON(logged);
+  displayJSON(logged, tabMessage);
 
   document
     .querySelector('#itemsSelectedRows')
@@ -350,7 +365,7 @@ function selectItem(i, ui) {
   utag.link({
     ecommerce: null,
   }); // Clear the previous ecommerce object
-  displayJSON(logged);
+  displayJSON(logged, tabMessage);
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -394,7 +409,7 @@ function selectItem(i, ui) {
     custom_user_id: ui,
   });
 
-  displayJSON(logged);
+  displayJSON(logged, tabMessage);
 
   itemsSelected.push(itemsList[i]);
   itemsValue = itemsList[i].price;
@@ -591,6 +606,7 @@ const vduration = 300;
 const sModal = document.querySelector('.searchModal');
 const fModal = document.querySelector('.formModal');
 const eModal = document.querySelector('.ecommerceModal');
+let tabMessage = 'dataLayer.push';
 let storeEnable = false;
 let itemsSelected = []; // list of all items selected by user
 let itemsList = []; // list of all list items view by user
@@ -754,7 +770,7 @@ elemClick.forEach((e) => {
         utag.link({
           ecommerce: null,
         }); // Clear the previous ecommerce object
-        displayJSON(logged);
+        displayJSON(logged, tabMessage);
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: en,
@@ -881,7 +897,7 @@ elemClick.forEach((e) => {
           }
         }
 
-        displayJSON(logged);
+        displayJSON(logged, tabMessage);
       };
 
       const togglePanel = (p) => {
@@ -1573,7 +1589,7 @@ elemClick.forEach((e) => {
               custom_timestamp: cstamp, // ISO 8601
             });
 
-            displayJSON(logged);
+            displayJSON(logged, tabMessage);
           };
 
           milestone = Number(((vprogress / vduration) * 100).toFixed(1));
@@ -1818,7 +1834,7 @@ elemClick.forEach((e) => {
         custom_timestamp: cstamp, // ISO 8601
       });
 
-      displayJSON(logged);
+      displayJSON(logged, tabMessage);
     }
 
     document.querySelectorAll('[name = "action"]').forEach((element) => {
