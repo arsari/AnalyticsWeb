@@ -725,20 +725,20 @@ input[type="number"]::-webkit-inner-spin-button {
 .cookie-consent-banner {
   display: none;
   position: fixed;
-  bottom: 0;
+  top: 45;
   left: 0;
   right: 0;
-  background-color: #ebeef1;
+  background-color: #b2e153;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   color: black;
   padding: 15px;
-  font-size: 14px;
+  font-size: 20px;
   text-align: center;
   z-index: 1000;
 }
 
 .text-consent-banner {
-  background-color: #ebeef1;
+  background-color: #b2e153;
   color: black;
   padding: 0 0 15px;
   border-radius: 0;
@@ -752,10 +752,10 @@ input[type="number"]::-webkit-inner-spin-button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
+  font-size: 20px;
+  margin: 10px 10px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .cookie-consent-button:hover {
@@ -790,7 +790,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .cookie-consent-options label {
   margin: 0 10px;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .cookie-consent-options input {
