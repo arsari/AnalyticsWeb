@@ -6,28 +6,7 @@
 
 ### Table of Contents
 
-<!-- Start Document Outline -->
-
-- [AnalyticsWeb](#analyticsweb)
-  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
-    - [Table of Contents](#table-of-contents)
-    - [Introduction](#introduction)
-    - [Tagging Strategy and Implementation](#tagging-strategy-and-implementation)
-      - [General Events](#general-events)
-        - [`dataLayer`](#datalayer)
-        - [`utag.link()`](#utaglink)
-        - [`amplitude.track()`](#amplitudetrack)
-      - [Ecommerce Funnel Events](#ecommerce-funnel-events)
-      - [Video Events](#video-events)
-      - [Error Events](#error-events)
-    - [GTM Setup](#gtm-setup)
-      - [General Events Tag](#general-events-tag)
-      - [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
-      - [Error Events Tag](#error-events-tag)
-      - [Video Events Tag](#video-events-tag)
-    - [Reference Documentation](#reference-documentation)
-
-<!-- End Document Outline -->
+[[_TOC_]]
 
 ### Introduction
 
@@ -212,11 +191,11 @@ The following global parameters/event properties apply to most of the above **ev
 | logged_in (user property)               | User      | Dimension              |
 | user_id (user property)                 | User      | Predefined             |
 
-> For Amplitude Analytics the event name is modified in the events list as noun+verb capitalizing each word. The event properties naming is sneak_case.
+> On Amplitude Analytics, the event name is modified in the events list of the Amplitude dashboard as noun+verb capitalizing each word. The event properties naming is sneak_case.
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects. The Amplitude Analytics data object is based on the Amplitude source [Browser SDK 2.0](https://www.docs.developers.amplitude.com/data/sdks/browser-2/).
 
-We classified the implementation of the `dataLayer[]` array-object, `utag.link()` data object, and `amplitude.track()` data object into the following event groups:
+We classified the implementation of the `dataLayer[]` array-object, `utag.link()` data object, and `amplitude.track()` and `mixpanel.track()` data object into the following event groups:
 
 - [General Events](#general-events)
 - [Ecommerce Funnel Events](#ecommerce-funnel-events)

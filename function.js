@@ -10,6 +10,37 @@
 
 // ================== //
 
+/* Cookie Consent Banner */
+function hideBanner() {
+  document.getElementById('cookie-consent-banner').style.display = 'none';
+}
+
+function showBanner() {
+  document.getElementById('cookie-consent-banner').style.display = 'block';
+}
+
+function setConsent(consent) {
+  const consentMode = {
+    ad_storage: consent.marketing ? 'granted' : 'denied',
+    ad_user_data: consent.marketing ? 'granted' : 'denied',
+    ad_personalization: consent.marketing ? 'granted' : 'denied',
+    analytics_storage: consent.analytics ? 'granted' : 'denied',
+    functionality_storage: consent.necessary ? 'granted' : 'denied',
+    personalization_storage: consent.preferences ? 'granted' : 'denied',
+    security_storage: consent.necessary ? 'granted' : 'denied',
+  };
+  gtag('consent', 'update', consentMode);
+  tabMessage = `Consent Mode: User Update`;
+  if (consentMode.analytics_storage === 'granted') {
+    localStorage.setItem('consentMode', JSON.stringify(consentMode));
+    displayJSON(logged, tabMessage);
+  } else {
+    displayJSON(logged, tabMessage);
+    localStorage.setItem('consentMode', JSON.stringify(consentMode));
+  }
+  return false;
+}
+
 /* Section element set up by getting the height of the header and adding 25px to it, and then
 setting the margin-top of the section to that value. */
 const headerHeight = document.querySelector('header').offsetHeight;
@@ -18,12 +49,13 @@ document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
-  </span><span class="me">Coded with <span style="color: red;">&hearts;</span> by ARSARI &boxV; Best viewed in Desktop &boxV; <a href="javascript:showBanner()" class="me">Privacy Settings</a></span>`;
+  </span><span class="me">Coded with <span style="color: red;">&hearts;</span> by ARSARI &boxV; Best viewed in Desktop &boxV; <a id="consent-open" name="action" href="javascript:void(0)" class="me">Privacy Settings</a></span>`;
 
 /**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
  * then it adds a preformatted block of JSON to the output
- * @param status - true/false - whether the user is logged in or not
+ * @param {boolean} status - true/false - whether the user is logged in or not
+ * @param {string} tabMsg
  */
 function displayJSON(status, tabMsg) {
   let userLogged = '';
@@ -38,29 +70,18 @@ function displayJSON(status, tabMsg) {
   }]</em>${userLogged}</p><pre>${JSON.stringify(window.dataLayer.at(-1), undefined, 2)}</pre>`;
 
   document.querySelectorAll('pre').forEach((e) => {
-    if (e.className === 'denied' || e.className === 'normal blocked') {
-      e.className = 'normal blocked';
-      e.previousElementSibling.className = 'normal';
-    } else {
-      e.className = 'normal';
-      e.previousElementSibling.className = 'normal';
-    }
-
+    e.className = e.className === 'denied' || e.className === 'normal blocked' ? 'normal blocked' : 'normal';
+    e.previousElementSibling.className = 'normal';
     tabMessage = 'dataLayer.push';
   });
 
   const state = JSON.parse(localStorage.getItem('consentMode'));
   const focusThis = document.querySelector('#json');
+  focusThis.lastElementChild.scrollIntoView();
+  focusThis.lastElementChild.className = state.analytics_storage === 'denied' ? 'denied' : 'highlight';
+  focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
 
-  if (state.analytics_storage === 'denied') {
-    focusThis.lastElementChild.scrollIntoView();
-    focusThis.lastElementChild.className = 'denied';
-    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
-  } else {
-    focusThis.lastElementChild.scrollIntoView();
-    focusThis.lastElementChild.className = 'highlight';
-    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
-  }
+  return false;
 }
 
 /**
@@ -734,6 +755,7 @@ elemClick.forEach((e) => {
     const bt = e.innerText; // button text
     let en; // event name
     let cm; // contact method
+    let cs; // contact status
     let cc; // country currency
     let ev; // event value
     let sh; // section heading
@@ -1652,6 +1674,52 @@ elemClick.forEach((e) => {
         searchModal();
       }
 
+      if (e.id === 'consent-open') {
+        en = 'consent-banner_opened';
+        showBanner();
+      }
+
+      if (/^btn-/i.test(e.id)) {
+        switch (e.id) {
+          case 'btn-accept-all':
+            setConsent({
+              necessary: true,
+              analytics: true,
+              preferences: true,
+              marketing: true,
+            });
+            cs = 'accepted';
+            break;
+          case 'btn-accept-some':
+            setConsent({
+              necessary: true,
+              analytics: document.getElementById('consent-analytics').checked,
+              preferences: document.getElementById('consent-preferences').checked,
+              marketing: document.getElementById('consent-marketing').checked,
+            });
+            cs = 'selective';
+            break;
+          case 'btn-reject-all':
+            setConsent({
+              necessary: false,
+              analytics: false,
+              preferences: false,
+              marketing: false,
+            });
+            cs = 'rejected';
+            break;
+          default:
+          // do nothing
+        }
+        en = 'consent_mode_updated';
+        hideBanner();
+      }
+
+      if (e.id === 'consent-close') {
+        en = 'consent_banner_closed';
+        hideBanner();
+      }
+
       if (e.id === 'login') {
         logged = true;
         ui = localStorage.UUID ?? UUID;
@@ -1678,6 +1746,7 @@ elemClick.forEach((e) => {
         // event parameters
         button_text: bt,
         contact_method: cm,
+        consent_status: cs,
         currency: cc,
         event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
         tag_name: e.tagName,
@@ -1717,6 +1786,7 @@ elemClick.forEach((e) => {
         // event parameters
         button_text: bt,
         contact_method: cm,
+        consent_status: cs,
         currency: cc,
         event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
         tag_name: e.tagName,
@@ -1758,6 +1828,7 @@ elemClick.forEach((e) => {
         event_properties: {
           button_text: bt,
           contact_method: cm,
+          consent_status: cs,
           currency: cc,
           event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
           tag_name: e.tagName,
@@ -1805,6 +1876,7 @@ elemClick.forEach((e) => {
       mixpanel.track(en || e.id, {
         button_text: bt,
         contact_method: cm,
+        consent_status: cs,
         currency: cc,
         event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
         tag_name: e.tagName,

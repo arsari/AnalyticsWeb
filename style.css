@@ -725,7 +725,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .cookie-consent-banner {
   display: none;
   position: fixed;
-  top: 45;
+  bottom: 50%;
   left: 0;
   right: 0;
   background-color: #b2e153;
@@ -795,6 +795,11 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .cookie-consent-options input {
   margin-right: 5px;
+}
+
+.consent-close-x {
+  top: 5px;
+  left: -15px;
 }
 
 @media screen and (min-width: 800px) {

@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
       content="Playground to explore web analytics implementation on a web app using various analytics tools." />
-    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-    <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
+    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
     <link rel="stylesheet" href="style.css" />
     <title>AnalyticsWeb | Arsari</title>
+    <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <!--New Relic Snippet-->
     <script type="text/javascript" src="newRelic.js"></script>
     <!--END: New Relic Snippet-->
@@ -33,7 +33,7 @@
     </script>
     <!-- End Microsoft Clarity -->
     <!-- Consent Mode -->
-    <script>
+    <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         window.dataLayer.push(arguments);
@@ -843,19 +843,21 @@
       </section>
       <section id="json"></section>
       <section id="cookie-consent-banner" class="cookie-consent-banner">
-        <h3>Cookie settings</h3>
+        <button id="consent-close" name="action" class="close-x consent-close-x"
+          title="Close Consent Banner">Close</button>
+        <h3>Consent Banner Privacy Settings</h3>
         <p class="text-consent-banner">
           We use cookies to provide you with the best possible experience. They also
           allow us to analyze user behavior in order to constantly improve the website
           for you.
         </p>
-        <button id="btn-accept-all" class="cookie-consent-button btn-success">
+        <button id="btn-accept-all" name="action" class="cookie-consent-button btn-success">
           Accept All
         </button>
-        <button id="btn-accept-some" class="cookie-consent-button btn-outline">
+        <button id="btn-accept-some" name="action" class="cookie-consent-button btn-outline">
           Accept Selection
         </button>
-        <button id="btn-reject-all" class="cookie-consent-button btn-grayscale">
+        <button id="btn-reject-all" name="action" class="cookie-consent-button btn-grayscale">
           Reject All
         </button>
         <div class="cookie-consent-options">
@@ -897,64 +899,9 @@
       focusThis.lastElementChild.scrollIntoView();
       focusThis.lastElementChild.className = 'highlight';
       focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
-    </script>
-    <script type="text/javascript">
-      /**
-       * Cookie Consent Banner
-       */
-      function hideBanner() {
-        document.getElementById('cookie-consent-banner').style.display = 'none';
-      }
-
-      function showBanner() {
-        document.getElementById('cookie-consent-banner').style.display = 'block';
-      }
 
       if (localStorage.getItem('consentMode') === null) {
-        document.getElementById('btn-accept-all').addEventListener('click', () => {
-          setConsent({
-            necessary: true,
-            analytics: true,
-            preferences: true,
-            marketing: true,
-          });
-          hideBanner();
-        });
-        document.getElementById('btn-accept-some').addEventListener('click', () => {
-          setConsent({
-            necessary: true,
-            analytics: document.getElementById('consent-analytics').checked,
-            preferences: document.getElementById('consent-preferences').checked,
-            marketing: document.getElementById('consent-marketing').checked,
-          });
-          hideBanner();
-        });
-        document.getElementById('btn-reject-all').addEventListener('click', () => {
-          setConsent({
-            necessary: false,
-            analytics: false,
-            preferences: false,
-            marketing: false,
-          });
-          hideBanner();
-        });
         showBanner();
-      }
-
-      function setConsent(consent) {
-        const consentMode = {
-          ad_storage: consent.marketing ? 'granted' : 'denied',
-          ad_user_data: consent.marketing ? 'granted' : 'denied',
-          ad_personalization: consent.marketing ? 'granted' : 'denied',
-          analytics_storage: consent.analytics ? 'granted' : 'denied',
-          functionality_storage: consent.necessary ? 'granted' : 'denied',
-          personalization_storage: consent.preferences ? 'granted' : 'denied',
-          security_storage: consent.necessary ? 'granted' : 'denied',
-        };
-        gtag('consent', 'update', consentMode);
-        localStorage.setItem('consentMode', JSON.stringify(consentMode));
-        tabMessage = `Consent Mode: User Update`;
-        displayJSON(logged, tabMessage);
       }
     </script>
   </body>
