@@ -429,8 +429,9 @@ label > span {
 }
 
 .form-btn {
-  left: 25%;
-  margin: 5px;
+  left: 32%;
+  margin: 15px 0;
+  width: 140px
 }
 
 .ecommerce-btn,

@@ -1700,12 +1700,6 @@ elemClick.forEach((e) => {
             cs = 'selective';
             break;
           case 'btn-reject-all':
-            setConsent({
-              necessary: false,
-              analytics: false,
-              preferences: false,
-              marketing: false,
-            });
             cs = 'rejected';
             break;
           default:
@@ -1907,6 +1901,16 @@ elemClick.forEach((e) => {
       });
 
       displayJSON(logged, tabMessage);
+
+      // Consent Mode rejected will change localStorage values after send consent_mode_update event data layer
+      if (cs === 'rejected') {
+        setConsent({
+          necessary: false,
+          analytics: false,
+          preferences: false,
+          marketing: false,
+        });
+      }
     }
 
     document.querySelectorAll('[name = "action"]').forEach((element) => {
