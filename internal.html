@@ -15,22 +15,6 @@
     <!--New Relic Snippet-->
     <script type="text/javascript" src="newRelic.js"></script>
     <!--END: New Relic Snippet-->
-    <!--Microsoft Clarity-->
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = `https://www.clarity.ms/tag/${i}`;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
-    </script>
-    <!--End Microsoft Clarity-->
     <!--dataLayers message-->
     <script type="text/javascript">
       const userInit = localStorage.UUID ?? 'guest';
@@ -78,6 +62,7 @@
             ? 'qa'
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
+      const heapAppId = tealiumEnv !== 'prod' ? '2029282835' : '1106616054';
       const gtmContainer = 'GTM-59FGRVM';
 
       /* Adobe Launch */
@@ -317,11 +302,65 @@
         GA4: ga4Prop,
         GTM: gtmContainer,
         Launch: alaunchEnv,
+        Heap: heapAppId === '2029282835' ? `${heapAppId} (dev)` : `${heapAppId} (prod)`,
         userID: userInit,
       };
       console.table(ids);
     </script>
     <!--END Tracking Variables Setup-->
+    <!--Microsoft Clarity-->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = `https://www.clarity.ms/tag/${i}`;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
+    </script>
+    <!-- End Microsoft Clarity -->
+    <!-- Heap Analytics -->
+    <script type="text/javascript">
+      (window.heap = window.heap || []),
+        (heap.load = function (e, t) {
+          (window.heap.appid = e), (window.heap.config = t = t || {});
+          const r = document.createElement('script');
+          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
+          const a = document.getElementsByTagName('script')[0];
+          a.parentNode.insertBefore(r, a);
+          for (
+            let n = function (e) {
+              return function () {
+                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            },
+            p = [
+              'addEventProperties',
+              'addUserProperties',
+              'clearEventProperties',
+              'identify',
+              'resetIdentity',
+              'removeEventProperty',
+              'setEventProperties',
+              'track',
+              'unsetEventProperty',
+            ],
+            o = 0;
+            o < p.length;
+            o++
+          )
+            heap[p[o]] = n(p[o]);
+        });
+      heap.load(heapAppId);
+      heap.identify(userInit);
+      heap.addUserProperties({ logged_in: sessionStorage.logged ?? false });
+    </script>
+    <!-- END Heap Analytics -->
   </head>
 
   <body>

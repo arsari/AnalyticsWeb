@@ -1675,7 +1675,7 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'consent-open') {
-        en = 'consent-banner_opened';
+        en = 'consent_banner_opened';
         showBanner();
       }
 

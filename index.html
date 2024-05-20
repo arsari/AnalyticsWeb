@@ -16,22 +16,6 @@
     <!--New Relic Snippet-->
     <script type="text/javascript" src="newRelic.js"></script>
     <!--END: New Relic Snippet-->
-    <!--Microsoft Clarity-->
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = `https://www.clarity.ms/tag/${i}`;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
-    </script>
-    <!-- End Microsoft Clarity -->
     <!-- Consent Mode -->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
@@ -93,7 +77,6 @@
       })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
     </script>
     <!--End Google Tag Manager-->
-    <!--Tracking Variables Setup-->
     <script type="text/javascript">
       /* Tealium iQ */
       const tealiumEnv =
@@ -103,6 +86,7 @@
             ? 'qa'
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
+      const heapAppId = tealiumEnv !== 'prod' ? '2029282835' : '1106616054';
       const gtmContainer = 'GTM-59FGRVM';
 
       /* Adobe Data Collection (Launch) */
@@ -339,11 +323,65 @@
         GA4: ga4Prop,
         GTM: gtmContainer,
         Launch: alaunchEnv,
+        Heap: heapAppId === '2029282835' ? `${heapAppId} (dev)` : `${heapAppId} (prod)`,
         userID: userInit,
       };
       console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
+    <!--Microsoft Clarity-->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = `https://www.clarity.ms/tag/${i}`;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
+    </script>
+    <!-- End Microsoft Clarity -->
+    <!-- Heap Analytics -->
+    <script type="text/javascript">
+      (window.heap = window.heap || []),
+        (heap.load = function (e, t) {
+          (window.heap.appid = e), (window.heap.config = t = t || {});
+          const r = document.createElement('script');
+          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
+          const a = document.getElementsByTagName('script')[0];
+          a.parentNode.insertBefore(r, a);
+          for (
+            let n = function (e) {
+              return function () {
+                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            },
+            p = [
+              'addEventProperties',
+              'addUserProperties',
+              'clearEventProperties',
+              'identify',
+              'resetIdentity',
+              'removeEventProperty',
+              'setEventProperties',
+              'track',
+              'unsetEventProperty',
+            ],
+            o = 0;
+            o < p.length;
+            o++
+          )
+            heap[p[o]] = n(p[o]);
+        });
+      heap.load(heapAppId);
+      heap.identify(userInit);
+      heap.addUserProperties({ logged_in: false });
+    </script>
+    <!-- END Heap Analytics -->
   </head>
 
   <body>
@@ -400,7 +438,7 @@
         <h2>
           Playground to explore analytics implementation on a web app tracked on Google Analytics 4 (GA4) through GTM,
           Adobe Analytics (AA) through Tealium IQ, Amplitude Analytics, and Mixpanel Product Analytics.<br>Adobe Data
-          Collection (Launch) is installed as experiment tool not fully implemented.
+          Collection (Launch) and Heap are installed as experiment tool not fully implemented.
         </h2>
         <span class="github-banner" title="Github Repository">
           <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
