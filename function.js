@@ -1710,7 +1710,16 @@ elemClick.forEach((e) => {
       }
 
       if (e.id === 'consent-close') {
+        if (localStorage.getItem('consentMode') === null) {
+          setConsent({
+            necessary: true,
+            analytics: true,
+            preferences: true,
+            marketing: true,
+          });
+        }
         en = 'consent_banner_closed';
+        cs = 'auto-accepted';
         hideBanner();
       }
 

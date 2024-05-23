@@ -206,7 +206,7 @@ We classified the implementation of the `dataLayer[]` array-object, `utag.link()
 
 The implemented _general events_ `dataLayer` array-object, `utag.link` data object, and `amplitude.track` data object is composed of:
 
-##### `dataLayer`
+##### `dataLayer.push()`
 
 ```js
 window.dataLayer = window.dataLayer || [];
