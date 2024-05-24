@@ -1717,9 +1717,9 @@ elemClick.forEach((e) => {
             preferences: true,
             marketing: true,
           });
+          cs = 'auto-accepted';
         }
         en = 'consent_banner_closed';
-        cs = 'auto-accepted';
         hideBanner();
       }
 
