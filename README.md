@@ -6,7 +6,25 @@
 
 ### Table of Contents
 
-[[_TOC_]]
+- [AnalyticsWeb](#analyticsweb)
+  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
+    - [Table of Contents](#table-of-contents)
+    - [Introduction](#introduction)
+    - [Tagging Strategy and Implementation](#tagging-strategy-and-implementation)
+      - [General Events](#general-events)
+        - [`dataLayer.push()`](#datalayerpush)
+        - [`utag.link()`](#utaglink)
+        - [`amplitude.track()`](#amplitudetrack)
+        - [`mixpanel.track()`](#mixpaneltrack)
+      - [Ecommerce Funnel Events](#ecommerce-funnel-events)
+      - [Video Events](#video-events)
+      - [Error Events](#error-events)
+    - [GTM Setup](#gtm-setup)
+      - [General Events Tag](#general-events-tag)
+      - [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
+      - [Error Events Tag](#error-events-tag)
+      - [Video Events Tag](#video-events-tag)
+    - [Reference Documentation](#reference-documentation)
 
 ### Introduction
 
@@ -88,25 +106,25 @@ The Amplitude data object should be located inside the `<head>...</head>` tag of
 ```html
 <!-- amplitude global properties and initialization -->
 <script type="text/javascript">
-    const enrichEventsPlugin = () => ({
-        execute: async (event) => {
-          event.event_properties = {
-            ...event.event_properties,
-            page_title: document.querySelector('title').innerText,
-            page_name: 'Web Analytics Implementation - Home Page',
-            page_category: 'home',
-            page_author: 'Arturo Santiago-Rivera',
-            author_email: 'asantiago@arsari.com',
-            content_group: 'Implementation',
-            content_type: 'Playground',
-            language_code: 'en-US',
-            env_viewed: tealiumEnv,
-          };
-          return event;
-        },
-    });
-    amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-    amplitude.init(<<AMPLITUDE_API_KEY>>, userInit); // amplitude init statement
+  const enrichEventsPlugin = () => ({
+      execute: async (event) => {
+        event.event_properties = {
+          ...event.event_properties,
+          page_title: document.querySelector('title').innerText,
+          page_name: 'Web Analytics Implementation - Home Page',
+          page_category: 'home',
+          page_author: 'Arturo Santiago-Rivera',
+          author_email: 'asantiago@arsari.com',
+          content_group: 'Implementation',
+          content_type: 'Playground',
+          language_code: 'en-US',
+          env_viewed: tealiumEnv,
+        };
+        return event;
+      },
+  });
+  amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
+  amplitude.init(<<AMPLITUDE_API_KEY>>, userInit); // amplitude init statement
 </script>
 <!-- END: amplitude global properties and initialization -->
 ```
@@ -116,23 +134,23 @@ The Mixpanel data object should be located inside the `<head>...</head>` tag of 
 ```html
 <!-- mixpanel initialization and global properties -->
 <script type="text/javascript">
-    mixpanel.init(<<MIXPANEL_API_KEY>>); // mixpanel init statement
-    mixpanel.identify(userInit); // mixpanel user identify
-    mixpanel.people.set({ logged_in: false }); // mixpanel user properties
-    mixpanel.register({
-      page_title: document.querySelector("title").innerText,
-      page_name: "Web Analytics Implementation - Home Page",
-      page_category: "home",
-      page_author: "Arturo Santiago-Rivera",
-      author_email: "asantiago@arsari.com",
-      content_group: "Implementation",
-      content_type: "Playground",
-      language_code: "en-US",
-      env_viewed: tealiumEnv,
-    });
-    mixpanel.track_pageview({
-      e_timestamp: String(new Date().getTime()), // milliseconds
-    });
+  mixpanel.init(<<MIXPANEL_API_KEY>>); // mixpanel init statement
+  mixpanel.identify(userInit); // mixpanel user identify
+  mixpanel.people.set({ logged_in: false }); // mixpanel user properties
+  mixpanel.register({
+    page_title: document.querySelector("title").innerText,
+    page_name: "Web Analytics Implementation - Home Page",
+    page_category: "home",
+    page_author: "Arturo Santiago-Rivera",
+    author_email: "asantiago@arsari.com",
+    content_group: "Implementation",
+    content_type: "Playground",
+    language_code: "en-US",
+    env_viewed: tealiumEnv,
+  });
+  mixpanel.track_pageview({
+    e_timestamp: String(new Date().getTime()), // milliseconds
+  });
 </script>
 <!-- END: mixpanel initialization and global properties -->
 ```
@@ -406,9 +424,9 @@ amplitude.track({
   },
   user_properties: {
     $set: {
-        logged_in: logged,
-        custom_user_id: ui,
-        user_profession: up,
+      logged_in: logged,
+      custom_user_id: ui,
+      user_profession: up,
     },
   },
 });
@@ -419,40 +437,63 @@ amplitude.track({
 ```js
 mixpanel.identify(ui);
 mixpanel.people.set({
-    logged_in: logged,
-    custom_user_id: ui,
-    user_profession: up,
+  logged_in: logged,
+  custom_user_id: ui,
+  user_profession: up,
 });
 mixpanel.track(en || e.id, {
-    button_text: bt,
-    contact_method: cm,
-    currency: cc,
-    event_type: /generate_lead|form_submit/i.test(en) ? 'conversion' : 'ui interaction',
-    tag_name: e.tagName,
-    file_extension: e.id === 'download' ? 'pdf' : undefined,
-    file_name: e.id === 'download' ? 'PDF_to_Download' : undefined,
-    form_destination: fd,
-    form_id: e.id.includes('form') ? e.id : undefined,
-    form_name: e.id.includes('form') ? 'User Profession Survey' : undefined,
-    form_submit_text: e.id === 'form' ? fst : undefined,
-    link_domain: ld,
-    link_classes: lc,
-    link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
-    link_url: lu,
-    link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
-    method: e.id === 'login' ? 'Google' : undefined,
-    outbound: ol,
-    search_term: st,
-    value: ev,
-    video_duration: e.id.includes('video') && (vplay === true || vstop === true) ? vd : undefined,
-    video_current_time: e.id.includes('video') && (vplay === true || vstop === true) ? vct : undefined,
-    video_percent: e.id.includes('video') && (vplay === true || vstop === true) ? vpct : undefined,
-    video_status: e.id.includes('video') && (vplay === true || vstop === true) ? vs : undefined,
-    video_provider: e.id.includes('video') && (vplay === true || vstop === true) ? vp : undefined,
-    video_title: e.id.includes('video') && (vplay === true || vstop === true) ? vt : undefined,
-    video_url: e.id.includes('video') && (vplay === true || vstop === true) ? vu : undefined,
-    e_timestamp: tstamp, // milliseconds
-    custom_timestamp: cstamp, // ISO 8601
+  button_text: bt,
+  contact_method: cm,
+  currency: cc,
+  event_type: /generate_lead|form_submit/i.test(en)
+    ? "conversion"
+    : "ui interaction",
+  tag_name: e.tagName,
+  file_extension: e.id === "download" ? "pdf" : undefined,
+  file_name: e.id === "download" ? "PDF_to_Download" : undefined,
+  form_destination: fd,
+  form_id: e.id.includes("form") ? e.id : undefined,
+  form_name: e.id.includes("form") ? "User Profession Survey" : undefined,
+  form_submit_text: e.id === "form" ? fst : undefined,
+  link_domain: ld,
+  link_classes: lc,
+  link_id: /extlink|intlink|download|banner/i.test(e.id) ? e.id : undefined,
+  link_url: lu,
+  link_text: /extlink|intlink|download|banner/i.test(e.id) ? bt : undefined,
+  method: e.id === "login" ? "Google" : undefined,
+  outbound: ol,
+  search_term: st,
+  value: ev,
+  video_duration:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vd
+      : undefined,
+  video_current_time:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vct
+      : undefined,
+  video_percent:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vpct
+      : undefined,
+  video_status:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vs
+      : undefined,
+  video_provider:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vp
+      : undefined,
+  video_title:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vt
+      : undefined,
+  video_url:
+    e.id.includes("video") && (vplay === true || vstop === true)
+      ? vu
+      : undefined,
+  e_timestamp: tstamp, // milliseconds
+  custom_timestamp: cstamp, // ISO 8601
 });
 ```
 

@@ -32,8 +32,13 @@ h1 {
 
 .flex {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   margin: 0 20px;
+}
+
+.n-item {
+  flex-grow: 1;
+  flex-basis: 125px;
 }
 
 .button,
@@ -85,6 +90,7 @@ h1 {
   border-radius: 50%;
   cursor: not-allowed;
   pointer-events: none;
+  flex: none;
 }
 
 .button[disabled] .text {
@@ -340,11 +346,6 @@ label > span {
   pointer-events: none;
   cursor: default;
   opacity: 0.5;
-  transform: scale(1.1);
-  transition:
-    visibility 0s linear 0.25s,
-    opacity 0.25s 0s,
-    transform 0.25s;
 }
 
 .ghost {
