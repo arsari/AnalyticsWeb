@@ -6,28 +6,24 @@ body {
 
 header {
   overflow: hidden;
-  background-color: #9d2b2b;
   position: fixed;
   top: 0;
   width: 100%;
   color: #ffffff;
+  background-color: #9d2b2b;
 }
 
-.headings {
+.title {
+  padding: 2px 20px;
+  background-color: darkblue;
+}
+
+.desc{
   padding: 0 20px;
-}
-
-.headings-2 {
-  padding: 0 30px 15px;
 }
 
 .github-badges {
   margin: auto 10px;
-}
-
-h1 {
-  max-width: -moz-fit-content;
-  max-width: fit-content;
 }
 
 .flex {

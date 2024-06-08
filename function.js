@@ -38,18 +38,17 @@ function setConsent(consent) {
     displayJSON(logged, tabMessage);
     localStorage.setItem('consentMode', JSON.stringify(consentMode));
   }
-  return false;
 }
-
-/* Section element set up by getting the height of the header and adding 25px to it, and then
-setting the margin-top of the section to that value. */
-const headerHeight = document.querySelector('header').offsetHeight;
-document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 
 /* Footer labeling set up */
 document.querySelector('footer').innerHTML = `<span class="env">Env->[
   <span class="prop">${tealiumEnv}</span> ] &boxV; GA4->[ <span class="prop">${ga4Prop}</span> ] &boxV; GTM->[ <span class="prop">${gtmContainer}</span> ]
   </span><span class="me">Coded with <span style="color: red;">&hearts;</span> by ARSARI &boxV; Best viewed in a Desktop &boxV; <a id="consent-open" name="action" href="javascript:void(0)" class="me">Privacy Settings</a></span>`;
+
+/* Section element set up by getting the height of the header and adding 25px to it, and then
+setting the margin-top of the section to that value. */
+const headerHeight = document.querySelector('header').offsetHeight;
+document.querySelector('main').style = `margin-top: ${headerHeight + 15}px`;
 
 /**
  * It takes a boolean value, and if it's true, it adds a span to the output, and
@@ -75,17 +74,11 @@ function displayJSON(status, tabMsg) {
     tabMessage = 'dataLayer.push';
   });
 
-  if (localStorage.getItem('consentMode') !== null) {
-    const state = JSON.parse(localStorage.getItem('consentMode'));
-    const focusThis = document.querySelector('#json');
-    focusThis.lastElementChild.scrollIntoView();
-    focusThis.lastElementChild.className = state.analytics_storage === 'denied' ? 'denied' : 'highlight';
-    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
-  } else {
-    alert('Please Accept the Consent Banner Privacy Settings!');
-  }
-
-  return false;
+  const state = localStorage.getItem('consentMode') !== null ? JSON.parse(localStorage.getItem('consentMode')).analytics_storage : 'denied';
+  const focusThis = document.querySelector('#json');
+  focusThis.lastElementChild.scrollIntoView();
+  focusThis.lastElementChild.className = state === 'granted' ? 'highlight' : 'denied';
+  focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
 }
 
 /**
@@ -152,11 +145,9 @@ function timeStamp() {
     const norm = Math.floor(Math.abs(num));
     return (norm < 10 ? '0' : '') + norm;
   };
-  const stamp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} T${pad(d.getHours())}:${pad(
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} T${pad(d.getHours())}:${pad(
     d.getMinutes(),
   )}:${pad(d.getSeconds())}.${pad(d.getMilliseconds())} UTC${dif}${pad(tzo / 60)}:${pad(tzo % 60)}`;
-
-  return stamp;
 }
 
 /**
