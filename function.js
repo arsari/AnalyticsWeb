@@ -75,11 +75,15 @@ function displayJSON(status, tabMsg) {
     tabMessage = 'dataLayer.push';
   });
 
-  const state = JSON.parse(localStorage.getItem('consentMode'));
-  const focusThis = document.querySelector('#json');
-  focusThis.lastElementChild.scrollIntoView();
-  focusThis.lastElementChild.className = state.analytics_storage === 'denied' ? 'denied' : 'highlight';
-  focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+  if (localStorage.getItem('consentMode') !== null) {
+    const state = JSON.parse(localStorage.getItem('consentMode'));
+    const focusThis = document.querySelector('#json');
+    focusThis.lastElementChild.scrollIntoView();
+    focusThis.lastElementChild.className = state.analytics_storage === 'denied' ? 'denied' : 'highlight';
+    focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+  } else {
+    alert('Please Accept the Consent Banner Privacy Settings!');
+  }
 
   return false;
 }
