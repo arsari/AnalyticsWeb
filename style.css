@@ -18,7 +18,7 @@ header {
   background-color: darkblue;
 }
 
-.desc{
+.desc {
   padding: 0 20px;
 }
 
@@ -650,27 +650,32 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .cookie-consent-banner {
-  display: none;
-  position: fixed;
-  bottom: 32%;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 300px; /* Location of the box */
   left: 0;
-  right: 0;
-  background-color: #b2e153;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  color: black;
-  padding: 15px;
-  font-size: 20px;
-  text-align: center;
-  z-index: 1000;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 .text-consent-banner {
-  background-color: #b2e153;
-  color: black;
-  padding: 0 0 15px;
-  border-radius: 0;
-  margin: 0;
-  max-width: none;
+  text-align: center;
+  background-color: #a1eb7efa;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%;
+  border-radius: 20px;
+  span {
+    display: block;
+    padding-bottom: 20px;
+    font-size: 20px;
+  }
 }
 
 .cookie-consent-button {
@@ -695,7 +700,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .cookie-consent-button.btn-success {
   background-color: #34a853;
-  color: white;
+  color: #e6f4ea;
 }
 
 .cookie-consent-button.btn-grayscale {
@@ -705,14 +710,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .cookie-consent-button.btn-outline {
   background-color: #e6f4ea;
-  color: #34a853;
+  color: #08962e;
 }
 
 .cookie-consent-options {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .cookie-consent-options label {
@@ -725,8 +730,47 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .consent-close-x {
-  top: 10px;
-  left: -25px;
+  top: -25px;
+  left: -35px;
+}
+
+@keyframes slide {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 113px;
+  }
+}
+
+.warningbar {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .bar {
+    min-height: 25px;
+    border-radius: 10px;
+    width: calc(113px * 8);
+    @media only screen and (max-width: 450px) {
+      width: calc(113px * 3);
+    }
+    @media only screen and (max-width: 350px) {
+      width: calc(113px * 2);
+    }
+    box-shadow: 0px 10px 13px -6px rgba(44, 62, 80, 1);
+    background-color: #2c3e50;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      #f1c40f 40px,
+      #f1c40f 80px
+    );
+
+    animation: slide 4s linear infinite;
+    will-change: background-position;
+  }
 }
 
 @media screen and (min-width: 320px) and (max-width: 840px) {
@@ -764,12 +808,15 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 
   .cookie-consent-banner {
-    bottom: 10%;
+    padding-top: 50px;
+  }
+
+  .text-consent-banner {
+    width: 80%;
   }
 
   .consent-close-x {
-    top: 0px;
-    left: 0px;
+    left: -10px;
   }
 }
 
