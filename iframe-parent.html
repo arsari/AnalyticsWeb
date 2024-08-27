@@ -14,7 +14,7 @@
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/style.css" />
-    <title>AnalyticsWeb | Internal Page</title>
+    <title>AnalyticsWeb | Parent iFrame Page</title>
     <!--New Relic Snippet-->
     <script type="text/javascript" src="assets/newRelic.js"></script>
     <!--END: New Relic Snippet-->
@@ -25,7 +25,7 @@
       window.dataLayer.push({
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation - Internal Page',
-        page_category: 'support',
+        page_category: 'iframe',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
@@ -201,7 +201,7 @@
             ...event.event_properties,
             page_title: document.querySelector('title').innerText,
             page_name: 'Web Analytics Implementation - Internal Page',
-            page_category: 'support',
+            page_category: 'iframe',
             page_author: 'Arturo Santiago-Rivera',
             author_email: 'asantiago@arsari.com',
             content_group: 'Implementation',
@@ -287,7 +287,7 @@
       mixpanel.register({
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation - Internal Page',
-        page_category: 'support',
+        page_category: 'iframe',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
@@ -372,7 +372,7 @@
       const utag_data = {
         page_title: document.querySelector('title').innerText,
         page_name: 'Web Analytics Implementation - Internal Page',
-        page_category: 'support',
+        page_category: 'iframe',
         page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
@@ -420,12 +420,15 @@
       </div>
       <div class="desc">
         <h2>
-          <span>Intentionally Internal Blank Page. =></span>
-          <span class="alert">This Tab will close automatically after 10 seconds.</span>
+          <span>iFrame Parent Page</span>
         </h2>
       </div>
     </header>
     <main>
+      <section id="iframe-section" class="iframe-container">
+        <iframe id="iframe-child" src="iframe-child.html" title="iFrame Child Page"></iframe>
+      </section>
+      <h3 style="text-align: center;">This is an iFrame</h3>
       <section id="json-section"></section>
     </main>
     <footer></footer>
@@ -449,11 +452,148 @@
       document.querySelector('#json-section').lastElementChild.className = 'highlight';
 
       /**
-       * Function to close the tab after 10 seconds.
+       * Function to handle incoming messages from iFrame
        */
-      setTimeout(() => {
-        window.close();
-      }, 10000);
+      window.addEventListener('message', (event) => {
+        if (event.data.event === 'iframeEvent') {
+          const eventName = event.data.name;
+          const eventData = event.data.data;
+          let logged = localStorage.logged ?? false;
+          let tstamp = String(new Date().getTime());
+          let cstamp = timeStamp();
+
+          /* Send data to GTM/GA4 */
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: eventName,
+            ...eventData,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: userInit,
+          });
+          /* Send data to Tealium */
+          utag.link({
+            tealium_event: eventName,
+            ...eventData,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: userInit,
+            custom_user_id: userInit,
+          });
+          /* Send data to Amplitude */
+          amplitude.setUserId(userInit);
+          amplitude.track({
+            event_type: eventName,
+            event_properties: {
+              ...eventData,
+              e_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
+            },
+            user_properties: {
+              $set: {
+                logged_in: logged,
+                custom_user_id: userInit,
+              },
+            },
+          });
+          /* Send data to Mixpanel */
+          mixpanel.identify(userInit);
+          mixpanel.people.set({
+            logged_in: logged,
+            custom_user_id: userInit,
+          });
+          mixpanel.track(eventName, {
+            ...eventData,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+          });
+
+          displayJSON(logged, 'dataLayer.push');
+        }
+      });
+      /**
+       * iFrame Interaction Monitoring
+       */
+      const monitoriFrame = setInterval(() => {
+        const iframe = document.activeElement;
+        if (iframe.id === "iframe-child") {
+          let logged = localStorage.logged ?? false;
+          let tstamp = String(new Date().getTime());
+          let cstamp = timeStamp();
+
+          /* Send data to GTM/GA4 */
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "iframe_interaction",
+            button_text: "random click",
+            event_type: "ui interaction",
+            tag_name: iframe.tagName,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: userInit,
+          });
+          /* Send data to Tealium */
+          utag.link({
+            tealium_event: "iframe_interaction",
+            button_text: "random click",
+            event_type: "ui interaction",
+            tag_name: iframe.tagName,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+            // user properties
+            logged_in: logged,
+            user_id: userInit,
+            custom_user_id: userInit,
+          });
+          /* Send data to Amplitude */
+          amplitude.setUserId(userInit);
+          amplitude.track({
+            event_type: "iframe_interaction",
+            event_properties: {
+              button_text: "random click",
+              event_type: "ui interaction",
+              tag_name: iframe.tagName,
+              e_timestamp: tstamp, // milliseconds
+              custom_timestamp: cstamp, // ISO 8601
+            },
+            user_properties: {
+              $set: {
+                logged_in: logged,
+                custom_user_id: userInit,
+              },
+            },
+          });
+          /* Send data to Mixpanel */
+          mixpanel.identify(userInit);
+          mixpanel.people.set({
+            logged_in: logged,
+            custom_user_id: userInit,
+          });
+          mixpanel.track("iframe_interaction", {
+            button_text: "random click",
+            event_type: "ui interaction",
+            tag_name: iframe.tagName,
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+          });
+
+          displayJSON(logged, 'dataLayer.push');
+        }
+        iframe.blur();
+      }, 500);
+
+      /**
+       * Clear interval when user leaves the page
+       */
+      window.addEventListener('beforeunload', () => {
+        clearInterval(monitoriFrame);
+      });
     </script>
   </body>
 

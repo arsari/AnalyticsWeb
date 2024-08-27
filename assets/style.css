@@ -773,6 +773,19 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+.iframe-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  margin-top: 200px;
+  iframe {
+    height: 300px;
+    width: 600px;
+    border: 3px solid #9d2b2b;
+  }
+}
+
 @media screen and (min-width: 320px) and (max-width: 840px) {
   .github-badges {
     display: inline-block;
