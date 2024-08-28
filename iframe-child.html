@@ -74,14 +74,13 @@
           'iframe_button_click',
           {
             button_text: elAction.innerText,
-            event_type: 'ui interaction',
             tag_name: elAction.tagName,
           }
         );
         setTimeout(() => {
           document.getElementById('thankMessage').style.display = 'none';
           this.style.display = 'block';
-        }, 3000);
+        }, 1000);
       });
     </script>
   </body>

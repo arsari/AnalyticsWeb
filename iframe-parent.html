@@ -451,139 +451,92 @@
       document.querySelector('#json-section').lastElementChild.scrollIntoView();
       document.querySelector('#json-section').lastElementChild.className = 'highlight';
 
+      function sendDataLayer(en, ed) {
+        let eventName = en;
+        let eventData = ed;
+        let logged = localStorage.logged ?? false;
+        let tstamp = String(new Date().getTime());
+        let cstamp = timeStamp();
+
+        /* Send data to GTM/GA4 */
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: eventName,
+          ...eventData,
+          event_type: "ui interaction",
+          e_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+          // user properties
+          logged_in: logged,
+          user_id: userInit,
+        });
+        /* Send data to Tealium */
+        utag.link({
+          tealium_event: eventName,
+          ...eventData,
+          event_type: "ui interaction",
+          e_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+          // user properties
+          logged_in: logged,
+          user_id: userInit,
+          custom_user_id: userInit,
+        });
+        /* Send data to Amplitude */
+        amplitude.setUserId(userInit);
+        amplitude.track({
+          event_type: eventName,
+          event_properties: {
+            ...eventData,
+            event_type: "ui interaction",
+            e_timestamp: tstamp, // milliseconds
+            custom_timestamp: cstamp, // ISO 8601
+          },
+          user_properties: {
+            $set: {
+              logged_in: logged,
+              custom_user_id: userInit,
+            },
+          },
+        });
+        /* Send data to Mixpanel */
+        mixpanel.identify(userInit);
+        mixpanel.people.set({
+          logged_in: logged,
+          custom_user_id: userInit,
+        });
+        mixpanel.track(eventName, {
+          ...eventData,
+          event_type: "ui interaction",
+          e_timestamp: tstamp, // milliseconds
+          custom_timestamp: cstamp, // ISO 8601
+        });
+
+        displayJSON(logged, 'dataLayer.push');
+      }
+
       /**
        * Function to handle incoming messages from iFrame
        */
       window.addEventListener('message', (event) => {
         if (event.data.event === 'iframeEvent') {
-          const eventName = event.data.name;
-          const eventData = event.data.data;
-          let logged = localStorage.logged ?? false;
-          let tstamp = String(new Date().getTime());
-          let cstamp = timeStamp();
-
-          /* Send data to GTM/GA4 */
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: eventName,
-            ...eventData,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: userInit,
-          });
-          /* Send data to Tealium */
-          utag.link({
-            tealium_event: eventName,
-            ...eventData,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: userInit,
-            custom_user_id: userInit,
-          });
-          /* Send data to Amplitude */
-          amplitude.setUserId(userInit);
-          amplitude.track({
-            event_type: eventName,
-            event_properties: {
-              ...eventData,
-              e_timestamp: tstamp, // milliseconds
-              custom_timestamp: cstamp, // ISO 8601
-            },
-            user_properties: {
-              $set: {
-                logged_in: logged,
-                custom_user_id: userInit,
-              },
-            },
-          });
-          /* Send data to Mixpanel */
-          mixpanel.identify(userInit);
-          mixpanel.people.set({
-            logged_in: logged,
-            custom_user_id: userInit,
-          });
-          mixpanel.track(eventName, {
-            ...eventData,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-          });
-
-          displayJSON(logged, 'dataLayer.push');
+          let eventName = event.data.name;
+          let eventData = event.data.data;
+          sendDataLayer(eventName, eventData);
         }
       });
+
       /**
        * iFrame Interaction Monitoring
        */
       const monitoriFrame = setInterval(() => {
         const iframe = document.activeElement;
         if (iframe.id === "iframe-child") {
-          let logged = localStorage.logged ?? false;
-          let tstamp = String(new Date().getTime());
-          let cstamp = timeStamp();
-
-          /* Send data to GTM/GA4 */
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: "iframe_interaction",
-            button_text: "random click",
-            event_type: "ui interaction",
+          let eventName = "iframe_interaction";
+          let eventData = {
             tag_name: iframe.tagName,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: userInit,
-          });
-          /* Send data to Tealium */
-          utag.link({
-            tealium_event: "iframe_interaction",
-            button_text: "random click",
-            event_type: "ui interaction",
-            tag_name: iframe.tagName,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-            // user properties
-            logged_in: logged,
-            user_id: userInit,
-            custom_user_id: userInit,
-          });
-          /* Send data to Amplitude */
-          amplitude.setUserId(userInit);
-          amplitude.track({
-            event_type: "iframe_interaction",
-            event_properties: {
-              button_text: "random click",
-              event_type: "ui interaction",
-              tag_name: iframe.tagName,
-              e_timestamp: tstamp, // milliseconds
-              custom_timestamp: cstamp, // ISO 8601
-            },
-            user_properties: {
-              $set: {
-                logged_in: logged,
-                custom_user_id: userInit,
-              },
-            },
-          });
-          /* Send data to Mixpanel */
-          mixpanel.identify(userInit);
-          mixpanel.people.set({
-            logged_in: logged,
-            custom_user_id: userInit,
-          });
-          mixpanel.track("iframe_interaction", {
-            button_text: "random click",
-            event_type: "ui interaction",
-            tag_name: iframe.tagName,
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-          });
-
-          displayJSON(logged, 'dataLayer.push');
+          };
+          sendDataLayer(eventName, eventData);
         }
         iframe.blur();
       }, 500);
