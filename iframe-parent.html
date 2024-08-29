@@ -425,11 +425,17 @@
       </div>
     </header>
     <main>
-      <section id="iframe-section" class="iframe-container">
-        <iframe id="iframe-child" src="iframe-child.html" title="iFrame Child Page"></iframe>
-      </section>
-      <h3 style="text-align: center;">This is an iFrame</h3>
-      <section id="json-section"></section>
+      <aside>
+        <section id="iframe-section1" class="iframe-container">
+          <iframe id="iframe-child1" src="iframe-child.html" title="iFrame Child Page"></iframe>
+        </section>
+        <h3 style="text-align: center;">iFrame postMessage Action Tracking</h3>
+        <section id="iframe-section2" class="iframe-container">
+          <iframe id="iframe-child2" src="iframe-child.html" title="iFrame Child Page"></iframe>
+        </section>
+        <h3 style="text-align: center;">iFrame Random Click Tracking</h3>
+      </aside>
+      <section id="json-section" class="pre"></section>
     </main>
     <footer></footer>
     <script type="text/javascript" src="assets/function.min.js"></script>
@@ -519,10 +525,13 @@
        * Function to handle incoming messages from iFrame
        */
       window.addEventListener('message', (event) => {
-        if (event.data.event === 'iframeEvent') {
-          let eventName = event.data.name;
-          let eventData = event.data.data;
-          sendDataLayer(eventName, eventData);
+        const iframe = document.activeElement;
+        if (iframe.id !== 'iframe-child2') {
+          if (event.data.event === 'iframeEvent') {
+            let eventName = event.data.name;
+            let eventData = event.data.data;
+            sendDataLayer(eventName, eventData);
+          }
         }
       });
 
@@ -531,7 +540,7 @@
        */
       const monitoriFrame = setInterval(() => {
         const iframe = document.activeElement;
-        if (iframe.id === "iframe-child") {
+        if (iframe.id === "iframe-child2") {
           let eventName = "iframe_interaction";
           let eventData = {
             tag_name: iframe.tagName,
