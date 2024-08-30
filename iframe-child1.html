@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+      content="Playground to explore web analytics implementation on a web app using various analytics tools." />
+    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css" />
+    <title>AnalyticsWeb | Child iFrame Page</title>
+    <!--New Relic Snippet-->
+    <script type="text/javascript" src="assets/newRelic.js"></script>
+    <!--END: New Relic Snippet-->
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #a1eb7efa;
+      }
+
+      .container {
+        text-align: center;
+        margin: auto;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 48px;
+        cursor: pointer;
+        background-color: #fff700;
+        border-radius: 10px;
+      }
+
+      #thankMessage {
+        display: none;
+        font-size: 36px;
+        margin: 0;
+      }
+
+      p {
+        border-radius: 10px 10px 10px 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <button id="thankButton">Click Me</button>
+      <p id="thankMessage">Thank you!</p>
+    </main>
+    <script>
+      function sendTrackingEventParent(eventName, eventData) {
+        try {
+          var postObject = {
+            event: 'iframeEvent',
+            name: eventName,
+            data: eventData,
+          };
+          window.parent.postMessage(postObject, '*');
+        } catch (e) {
+          console.error('Error sending message to parent', e);
+        }
+      }
+
+      const elAction = document.getElementById('thankButton');
+      elAction.addEventListener('click', function () {
+        document.getElementById('thankMessage').style.display = 'block';
+        this.style.display = 'none';
+        sendTrackingEventParent(
+          'iframe_button_click',
+          {
+            button_text: elAction.innerText,
+            tag_name: elAction.tagName,
+          }
+        );
+        setTimeout(() => {
+          document.getElementById('thankMessage').style.display = 'none';
+          this.style.display = 'block';
+        }, 1000);
+      });
+    </script>
+  </body>
+
+</html>

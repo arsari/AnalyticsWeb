@@ -58,29 +58,15 @@
       <p id="thankMessage">Thank you!</p>
     </main>
     <script>
-      function sendTrackingEventParent(event, eventData) {
-        window.parent.postMessage({
-          event: 'iframeEvent',
-          name: event,
-          data: eventData,
-        }, '*');
-      }
-
       const elAction = document.getElementById('thankButton');
       elAction.addEventListener('click', function () {
         document.getElementById('thankMessage').style.display = 'block';
         this.style.display = 'none';
-        sendTrackingEventParent(
-          'iframe_button_click',
-          {
-            button_text: elAction.innerText,
-            tag_name: elAction.tagName,
-          }
         );
-        setTimeout(() => {
-          document.getElementById('thankMessage').style.display = 'none';
-          this.style.display = 'block';
-        }, 1000);
+      setTimeout(() => {
+        document.getElementById('thankMessage').style.display = 'none';
+        this.style.display = 'block';
+      }, 1000);
       });
     </script>
   </body>
