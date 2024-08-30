@@ -782,12 +782,12 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
-  margin-top: 200px;
+  margin-top: 80px;
   iframe {
-    height: 350px;
-    width: 600px;
+    height: 310px;
+    width: 560px;
     border: none;
+    margin: 20px;
   }
   #iframe-child2 {
     cursor: none;
