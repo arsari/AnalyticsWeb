@@ -783,9 +783,15 @@ input[type="number"]::-webkit-inner-spin-button {
   justify-content: center;
   align-items: center;
   margin-top: 80px;
-  iframe {
-    height: 310px;
-    width: 560px;
+  #iframe-child1 {
+    height: 300px;
+    width: 600px;
+    border: none;
+    margin: 20px;
+  }
+  #iframe-child2 {
+    height: 450px;
+    width: 600px;
     border: none;
     margin: 20px;
   }
