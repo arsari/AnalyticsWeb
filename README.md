@@ -60,15 +60,15 @@ The `dataLayer` array-object should be located inside the `<head>...</head>` tag
   const userInit = localStorage.UUID ?? "guest";
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    page_title: document.querySelector("title").innerText,
-    page_name: "Web Analytics Implementation - Home Page",
-    page_category: "home",
-    page_author: "Arturo Santiago-Rivera",
     author_email: "asantiago@arsari.com",
     content_group: "Implementation",
     content_type: "Playground",
-    language_code: "en-US",
     e_timestamp: String(new Date().getTime()), // milliseconds
+    language_code: "en-US",
+    page_author: "Arturo Santiago-Rivera",
+    page_category: "home",
+    page_name: "Web Analytics Implementation - Home Page",
+    page_title: document.querySelector("title").innerText,
     // user properties
     logged_in: false,
     user_id: userInit,
@@ -83,19 +83,19 @@ The `utag_data` variable should be located inside the `<body>...</body>` tag of 
 <!-- utag data object message -->
 <script type="text/javascript">
   const utag_data = {
-    page_title: document.querySelector("title").innerText,
-    page_name: "Web Analytics Implementation - Home Page",
-    page_category: "home",
-    page_author: "Arturo Santiago-Rivera",
     author_email: "asantiago@arsari.com",
     content_group: "Implementation",
     content_type: "Playground",
-    language_code: "en-US",
     e_timestamp: String(new Date().getTime()), // milliseconds
+    language_code: "en-US",
+    page_author: "Arturo Santiago-Rivera",
+    page_category: "home",
+    page_name: "Web Analytics Implementation - Home Page",
+    page_title: document.querySelector("title").innerText,
     // user properties
+    custom_user_id: userInit,
     logged_in: false,
     user_id: userInit,
-    custom_user_id: userInit,
   };
 </script>
 <!-- END: utag data object message -->
@@ -107,18 +107,18 @@ The Amplitude data object should be located inside the `<head>...</head>` tag of
 <!-- amplitude global properties and initialization -->
 <script type="text/javascript">
   const enrichEventsPlugin = () => ({
+      name: "enrichEventsPlugin",
       execute: async (event) => {
         event.event_properties = {
           ...event.event_properties,
-          page_title: document.querySelector('title').innerText,
-          page_name: 'Web Analytics Implementation - Home Page',
-          page_category: 'home',
-          page_author: 'Arturo Santiago-Rivera',
           author_email: 'asantiago@arsari.com',
           content_group: 'Implementation',
           content_type: 'Playground',
-          language_code: 'en-US',
           env_viewed: tealiumEnv,
+          language_code: 'en-US',
+          page_author: 'Arturo Santiago-Rivera',
+          page_category: 'home',
+          page_name: 'Web Analytics Implementation - Home Page',
         };
         return event;
       },
@@ -138,15 +138,15 @@ The Mixpanel data object should be located inside the `<head>...</head>` tag of 
   mixpanel.identify(userInit); // mixpanel user identify
   mixpanel.people.set({ logged_in: false }); // mixpanel user properties
   mixpanel.register({
-    page_title: document.querySelector("title").innerText,
-    page_name: "Web Analytics Implementation - Home Page",
-    page_category: "home",
-    page_author: "Arturo Santiago-Rivera",
     author_email: "asantiago@arsari.com",
     content_group: "Implementation",
     content_type: "Playground",
-    language_code: "en-US",
     env_viewed: tealiumEnv,
+    language_code: "en-US",
+    page_author: "Arturo Santiago-Rivera",
+    page_category: "home",
+    page_name: "Web Analytics Implementation - Home Page",
+    page_title: document.querySelector("title").innerText,
   });
   mixpanel.track_pageview({
     e_timestamp: String(new Date().getTime()), // milliseconds
@@ -355,9 +355,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
   user_profession: up,
 });
 ```
@@ -424,8 +424,8 @@ amplitude.track({
   },
   user_properties: {
     $set: {
-      logged_in: logged,
       custom_user_id: ui,
+      logged_in: logged,
       user_profession: up,
     },
   },
@@ -437,8 +437,8 @@ amplitude.track({
 ```js
 mixpanel.identify(ui);
 mixpanel.people.set({
-  logged_in: logged,
   custom_user_id: ui,
+  logged_in: logged,
   user_profession: up,
 });
 mixpanel.track(en || e.id, {
@@ -668,9 +668,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
 });
 ```
 
@@ -728,9 +728,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
 });
 ```
 
@@ -784,9 +784,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
 });
 ```
 
@@ -830,9 +830,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
 });
 ```
 
@@ -872,9 +872,9 @@ utag.link({
   e_timestamp: tstamp, // milliseconds
   custom_timestamp: cstamp, // ISO 8601
   // user properties
+  custom_user_id: ui,
   logged_in: logged,
   user_id: ui,
-  custom_user_id: ui,
 });
 ```
 
@@ -912,4 +912,4 @@ The set up for each tag and triggers is as follows:
 
 =====
 
-Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: January 24, 2024
+Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: September 12, 2024

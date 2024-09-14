@@ -49,15 +49,15 @@
       localStorage.setItem('logged', false);
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        page_title: document.querySelector('title').innerText,
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_category: 'home',
-        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
-        language_code: 'en-US',
         e_timestamp: String(new Date().getTime()), // milliseconds
+        language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_category: 'home',
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_title: document.querySelector('title').innerText,
         // user properties
         logged_in: false,
         user_id: userInit,
@@ -81,6 +81,15 @@
       })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
     </script>
     <!--End Google Tag Manager-->
+    <!--Amplitude Script Loader-->
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.3-min.js.gz"></script>
+    <!--End Amplitude Script Loader-->
+    <!--Mixpanel Script Loader-->
+    <script type="text/javascript">
+      (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+    </script>
+    <!--End Mixpanel Script Loader-->
+    <!--Tracking Variables Setup-->
     <script type="text/javascript">
       /* Tealium iQ */
       const tealiumEnv =
@@ -109,213 +118,44 @@
       script.async = true;
       document.head.appendChild(script);
 
-      /* Amplitude Analytics */
-      !(function () {
-        !(function (e, t) {
-          const n = e.amplitude || { _q: [], _iq: {} };
-          if (n.invoked) e.console && console.error && console.error('Amplitude snippet has been loaded.');
-          else {
-            const r = function (e, t) {
-              e.prototype[t] = function () {
-                return this._q.push({ name: t, args: Array.prototype.slice.call(arguments, 0) }), this;
-              };
-            };
-            const s = function (e, t, n) {
-              return function (r) {
-                e._q.push({ name: t, args: Array.prototype.slice.call(n, 0), resolve: r });
-              };
-            };
-            const o = function (e, t, n) {
-              e[t] = function () {
-                if (n) return { promise: new Promise(s(e, t, Array.prototype.slice.call(arguments))) };
-              };
-            };
-            const i = function (e) {
-              for (let t = 0; t < m.length; t++) o(e, m[t], !1);
-              for (let n = 0; n < g.length; n++) o(e, g[n], !0);
-            };
-            n.invoked = !0;
-            const u = t.createElement('script');
-            (u.type = 'text/javascript'),
-              (u.integrity = 'sha384-x0ik2D45ZDEEEpYpEuDpmj05fY91P7EOZkgdKmq4dKL/ZAVcufJ+nULFtGn0HIZE'),
-              (u.crossOrigin = 'anonymous'),
-              (u.async = !0),
-              (u.src = 'https://cdn.amplitude.com/libs/analytics-browser-2.0.0-min.js.gz'),
-              (u.onload = function () {
-                e.amplitude.runQueuedFunctions || console.log('[Amplitude] Error: could not load SDK');
-              });
-            const a = t.getElementsByTagName('script')[0];
-            a.parentNode.insertBefore(u, a);
-            for (
-              var c = function () {
-                return (this._q = []), this;
-              },
-              p = [
-                'add',
-                'append',
-                'clearAll',
-                'prepend',
-                'set',
-                'setOnce',
-                'unset',
-                'preInsert',
-                'postInsert',
-                'remove',
-                'getUserProperties',
-              ],
-              l = 0;
-              l < p.length;
-              l++
-            )
-              r(c, p[l]);
-            n.Identify = c;
-            for (
-              var d = function () {
-                return (this._q = []), this;
-              },
-              f = [
-                'getEventProperties',
-                'setProductId',
-                'setQuantity',
-                'setPrice',
-                'setRevenue',
-                'setRevenueType',
-                'setEventProperties',
-              ],
-              v = 0;
-              v < f.length;
-              v++
-            )
-              r(d, f[v]);
-            n.Revenue = d;
-            var m = [
-              'getDeviceId',
-              'setDeviceId',
-              'getSessionId',
-              'setSessionId',
-              'getUserId',
-              'setUserId',
-              'setOptOut',
-              'setTransport',
-              'reset',
-              'extendSession',
-            ];
-            var g = [
-              'init',
-              'add',
-              'remove',
-              'track',
-              'logEvent',
-              'identify',
-              'groupIdentify',
-              'setGroup',
-              'revenue',
-              'flush',
-            ];
-            i(n),
-              (n.createInstance = function (e) {
-                return (n._iq[e] = { _q: [] }), i(n._iq[e]), n._iq[e];
-              }),
-              (e.amplitude = n);
-          }
-        })(window, document);
-      })();
+      /* Amplitude Analytics Init*/
       const enrichEventsPlugin = () => ({
+        name: "enrichEventsPlugin",
         execute: async (event) => {
           event.event_properties = {
             ...event.event_properties,
-            page_title: document.querySelector('title').innerText,
-            page_name: 'Web Analytics Implementation - Home Page',
-            page_category: 'home',
-            page_author: 'Arturo Santiago-Rivera',
             author_email: 'asantiago@arsari.com',
             content_group: 'Implementation',
             content_type: 'Playground',
-            language_code: 'en-US',
             env_viewed: tealiumEnv,
+            language_code: 'en-US',
+            page_author: 'Arturo Santiago-Rivera',
+            page_category: 'home',
+            page_name: 'Web Analytics Implementation - Home Page',
+            page_title: document.querySelector('title').innerText,
           };
           return event;
         },
       });
       amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-      amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit); // amplitude init statement
+      amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit, {
+        autocapture: { elementInteractions: false },
+      }); // amplitude init statement
 
-      /* Mixpanel */
-      (function (f, b) {
-        if (!b.__SV) {
-          let e;
-          let g;
-          let i;
-          let h;
-          window.mixpanel = b;
-          b._i = [];
-          b.init = function (e, f, c) {
-            function g(a, d) {
-              const b = d.split('.');
-              b.length == 2 && ((a = a[b[0]]), (d = b[1]));
-              a[d] = function () {
-                a.push([d].concat(Array.prototype.slice.call(arguments, 0)));
-              };
-            }
-            let a = b;
-            typeof c !== 'undefined' ? (a = b[c] = []) : (c = 'mixpanel');
-            a.people = a.people || [];
-            a.toString = function (a) {
-              let d = 'mixpanel';
-              c !== 'mixpanel' && (d += `.${c}`);
-              a || (d += ' (stub)');
-              return d;
-            };
-            a.people.toString = function () {
-              return `${a.toString(1)}.people (stub)`;
-            };
-            i =
-              'disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove'.split(
-                ' ',
-              );
-            for (h = 0; h < i.length; h++) g(a, i[h]);
-            const j = 'set set_once union unset remove delete'.split(' ');
-            a.get_group = function () {
-              function b(c) {
-                d[c] = function () {
-                  call2_args = arguments;
-                  call2 = [c].concat(Array.prototype.slice.call(call2_args, 0));
-                  a.push([e, call2]);
-                };
-              }
-              for (var d = {}, e = ['get_group'].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)
-                b(j[c]);
-              return d;
-            };
-            b._i.push([e, f, c]);
-          };
-          b.__SV = 1.2;
-          e = f.createElement('script');
-          e.type = 'text/javascript';
-          e.async = !0;
-          e.src =
-            typeof MIXPANEL_CUSTOM_LIB_URL !== 'undefined'
-              ? MIXPANEL_CUSTOM_LIB_URL
-              : f.location.protocol === 'file:' && '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'.match(/^\/\//)
-                ? 'https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
-                : '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js';
-          g = f.getElementsByTagName('script')[0];
-          g.parentNode.insertBefore(e, g);
-        }
-      })(document, window.mixpanel || []);
+      /* Mixpanel Init */
       mixpanel.init('9d684b4f1063f3d1e965ca6d15510376'); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
       mixpanel.people.set({ logged_in: false }); // mixpanel user properties
       mixpanel.register({
-        page_title: document.querySelector('title').innerText,
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_category: 'home',
-        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
-        language_code: 'en-US',
         env_viewed: tealiumEnv,
+        language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_category: 'home',
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_title: document.querySelector('title').innerText,
       });
       mixpanel.track_pageview({
         e_timestamp: String(new Date().getTime()), // milliseconds
@@ -392,15 +232,15 @@
     <!-- utag data object message -->
     <script type="text/javascript">
       const utag_data = {
-        page_title: document.querySelector('title').innerText,
-        page_name: 'Web Analytics Implementation - Home Page',
-        page_category: 'home',
-        page_author: 'Arturo Santiago-Rivera',
         author_email: 'asantiago@arsari.com',
         content_group: 'Implementation',
         content_type: 'Playground',
-        language_code: 'en-US',
         e_timestamp: String(new Date().getTime()), // milliseconds
+        language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_category: 'home',
+        page_name: 'Web Analytics Implementation - Home Page',
+        page_title: document.querySelector('title').innerText,
         // user properties
         logged_in: false,
         user_id: userInit,
