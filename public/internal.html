@@ -13,14 +13,75 @@
     <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style.css" />
-    <title>AnalyticsWeb | Parent iFrame Page</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <title>AnalyticsWeb | Internal Page</title>
     <!--New Relic Snippet-->
-    <script type="text/javascript" src="assets/newRelic.js"></script>
+    <script type="text/javascript" src="../assets/js/newRelic.js"></script>
     <!--END: New Relic Snippet-->
     <!--Mixpanel Script Loader-->
     <script type="text/javascript">
-      (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+      (function (f, b) {
+        if (!b.__SV) {
+          let e;
+          let g;
+          let i;
+          let h;
+          window.mixpanel = b;
+          b._i = [];
+          b.init = function (e, f, c) {
+            function g(a, d) {
+              const b = d.split('.');
+              b.length == 2 && ((a = a[b[0]]), (d = b[1]));
+              a[d] = function () {
+                a.push([d].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            }
+            let a = b;
+            typeof c !== 'undefined' ? (a = b[c] = []) : (c = 'mixpanel');
+            a.people = a.people || [];
+            a.toString = function (a) {
+              let d = 'mixpanel';
+              c !== 'mixpanel' && (d += `.${c}`);
+              a || (d += ' (stub)');
+              return d;
+            };
+            a.people.toString = function () {
+              return `${a.toString(1)}.people (stub)`;
+            };
+            i =
+              'disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove'.split(
+                ' ',
+              );
+            for (h = 0; h < i.length; h++) g(a, i[h]);
+            const j = 'set set_once union unset remove delete'.split(' ');
+            a.get_group = function () {
+              function b(c) {
+                d[c] = function () {
+                  call2_args = arguments;
+                  call2 = [c].concat(Array.prototype.slice.call(call2_args, 0));
+                  a.push([e, call2]);
+                };
+              }
+              for (var d = {}, e = ['get_group'].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)
+                b(j[c]);
+              return d;
+            };
+            b._i.push([e, f, c]);
+          };
+          b.__SV = 1.2;
+          e = f.createElement('script');
+          e.type = 'text/javascript';
+          e.async = !0;
+          e.src =
+            typeof MIXPANEL_CUSTOM_LIB_URL !== 'undefined'
+              ? MIXPANEL_CUSTOM_LIB_URL
+              : f.location.protocol === 'file:' && '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'.match(/^\/\//)
+                ? 'https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
+                : '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js';
+          g = f.getElementsByTagName('script')[0];
+          g.parentNode.insertBefore(e, g);
+        }
+      })(document, window.mixpanel || []);
     </script>
     <!--End Mixpanel Script Loader-->
     <!--dataLayers message-->
@@ -34,7 +95,7 @@
         e_timestamp: String(new Date().getTime()), // milliseconds
         language_code: 'en-US',
         page_author: 'Arturo Santiago-Rivera',
-        page_category: 'iframe',
+        page_category: 'support',
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
         // user properties
@@ -92,9 +153,9 @@
       script.async = true;
       document.head.appendChild(script);
 
-      /* Amplitude Analytics Init*/
+      /* Amplitude Analytics Init */
       const enrichEventsPlugin = () => ({
-        name: "enrichEventsPlugin",
+        name: 'enrichEventsPlugin',
         execute: async (event) => {
           event.event_properties = {
             ...event.event_properties,
@@ -104,7 +165,7 @@
             env_viewed: tealiumEnv,
             language_code: 'en-US',
             page_author: 'Arturo Santiago-Rivera',
-            page_category: 'iframe',
+            page_category: 'support',
             page_name: 'Web Analytics Implementation - Internal Page',
             page_title: document.querySelector('title').innerText,
           };
@@ -113,7 +174,7 @@
       });
       window.amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
       window.amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit, {
-        autocapture: { elementInteractions: false }
+        autocapture: { elementInteractions: false },
       }); // amplitude init statement
 
       /* Mixpanel */
@@ -130,7 +191,7 @@
         env_viewed: tealiumEnv,
         language_code: 'en-US',
         page_author: 'Arturo Santiago-Rivera',
-        page_category: 'iframe',
+        page_category: 'support',
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
       });
@@ -215,7 +276,7 @@
         e_timestamp: String(new Date().getTime()), // milliseconds
         language_code: 'en-US',
         page_author: 'Arturo Santiago-Rivera',
-        page_category: 'iframe',
+        page_category: 'support',
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
         // user properties
@@ -259,28 +320,16 @@
       </div>
       <div class="desc">
         <h2>
-          <span>iFrame Parent Page</span>
+          <span>Intentionally Internal Blank Page. =></span>
+          <span class="alert">This Tab will close automatically after 10 seconds.</span>
         </h2>
       </div>
     </header>
     <main>
-      <aside>
-        <section id="iframe-section1" class="iframe-container">
-          <iframe id="iframe-child1" src="iframe-child.html" title="iFrame Child Page"></iframe>
-        </section>
-        <h3 style="text-align: center;">iFrame postMessage Action Tracking</h3>
-        <section id="iframe-section2" class="iframe-container">
-          <iframe id="iframe-child2" src="https://www.youtube.com/embed/hpPhdC43hEY?si=l6llEIIXD5jndTt-&rel=0"
-            title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </section>
-        <h3 style="text-align: center;">iFrame Random Click Tracking</h3>
-      </aside>
-      <section id="json-section" class="pre"></section>
+      <section id="json-section"></section>
     </main>
     <footer></footer>
-    <script type="text/javascript" src="assets/function.min.js"></script>
+    <script type="text/javascript" src="../assets/js/function.min.js"></script>
     <script type="text/javascript">
       /**
        * Populate section element with initial data layer object
@@ -299,106 +348,12 @@
       document.querySelector('#json-section').lastElementChild.scrollIntoView();
       document.querySelector('#json-section').lastElementChild.className = 'highlight';
 
-      function sendDataLayer(en, ed) {
-        let eventName = en;
-        let eventData = ed;
-        let logged = localStorage.logged ?? false;
-        let tstamp = String(new Date().getTime());
-        let cstamp = timeStamp();
-
-        /* Send data to GTM/GA4 */
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: eventName,
-          ...eventData,
-          event_type: "ui interaction",
-          e_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
-          // user properties
-          logged_in: logged,
-          user_id: userInit,
-        });
-        /* Send data to Tealium */
-        utag.link({
-          tealium_event: eventName,
-          ...eventData,
-          event_type: "ui interaction",
-          e_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
-          // user properties
-          logged_in: logged,
-          user_id: userInit,
-          custom_user_id: userInit,
-        });
-        /* Send data to Amplitude */
-        amplitude.setUserId(userInit);
-        amplitude.track({
-          event_type: eventName,
-          event_properties: {
-            ...eventData,
-            event_type: "ui interaction",
-            e_timestamp: tstamp, // milliseconds
-            custom_timestamp: cstamp, // ISO 8601
-          },
-          user_properties: {
-            $set: {
-              logged_in: logged,
-              custom_user_id: userInit,
-            },
-          },
-        });
-        /* Send data to Mixpanel */
-        mixpanel.identify(userInit);
-        mixpanel.people.set({
-          logged_in: logged,
-          custom_user_id: userInit,
-        });
-        mixpanel.track(eventName, {
-          ...eventData,
-          event_type: "ui interaction",
-          e_timestamp: tstamp, // milliseconds
-          custom_timestamp: cstamp, // ISO 8601
-        });
-
-        displayJSON(logged, 'dataLayer.push');
-      }
-
       /**
-       * Function to handle incoming messages from iFrame
+       * Function to close the tab after 10 seconds.
        */
-      window.addEventListener('message', (event) => {
-        try {
-          if (event.data.event === 'iframeEvent') {
-            let eventName = event.data.name;
-            let eventData = event.data.data;
-            sendDataLayer(eventName, eventData);
-          }
-        } catch (e) {
-          console.error('Error receiving message from iFrame', e);
-        }
-      });
-
-      /**
-       * iFrame Interaction Monitoring
-       */
-      const monitoriFrame = setInterval(() => {
-        const iframe = document.activeElement;
-        if (iframe.id === "iframe-child2") {
-          let eventName = "iframe_interaction";
-          let eventData = {
-            tag_name: iframe.tagName,
-          };
-          sendDataLayer(eventName, eventData);
-        }
-        iframe.blur();
-      }, 500);
-
-      /**
-       * Clear interval when user leaves the page
-       */
-      window.addEventListener('beforeunload', () => {
-        clearInterval(monitoriFrame);
-      });
+      setTimeout(() => {
+        window.close();
+      }, 10000);
     </script>
   </body>
 

@@ -13,10 +13,10 @@
     <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <title>AnalyticsWeb | Child iFrame Page</title>
     <!--New Relic Snippet-->
-    <script type="text/javascript" src="assets/newRelic.js"></script>
+    <script type="text/javascript" src="../assets/js/newRelic.js"></script>
     <!--END: New Relic Snippet-->
     <style>
       body {
@@ -60,7 +60,7 @@
     <script>
       function sendTrackingEventParent(eventName, eventData) {
         try {
-          var postObject = {
+          const postObject = {
             event: 'iframeEvent',
             name: eventName,
             data: eventData,
@@ -72,19 +72,16 @@
       }
 
       const elAction = document.getElementById('thankButton');
-      elAction.addEventListener('click', function () {
+      elAction.addEventListener('click', () => {
         document.getElementById('thankMessage').style.display = 'block';
-        this.style.display = 'none';
-        sendTrackingEventParent(
-          'iframe_button_click',
-          {
-            button_text: elAction.innerText,
-            tag_name: elAction.tagName,
-          }
-        );
+        elAction.style.display = 'none';
+        sendTrackingEventParent('iframe_button_click', {
+          button_text: elAction.innerText,
+          tag_name: elAction.tagName,
+        });
         setTimeout(() => {
           document.getElementById('thankMessage').style.display = 'none';
-          this.style.display = 'block';
+          elAction.style.display = 'block';
         }, 1000);
       });
     </script>

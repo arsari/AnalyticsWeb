@@ -46,7 +46,7 @@ This is a playground of analytic implementation for a website using GTM and a GA
 
 Before we start with the playground set up and back end, we should already have a GTM container linked to a Google Analytics 4 web data stream, a Tealium iQ account setup with AA tag, an Adobe Analytics account, an Amplitude Analytics account, and a Mixpanel Product Analytics account. Having them created and configured will facilitate the use of playground as a data source for the tools.
 
-![Playground Screenshot](img/playground_screenshot.png)
+![Playground Screenshot](assets/img/playground_screenshot.png)
 
 ### Tagging Strategy and Implementation
 
@@ -882,25 +882,25 @@ utag.link({
 
 The `dataLayer` array-object for the four main event has been setup in GTM comprised in four individual tags:
 
-![GTM Tags Screenshot](img/gtm_tags.png)
+![GTM Tags Screenshot](assets/img/gtm_tags.png)
 
 The set up for each tag and triggers is as follows:
 
 #### General Events Tag
 
-![General Events Screenshot](img/general-events-tag.png)
+![General Events Screenshot](assets/img/general-events-tag.png)
 
 #### Ecommerce Funnel Tag
 
-![Ecommerce Funnel Events Screenshot](img/ecommerce-funnel-tag.png)
+![Ecommerce Funnel Events Screenshot](assets/img/ecommerce-funnel-tag.png)
 
 #### Error Events Tag
 
-![Error Events Screenshot](img/error-events-tag.png)
+![Error Events Screenshot](assets/img/error-events-tag.png)
 
 #### Video Events Tag
 
-![Video Events Screenshot](img/video-events-tag.png)
+![Video Events Screenshot](assets/img/video-events-tag.png)
 
 ### Reference Documentation
 
@@ -912,4 +912,4 @@ The set up for each tag and triggers is as follows:
 
 =====
 
-Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: September 12, 2024
+Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: September 24, 2024
