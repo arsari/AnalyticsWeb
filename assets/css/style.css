@@ -108,11 +108,12 @@ p,
   padding: 10px 10px;
   max-width: -moz-fit-content;
   max-width: fit-content;
-  margin-top: 35px;
+  margin: 0;
   border-radius: 10px 10px 0 0;
 }
 
 .coupon {
+  margin-top: 20px;
   border-radius: 10px;
 }
 
@@ -447,7 +448,7 @@ label > span {
 .ecommerce-btn2 {
   bottom: 50px;
   display: flex;
-  margin-top: -15px;
+  margin-top: 0;
 }
 
 .ecommerce-btn3 {
