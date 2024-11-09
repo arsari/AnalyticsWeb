@@ -26,7 +26,7 @@
         window.dataLayer.push(arguments);
       }
 
-      if (localStorage.getItem('consentMode') === null) {
+      if (localStorage.getItem('CONSENT_MODE') === null) {
         gtag('consent', 'default', {
           ad_storage: 'denied',
           ad_user_data: 'denied',
@@ -37,7 +37,7 @@
           security_storage: 'denied',
         });
       } else {
-        gtag('consent', 'default', JSON.parse(localStorage.getItem('consentMode')));
+        gtag('consent', 'default', JSON.parse(localStorage.getItem('CONSENT_MODE')));
       }
 
       gtag('set', 'url_passthrough', true);
@@ -915,7 +915,7 @@
       /**
        * Detect if Consent banner needs to be displayed
        */
-      if (localStorage.getItem('consentMode') === null) {
+      if (localStorage.getItem('CONSENT_MODE') === null) {
         showBanner();
       }
     </script>
