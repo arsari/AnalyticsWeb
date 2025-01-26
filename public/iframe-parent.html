@@ -10,14 +10,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
       content="Playground to explore web analytics implementation on a web app using various analytics tools." />
-    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <title>AnalyticsWeb | Parent iFrame Page</title>
     <!--New Relic Snippet-->
+    <!--New Relic Snippet-->
     <script type="text/javascript" src="../assets/js/newrelic.js"></script>
     <!--END: New Relic Snippet-->
+    <script type="text/javascript" src="../assets/js/config.min.js"></script>
+    <!--dataLayers message-->
+    <script type="text/javascript">
+      const userInit = localStorage.UUID ?? 'guest';
+      const INIT_PROPERTIES = {
+        author_email: 'asantiago@arsari.com',
+        content_group: 'Implementation',
+        content_type: 'Playground',
+        e_timestamp: String(new Date().getTime()), // milliseconds
+        language_code: 'en-US',
+        page_author: 'Arturo Santiago-Rivera',
+        page_category: 'iframe',
+        page_name: 'Web Analytics Implementation - Internal Page',
+        page_title: document.querySelector('title').innerText,
+      };
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        ...INIT_PROPERTIES,
+        // user properties
+        logged_in: localStorage.logged ?? false,
+        user_id: userInit,
+      });
+    </script>
+    <!--END: dataLayers message-->
+    <!--Google Tag Manager-->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js',
+        });
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s);
+        const dl = l !== 'dataLayer' ? `&l=${l}` : '';
+        j.async = true;
+        j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
+    </script>
+    <!--End Google Tag Manager-->
+    <!--Amplitude Script Loader-->
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.3-min.js.gz"></script>
+    <!--End Amplitude Script Loader-->
     <!--Mixpanel Script Loader-->
     <script type="text/javascript">
       (function (f, b) {
@@ -84,46 +130,6 @@
       })(document, window.mixpanel || []);
     </script>
     <!--End Mixpanel Script Loader-->
-    <!--dataLayers message-->
-    <script type="text/javascript">
-      const userInit = localStorage.UUID ?? 'guest';
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        author_email: 'asantiago@arsari.com',
-        content_group: 'Implementation',
-        content_type: 'Playground',
-        e_timestamp: String(new Date().getTime()), // milliseconds
-        language_code: 'en-US',
-        page_author: 'Arturo Santiago-Rivera',
-        page_category: 'iframe',
-        page_name: 'Web Analytics Implementation - Internal Page',
-        page_title: document.querySelector('title').innerText,
-        // user properties
-        logged_in: localStorage.logged ?? false,
-        user_id: userInit,
-      });
-    </script>
-    <!--END: dataLayers message-->
-    <!--Google Tag Manager-->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js',
-        });
-        const f = d.getElementsByTagName(s)[0];
-        const j = d.createElement(s);
-        const dl = l !== 'dataLayer' ? `&l=${l}` : '';
-        j.async = true;
-        j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
-    </script>
-    <!--End Google Tag Manager-->
-    <!--Amplitude Script Loader-->
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.3-min.js.gz"></script>
-    <!--End Amplitude Script Loader-->
     <!--Tracking Variables Setup-->
     <script type="text/javascript">
       /* Tealium iQ */
@@ -134,8 +140,8 @@
             ? 'qa'
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
-      const heapAppId = tealiumEnv !== 'prod' ? '2029282835' : '1106616054';
       const gtmContainer = 'GTM-59FGRVM';
+      const heapAppId = tealiumEnv !== 'prod' ? HEAP_DEV_KEY : HEAP_PROD_KEY;
 
       /* Adobe Data Collection (Launch) */
       let alaunch;
@@ -159,41 +165,22 @@
         execute: async (event) => {
           event.event_properties = {
             ...event.event_properties,
-            author_email: 'asantiago@arsari.com',
-            content_group: 'Implementation',
-            content_type: 'Playground',
-            env_viewed: tealiumEnv,
-            language_code: 'en-US',
-            page_author: 'Arturo Santiago-Rivera',
-            page_category: 'iframe',
-            page_name: 'Web Analytics Implementation - Internal Page',
-            page_title: document.querySelector('title').innerText,
+            ...INIT_PROPERTIES,
           };
           return event;
         },
       });
-      window.amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-      window.amplitude.init('1dc51d64353a705b95a9bd848ebbe490', userInit, {
+      amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
+      amplitude.init(AMPLITUDE_KEY, userInit, {
         autocapture: { elementInteractions: false },
       }); // amplitude init statement
 
-      /* Mixpanel */
-      mixpanel.init('9d684b4f1063f3d1e965ca6d15510376'); // mixpanel init statement
+      /* Mixpanel Init */
+      mixpanel.init(MIXPANEL_KEY); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
-      mixpanel.people.set({
-        logged_in: localStorage.logged ?? false,
-        custom_user_id: userInit,
-      });
+      mixpanel.people.set({ logged_in: false }); // mixpanel user properties
       mixpanel.register({
-        author_email: 'asantiago@arsari.com',
-        content_group: 'Implementation',
-        content_type: 'Playground',
-        env_viewed: tealiumEnv,
-        language_code: 'en-US',
-        page_author: 'Arturo Santiago-Rivera',
-        page_category: 'iframe',
-        page_name: 'Web Analytics Implementation - Internal Page',
-        page_title: document.querySelector('title').innerText,
+        ...INIT_PROPERTIES,
       });
       mixpanel.track_pageview({
         e_timestamp: String(new Date().getTime()), // milliseconds
@@ -201,16 +188,16 @@
 
       /* Console Table */
       const ids = {
-        Env: tealiumEnv,
-        GA4: ga4Prop,
-        GTM: gtmContainer,
-        Launch: alaunchEnv,
-        Heap: heapAppId === '2029282835' ? `${heapAppId} (dev)` : `${heapAppId} (prod)`,
-        userID: userInit,
+        'Tealium Env': tealiumEnv,
+        'GA4 Measurement ID': ga4Prop,
+        'GTM Container': gtmContainer,
+        'Launch Env': alaunchEnv,
+        'Heap Env': heapAppId === HEAP_DEV_KEY ? `development` : `production`,
+        'User ID': userInit,
       };
       console.table(ids);
     </script>
-    <!--END Tracking Variables Setup-->
+    <!-- END Tracking Variables Setup -->
     <!--Microsoft Clarity-->
     <script type="text/javascript">
       (function (c, l, a, r, i, t, y) {
@@ -261,7 +248,7 @@
         });
       heap.load(heapAppId);
       heap.identify(userInit);
-      heap.addUserProperties({ logged_in: localStorage.logged ?? false });
+      heap.addUserProperties({ logged_in: false });
     </script>
     <!-- END Heap Analytics -->
   </head>
@@ -348,7 +335,7 @@
        */
       document.querySelector(
         '#json-section',
-      ).innerHTML += `<p><em>Message: dataLayer.push and utag_data</em></p><pre>${JSON.stringify(
+      ).innerHTML += `<p><em>Message: dataLayer.push and utag_data [0]</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0),
         undefined,
         2,

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
     <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>AnalyticsWeb | Internal Page</title>
+    <title>AnalyticsWeb | Privacy Policy</title>
     <!--New Relic Snippet-->
     <script type="text/javascript" src="../assets/js/newrelic.js"></script>
     <!--END: New Relic Snippet-->
@@ -30,7 +30,7 @@
         e_timestamp: String(new Date().getTime()), // milliseconds
         language_code: 'en-US',
         page_author: 'Arturo Santiago-Rivera',
-        page_category: 'support',
+        page_category: 'privacy',
         page_name: 'Web Analytics Implementation - Internal Page',
         page_title: document.querySelector('title').innerText,
       };
@@ -264,7 +264,7 @@
       };
     </script>
     <!-- END: utag data object message -->
-    <!-- Tealium IQ Loading script asynchronously -->
+    <!-- Tealium iQ Loading script asynchronously -->
     <script type="text/javascript">
       (function (a, b, c, d) {
         a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
@@ -298,14 +298,42 @@
       </div>
       <div class="desc">
         <h2>
-          <span>Intentionally Internal Blank Page =></span>
-          <span class="alert">This Tab will close automatically in </span> <span id="countdown"
-            class="alert">15</span><span class="alert"> seconds.</span>
+          <span>Privacy Policy Page =></span>
+          <span class="alert">This tab will close automatically in <span id="countdown">30</span> seconds.</span>
         </h2>
       </div>
     </header>
     <main>
       <section id="json-section"></section>
+      <section id="policy-section" class="policy-container">
+        <p id="policy-text" class="revert">
+          We incorporate various tools to capture
+          how you use and interact with our website through behavioral metrics, heatmaps, and session replay to improve
+          and market our products/services. Website
+          usage data is captured using first and third-party cookies and other tracking technologies to determine the
+          popularity
+          of products/services and online activity. Additionally, we use this information for site optimization,
+          fraud/security purposes, and advertising. For more information about how the analytic tools collects and uses
+          your
+          data, visit:
+        </p>
+        <ul>
+          <li><a id="pp-1" name="action" href="https://policies.google.com/privacy" rel="noopener nofollow"
+              target="_blank" title="Google Privacy Policy">Google Privacy Policy</a></li>
+          <li><a id="pp-2" name="action" href="https://tealium.com/privacy/" rel="noopener nofollow" target="_blank"
+              title="Tealium Privacy Policy">Tealium Privacy Policy</a></li>
+          <li><a id="pp-3" name="action" href="https://www.adobe.com/privacy/policy.html" rel="noopener nofollow"
+              target="_blank" title="Adobe Privacy Policy">Adobe Privacy Policy</a></li>
+          <li><a id="pp-4" name="action" href="https://amplitude.com/privacy" rel="noopener nofollow" target="_blank"
+              title="Amplitude Privacy Policy">Amplitude Privacy Policy</a></li>
+          <li><a id="pp-5" name="action" href="https://mixpanel.com/legal/privacy-policy/" rel="noopener nofollow"
+              target="_blank" title="Mixpanel Privacy Policy">Mixpanel Privacy Policy</a></li>
+          <li><a id="pp-6" name="action" href="https://clarity.microsoft.com/privacy" rel="noopener nofollow"
+              target="_blank" title="Microsoft Privacy Statement">Microsoft Privacy Statement</a></li>
+          <li><a id="pp-7" name="action" href="https://www.heap.io/privacy" rel="noopener nofollow" target="_blank"
+              title="Heap Privacy Policy">Heap Privacy Policy</a></li>
+        </ul>
+      </section>
     </main>
     <footer></footer>
     <script type="text/javascript" src="../assets/js/function.min.js"></script>
@@ -328,10 +356,10 @@
       document.querySelector('#json-section').lastElementChild.className = 'highlight';
 
       /**
-       * Function to close the tab after 10 seconds.
+       * Function to close the tab after 30 seconds.
        */
       // Set the initial countdown time in seconds
-      let timeLeft = 15;
+      let timeLeft = 30;
 
       // Get a reference to the HTML element where we display the countdown
       const countdownElement = document.getElementById('countdown');

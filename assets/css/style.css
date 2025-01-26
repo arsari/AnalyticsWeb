@@ -977,6 +977,15 @@ aside {
   background: mediumseagreen;
 }
 
+.policy-container {
+  width: 65%;
+  margin: 0 auto;
+  font-size: 1.5em;
+  font-family: monospace;
+  line-height: 1.5;
+  text-align: justify;
+}
+
 @media screen and (min-width: 320px) and (max-width: 1280px) {
   .github-badges {
     display: inline-block;
