@@ -3,22 +3,20 @@
 
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+      content="Playground to explore web analytics implementation on a web app using various analytics tools." />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-      content="Playground to explore web analytics implementation on a web app using various analytics tools." />
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
     <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
-    <script src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <title>AnalyticsWeb | Internal Page</title>
-    <!--New Relic Snippet-->
+    <script type="text/javascript" src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../assets/js/newRelic.js"></script>
-    <!--END: New Relic Snippet-->
     <script type="text/javascript" src="../assets/js/config.min.js"></script>
     <!--dataLayers message-->
     <script type="text/javascript">
@@ -129,9 +127,24 @@
       })(document, window.mixpanel || []);
     </script>
     <!--End Mixpanel Script Loader-->
+    <!--Microsoft Clarity-->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = `https://www.clarity.ms/tag/${i}`;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
+    </script>
+    <!-- End Microsoft Clarity -->
     <!--Tracking Variables Setup-->
     <script type="text/javascript">
-      /* Tealium iQ */
       const tealiumEnv =
         location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
           ? 'dev'
@@ -140,7 +153,7 @@
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
-      const heapAppId = tealiumEnv !== 'prod' ? HEAP_DEV_KEY : HEAP_PROD_KEY;
+      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
 
       /* Adobe Data Collection (Launch) */
       let alaunch;
@@ -170,12 +183,12 @@
         },
       });
       amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-      amplitude.init(AMPLITUDE_KEY, userInit, {
+      amplitude.init(config.AMPLITUDE_KEY, userInit, {
         autocapture: { elementInteractions: false },
       }); // amplitude init statement
 
       /* Mixpanel Init */
-      mixpanel.init(MIXPANEL_KEY); // mixpanel init statement
+      mixpanel.init(config.MIXPANEL_KEY); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
       mixpanel.people.set({ logged_in: false }); // mixpanel user properties
       mixpanel.register({
@@ -191,28 +204,12 @@
         'GA4 Measurement ID': ga4Prop,
         'GTM Container': gtmContainer,
         'Launch Env': alaunchEnv,
-        'Heap Env': heapAppId === HEAP_DEV_KEY ? `development` : `production`,
+        'Heap Env': heapAppId === config.HEAP_DEV_KEY ? `development` : `production`,
         'User ID': userInit,
       };
       console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
-    <!--Microsoft Clarity-->
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = `https://www.clarity.ms/tag/${i}`;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
-    </script>
-    <!-- End Microsoft Clarity -->
     <!-- Heap Analytics -->
     <script type="text/javascript">
       (window.heap = window.heap || []),

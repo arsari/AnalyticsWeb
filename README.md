@@ -1,41 +1,40 @@
 # AnalyticsWeb
 
-[![AnalyticsWeb Releases-Tags](https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?color=orange&logo=github&sort=semver&style=for-the-badge)](https://www.github.com/arsari/AnalyticsWeb/tags "Go to AnalyticsWeb Releases-Tags!")&nbsp;&nbsp;&nbsp;&nbsp;[![MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE "Click to see License")<br>[![AnalyticsMobile](https://img.shields.io/badge/counterpart-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://arsari.github.io/AnalyticsMobile "Click Here to Visit Repo Document!")
+[![AnalyticsWeb Releases-Tags](https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?color=orange&logo=github&sort=semver&style=for-the-badge)](https://www.github.com/arsari/AnalyticsWeb/tags "Go to AnalyticsWeb Releases-Tags!")&nbsp;&nbsp;&nbsp;&nbsp;[![MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge&logo=f-secure)](LICENSE "Click to see License")
 
-## Web Analytics Implementation Playground
+[![AnalyticsMobile](https://img.shields.io/badge/counterpart-mobile_analytics-blue.svg?style=for-the-badge&logo=github)](https://arsari.github.io/AnalyticsMobile "Click Here to Visit Repo Document!")
 
-### Table of Contents
+## Table of Contents
 
 - [AnalyticsWeb](#analyticsweb)
-  - [Web Analytics Implementation Playground](#web-analytics-implementation-playground)
-    - [Table of Contents](#table-of-contents)
-    - [Introduction](#introduction)
-    - [The Project](#the-project)
-      - [Core Features](#core-features)
-      - [Core Functionalities](#core-functionalities)
-      - [Design and Usability](#design-and-usability)
-      - [Target Audience](#target-audience)
-      - [Design Philosophy](#design-philosophy)
-    - [Analytic Tools Implementation and Tagging Strategy](#analytic-tools-implementation-and-tagging-strategy)
-      - [Consent Mode and Page Message Definition](#consent-mode-and-page-message-definition)
-      - [Events Tagging Strategy](#events-tagging-strategy)
-      - [Events Groups](#events-groups)
-        - [General Events](#general-events)
-          - [`dataLayer.push()`](#datalayerpush)
-          - [`utag.link()`](#utaglink)
-          - [`amplitude.track()`](#amplitudetrack)
-          - [`mixpanel.track()`](#mixpaneltrack)
-        - [Ecommerce Funnel Events](#ecommerce-funnel-events)
-        - [Video Events](#video-events)
-        - [Error Events](#error-events)
-    - [GTM Setup](#gtm-setup)
-      - [General Events Tag](#general-events-tag)
-      - [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
-      - [Error Events Tag](#error-events-tag)
-      - [Video Events Tag](#video-events-tag)
-    - [Reference Documentation](#reference-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [The Project](#the-project)
+    - [Core Features](#core-features)
+    - [Core Functionalities](#core-functionalities)
+    - [Design and Usability](#design-and-usability)
+    - [Target Audience](#target-audience)
+    - [Design Philosophy](#design-philosophy)
+  - [Analytic Tools Implementation and Tagging Strategy](#analytic-tools-implementation-and-tagging-strategy)
+    - [Consent Mode and Page Message Definition](#consent-mode-and-page-message-definition)
+    - [Events Tagging Strategy](#events-tagging-strategy)
+    - [Events Groups](#events-groups)
+      - [General Events](#general-events)
+        - [`dataLayer.push()`](#datalayerpush)
+        - [`utag.link()`](#utaglink)
+        - [`amplitude.track()`](#amplitudetrack)
+        - [`mixpanel.track()`](#mixpaneltrack)
+      - [Ecommerce Funnel Events](#ecommerce-funnel-events)
+      - [Video Events](#video-events)
+      - [Error Events](#error-events)
+  - [GTM Setup](#gtm-setup)
+    - [General Events Tag](#general-events-tag)
+    - [Ecommerce Funnel Tag](#ecommerce-funnel-tag)
+    - [Error Events Tag](#error-events-tag)
+    - [Video Events Tag](#video-events-tag)
+  - [Reference Documentation](#reference-documentation)
 
-### Introduction
+## Introduction
 
 Google Analytics 4 (GA4) and Adobe Analytics (AA) are the tools most commonly used for a comprehensive and flexible website and app analytics approach. Amplitude Analytics and Mixpanel Product Analytics allow you to answer questions, make better decisions, and drive outcomes with product analytics. For any of the aforementioned tools, to implement on our website, you will need to follow these steps:
 
@@ -59,9 +58,9 @@ Adobe Data Collector (Launch) and Heap Analytics are included in our playground 
 
 ![Playground Screenshot](assets/img/playground-screenshot.png)
 
-### The Project
+## The Project
 
-This project is not just a web analytics tool, but a comprehensive educational resource. Its comprehensive implementation facilitates tracking, event handling, and analytics integration within a web application. The scripts underpin a web analytics playground, enabling developers to implement and test various analytics events, user interactions, and data flows. The project is a valuable educational tool, providing a testing ground for implementing and experimenting with advanced web analytics tools and techniques. It integrates a variety of platforms, including:
+This project is not just a web analytics tool, but a comprehensive educational resource. Its comprehensive implementation facilitates tracking, event handling, and analytics integration within a web application. The scripts underpin a web analytics implementation playground, enabling developers to implement and test various analytics events, user interactions, and data flows. The project is a valuable educational tool, providing a testing ground for implementing and experimenting with advanced web analytics tools and techniques. It integrates a variety of platforms, including:
 
 - Google Analytics 4 (GA4)
 - Google Tag Manager (GTM)
@@ -71,98 +70,98 @@ This project is not just a web analytics tool, but a comprehensive educational r
 - Heap Analytics
 - Microsoft Clarity
 
-#### Core Features
+### Core Features
 
 1. Dynamic Consent Management:
 
-- A robust consent mechanism that initializes analytics preferences for storage, advertising, personalization, and security based on user consent or default settings.
+   - A robust consent mechanism that initializes analytics preferences for storage, advertising, personalization, and security based on user consent or default settings.
 
 2. Data Layers:
 
-- Captures essential metadata such as author information, content grouping, timestamps, and user-related properties.
-- Populates dataLayer and utag_data to enable seamless integration with various tools.
+   - Captures essential metadata such as author information, content grouping, timestamps, and user-related properties.
+   - Populates dataLayer and utag_data to enable seamless integration with various tools.
 
 3. Analytics Initialization:
 
-- Includes setup scripts for each platform to initialize and configure tracking, ensuring accurate data collection.
+   - Includes setup scripts for each platform to initialize and configure tracking, ensuring accurate data collection.
 
 4. User Interaction Tracking:
 
-- Supports event tracking for diverse user interactions such as form submissions, video plays, and button clicks.
-- Enables funnel tracking for e-commerce activities, including product selection, checkout, and payment.
+   - Supports event tracking for diverse user interactions such as form submissions, video plays, and button clicks.
+   - Enables funnel tracking for e-commerce activities, including product selection, checkout, and payment.
 
 5. E-Commerce Simulation:
 
-- Provides a multi-step e-commerce funnel with product selection, cart management, and transaction completion.
-- Offers order summary and refund functionalities, making it ideal for testing purchase flows.
+   - Provides a multi-step e-commerce funnel with product selection, cart management, and transaction completion.
+   - Offers order summary and refund functionalities, making it ideal for testing purchase flows.
 
 6. Customization and Visualization:
 
-- Features customizable product categories and tables to simulate realistic shopping experiences.
-- Displays data visualization and debugging through browser console tables and a JSON display section.
+   - Features customizable product categories and tables to simulate realistic shopping experiences.
+   - Displays data visualization and debugging through browser console tables and a JSON display section.
 
 7. User Engagement:
 
-- Incorporates a cookie consent banner and privacy options to educate users about data collection practices.
+   - Incorporates a cookie consent banner and privacy options to educate users about data collection practices.
 
 8. Interactive UI Components:
 
-- Interactive models for search, forms, and e-commerce steps enhance user experience and testing flexibility.
+   - Interactive models for search, forms, and e-commerce steps enhance user experience and testing flexibility.
 
-#### Core Functionalities
+### Core Functionalities
 
 1. Cookie Consent Management:
 
-- Functions for showing and hiding the cookie consent banner (showBanner, hideBanner).
-- Updates user consent preferences and applies them across analytics tools.
+   - Functions for showing and hiding the cookie consent banner (showBanner, hideBanner).
+   - Updates user consent preferences and applies them across analytics tools.
 
 2. Dynamic Event Tracking:
 
-- Tracks user interactions, including button clicks, form submissions, e-commerce events, and video progress.
-- Automatically pushes event data to a dataLayer and third-party analytics platforms when consent allows.
+   - Tracks user interactions, including button clicks, form submissions, e-commerce events, and video progress.
+   - Automatically pushes event data to a dataLayer and third-party analytics platforms when consent allows.
 
 3. E-Commerce Funnel Simulation:
 
-- Tracks key stages of the e-commerce process: product selection, cart updates, checkout steps, and purchases.
-- Implements discount application, shipping method selection, and payment validation.
-- Generates order summaries, including itemized lists, taxes, discounts, and totals.
+   - Tracks key stages of the e-commerce process: product selection, cart updates, checkout steps, and purchases.
+   - Implements discount application, shipping method selection, and payment validation.
+   - Generates order summaries, including itemized lists, taxes, discounts, and totals.
 
 4. User Interaction Modals:
 
-- Manages the visibility and functionality of interactive modals for forms, searches, and the e-commerce funnel.
-- Handles input validation and provides feedback to users.
+   - Manages the visibility and functionality of interactive modals for forms, searches, and the e-commerce funnel.
+   - Handles input validation and provides feedback to users.
 
 5. Error Handling:
 
-- Displays user-friendly error messages for invalid inputs (e.g., missing fields, incorrect credit card details).
-- Logs errors to analytics platforms for debugging and insights.
+   - Displays user-friendly error messages for invalid inputs (e.g., missing fields, incorrect credit card details).
+   - Logs errors to analytics platforms for debugging and insights.
 
 6. Consent and Privacy Handling:
 
-- Integrates with a consent banner to respect user preferences for analytics and advertising data collection.
-- Dynamically updates and stores consent states.
+   - Integrates with a consent banner to respect user preferences for analytics and advertising data collection.
+   - Dynamically updates and stores consent states.
 
 7. Analytics Platform Integration:
 
-- Sends event data to multiple analytics platforms when user consent is granted.
-- Configures and initializes tools such as Amplitude, Mixpanel, and Tealium.
+   - Sends event data to multiple analytics platforms when user consent is granted.
+   - Configures and initializes tools such as Amplitude, Mixpanel, and Tealium.
 
 8. Utility Functions:
 
-- Includes helper functions like capitalize (capitalizes strings), timeStamp (generates ISO 8601 timestamps), and maskNumber (masks sensitive data like credit card numbers).
-- Manages local storage for user session data and consent states.
+   - Includes helper functions like capitalize (capitalizes strings), timeStamp (generates ISO 8601 timestamps), and maskNumber (masks sensitive data like credit card numbers).
+   - Manages local storage for user session data and consent states.
 
 9. Debugging and Visualization:
 
-- Outputs event data and consent updates to a dedicated JSON visualization section on the webpage.
-- Logs relevant metadata to the browser console for debugging.
+   - Outputs event data and consent updates to a dedicated JSON visualization section on the webpage.
+   - Logs relevant metadata to the browser console for debugging.
 
 10. Video Tracking:
 
-- Tracks video playback status, milestones (10%, 25%, etc.), and completion events.
-- Sends video progress data to analytics platforms.
+    - Tracks video playback status, milestones (10%, 25%, etc.), and completion events.
+    - Sends video progress data to analytics platforms.
 
-#### Design and Usability
+### Design and Usability
 
 The structure is thoughtfully designed, prioritizing clarity and modularity. The following aspects stand out:
 
@@ -170,7 +169,7 @@ The structure is thoughtfully designed, prioritizing clarity and modularity. The
 - External Libraries: Includes libraries like Font Awesome for UI enhancements and Google Fonts for typography.
 - Responsiveness: Ensures device compatibility using viewport meta tags and adaptive design.
 
-#### Target Audience
+### Target Audience
 
 This project is tailored for:
 
@@ -178,13 +177,13 @@ This project is tailored for:
 - Digital marketers: To understand data flow, analytics configuration, user behaviors, and interactions across a simulated e-commerce journey.
 - Educators and learners: To explore real-world examples of analytics setup and study advanced tracking techniques and data handling.
 
-#### Design Philosophy
+### Design Philosophy
 
 This playground is not just about code; it’s a gateway to mastering web analytics implementation. Its meticulous design empowers users to simulate real-world scenarios, debug integrations, and fine-tune strategies for insightful data collection. The code is modular and extensible, making it suitable for educational and practical purposes. Its strong focus on user privacy, detailed analytics, and error handling demonstrates best practices in modern web analytics implementations, ensuring that user data is handled with the utmost care. It serves as a cornerstone for building a robust and privacy-compliant analytics environment.
 
-### Analytic Tools Implementation and Tagging Strategy
+## Analytic Tools Implementation and Tagging Strategy
 
-#### Consent Mode and Page Message Definition
+### Consent Mode and Page Message Definition
 
 The implementation starts with the setup of a Google Advanced Consent Mode (Consent Mode v2) as **denied** located inside the `<head>...</head>` tag of the **home page** before any other analytic snippet. No other website page should have the Consent Mode v2 implementation. The Consent Mode v2 implementation is a crucial component of our analytics tool tagging strategy.
 
@@ -309,9 +308,9 @@ For Mixpanel Product Analytics. the message definition object should be located 
 <!-- END: mixpanel initialization -->
 ```
 
-Immediately after the message definition, a consent banner is displayed to capture the user consent to enable the tracking tools. The banner allows the user to set the consent mode as `granted` for all the consent types or their specific selection. The consent mode is stored in the local storage as `CONSENT_MODE` variable and is used to determine the user consent status for the analytics tools. It ensures that the user is informed about the data collection practices and allows them to grant or deny consent for data collection. The consent mode is set to `granted` when the user clicks the `Accept` button on the consent banner. The consent mode is set to `denied` when the user clicks the `Reject` button on the consent banner.
+Immediately after the message definition is send, a consent banner is displayed to capture the user consent to enable the tracking tools. The banner allows the user to set the consent mode as `granted` for all the consent types or their specific selection. The consent mode is stored in the local storage as `CONSENT_MODE` variable and is used to determine the user consent status for the analytics tools. It ensures that the user is informed about the data collection practices and allows them to grant or deny consent for data collection. The consent mode is set to `granted` when the user clicks the `Accept` button on the consent banner. The consent mode is set to `denied` when the user clicks the `Reject` button on the consent banner.
 
-Consent types include:
+Consent types included:
 
 | Consent Type            | Description                                                                                                             |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -323,7 +322,7 @@ Consent types include:
 | personalization_storage | Enables storage related to personalization, for example, video recommendations                                          |
 | security_storage        | Enables storage related to security such as authentication functionality, fraud prevention, and other user protection   |
 
-#### Events Tagging Strategy
+### Events Tagging Strategy
 
 The implementation for tagging events consider the followings user actions (ui interactions), system events (content tools), and errors based on an element click attribute `[name="action"]` and a `addEventListener()` method to fire the corresponding **events**:
 
@@ -390,13 +389,13 @@ We classified the events implemented into the following event groups:
 
 The events `dataLayer` array-object is based on [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en) events recommendations and [Google Tag Manager dataLayer](https://developers.google.com/tag-manager/devguide#datalayer). The `utag.link` data object is based on the [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009) and [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html) objects. The Amplitude Analytics data object is based on the Amplitude source [Browser SDK 2.0](https://www.docs.developers.amplitude.com/data/sdks/browser-2/). The Mixpanel Product Analytics data object is based on the Mixpanel source [Mixpanel JavaScript Library](https://developer.mixpanel.com/docs/javascript).
 
-#### Events Groups
+### Events Groups
 
-##### General Events
+#### General Events
 
 The implemented _general events_ `dataLayer` array-object, `utag.link` data object, and `amplitude.track` data object is composed of:
 
-###### `dataLayer.push()`
+##### `dataLayer.push()`
 
 ```js
 window.dataLayer = window.dataLayer || [];
@@ -465,7 +464,7 @@ window.dataLayer.push({
 });
 ```
 
-###### `utag.link()`
+##### `utag.link()`
 
 ```js
 utag.link({
@@ -534,7 +533,7 @@ utag.link({
 });
 ```
 
-###### `amplitude.track()`
+##### `amplitude.track()`
 
 ```js
 amplitude.setUserId(ui);
@@ -604,7 +603,7 @@ amplitude.track({
 });
 ```
 
-###### `mixpanel.track()`
+##### `mixpanel.track()`
 
 ```js
 mixpanel.identify(ui);
@@ -669,7 +668,7 @@ mixpanel.track(en || e.id, {
 });
 ```
 
-##### Ecommerce Funnel Events
+#### Ecommerce Funnel Events
 
 We have set up the _ecommerce funnel events_ in way that collect information about the shopping behavior of the users. The approach for this was based on the [Google Measure Ecommerce|https://developers.google.com/analytics/devguides/collection/ga4/ecommerce?client_type=gtm] guide in the Google Analytics 4 documentation.
 
@@ -962,7 +961,7 @@ utag.link({
 });
 ```
 
-##### Video Events
+#### Video Events
 
 The _video events_ use the _general events_ `dataLayer` array-object and `utag.link` data object excluding the _video progress event_ which use a unique `dataLayer` array-object and `utag.link` data object.
 
@@ -1008,7 +1007,7 @@ utag.link({
 });
 ```
 
-##### Error Events
+#### Error Events
 
 The error events is a function that is called when errors occurs for Search event, Form event, Sing In event, and Sign Out event.
 
@@ -1050,31 +1049,31 @@ utag.link({
 });
 ```
 
-### GTM Setup
+## GTM Setup
 
-The `dataLayer` array-object for the four main event has been setup in GTM comprised in four individual tags:
+The `dataLayer` array-object for the four main events configured on GTM is comprised on four tags:
 
 ![GTM Tags Screenshot](assets/img/gtm_tags.png)
 
 The set up for each tag and triggers is as follows:
 
-#### General Events Tag
+### General Events Tag
 
 ![General Events Screenshot](assets/img/general-events-tag.png)
 
-#### Ecommerce Funnel Tag
+### Ecommerce Funnel Tag
 
 ![Ecommerce Funnel Events Screenshot](assets/img/ecommerce-funnel-tag.png)
 
-#### Error Events Tag
+### Error Events Tag
 
 ![Error Events Screenshot](assets/img/error-events-tag.png)
 
-#### Video Events Tag
+### Video Events Tag
 
 ![Video Events Screenshot](assets/img/video-events-tag.png)
 
-### Reference Documentation
+## Reference Documentation
 
 - [Google Analytics 4](https://support.google.com/analytics/answer/9322688?hl=en)
 - [Google Consent Mode](https://developers.google.com/tag-platform/security/concepts/consent-mode)
@@ -1082,7 +1081,9 @@ The set up for each tag and triggers is as follows:
 - [Tealium utag.link](https://community.tealiumiq.com/t5/Tealium-iQ-Tag-Management/utag-link-Reference/ta-p/1009)
 - [Adobe Analytics](https://marketing.adobe.com/resources/help/en_US/sc/implement/link-tracking.html)
 - [Amplitude Analytics](https://www.docs.developers.amplitude.com/documentation-home/)
+- [Mixpanel Product Analytics](https://developer.mixpanel.com/docs/javascript)
+- [Heap Analytics](https://heapanalytics.com/docs)
 
 =====
 
-Copyright 2022-2024 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: September 24, 2024
+Copyright 2022-2025 | [Arturo Santiago-Rivera](mailto:asantiago@arsari.com) | [MIT License](LICENSE) | Updated: February 15, 2025
