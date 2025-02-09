@@ -20,6 +20,7 @@
     <script type="text/javascript" src="../assets/js/config.min.js"></script>
     <!--dataLayers message-->
     <script type="text/javascript">
+      const config = JSON.parse(localStorage.getItem('CONFIG'));
       const userInit = localStorage.UUID ?? 'guest';
       const INIT_PROPERTIES = {
         author_email: 'asantiago@arsari.com',
