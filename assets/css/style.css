@@ -268,8 +268,8 @@ footer {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 5rem 3rem 6rem;
-  width: 25rem;
+  padding: 5em 3em 8em;
+  width: 25em;
   border-radius: 0.5rem;
 }
 
@@ -301,7 +301,7 @@ footer {
 .ty-message-wrap {
   width: 85%;
   position: absolute;
-  top: 65%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

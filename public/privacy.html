@@ -10,7 +10,7 @@
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
-    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="../favicon.ico" />
     <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
     <link rel="stylesheet" href="../assets/css/style.css" />
@@ -154,7 +154,6 @@
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
-      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
 
       /* Adobe Data Collection (Launch) */
       let alaunch;
@@ -198,21 +197,11 @@
       mixpanel.track_pageview({
         e_timestamp: String(new Date().getTime()), // milliseconds
       });
-
-      /* Console Table */
-      const ids = {
-        'Tealium Env': tealiumEnv,
-        'GA4 Measurement ID': ga4Prop,
-        'GTM Container': gtmContainer,
-        'Launch Env': alaunchEnv,
-        'Heap Env': heapAppId === config.HEAP_DEV_KEY ? `development` : `production`,
-        'User ID': userInit,
-      };
-      console.table(ids);
     </script>
     <!-- END Tracking Variables Setup -->
     <!-- Heap Analytics -->
     <script type="text/javascript">
+      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
       (window.heap = window.heap || []),
         (heap.load = function (e, t) {
           (window.heap.appid = e), (window.heap.config = t = t || {});
@@ -245,7 +234,7 @@
         });
       heap.load(heapAppId);
       heap.identify(userInit);
-      heap.addUserProperties({ logged_in: false });
+      heap.addUserProperties({ logged_in: localStorage.logged ?? false });
     </script>
     <!-- END Heap Analytics -->
   </head>

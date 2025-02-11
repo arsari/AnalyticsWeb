@@ -181,7 +181,6 @@
             : 'prod';
       const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
       const gtmContainer = 'GTM-59FGRVM';
-      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
 
       /* Adobe Data Collection (Launch) */
       let alaunch;
@@ -229,6 +228,7 @@
     <!-- END Tracking Variables Setup -->
     <!-- Heap Analytics -->
     <script type="text/javascript">
+      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
       (window.heap = window.heap || []),
         (heap.load = function (e, t) {
           (window.heap.appid = e), (window.heap.config = t = t || {});
@@ -261,7 +261,7 @@
         });
       heap.load(heapAppId);
       heap.identify(userInit);
-      heap.addUserProperties({ logged_in: false });
+      heap.addUserProperties({ logged_in: localStorage.logged });
     </script>
     <!-- END Heap Analytics -->
   </head>
@@ -306,19 +306,20 @@
               src="https://img.shields.io/github/last-commit/arsari/AnalyticsWeb?color=orange&style=flat-square&logo=github"
               alt="GitHub Last Commit" title="Source Code Last Update" />
             <img src="https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?logo=github&sort=semver&style=flat-square"
-              alt="GitHub tag (latest SemVer)" title="Source Code Current Version" />
+              alt="GitHub Tag (Latest SemVer)" title="Source Code Current Version" />
           </span>
         </h1>
       </div>
-      <div class="desc">
+      <div class="desc" title="Project Description">
         <h2>A playground for experimenting with analytics implementation on a web app tracked on Google Analytics 4
           (GA4) through GTM, Adobe Analytics (AA) via Tealium iQ, Amplitude Analytics, and Mixpanel Product
           Analytics.</h2>
-        <h3>Adobe Data Collection (Launch) and Heap Analytics are installed as experiment tool not fully implemented.
+        <h3>Adobe Data Collection (Launch), Heap Analytics, and LaunchDarkly are installed as experiment tool not fully
+          implemented.
         </h3>
         <span class="github-banner" title="Github Repository">
           <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
-            target="_blank">GitHub</a>
+            target="_blank" title="Link to Github Repo">GitHub</a>
         </span>
       </div>
       <nav class="flex">
@@ -337,7 +338,7 @@
           <i class="fa-solid fa-check icon"></i>
         </a>
         <a id="intlink2" name="action" class="button n-item" href="public/iframe-parent.html" rel="noopener nofollow"
-          target="_blank" title="Internal Link Event">
+          target="_blank" title="iFrame Internal Link Event">
           <span class="text">iFrame Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
@@ -383,11 +384,12 @@
             <div class="searchBar">
               <input type="text" class="searchInput" name="searchTerm"
                 placeholder="Enter an Spanish word to be translate">
-              <button id="search" type="submit" name="action" class="searchButton" title="Click to capture keyword">
+              <button id="search" type="submit" name="action" class="searchButton"
+                title="Click to capture Spanish word">
                 <i class="fa fa-search"></i>
               </button>
             </div>
-            <div id="translate"></div>
+            <div id="translate" title="Word Definition"></div>
           </div>
         </div>
       </section>
@@ -406,7 +408,7 @@
             </form>
           </div>
           <div class="ty-message-wrap">
-            <p id="thank-you-message"></p>
+            <p id="thank-you-message" title="Form Thank You message"></p>
           </div>
         </div>
       </section>
@@ -828,17 +830,21 @@
             for you. We improve our product by using analytic tools to see how you use our website.
             By using our site, you agree that we and the analytic tools can collect and use this data.
             Our <a id="privacy-consent" name="action" href="public/privacy.html" target="_blank"
-              title="Privacy Statement">Privacy Statement</a> has more details. Clicking the Close button auto-accept
+              title="Link to Privacy Statement">Privacy Statement</a> has more details. Clicking the Close button
+            auto-accept
             all cookies. This website is formatted to be
             viewed in a Desktop.
           </span>
-          <button id="btn-accept-all" name="action" class="cookie-consent-button btn-success">
+          <button id="btn-accept-all" name="action" class="cookie-consent-button btn-success"
+            title="Accept All Cookies">
             Accept All
           </button>
-          <button id="btn-accept-some" name="action" class="cookie-consent-button btn-outline">
+          <button id="btn-accept-some" name="action" class="cookie-consent-button btn-outline"
+            title="Accept Selective Cookies">
             Accept Selection
           </button>
-          <button id="btn-reject-all" name="action" class="cookie-consent-button btn-grayscale">
+          <button id="btn-reject-all" name="action" class="cookie-consent-button btn-grayscale"
+            title="Reject All Cookies">
             Reject All
           </button>
           <div class="cookie-consent-options">
