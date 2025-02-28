@@ -20,7 +20,6 @@
     <script type="text/javascript" src="../assets/js/config.min.js"></script>
     <!--dataLayers message-->
     <script type="text/javascript">
-      const config = JSON.parse(localStorage.getItem('CONFIG'));
       const userInit = localStorage.UUID ?? 'guest';
       const INIT_PROPERTIES = {
         author_email: 'asantiago@arsari.com',
@@ -144,10 +143,44 @@
       })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
     </script>
     <!-- End Microsoft Clarity -->
-    <!--Tracking Variables Setup-->
+    <!-- Heap Analytics -->
+    <script type="text/javascript">
+      (window.heap = window.heap || []),
+        (heap.load = function (e, t) {
+          (window.heap.appid = e), (window.heap.config = t = t || {});
+          const r = document.createElement('script');
+          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
+          const a = document.getElementsByTagName('script')[0];
+          a.parentNode.insertBefore(r, a);
+          for (
+            let n = function (e) {
+              return function () {
+                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            },
+            p = [
+              'addEventProperties',
+              'addUserProperties',
+              'clearEventProperties',
+              'identify',
+              'resetIdentity',
+              'removeEventProperty',
+              'setEventProperties',
+              'track',
+              'unsetEventProperty',
+            ],
+            o = 0;
+            o < p.length;
+            o++
+          )
+            heap[p[o]] = n(p[o]);
+        });
+    </script>
+    <!-- END Heap Analytics -->
+    <!--Tracking Variables Setup and tools init-->
     <script type="text/javascript">
       const tealiumEnv =
-        location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
+        document.location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
           ? 'dev'
           : location.search.indexOf('qa') === 1
             ? 'qa'
@@ -197,46 +230,14 @@
       mixpanel.track_pageview({
         e_timestamp: String(new Date().getTime()), // milliseconds
       });
-    </script>
-    <!-- END Tracking Variables Setup -->
-    <!-- Heap Analytics -->
-    <script type="text/javascript">
+
+      /* Heap Analytics Init */
       const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
-      (window.heap = window.heap || []),
-        (heap.load = function (e, t) {
-          (window.heap.appid = e), (window.heap.config = t = t || {});
-          const r = document.createElement('script');
-          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
-          const a = document.getElementsByTagName('script')[0];
-          a.parentNode.insertBefore(r, a);
-          for (
-            let n = function (e) {
-              return function () {
-                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
-              };
-            },
-            p = [
-              'addEventProperties',
-              'addUserProperties',
-              'clearEventProperties',
-              'identify',
-              'resetIdentity',
-              'removeEventProperty',
-              'setEventProperties',
-              'track',
-              'unsetEventProperty',
-            ],
-            o = 0;
-            o < p.length;
-            o++
-          )
-            heap[p[o]] = n(p[o]);
-        });
       heap.load(heapAppId);
       heap.identify(userInit);
-      heap.addUserProperties({ logged_in: localStorage.logged ?? false });
+      heap.addUserProperties({ logged_in: localStorage.logged });
     </script>
-    <!-- END Heap Analytics -->
+    <!-- END Tracking Variables Setup -->
   </head>
 
   <body>

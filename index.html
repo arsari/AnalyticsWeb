@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
       content="Playground to explore web analytics implementation on a web app using various analytics tools." />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
@@ -16,12 +15,12 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/chatbot.css" />
     <title>AnalyticsWeb | Arsari</title>
-    <script type="text/javascript" src="https://kit.fontawesome.com/495a52ab3e.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://kit.fontawesome.com/495a52ab3e.js"></script>
     <script type="text/javascript" src="assets/js/newRelic.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/launchdarkly-js-client-sdk@3.5.0"
-      crossorigin="anonymous"></script>
-    <script type='text/javascript' src='assets/js/config.min.js'></script>
-    <!--Consent Mode v2-->
+    <script type="text/javascript" src="https://unpkg.com/launchdarkly-js-client-sdk@3.5.0"></script>
+    <script type='text/javascript' src='assets/js/config.js'></script>
+    </script>
+    <!--Google Consent Mode v2-->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -46,7 +45,6 @@
     <!--End Consent Mode v2-->
     <!--dataLayers message-->
     <script type="text/javascript">
-      const config = JSON.parse(localStorage.getItem('CONFIG'));
       const userInit = localStorage.UUID ?? 'guest';
       localStorage.setItem('logged', false);
       const INIT_PROPERTIES = {
@@ -171,7 +169,41 @@
       })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
     </script>
     <!-- End Microsoft Clarity -->
-    <!--Tracking Variables Setup-->
+    <!-- Heap Analytics -->
+    <script type="text/javascript">
+      (window.heap = window.heap || []),
+        (heap.load = function (e, t) {
+          (window.heap.appid = e), (window.heap.config = t = t || {});
+          const r = document.createElement('script');
+          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
+          const a = document.getElementsByTagName('script')[0];
+          a.parentNode.insertBefore(r, a);
+          for (
+            let n = function (e) {
+              return function () {
+                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+              };
+            },
+            p = [
+              'addEventProperties',
+              'addUserProperties',
+              'clearEventProperties',
+              'identify',
+              'resetIdentity',
+              'removeEventProperty',
+              'setEventProperties',
+              'track',
+              'unsetEventProperty',
+            ],
+            o = 0;
+            o < p.length;
+            o++
+          )
+            heap[p[o]] = n(p[o]);
+        });
+    </script>
+    <!-- END Heap Analytics -->
+    <!--Tracking Variables Setup and tools init-->
     <script type="text/javascript">
       const tealiumEnv =
         document.location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
@@ -224,46 +256,14 @@
       mixpanel.track_pageview({
         e_timestamp: String(new Date().getTime()), // milliseconds
       });
-    </script>
-    <!-- END Tracking Variables Setup -->
-    <!-- Heap Analytics -->
-    <script type="text/javascript">
+
+      /* Heap Analytics Init */
       const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
-      (window.heap = window.heap || []),
-        (heap.load = function (e, t) {
-          (window.heap.appid = e), (window.heap.config = t = t || {});
-          const r = document.createElement('script');
-          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
-          const a = document.getElementsByTagName('script')[0];
-          a.parentNode.insertBefore(r, a);
-          for (
-            let n = function (e) {
-              return function () {
-                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
-              };
-            },
-            p = [
-              'addEventProperties',
-              'addUserProperties',
-              'clearEventProperties',
-              'identify',
-              'resetIdentity',
-              'removeEventProperty',
-              'setEventProperties',
-              'track',
-              'unsetEventProperty',
-            ],
-            o = 0;
-            o < p.length;
-            o++
-          )
-            heap[p[o]] = n(p[o]);
-        });
       heap.load(heapAppId);
       heap.identify(userInit);
       heap.addUserProperties({ logged_in: localStorage.logged });
     </script>
-    <!-- END Heap Analytics -->
+    <!-- END Tracking Variables Setup -->
   </head>
 
   <body>
@@ -412,6 +412,7 @@
           </div>
         </div>
       </section>
+      <!-- Ecommerce Funnel Structure -->
       <section id="ecommerce" class="ecommerceModal">
         <div class="ecommerce-modal-content">
           <h2>Ecommerce Funnel</h2>
@@ -815,7 +816,9 @@
           </div>
         </div>
       </section>
+      <!-- JSON Data Logs -->
       <section id="json-section"></section>
+      <!-- Consent Banner Structure -->
       <section id="cookie-consent-banner" class="cookie-consent-banner">
         <div class="text-consent-banner">
           <div class="warningbar">
@@ -823,17 +826,15 @@
           </div>
           <button id="consent-close" name="action" class="close-x consent-close-x"
             title="Close Consent Banner">Close</button>
-          <h2>Consent Banner Privacy Settings</h2>
+          <h2>We value your privacy</h2>
           <span>
-            We use cookies to provide you with the best possible experience. They also
-            allow us to analyze user behavior in order to constantly improve the website
+            We use cookies to enhance your browsing experience and analyze our traffic. We want to provide you with the
+            best possible experience. This allow us to analyze user behavior in order to constantly improve the website
             for you. We improve our product by using analytic tools to see how you use our website.
             By using our site, you agree that we and the analytic tools can collect and use this data.
             Our <a id="privacy-consent" name="action" href="public/privacy.html" target="_blank"
               title="Link to Privacy Statement">Privacy Statement</a> has more details. Clicking the Close button
-            auto-accept
-            all cookies. This website is formatted to be
-            viewed in a Desktop.
+            auto-accept all cookies. This website is formatted to be viewed in a Desktop.
           </span>
           <button id="btn-accept-all" name="action" class="cookie-consent-button btn-success"
             title="Accept All Cookies">
@@ -860,17 +861,18 @@
       </section>
     </main>
     <footer></footer>
-    <!-- Chatbot Toggle Button -->
-    <button id="chat-toggle" class="chat-toggle hidden" name="action" title="Chat with Us!">Chat!</button>
-
-    <!-- Chatbot Widget Overlay -->
+    <!-- Chatbot TStructure -->
+    <button id="chat-toggle" class="chat-toggle hidden" name="action" title="Chat with Us!">
+      <img
+        src="https://cdn3.iconfinder.com/data/icons/chatbot-robot/100/chatbot_01_16_bot_chat_robot_app_artificial_chatbot_dialog-1024.png"
+        width="100px" alt="Chatbot Icon" title="Chat with Us!" />
+    </button>
     <div id="chatbot-widget" class="chatbot-widget hidden">
       <div class="chatbot-header">
         <span>Chatbot</span>
         <button id="close-chat" class="close-btn" name="action" title="Close Chat">&times;</button>
       </div>
       <div id="chat-window" class="chat-window">
-        <!-- Chat messages will appear here -->
       </div>
       <div class="input-area">
         <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" />

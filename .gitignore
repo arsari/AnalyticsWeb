@@ -1,4 +1,4 @@
 assets/js/function.js
 assets/js/config.js
-secure-server/.env
-secure-server/node_modules/
+server/.env
+server/node_modules/

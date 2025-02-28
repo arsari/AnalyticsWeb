@@ -1,25 +1,23 @@
 :root {
-  --primary-color: #9e00ff;
+  --primary-color: purple;
   --text-color: #ffffff;
+  --border-color: #dddddd;
 }
+
 /* Chat Toggle Button (bottom right) */
 .chat-toggle {
   position: fixed;
   bottom: 100px;
   right: 40px;
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: cyan;
   border: none;
-  padding: 30px 15px;
-  border-radius: 50px;
+  border-radius: 60px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 1.5em;
-  font-weight: 700;
 }
 
 .chat-toggle:hover {
-  background-color: red;
+  background-color: orange;
 }
 
 /* Chatbot Widget Overlay */
@@ -30,7 +28,7 @@
   width: 320px;
   max-height: 500px;
   background: var(--text-color);
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -98,13 +96,13 @@
 .input-area {
   display: flex;
   padding: 10px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border-color);
 }
 
 #user-input {
   flex-grow: 1;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 14px;
 }

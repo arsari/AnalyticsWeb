@@ -215,7 +215,7 @@ pre {
 
 footer {
   overflow: hidden;
-  background-color: #000000;
+  background-color: #333333;
   position: fixed;
   right: 0;
   bottom: 0;
@@ -267,7 +267,7 @@ footer {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: #ffffff;
   padding: 5em 3em 8em;
   width: 25em;
   border-radius: 0.5rem;
@@ -278,7 +278,7 @@ footer {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: #ffffff;
   padding: 4rem 2rem;
   width: 25rem;
   height: 10rem;
@@ -290,7 +290,7 @@ footer {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: #ffffff;
   padding: 1rem 2rem 2rem;
   width: 50rem;
   height: fit-content;
@@ -432,7 +432,7 @@ label > span {
   border: 1px solid #9d2b2b;
   background: #9d2b2b;
   text-align: center;
-  color: #fff;
+  color: #ffffff;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   font-size: 20px;
@@ -498,7 +498,7 @@ table {
 }
 
 th {
-  color: #fff;
+  color: #ffffff;
   background-color: #9d2b2b;
 }
 
@@ -637,8 +637,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-  background-color: #eee;
-  color: #444;
+  background-color: #eeeeee;
+  color: #444444;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -682,7 +682,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #a1eb7efa;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #888888;
   width: 27%;
   border-radius: 20px;
   h2 {
@@ -748,7 +748,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .consent-close-x {
   top: -25px;
-  left: -25px;
+  left: -10px;
 }
 
 @keyframes slide {
@@ -784,7 +784,6 @@ input[type="number"]::-webkit-inner-spin-button {
       #f1c40f 40px,
       #f1c40f 80px
     );
-
     animation: slide 4s linear infinite;
     will-change: background-position;
   }
@@ -881,7 +880,7 @@ aside {
 
 .form-steps__item--active .form-steps__item-icon {
   background: green;
-  color: white;
+  color: #ffffff;
   border-color: mediumseagreen;
 }
 
@@ -939,7 +938,6 @@ aside {
     height: 30px;
     line-height: 30px;
   }
-
   .form-steps__item-line {
     top: 15px;
   }
@@ -1027,23 +1025,17 @@ aside {
     left: 88%;
     margin: 1px 0 0 -40%;
   }
-
   .cookie-consent-banner {
     padding-top: 50px;
   }
-
   .text-consent-banner {
     width: 70%;
-  }
-
-  .consent-close-x {
-    left: -15px;
   }
 }
 
 .github-banner a {
-  background: #000;
-  color: #fff;
+  background: #000000;
+  color: #ffffff;
   text-decoration: none;
   font-family: arial, sans-serif;
   text-align: center;
