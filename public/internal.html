@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
       content="Playground to explore web analytics implementation on a web app using various analytics tools." />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Arturo Santiago-Rivera" />
+    <meta name="author_email" content="asantiago@arsari.com" />
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
@@ -127,22 +128,6 @@
       })(document, window.mixpanel || []);
     </script>
     <!--End Mixpanel Script Loader-->
-    <!--Microsoft Clarity-->
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = `https://www.clarity.ms/tag/${i}`;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
-    </script>
-    <!-- End Microsoft Clarity -->
     <!-- Heap Analytics -->
     <script type="text/javascript">
       (window.heap = window.heap || []),
@@ -177,6 +162,22 @@
         });
     </script>
     <!-- END Heap Analytics -->
+    <!--Microsoft Clarity-->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = `https://www.clarity.ms/tag/${i}`;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
+    </script>
+    <!-- End Microsoft Clarity -->
     <!--Tracking Variables Setup and tools init-->
     <script type="text/javascript">
       const tealiumEnv =
@@ -238,6 +239,9 @@
       heap.addUserProperties({ logged_in: localStorage.logged });
     </script>
     <!-- END Tracking Variables Setup -->
+    <!-- Tracking Plan Loader -->
+    <script type="text/javascript" src="assets/js/trackingplan.js"></script>
+    <!-- END: Tracking Plan Loader -->
   </head>
 
   <body>
