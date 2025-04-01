@@ -1,15 +1,14 @@
 {
-  "name": "secure-server",
+  "name": "server",
   "version": "1.0.0",
   "description": "Secure Backend to Store AnalyticsWeb API Key",
+  "author": "Arturo Santiago-Rivera",
+  "license": "ISC",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Arturo Santiago-Rivera",
-  "license": "ISC",
-  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

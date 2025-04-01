@@ -1,64 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-US">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-      content="Playground to explore web analytics implementation on a web app using various analytics tools." />
+    <meta
+      name="description"
+      content="Playground to explore web analytics implementation on a web app using various analytics tools."
+    />
     <meta name="author" content="Arturo Santiago-Rivera" />
     <meta name="author_email" content="asantiago@arsari.com" />
-    <meta http-equiv='cache-control' content='no-cache'>
-    <meta http-equiv='expires' content='0'>
-    <meta http-equiv='pragma' content='no-cache'>
-    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="favicon.ico" />
-    <link rel='canonical' href='https://arsari.github.io/AnalyticsWeb' />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      sizes="16x16"
+      href="favicon.ico"
+    />
+    <link rel="canonical" href="https://arsari.github.io/AnalyticsWeb" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/chatbot.css" />
     <title>AnalyticsWeb | Arsari</title>
-    <script type="text/javascript" src="https://kit.fontawesome.com/495a52ab3e.js"></script>
+    <script
+      type="text/javascript"
+      src="https://kit.fontawesome.com/495a52ab3e.js"
+    ></script>
     <script type="text/javascript" src="assets/js/newRelic.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/launchdarkly-js-client-sdk@3.5.0"></script>
-    <script type='text/javascript' src='assets/js/config.min.js'></script>
-    </script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/launchdarkly-js-client-sdk@3.5.0"
+    ></script>
+    <script type="text/javascript" src="assets/js/config.min.js"></script>
     <!--Google Consent Mode v2-->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         window.dataLayer.push(arguments);
       }
-      if (localStorage.getItem('CONSENT_MODE') === null) {
-        gtag('consent', 'default', {
-          ad_storage: 'denied',
-          ad_user_data: 'denied',
-          ad_personalization: 'denied',
-          analytics_storage: 'denied',
-          functionality_storage: 'denied',
-          personalization_storage: 'denied',
-          security_storage: 'denied',
+      if (localStorage.getItem("CONSENT_MODE") === null) {
+        gtag("consent", "default", {
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          analytics_storage: "denied",
+          functionality_storage: "denied",
+          personalization_storage: "denied",
+          security_storage: "denied",
         });
       } else {
-        gtag('consent', 'default', JSON.parse(localStorage.getItem('CONSENT_MODE')));
+        gtag(
+          "consent",
+          "default",
+          JSON.parse(localStorage.getItem("CONSENT_MODE")),
+        );
       }
-      gtag('set', 'url_passthrough', true);
-      gtag('set', 'ads_data_redaction', true);
+      gtag("set", "url_passthrough", true);
+      gtag("set", "ads_data_redaction", true);
     </script>
     <!--End Consent Mode v2-->
     <!--dataLayers message-->
     <script type="text/javascript">
-      const userInit = localStorage.UUID ?? 'guest';
-      localStorage.setItem('logged', false);
+      const userInit = localStorage.UUID ?? "guest";
+      localStorage.setItem("logged", false);
       const INIT_PROPERTIES = {
-        author_email: 'asantiago@arsari.com',
-        content_group: 'Implementation',
-        content_type: 'Playground',
+        author_email: "asantiago@arsari.com",
+        content_group: "Implementation",
+        content_type: "Playground",
         e_timestamp: String(new Date().getTime()), // milliseconds
-        language_code: 'en-US',
-        page_author: 'Arturo Santiago-Rivera',
-        page_category: 'home',
-        page_name: 'Web Analytics Implementation - Internal Page',
-        page_title: document.querySelector('title').innerText,
+        language_code: "en-US",
+        page_author: "Arturo Santiago-Rivera",
+        page_category: "home",
+        page_name: "Web Analytics Implementation - Internal Page",
+        page_title: document.querySelector("title").innerText,
       };
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -74,16 +92,16 @@
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js',
+          "gtm.start": new Date().getTime(),
+          "event": "gtm.js",
         });
         const f = d.getElementsByTagName(s)[0];
         const j = d.createElement(s);
-        const dl = l !== 'dataLayer' ? `&l=${l}` : '';
+        const dl = l !== "dataLayer" ? `&l=${l}` : "";
         j.async = true;
         j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
         f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-59FGRVM');
+      })(window, document, "script", "dataLayer", "GTM-59FGRVM");
     </script>
     <!--END: Google Tag Manager-->
     <!--Amplitude Script Loader-->
@@ -101,30 +119,30 @@
           b._i = [];
           b.init = function (e, f, c) {
             function g(a, d) {
-              const b = d.split('.');
+              const b = d.split(".");
               b.length == 2 && ((a = a[b[0]]), (d = b[1]));
               a[d] = function () {
                 a.push([d].concat(Array.prototype.slice.call(arguments, 0)));
               };
             }
             let a = b;
-            typeof c !== 'undefined' ? (a = b[c] = []) : (c = 'mixpanel');
+            typeof c !== "undefined" ? (a = b[c] = []) : (c = "mixpanel");
             a.people = a.people || [];
             a.toString = function (a) {
-              let d = 'mixpanel';
-              c !== 'mixpanel' && (d += `.${c}`);
-              a || (d += ' (stub)');
+              let d = "mixpanel";
+              c !== "mixpanel" && (d += `.${c}`);
+              a || (d += " (stub)");
               return d;
             };
             a.people.toString = function () {
               return `${a.toString(1)}.people (stub)`;
             };
             i =
-              'disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove'.split(
-                ' ',
+              "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(
+                " ",
               );
             for (h = 0; h < i.length; h++) g(a, i[h]);
-            const j = 'set set_once union unset remove delete'.split(' ');
+            const j = "set set_once union unset remove delete".split(" ");
             a.get_group = function () {
               function b(c) {
                 d[c] = function () {
@@ -133,23 +151,32 @@
                   a.push([e, call2]);
                 };
               }
-              for (var d = {}, e = ['get_group'].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)
+              for (
+                var d = {},
+                  e = ["get_group"].concat(
+                    Array.prototype.slice.call(arguments, 0),
+                  ),
+                  c = 0;
+                c < j.length;
+                c++
+              )
                 b(j[c]);
               return d;
             };
             b._i.push([e, f, c]);
           };
           b.__SV = 1.2;
-          e = f.createElement('script');
-          e.type = 'text/javascript';
+          e = f.createElement("script");
+          e.type = "text/javascript";
           e.async = !0;
           e.src =
-            typeof MIXPANEL_CUSTOM_LIB_URL !== 'undefined'
+            typeof MIXPANEL_CUSTOM_LIB_URL !== "undefined"
               ? MIXPANEL_CUSTOM_LIB_URL
-              : f.location.protocol === 'file:' && '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'.match(/^\/\//)
-                ? 'https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
-                : '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js';
-          g = f.getElementsByTagName('script')[0];
+              : f.location.protocol === "file:" &&
+                "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)
+              ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"
+              : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+          g = f.getElementsByTagName("script")[0];
           g.parentNode.insertBefore(e, g);
         }
       })(document, window.mixpanel || []);
@@ -160,28 +187,32 @@
       (window.heap = window.heap || []),
         (heap.load = function (e, t) {
           (window.heap.appid = e), (window.heap.config = t = t || {});
-          const r = document.createElement('script');
-          (r.type = 'text/javascript'), (r.async = !0), (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
-          const a = document.getElementsByTagName('script')[0];
+          const r = document.createElement("script");
+          (r.type = "text/javascript"),
+            (r.async = !0),
+            (r.src = `https://cdn.heapanalytics.com/js/heap-${e}.js`);
+          const a = document.getElementsByTagName("script")[0];
           a.parentNode.insertBefore(r, a);
           for (
             let n = function (e) {
-              return function () {
-                heap.push([e].concat(Array.prototype.slice.call(arguments, 0)));
-              };
-            },
-            p = [
-              'addEventProperties',
-              'addUserProperties',
-              'clearEventProperties',
-              'identify',
-              'resetIdentity',
-              'removeEventProperty',
-              'setEventProperties',
-              'track',
-              'unsetEventProperty',
-            ],
-            o = 0;
+                return function () {
+                  heap.push(
+                    [e].concat(Array.prototype.slice.call(arguments, 0)),
+                  );
+                };
+              },
+              p = [
+                "addEventProperties",
+                "addUserProperties",
+                "clearEventProperties",
+                "identify",
+                "resetIdentity",
+                "removeEventProperty",
+                "setEventProperties",
+                "track",
+                "unsetEventProperty",
+              ],
+              o = 0;
             o < p.length;
             o++
           )
@@ -202,39 +233,42 @@
         t.src = `https://www.clarity.ms/tag/${i}`;
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', 'kwkjo3v6wy');
+      })(window, document, "clarity", "script", "kwkjo3v6wy");
     </script>
     <!-- End Microsoft Clarity -->
     <!--Tracking Variables Setup and tools init-->
     <script type="text/javascript">
       const tealiumEnv =
-        document.location.search.indexOf('dev') === 1 || document.location.host.includes('127.0.0.1')
-          ? 'dev'
-          : location.search.indexOf('qa') === 1
-            ? 'qa'
-            : 'prod';
-      const ga4Prop = tealiumEnv !== 'prod' ? 'G-0Q482J3LCH' : 'G-K9GKNM79XW';
-      const gtmContainer = 'GTM-59FGRVM';
+        document.location.search.indexOf("dev") === 1 ||
+        document.location.host.includes("127.0.0.1")
+          ? "dev"
+          : location.search.indexOf("qa") === 1
+          ? "qa"
+          : "prod";
+      const ga4Prop = tealiumEnv !== "prod" ? "G-0Q482J3LCH" : "G-K9GKNM79XW";
+      const gtmContainer = "GTM-59FGRVM";
 
       /* Adobe Data Collection (Launch) */
       let alaunch;
       let alaunchEnv;
-      if (tealiumEnv !== 'prod') {
-        alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js';
-        alaunchEnv = 'development';
+      if (tealiumEnv !== "prod") {
+        alaunch =
+          "https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-fbe47ad2001a-development.min.js";
+        alaunchEnv = "development";
       } else {
-        alaunch = 'https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js';
-        alaunchEnv = 'production';
+        alaunch =
+          "https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js";
+        alaunchEnv = "production";
       }
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
+      const script = document.createElement("script");
+      script.type = "text/javascript";
       script.src = alaunch;
       script.async = true;
       document.head.appendChild(script);
 
       /* Amplitude Analytics Init */
       const enrichEventsPlugin = () => ({
-        name: 'enrichEventsPlugin',
+        name: "enrichEventsPlugin",
         execute: async (event) => {
           event.event_properties = {
             ...event.event_properties,
@@ -260,7 +294,8 @@
       });
 
       /* Heap Analytics Init */
-      const heapAppId = tealiumEnv !== 'prod' ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
+      const heapAppId =
+        tealiumEnv !== "prod" ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
       heap.load(heapAppId);
       heap.identify(userInit);
       heap.addUserProperties({ logged_in: localStorage.logged });
@@ -288,7 +323,7 @@
       (function (a, b, c, d) {
         a = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.js`;
         b = document;
-        c = 'script';
+        c = "script";
         d = b.createElement(c);
         d.src = a;
         d.type = `text/java${c}`;
@@ -299,8 +334,14 @@
     </script>
     <!-- END: Tealium IQ Loading script asynchronously -->
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM" height="0" width="0"
-        style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-59FGRVM"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <header>
       <div class="title">
@@ -309,73 +350,164 @@
           <span class="github-badges">
             <img
               src="https://img.shields.io/github/last-commit/arsari/AnalyticsWeb?color=orange&style=flat-square&logo=github"
-              alt="GitHub Last Commit" title="Source Code Last Update" />
-            <img src="https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?logo=github&sort=semver&style=flat-square"
-              alt="GitHub Tag (Latest SemVer)" title="Source Code Current Version" />
+              alt="GitHub Last Commit"
+              title="Source Code Last Update"
+            />
+            <img
+              src="https://img.shields.io/github/v/tag/arsari/AnalyticsWeb?logo=github&sort=semver&style=flat-square"
+              alt="GitHub Tag (Latest SemVer)"
+              title="Source Code Current Version"
+            />
           </span>
         </h1>
       </div>
       <div class="desc" title="Project Description">
-        <h2>A playground for experimenting with analytics implementation on a web app tracked on Google Analytics 4
-          (GA4) through GTM, Adobe Analytics (AA) via Tealium iQ, Amplitude Analytics, and Mixpanel Product
-          Analytics.</h2>
-        <h3>Adobe Data Collection (Launch), Heap Analytics, and LaunchDarkly are installed as experiment tool not fully
-          implemented.
+        <h2>
+          A playground for experimenting with analytics implementation on a web
+          app tracked on Google Analytics 4 (GA4) through GTM, Adobe Analytics
+          (AA) via Tealium iQ, Amplitude Analytics, and Mixpanel Product
+          Analytics.
+        </h2>
+        <h3>
+          Adobe Data Collection (Launch), Heap Analytics, and LaunchDarkly are
+          installed as experiment tool not fully implemented.
         </h3>
         <span class="github-banner" title="Github Repository">
-          <a id="github" name="action" href="https://github.com/arsari/AnalyticsWeb" rel="noopener nofollow"
-            target="_blank" title="Link to Github Repo">GitHub</a>
+          <a
+            id="github"
+            name="action"
+            href="https://github.com/arsari/AnalyticsWeb"
+            rel="noopener nofollow"
+            target="_blank"
+            title="Link to Github Repo"
+            >GitHub</a
+          >
         </span>
       </div>
       <nav class="flex">
-        <button id="login" name="action" class="button n-item" type="button" title="Login Event">
+        <button
+          id="login"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Login Event"
+        >
           <span class="text">Sign In</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <a id="extlink" name="action" class="button n-item" href="https://arsari.wpengine.com" rel="noopener nofollow"
-          target="_blank" title="Outbound Link Event">
+        <a
+          id="extlink"
+          name="action"
+          class="button n-item"
+          href="https://arsari.wpengine.com"
+          rel="noopener nofollow"
+          target="_blank"
+          title="Outbound Link Event"
+        >
           <span class="text">Outbound Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
-        <a id="intlink" name="action" class="button n-item" href="public/internal.html" rel="noopener nofollow"
-          target="_blank" title="Internal Link Event">
+        <a
+          id="intlink"
+          name="action"
+          class="button n-item"
+          href="public/internal.html"
+          rel="noopener nofollow"
+          target="_blank"
+          title="Internal Link Event"
+        >
           <span class="text">Internal Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
-        <a id="intlink2" name="action" class="button n-item" href="public/iframe-parent.html" rel="noopener nofollow"
-          target="_blank" title="iFrame Internal Link Event">
+        <a
+          id="intlink2"
+          name="action"
+          class="button n-item"
+          href="public/iframe-parent.html"
+          rel="noopener nofollow"
+          target="_blank"
+          title="iFrame Internal Link Event"
+        >
           <span class="text">iFrame Link</span>
           <i class="fa-solid fa-check icon"></i>
         </a>
-        <button id="download" name="action" class="button n-item" type="button" title="Download Event">
+        <button
+          id="download"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Download Event"
+        >
           <span class="text">Download</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="video" name="action" class="button n-item" type="button" title="Video Events">
+        <button
+          id="video"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Video Events"
+        >
           <span class="text">Video</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="email" name="action" class="button n-item" type="button" title="Generate Lead Event">
+        <button
+          id="email"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Generate Lead Event"
+        >
           <span class="text">Email</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="phone" name="action" class="button n-item" type="button" title="Generate Lead Event">
+        <button
+          id="phone"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Generate Lead Event"
+        >
           <span class="text">Phone</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="ecommerce-modal" name="action" class="button n-item" type="button" title="Ecommerce Funnel Events">
+        <button
+          id="ecommerce-modal"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Ecommerce Funnel Events"
+        >
           <span class="text">Ecommerce Funnel</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="form-modal" name="action" class="button n-item" type="button" title="Form Event">
+        <button
+          id="form-modal"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Form Event"
+        >
           <span class="text">Form</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="search-modal" name="action" class="button n-item" type="button" title="Search Event">
+        <button
+          id="search-modal"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Search Event"
+        >
           <span class="text">Search</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
-        <button id="logout" name="action" class="button n-item" type="button" title="Log Out Event">
+        <button
+          id="logout"
+          name="action"
+          class="button n-item"
+          type="button"
+          title="Log Out Event"
+        >
           <span class="text">Sign Out</span>
           <i class="fa-solid fa-check icon"></i>
         </button>
@@ -384,13 +516,29 @@
     <main>
       <section id="search" class="searchModal">
         <div class="search-modal-content">
-          <button id="search-close" name="action" class="close-x" title="Close Search Modal">Close</button>
+          <button
+            id="search-close"
+            name="action"
+            class="close-x"
+            title="Close Search Modal"
+          >
+            Close
+          </button>
           <div class="search-wrap">
             <div class="searchBar">
-              <input type="text" class="searchInput" name="searchTerm"
-                placeholder="Enter an Spanish word to be translate">
-              <button id="search" type="submit" name="action" class="searchButton"
-                title="Click to capture Spanish word">
+              <input
+                type="text"
+                class="searchInput"
+                name="searchTerm"
+                placeholder="Enter an Spanish word to be translate"
+              />
+              <button
+                id="search"
+                type="submit"
+                name="action"
+                class="searchButton"
+                title="Click to capture Spanish word"
+              >
                 <i class="fa fa-search"></i>
               </button>
             </div>
@@ -400,14 +548,39 @@
       </section>
       <section id="form" class="formModal">
         <div class="form-modal-content">
-          <button id="form-close" name="action" class="close-x" title="Close Form Modal">Close</button>
+          <button
+            id="form-close"
+            name="action"
+            class="close-x"
+            title="Close Form Modal"
+          >
+            Close
+          </button>
           <div class="form-wrap">
             <form>
               <label for="fname">First Name<span>*</span>:</label>
-              <input id="fname" type="text" class="formInput" placeholder="Enter your first name" required>
+              <input
+                id="fname"
+                type="text"
+                class="formInput"
+                placeholder="Enter your first name"
+                required
+              />
               <label for="profession">Profession<span>*</span>:</label>
-              <input id="profession" type="text" class="formInput" placeholder="Enter your profession" required>
-              <button id="form" type="submit" name="action" class="button form-btn" title="Submit Form">
+              <input
+                id="profession"
+                type="text"
+                class="formInput"
+                placeholder="Enter your profession"
+                required
+              />
+              <button
+                id="form"
+                type="submit"
+                name="action"
+                class="button form-btn"
+                title="Submit Form"
+              >
                 <span class="text">Let's Talk</span>
               </button>
             </form>
@@ -421,7 +594,14 @@
       <section id="ecommerce" class="ecommerceModal">
         <div class="ecommerce-modal-content">
           <h2>Ecommerce Funnel</h2>
-          <button id="ecommerce-cancel" name="action" class="close-x" title="Cancel Ecommerce Modal">Cancel</button>
+          <button
+            id="ecommerce-cancel"
+            name="action"
+            class="close-x"
+            title="Cancel Ecommerce Modal"
+          >
+            Cancel
+          </button>
           <nav class="form-steps">
             <div id="step1" class="form-steps__item form-steps__item--active">
               <div class="form-steps__item-content">
@@ -475,11 +655,22 @@
           <div class="add-to-cart-str">
             <div>
               <h2>Select Products:</h2>
-              <button id="productList-1" class="accordion" name="action" title="Clothing Section">CLOTHING<i
-                  class="fa fa-caret-down" style="margin-left: 10px;"></i></button>
+              <button
+                id="productList-1"
+                class="accordion"
+                name="action"
+                title="Clothing Section"
+              >
+                CLOTHING<i
+                  class="fa fa-caret-down"
+                  style="margin-left: 10px"
+                ></i>
+              </button>
               <div class="panel">
                 <table>
-                  <caption>Merchandise Store</caption>
+                  <caption>
+                    Merchandise Store
+                  </caption>
                   <thead>
                     <tr>
                       <th>Product ID</th>
@@ -493,11 +684,22 @@
                   <tbody id="itemsList-1" name="itemsList"></tbody>
                 </table>
               </div>
-              <button id="productList-2" class="accordion" name="action" title="Footwear Section">FOOTWEAR<i
-                  class="fa fa-caret-down" style="margin-left: 10px;"></i></button>
+              <button
+                id="productList-2"
+                class="accordion"
+                name="action"
+                title="Footwear Section"
+              >
+                FOOTWEAR<i
+                  class="fa fa-caret-down"
+                  style="margin-left: 10px"
+                ></i>
+              </button>
               <div class="panel">
                 <table>
-                  <caption>Merchandise Store</caption>
+                  <caption>
+                    Merchandise Store
+                  </caption>
                   <thead>
                     <tr>
                       <th>Product ID</th>
@@ -511,7 +713,13 @@
                   <tbody id="itemsList-2" name="itemsList"></tbody>
                 </table>
               </div>
-              <button id="add_to_cart" type="submit" name="action" class="button ecommerce-btn" title="Add to Cart">
+              <button
+                id="add_to_cart"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn"
+                title="Add to Cart"
+              >
                 <span class="text">Add to Cart</span>
               </button>
             </div>
@@ -520,7 +728,9 @@
             <div>
               <h2>Products in Shopping Cart:</h2>
               <table>
-                <caption>Merchandise Store</caption>
+                <caption>
+                  Merchandise Store
+                </caption>
                 <thead>
                   <tr>
                     <th>Product ID</th>
@@ -533,16 +743,28 @@
                 <tbody id="itemsSelectedRows"></tbody>
                 <tfoot>
                   <tr>
-                    <th colspan="4" style="text-align:right">Subtotal</th>
-                    <th id="subtotal" style="text-align:right;"></th>
+                    <th colspan="4" style="text-align: right">Subtotal</th>
+                    <th id="subtotal" style="text-align: right"></th>
                   </tr>
                 </tfoot>
               </table>
-              <p id="coupon" class="coupon">Get 15%
-                <input id="couponField" type="text" class="couponField" placeholder="Enter coupon code"
-                  title="Enter: Summer Sale">
+              <p id="coupon" class="coupon">
+                Get 15%
+                <input
+                  id="couponField"
+                  type="text"
+                  class="couponField"
+                  placeholder="Enter coupon code"
+                  title="Enter: Summer Sale"
+                />
               </p>
-              <button id="checkout1" type="submit" name="action" class="button ecommerce-btn2" title="Begin Checkout">
+              <button
+                id="checkout1"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn2"
+                title="Begin Checkout"
+              >
                 <span class="text">Checkout</span>
               </button>
             </div>
@@ -552,21 +774,63 @@
               <h2>Customer Information:</h2>
               <form id="customerAddress">
                 <label for="sname">Full Name<span>*</span>:</label>
-                <input id="sname" type="text" class="formInput" placeholder="Enter your full name" required>
+                <input
+                  id="sname"
+                  type="text"
+                  class="formInput"
+                  placeholder="Enter your full name"
+                  required
+                />
                 <label for="semail">Email<span>*</span>:</label>
-                <input id="semail" type="email" class="formInput" placeholder="Enter your email" required>
+                <input
+                  id="semail"
+                  type="email"
+                  class="formInput"
+                  placeholder="Enter your email"
+                  required
+                />
                 <label for="saddress">Address<span>*</span>:</label>
-                <input id="saddress" type="text" class="formInput" placeholder="Enter your address" required>
+                <input
+                  id="saddress"
+                  type="text"
+                  class="formInput"
+                  placeholder="Enter your address"
+                  required
+                />
                 <label for="scity">City<span>*</span>:</label>
-                <input id="scity" type="text" class="formInput" placeholder="Enter your city" required>
+                <input
+                  id="scity"
+                  type="text"
+                  class="formInput"
+                  placeholder="Enter your city"
+                  required
+                />
                 <label for="sstate">State<span>*</span>:</label>
-                <input id="sstate" type="text" class="formInput" placeholder="Enter your state" required>
+                <input
+                  id="sstate"
+                  type="text"
+                  class="formInput"
+                  placeholder="Enter your state"
+                  required
+                />
                 <label for="szip">Zip Code/Plus<span>*</span>:</label>
-                <input id="szip" type="text" pattern="[0-9]{5}-[0-9]{4}" class="formInput"
-                  placeholder="Enter your zip code/plus" required>
+                <input
+                  id="szip"
+                  type="text"
+                  pattern="[0-9]{5}-[0-9]{4}"
+                  class="formInput"
+                  placeholder="Enter your zip code/plus"
+                  required
+                />
                 <label for="sphone">Mobile Phone<span>*</span>:</label>
-                <input id="sphone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="formInput"
-                  placeholder="Enter your mobile phone 000-000-0000" required>
+                <input
+                  id="sphone"
+                  type="tel"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  class="formInput"
+                  placeholder="Enter your mobile phone 000-000-0000"
+                  required
+                />
                 <h2>Shipping Method:</h2>
                 <label for="shipping">Select Option<span>*</span>:</label>
                 <select id="shipping" class="formInput">
@@ -575,7 +839,13 @@
                   <option value="overnight">Overnight (+ $20.00)</option>
                 </select>
               </form>
-              <button id="checkout2" type="submit" name="action" class="button ecommerce-btn" title="Add Shipping Info">
+              <button
+                id="checkout2"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn"
+                title="Add Shipping Info"
+              >
                 <span class="text">Continue to Payment</span>
               </button>
             </div>
@@ -586,26 +856,55 @@
               <form id="customerPayment">
                 <div id="cclogo" class="cclogo revert"></div>
                 <label for="cardnum">Card Number<span>*</span>:</label>
-                <input id="cardnum" type="number" class="formInput"
-                  placeholder="Enter your credit card number no spaces" oninput="creditCardType()" required>
+                <input
+                  id="cardnum"
+                  type="number"
+                  class="formInput"
+                  placeholder="Enter your credit card number no spaces"
+                  oninput="creditCardType()"
+                  required
+                />
                 <span id="errmsgnumber" class="result"></span>
                 <label for="cardname">Name<span>*</span>:</label>
-                <input id="cardname" type="text" class="formInput" placeholder="Enter name on card" required>
+                <input
+                  id="cardname"
+                  type="text"
+                  class="formInput"
+                  placeholder="Enter name on card"
+                  required
+                />
                 <div class="expcvv">
                   <div class="exp">
                     <label for="cardexp">Expiration Date<span>*</span>:</label>
-                    <input id="cardexp" type="text" class="formInput" placeholder="Enter expiration date [MM/YY]"
-                      required>
+                    <input
+                      id="cardexp"
+                      type="text"
+                      class="formInput"
+                      placeholder="Enter expiration date [MM/YY]"
+                      required
+                    />
                     <span id="errmsgdate" class="result"></span>
                   </div>
                   <div class="cvv">
                     <label for="cardcvv">CVV<span>*</span>:</label>
-                    <input id="cardcvv" type="number" class="formInput" placeholder="Enter CVV" required>
+                    <input
+                      id="cardcvv"
+                      type="number"
+                      class="formInput"
+                      placeholder="Enter CVV"
+                      required
+                    />
                     <span id="errmsgcvv" class="result"></span>
                   </div>
                 </div>
               </form>
-              <button id="checkout3" type="submit" name="action" class="button ecommerce-btn" title="Add Payment Info">
+              <button
+                id="checkout3"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn"
+                title="Add Payment Info"
+              >
                 <span class="text">Continue to Summary</span>
               </button>
             </div>
@@ -632,12 +931,16 @@
                       <p id="ccbrand" class="revert"></p>
                     </div>
                     <p id="ccnumber" class="revert"></p>
-                    <p class="revert">Exp: <span id="ccexp" class="revert"></span></p>
+                    <p class="revert">
+                      Exp: <span id="ccexp" class="revert"></span>
+                    </p>
                   </div>
                 </div>
               </div>
               <table>
-                <caption>Merchandise Store</caption>
+                <caption>
+                  Merchandise Store
+                </caption>
                 <thead>
                   <tr>
                     <th>Product ID</th>
@@ -650,35 +953,49 @@
                 <tbody id="productRows"></tbody>
                 <tfoot>
                   <tr>
-                    <th colspan="4" style="text-align:right">Products SubTotal</th>
-                    <th id="productsSubtotal" style="text-align:right;"></th>
+                    <th colspan="4" style="text-align: right">
+                      Products SubTotal
+                    </th>
+                    <th id="productsSubtotal" style="text-align: right"></th>
                   </tr>
                   <tr>
-                    <td colspan="4" style="text-align:right">Discount<span id="uCoupon"></span></td>
-                    <td id="discountTotal" style="text-align:right;"></td>
+                    <td colspan="4" style="text-align: right">
+                      Discount<span id="uCoupon"></span>
+                    </td>
+                    <td id="discountTotal" style="text-align: right"></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="text-align:right">Taxes</td>
-                    <td id="taxes" style="text-align:right;"></td>
+                    <td colspan="4" style="text-align: right">Taxes</td>
+                    <td id="taxes" style="text-align: right"></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="text-align:right">Shipping<span id="uShipping"></span></td>
-                    <td id="shippingCost" style="text-align:right;"></td>
+                    <td colspan="4" style="text-align: right">
+                      Shipping<span id="uShipping"></span>
+                    </td>
+                    <td id="shippingCost" style="text-align: right"></td>
                   </tr>
                   <tr>
-                    <th colspan="4" style="text-align:right">Order Total</th>
-                    <th id="total" style="text-align:right;"></th>
+                    <th colspan="4" style="text-align: right">Order Total</th>
+                    <th id="total" style="text-align: right"></th>
                   </tr>
                 </tfoot>
               </table>
-              <button id="purchase" type="submit" name="action" class="button ecommerce-btn" title="Purchase">
+              <button
+                id="purchase"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn"
+                title="Purchase"
+              >
                 <span class="text">Purchase Now</span>
               </button>
             </div>
           </div>
           <div class="purchase-wrap">
             <div id="order-confirmation">
-              <h2 style="text-align:center;">======== Order Confirmation ========</h2>
+              <h2 style="text-align: center">
+                ======== Order Confirmation ========
+              </h2>
               <div class="customer">
                 <div class="address">
                   <h3>Shipping Address</h3>
@@ -702,7 +1019,9 @@
               </div>
               <div class="products">
                 <table>
-                  <caption>Merchandise Store</caption>
+                  <caption>
+                    Merchandise Store
+                  </caption>
                   <thead>
                     <tr>
                       <th>Product ID</th>
@@ -715,24 +1034,33 @@
                   <tbody id="ocproductRows"></tbody>
                   <tfoot>
                     <tr>
-                      <th colspan="4" style="text-align:right">Products SubTotal</th>
-                      <th id="ocproductsSubtotal" style="text-align:right;"></th>
+                      <th colspan="4" style="text-align: right">
+                        Products SubTotal
+                      </th>
+                      <th
+                        id="ocproductsSubtotal"
+                        style="text-align: right"
+                      ></th>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Discount<span id="ocCoupon"></span></td>
-                      <td id="ocdiscountTotal" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">
+                        Discount<span id="ocCoupon"></span>
+                      </td>
+                      <td id="ocdiscountTotal" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Taxes</td>
-                      <td id="octaxes" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">Taxes</td>
+                      <td id="octaxes" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Shipping<span id="ocShipping"></span></td>
-                      <td id="ocshippingCost" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">
+                        Shipping<span id="ocShipping"></span>
+                      </td>
+                      <td id="ocshippingCost" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <th colspan="4" style="text-align:right">Order Total</th>
-                      <th id="octotal" style="text-align:right;"></th>
+                      <th colspan="4" style="text-align: right">Order Total</th>
+                      <th id="octotal" style="text-align: right"></th>
                     </tr>
                   </tfoot>
                 </table>
@@ -747,24 +1075,39 @@
                     </div>
                     <div class="detail">
                       <p id="occnumber" class="revert"></p>
-                      <p class="revert">Exp: <span id="occexp" class="revert"></span></p>
+                      <p class="revert">
+                        Exp: <span id="occexp" class="revert"></span>
+                      </p>
                       <p id="occname" class="revert"></p>
                     </div>
                   </div>
                 </div>
               </div>
-              <button id="refund" type="submit" name="action" class="refund-btn" title="Order Refund">
+              <button
+                id="refund"
+                type="submit"
+                name="action"
+                class="refund-btn"
+                title="Order Refund"
+              >
                 <span class="text">Cancel/Refund Order</span>
               </button>
-              <button id="ecommerce-end" type="submit" name="action" class="button ecommerce-btn3"
-                title="Close Ecommerce Funnel">
+              <button
+                id="ecommerce-end"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn3"
+                title="Close Ecommerce Funnel"
+              >
                 <span class="text">Close Funnel</span>
               </button>
             </div>
           </div>
           <div class="refund-wrap">
             <div id="refund-confirmation">
-              <h2 style="text-align:center;">======== Refund Confirmation ========</h2>
+              <h2 style="text-align: center">
+                ======== Refund Confirmation ========
+              </h2>
               <div class="customer2">
                 <div class="transaction">
                   <h3>Transaction</h3>
@@ -778,7 +1121,9 @@
               </div>
               <div class="products">
                 <table>
-                  <caption>Merchandise Store</caption>
+                  <caption>
+                    Merchandise Store
+                  </caption>
                   <thead>
                     <tr>
                       <th>Product ID</th>
@@ -791,30 +1136,40 @@
                   <tbody id="rcproductRows"></tbody>
                   <tfoot>
                     <tr>
-                      <th colspan="4" style="text-align:right">Products SubTotal</th>
-                      <th id="rcproductsSubtotal" style="text-align:right;"></th>
+                      <th colspan="4" style="text-align: right">
+                        Products SubTotal
+                      </th>
+                      <th
+                        id="rcproductsSubtotal"
+                        style="text-align: right"
+                      ></th>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Discount</td>
-                      <td id="rcdiscountTotal" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">Discount</td>
+                      <td id="rcdiscountTotal" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Taxes</td>
-                      <td id="rctaxes" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">Taxes</td>
+                      <td id="rctaxes" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <td colspan="4" style="text-align:right">Shipping</td>
-                      <td id="rcshippingCost" style="text-align:right;"></td>
+                      <td colspan="4" style="text-align: right">Shipping</td>
+                      <td id="rcshippingCost" style="text-align: right"></td>
                     </tr>
                     <tr>
-                      <th colspan="4" style="text-align:right">Order Total</th>
-                      <th id="rctotal" style="text-align:right;"></th>
+                      <th colspan="4" style="text-align: right">Order Total</th>
+                      <th id="rctotal" style="text-align: right"></th>
                     </tr>
                   </tfoot>
                 </table>
               </div>
-              <button id="ecommerce-end-2" type="submit" name="action" class="button ecommerce-btn4"
-                title="Close Ecommerce Funnel">
+              <button
+                id="ecommerce-end-2"
+                type="submit"
+                name="action"
+                class="button ecommerce-btn4"
+                title="Close Ecommerce Funnel"
+              >
                 <span class="text">Close Funnel</span>
               </button>
             </div>
@@ -829,35 +1184,92 @@
           <div class="warningbar">
             <div class="bar"></div>
           </div>
-          <button id="consent-close" name="action" class="close-x consent-close-x"
-            title="Close Consent Banner">Close</button>
+          <button
+            id="consent-close"
+            name="action"
+            class="close-x consent-close-x"
+            title="Close Consent Banner"
+          >
+            Close
+          </button>
           <h2>We value your privacy</h2>
           <span>
-            We use cookies to enhance your browsing experience and analyze our traffic. We want to provide you with the
-            best possible experience. This allow us to analyze user behavior in order to constantly improve the website
-            for you. We improve our product by using analytic tools to see how you use our website.
-            By using our site, you agree that we and the analytic tools can collect and use this data.
-            Our <a id="privacy-consent" name="action" href="public/privacy.html" target="_blank"
-              title="Link to Privacy Statement">Privacy Statement</a> has more details. Clicking the Close button
-            auto-accept all cookies. This website is formatted to be viewed in a Desktop.
+            We use cookies to enhance your browsing experience and analyze our
+            traffic. By using our site, you agree that we and the analytic tools
+            can collect and use this data. Our
+            <a
+              id="privacy-consent"
+              name="action"
+              href="public/privacy.html"
+              target="_blank"
+              title="Link to Privacy Statement"
+              >Privacy Statement</a
+            >
+            has more details. Clicking the Close button auto-accept all cookies.
+            This website is formatted to be viewed in a Desktop.
           </span>
-          <button id="btn-accept-all" name="action" class="cookie-consent-button btn-success"
-            title="Accept All Cookies">
+          <button
+            id="btn-accept-all"
+            name="action"
+            class="cookie-consent-button btn-success"
+            title="Accept All Cookies"
+          >
             Accept All
           </button>
-          <button id="btn-accept-some" name="action" class="cookie-consent-button btn-outline"
-            title="Accept Selective Cookies">
+          <button
+            id="btn-accept-some"
+            name="action"
+            class="cookie-consent-button btn-outline"
+            title="Accept Selective Cookies"
+          >
             Accept Selection
           </button>
-          <button id="btn-reject-all" name="action" class="cookie-consent-button btn-grayscale"
-            title="Reject All Cookies">
+          <button
+            id="btn-reject-all"
+            name="action"
+            class="cookie-consent-button btn-grayscale"
+            title="Reject All Cookies"
+          >
             Reject All
           </button>
           <div class="cookie-consent-options">
-            <label><input id="consent-necessary" type="checkbox" value="Necessary" checked disabled />Necessary</label>
-            <label><input id="consent-analytics" type="checkbox" value="Analytics" checked />Analytics</label>
-            <label><input id="consent-preferences" type="checkbox" value="Preferences" checked />Preferences</label>
-            <label><input id="consent-marketing" type="checkbox" value="Marketing" checked />Marketing</label>
+            <label>
+              <input
+                id="consent-necessary"
+                type="checkbox"
+                value="Necessary"
+                checked
+                disabled
+              />
+              Necessary
+            </label>
+            <label>
+              <input
+                id="consent-analytics"
+                type="checkbox"
+                value="Analytics"
+                checked
+              />
+              Analytics
+            </label>
+            <label>
+              <input
+                id="consent-preferences"
+                type="checkbox"
+                value="Preferences"
+                checked
+              />
+              Preferences
+            </label>
+            <label>
+              <input
+                id="consent-marketing"
+                type="checkbox"
+                value="Marketing"
+                checked
+              />
+              Marketing
+            </label>
           </div>
           <div class="warningbar">
             <div class="bar"></div>
@@ -867,20 +1279,40 @@
     </main>
     <footer></footer>
     <!-- Chatbot TStructure -->
-    <button id="chat-toggle" class="chat-toggle hidden" name="action" title="Chat with Us!">
+    <button
+      id="chat-toggle"
+      class="chat-toggle hidden"
+      name="action"
+      title="Chat with Us!"
+    >
       <img
         src="https://cdn3.iconfinder.com/data/icons/chatbot-robot/100/chatbot_01_16_bot_chat_robot_app_artificial_chatbot_dialog-1024.png"
-        width="100px" alt="Chatbot Icon" title="Chat with Us!" />
+        width="100px"
+        height="100px"
+        alt="Chatbot Icon"
+        title="Chat with Us!"
+      />
     </button>
     <div id="chatbot-widget" class="chatbot-widget hidden">
       <div class="chatbot-header">
         <span>Chatbot</span>
-        <button id="close-chat" class="close-btn" name="action" title="Close Chat">&times;</button>
+        <button
+          id="close-chat"
+          class="close-btn"
+          name="action"
+          title="Close Chat"
+        >
+          &times;
+        </button>
       </div>
-      <div id="chat-window" class="chat-window">
-      </div>
+      <div id="chat-window" class="chat-window"></div>
       <div class="input-area">
-        <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" />
+        <input
+          type="text"
+          id="user-input"
+          placeholder="Type your message..."
+          autocomplete="off"
+        />
         <button id="send-btn">Send</button>
       </div>
     </div>
@@ -891,14 +1323,14 @@
        * Populate section element with initial data layers object
        */
       document.querySelector(
-        '#json-section',
+        "#json-section",
       ).innerHTML += `<p><em>Consent Mode: Initial State [0]</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0),
         undefined,
         2,
       )}</pre>`;
       document.querySelector(
-        '#json-section',
+        "#json-section",
       ).innerHTML += `<p><em>Message: dataLayer.push and utag_data [3]</em></p><pre>${JSON.stringify(
         window.dataLayer.at(3),
         undefined,
@@ -908,23 +1340,24 @@
       /**
        * Scroll to last child element of section tag and highlight (focus) it
        */
-      document.querySelectorAll('pre').forEach((e) => {
-        e.className = 'normal';
-        e.previousElementSibling.className = 'normal';
+      document.querySelectorAll("pre").forEach((e) => {
+        e.className = "normal";
+        e.previousElementSibling.className = "normal";
       });
 
-      const focusThis = document.querySelector('#json-section');
+      const focusThis = document.querySelector("#json-section");
       focusThis.lastElementChild.scrollIntoView();
-      focusThis.lastElementChild.className = 'highlight';
-      focusThis.lastElementChild.previousElementSibling.classList.remove('normal');
+      focusThis.lastElementChild.className = "highlight";
+      focusThis.lastElementChild.previousElementSibling.classList.remove(
+        "normal",
+      );
 
       /**
        * Detect if Consent banner needs to be displayed
        */
-      if (localStorage.getItem('CONSENT_MODE') === null) {
+      if (localStorage.getItem("CONSENT_MODE") === null) {
         showBanner();
       }
     </script>
   </body>
-
 </html>
