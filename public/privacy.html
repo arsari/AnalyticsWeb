@@ -31,6 +31,13 @@
       crossorigin="anonymous"
     ></script>
     <script type="text/javascript" src="../assets/js/newRelic.js"></script>
+    <script
+      src="https://cdn.lrkt-in.com/LogRocket.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.LogRocket && window.LogRocket.init("1csnxc/analyticsweb");
+    </script>
     <script type="text/javascript" src="../assets/js/config.min.js"></script>
     <!--dataLayers message-->
     <script type="text/javascript">
@@ -107,7 +114,7 @@
             };
             i =
               "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(
-                " ",
+                " "
               );
             for (h = 0; h < i.length; h++) g(a, i[h]);
             const j = "set set_once union unset remove delete".split(" ");
@@ -122,7 +129,7 @@
               for (
                 var d = {},
                   e = ["get_group"].concat(
-                    Array.prototype.slice.call(arguments, 0),
+                    Array.prototype.slice.call(arguments, 0)
                   ),
                   c = 0;
                 c < j.length;
@@ -165,7 +172,7 @@
             let n = function (e) {
                 return function () {
                   heap.push(
-                    [e].concat(Array.prototype.slice.call(arguments, 0)),
+                    [e].concat(Array.prototype.slice.call(arguments, 0))
                   );
                 };
               },
@@ -444,11 +451,11 @@
        * Populate section element with initial data layer object
        */
       document.querySelector(
-        "#json-section",
+        "#json-section"
       ).innerHTML += `<p><em>Message: dataLayer.push and utag_data [0]</em></p><pre>${JSON.stringify(
         window.dataLayer.at(0),
         undefined,
-        2,
+        2
       )}</pre>`;
 
       /**
