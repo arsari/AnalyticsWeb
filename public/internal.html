@@ -235,11 +235,17 @@
           "https://assets.adobedtm.com/a5bd983fc228/a715fbe791c6/launch-cfa4016bf67d.min.js";
         alaunchEnv = "production";
       }
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = alaunch;
-      script.async = true;
-      document.head.appendChild(script);
+      const alaunchScript = document.createElement("script");
+      alaunchScript.type = "text/javascript";
+      alaunchScript.src = alaunch;
+      alaunchScript.async = true;
+      document.head.appendChild(alaunchScript);
+
+      /*Tealium iQ utag.sync.js*/
+      const tiqScript = document.createElement("script");
+      tiqScript.type = "text/javascript";
+      tiqScript.src = `https://tags.tiqcdn.com/utag/blastam/arsari-training/${tealiumEnv}/utag.sync.js`;
+      document.head.appendChild(tiqScript);
 
       /* Amplitude Analytics Init */
       const enrichEventsPlugin = () => ({
