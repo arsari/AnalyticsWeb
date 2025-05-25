@@ -298,7 +298,7 @@
       /* Mixpanel Init */
       mixpanel.init(config.MIXPANEL_KEY); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
-      mixpanel.people.set({ logged_in: false }); // mixpanel user properties
+      mixpanel.people.set({ logged_in: localStorage.logged }); // mixpanel user properties
       mixpanel.register({
         ...INIT_PROPERTIES,
       });
@@ -325,7 +325,7 @@
       const utag_data = {
         ...INIT_PROPERTIES,
         // user properties
-        logged_in: false,
+        logged_in: localStorage.logged,
         user_id: userInit,
         custom_user_id: userInit,
       };
