@@ -1,4 +1,5 @@
 assets/js/function.js
 assets/js/config.js
 server/.env
+server/credentials.json
 server/node_modules/

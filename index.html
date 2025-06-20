@@ -82,7 +82,7 @@
         language_code: "en-US",
         page_author: "Arturo Santiago-Rivera",
         page_category: "home",
-        page_name: "Web Analytics Implementation - Internal Page",
+        page_name: "Web Analytics Implementation - Homepage",
         page_title: document.querySelector("title").innerText,
       };
       window.dataLayer = window.dataLayer || [];
@@ -112,7 +112,7 @@
     </script>
     <!--END: Google Tag Manager-->
     <!--Amplitude Script Loader-->
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.3-min.js.gz"></script>
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.12-min.js.gz"></script>
     <!--END: Amplitude Script Loader-->
     <!--Mixpanel Script Loader-->
     <script type="text/javascript">
@@ -290,13 +290,13 @@
           return event;
         },
       });
-      amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-      amplitude.init(config.AMPLITUDE_KEY, userInit, {
+      window.amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
+      window.amplitude.init(insightTool.AMPLITUDE_KEY, userInit, {
         autocapture: { elementInteractions: false },
       }); // amplitude init statement
 
       /* Mixpanel Init */
-      mixpanel.init(config.MIXPANEL_KEY); // mixpanel init statement
+      mixpanel.init(insightTool.MIXPANEL_KEY); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
       mixpanel.people.set({ logged_in: localStorage.logged }); // mixpanel user properties
       mixpanel.register({
@@ -308,7 +308,9 @@
 
       /* Heap Analytics Init */
       const heapAppId =
-        tealiumEnv !== "prod" ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
+        tealiumEnv !== "prod"
+          ? insightTool.HEAP_DEV_KEY
+          : insightTool.HEAP_PROD_KEY;
       heap.load(heapAppId);
       heap.identify(userInit);
       heap.addUserProperties({ logged_in: localStorage.logged });
@@ -378,8 +380,8 @@
         <h2>
           A playground for experimenting with analytics implementation on a web
           app tracked on Google Analytics 4 (GA4) through GTM, Adobe Analytics
-          (AA) via Tealium iQ, Amplitude Analytics, and Mixpanel Product
-          Analytics.
+          (AA) via Tealium iQ, Amplitude Analytics, Mixpanel Product Analytics,
+          New Relic LogRocket and TrackingPlan.
         </h2>
         <h3>
           Adobe Data Collection (Launch), Heap Analytics, and LaunchDarkly are
@@ -433,7 +435,7 @@
           <i class="fa-solid fa-check icon"></i>
         </a>
         <a
-          id="intlink2"
+          id="iframelink"
           name="action"
           class="button n-item"
           href="public/iframe-parent.html"
@@ -1291,7 +1293,7 @@
       </section>
     </main>
     <footer></footer>
-    <!-- Chatbot TStructure -->
+    <!-- Chatbot Structure -->
     <button
       id="chat-toggle"
       class="chat-toggle hidden"
@@ -1308,7 +1310,7 @@
     </button>
     <div id="chatbot-widget" class="chatbot-widget hidden">
       <div class="chatbot-header">
-        <span>Chatbot</span>
+        <span>AnalyticsWeb Assistant</span>
         <button
           id="close-chat"
           class="close-btn"

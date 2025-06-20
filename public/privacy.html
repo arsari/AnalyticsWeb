@@ -49,8 +49,8 @@
         e_timestamp: String(new Date().getTime()), // milliseconds
         language_code: "en-US",
         page_author: "Arturo Santiago-Rivera",
-        page_category: "privacy",
-        page_name: "Web Analytics Implementation - Internal Page",
+        page_category: "internal",
+        page_name: "Web Analytics Implementation - Privacy Policy Page",
         page_title: document.querySelector("title").innerText,
       };
       window.dataLayer = window.dataLayer || [];
@@ -80,8 +80,8 @@
     </script>
     <!--End Google Tag Manager-->
     <!--Amplitude Script Loader-->
-    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.3-min.js.gz"></script>
-    <!--End Amplitude Script Loader-->
+    <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.12-min.js.gz"></script>
+    <!--END: Amplitude Script Loader-->
     <!--Mixpanel Script Loader-->
     <script type="text/javascript">
       (function (f, b) {
@@ -259,12 +259,12 @@
         },
       });
       amplitude.add(enrichEventsPlugin()); // amplitude enrich plugin call
-      amplitude.init(config.AMPLITUDE_KEY, userInit, {
+      amplitude.init(insightTool.AMPLITUDE_KEY, userInit, {
         autocapture: { elementInteractions: false },
       }); // amplitude init statement
 
       /* Mixpanel Init */
-      mixpanel.init(config.MIXPANEL_KEY); // mixpanel init statement
+      mixpanel.init(insightTool.MIXPANEL_KEY); // mixpanel init statement
       mixpanel.identify(userInit); // mixpanel user identify
       mixpanel.people.set({ logged_in: false }); // mixpanel user properties
       mixpanel.register({
@@ -276,14 +276,16 @@
 
       /* Heap Analytics Init */
       const heapAppId =
-        tealiumEnv !== "prod" ? config.HEAP_DEV_KEY : config.HEAP_PROD_KEY;
+        tealiumEnv !== "prod"
+          ? insightTool.HEAP_DEV_KEY
+          : insightTool.HEAP_PROD_KEY;
       heap.load(heapAppId);
       heap.identify(userInit);
       heap.addUserProperties({ logged_in: localStorage.logged });
     </script>
     <!-- END Tracking Variables Setup -->
     <!-- Tracking Plan Loader -->
-    <script type="text/javascript" src="assets/js/trackingplan.js"></script>
+    <script type="text/javascript" src="../assets/js/trackingplan.js"></script>
     <!-- END: Tracking Plan Loader -->
   </head>
 

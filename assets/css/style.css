@@ -992,24 +992,63 @@ aside {
   text-align: justify;
 }
 
-@media screen and (min-width: 320px) and (max-width: 1280px) {
+@media screen and (min-width: 320px) and (max-width: 550px) {
   .github-badges {
     display: inline-block;
     margin: auto 0;
   }
   .flex {
-    flex-wrap: wrap;
     margin: 15px 10px 0;
   }
   .button {
-    margin: 0 auto 10px;
+    margin: 0 5px 10px;
   }
   main {
     margin: 0 10px 65px;
     font-size: 90%;
   }
   footer {
-    font-size: 10px;
+    font-size: 0.5rem;
+  }
+  .container {
+    display: flex;
+  }
+  .ecommerce-modal-content {
+    width: 80%;
+  }
+  .ecommerce-btn {
+    left: 88%;
+    margin: 20px 0 0 -40%;
+  }
+  .ecommerce-btn2 {
+    left: 88%;
+    margin: 1px 0 0 -40%;
+  }
+  .cookie-consent-banner {
+    padding-top: 50px;
+  }
+  .text-consent-banner {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 551px) and (max-width: 1280px) {
+  .github-badges {
+    display: inline-block;
+    margin: auto 0;
+  }
+  .flex {
+    margin: 15px 10px 0;
+  }
+  .button {
+    margin: 0 5px 10px;
+  }
+  main {
+    margin: 0 10px 65px;
+    font-size: 90%;
+  }
+  footer {
+    font-size: 0.8rem;
   }
   .container {
     display: flex;

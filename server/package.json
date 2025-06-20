@@ -1,7 +1,7 @@
 {
   "name": "server",
-  "version": "1.0.0",
-  "description": "Secure Backend to Store AnalyticsWeb API Key",
+  "version": "2.0.0",
+  "description": "Secure Backend to Store AnalyticsWeb API Keys and AI Chatbot Request",
   "author": "Arturo Santiago-Rivera",
   "license": "ISC",
   "type": "module",
@@ -10,8 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@google-cloud/aiplatform": "^4.2.0",
+    "@google/genai": "^1.5.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "path": "^0.12.7"
   }
 }
