@@ -26,8 +26,8 @@
   position: fixed;
   bottom: 100px;
   right: 40px;
-  width: 400px;
-  max-height: 600px;
+  width: 640px;
+  max-height: 480px;
   background: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -86,6 +86,55 @@
   margin-left: auto;
 }
 
+.bot-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-style: italic;
+  color: #555;
+  padding: 8px 12px;
+  background: #f3f3f3;
+  border-radius: 12px;
+  width: fit-content;
+  margin: 8px 0;
+}
+
+.bot-typing::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #555;
+  box-shadow:
+    8px 0 0 #555,
+    16px 0 0 #555;
+  animation: typingDots 1s steps(3, end) infinite;
+}
+
+@keyframes typingDots {
+  0% {
+    box-shadow:
+      8px 0 0 #555,
+      16px 0 0 #555;
+  }
+  33% {
+    box-shadow:
+      0 0 0 #555,
+      16px 0 0 #555;
+  }
+  66% {
+    box-shadow:
+      0 0 0 #555,
+      8px 0 0 #555;
+  }
+  100% {
+    box-shadow:
+      8px 0 0 #555,
+      16px 0 0 #555;
+  }
+}
+
 .bot-message {
   background-color: #e9e9eb;
   color: #333;
@@ -122,7 +171,7 @@
   background-color: red;
 }
 
-@media screen and (min-width: 320px) and (max-width: 550px) {
+@media screen and (min-width: 320px) and (max-width: 725px) {
   .chat-toggle {
     bottom: 70px;
     right: 15px;
@@ -133,7 +182,6 @@
   }
   .chatbot-widget {
     width: 96%;
-    max-height: 750px;
     bottom: 60px;
     right: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
