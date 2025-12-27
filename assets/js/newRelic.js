@@ -1,6 +1,8 @@
 window.NREUM || (NREUM = {});
 NREUM.init = {
   distributed_tracing: { enabled: true },
+  performance: { capture_measures: true },
+  browser_consent_mode: { enabled: false },
   privacy: { cookies_enabled: true },
   ajax: { deny_list: ["bam.nr-data.net"] },
 };
@@ -18,229 +20,234 @@ NREUM.info = {
   licenseKey: "NRJS-a0a0b9301d9a1c45bf4",
   applicationID: "1120278743",
   sa: 1,
-}; /*! For license information please see nr-loader-spa-1.290.1.min.js.LICENSE.txt */
+}; /*! For license information please see nr-loader-spa-1.306.0.min.js.LICENSE.txt */
 (() => {
   var e,
     t,
     r = {
-      8122: (e, t, r) => {
-        "use strict";
-        r.d(t, { a: () => i });
-        var n = r(944);
-        function i(e, t) {
-          try {
-            if (!e || "object" != typeof e) return (0, n.R)(3);
-            if (!t || "object" != typeof t) return (0, n.R)(4);
-            const r = Object.create(
-                Object.getPrototypeOf(t),
-                Object.getOwnPropertyDescriptors(t)
-              ),
-              o = 0 === Object.keys(r).length ? e : r;
-            for (let a in o)
-              if (void 0 !== e[a])
-                try {
-                  if (null === e[a]) {
-                    r[a] = null;
-                    continue;
-                  }
-                  Array.isArray(e[a]) && Array.isArray(t[a])
-                    ? (r[a] = Array.from(new Set([...e[a], ...t[a]])))
-                    : "object" == typeof e[a] && "object" == typeof t[a]
-                    ? (r[a] = i(e[a], t[a]))
-                    : (r[a] = e[a]);
-                } catch (e) {
-                  r[a] || (0, n.R)(1, e);
-                }
-            return r;
-          } catch (e) {
-            (0, n.R)(2, e);
-          }
-        }
-      },
-      2555: (e, t, r) => {
-        "use strict";
-        r.d(t, { D: () => s, f: () => a });
-        var n = r(384),
-          i = r(8122);
-        const o = {
-          beacon: n.NT.beacon,
-          errorBeacon: n.NT.errorBeacon,
-          licenseKey: void 0,
-          applicationID: void 0,
-          sa: void 0,
-          queueTime: void 0,
-          applicationTime: void 0,
-          ttGuid: void 0,
-          user: void 0,
-          account: void 0,
-          product: void 0,
-          extra: void 0,
-          jsAttributes: {},
-          userAttributes: void 0,
-          atts: void 0,
-          transactionName: void 0,
-          tNamePlain: void 0,
-        };
-        function a(e) {
-          try {
-            return !!e.licenseKey && !!e.errorBeacon && !!e.applicationID;
-          } catch (e) {
-            return !1;
-          }
-        }
-        const s = (e) => (0, i.a)(e, o);
-      },
-      9324: (e, t, r) => {
-        "use strict";
-        r.d(t, { F3: () => i, Xs: () => o, Yq: () => a, xv: () => n });
-        const n = "1.290.1",
-          i = "PROD",
-          o = "CDN",
-          a = "^2.0.0-alpha.18";
-      },
-      6154: (e, t, r) => {
+      384: (e, t, r) => {
         "use strict";
         r.d(t, {
-          A4: () => s,
-          OF: () => d,
-          RI: () => i,
-          WN: () => h,
-          bv: () => o,
-          gm: () => a,
-          lR: () => f,
-          m: () => u,
-          mw: () => c,
-          sb: () => l,
+          NT: () => s,
+          US: () => u,
+          Zm: () => a,
+          bQ: () => d,
+          dV: () => c,
+          pV: () => l,
         });
-        var n = r(1863);
-        const i = "undefined" != typeof window && !!window.document,
-          o =
-            "undefined" != typeof WorkerGlobalScope &&
-            (("undefined" != typeof self &&
-              self instanceof WorkerGlobalScope &&
-              self.navigator instanceof WorkerNavigator) ||
-              ("undefined" != typeof globalThis &&
-                globalThis instanceof WorkerGlobalScope &&
-                globalThis.navigator instanceof WorkerNavigator)),
-          a = i
-            ? window
-            : "undefined" != typeof WorkerGlobalScope &&
-              (("undefined" != typeof self &&
-                self instanceof WorkerGlobalScope &&
-                self) ||
-                ("undefined" != typeof globalThis &&
-                  globalThis instanceof WorkerGlobalScope &&
-                  globalThis)),
-          s = "complete" === a?.document?.readyState,
-          c = Boolean("hidden" === a?.document?.visibilityState),
-          u = "" + a?.location,
-          d = /iPad|iPhone|iPod/.test(a.navigator?.userAgent),
-          l = d && "undefined" == typeof SharedWorker,
-          f = (() => {
-            const e = a.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);
-            return Array.isArray(e) && e.length >= 2 ? +e[1] : 0;
-          })(),
-          h = Date.now() - (0, n.t)();
-      },
-      7295: (e, t, r) => {
-        "use strict";
-        r.d(t, { Xv: () => a, gX: () => i, iW: () => o });
-        var n = [];
-        function i(e) {
-          if (!e || o(e)) return !1;
-          if (0 === n.length) return !0;
-          for (var t = 0; t < n.length; t++) {
-            var r = n[t];
-            if ("*" === r.hostname) return !1;
-            if (s(r.hostname, e.hostname) && c(r.pathname, e.pathname))
-              return !1;
-          }
-          return !0;
-        }
-        function o(e) {
-          return void 0 === e.hostname;
-        }
-        function a(e) {
-          if (((n = []), e && e.length))
-            for (var t = 0; t < e.length; t++) {
-              let r = e[t];
-              if (!r) continue;
-              0 === r.indexOf("http://")
-                ? (r = r.substring(7))
-                : 0 === r.indexOf("https://") && (r = r.substring(8));
-              const i = r.indexOf("/");
-              let o, a;
-              i > 0
-                ? ((o = r.substring(0, i)), (a = r.substring(i)))
-                : ((o = r), (a = ""));
-              let [s] = o.split(":");
-              n.push({ hostname: s, pathname: a });
-            }
-        }
-        function s(e, t) {
-          return !(e.length > t.length) && t.indexOf(e) === t.length - e.length;
-        }
-        function c(e, t) {
+        var n = r(6154),
+          i = r(1863),
+          o = r(1910);
+        const s = { beacon: "bam.nr-data.net", errorBeacon: "bam.nr-data.net" };
+        function a() {
           return (
-            0 === e.indexOf("/") && (e = e.substring(1)),
-            0 === t.indexOf("/") && (t = t.substring(1)),
-            "" === e || e === t
+            n.gm.NREUM || (n.gm.NREUM = {}),
+            void 0 === n.gm.newrelic && (n.gm.newrelic = n.gm.NREUM),
+            n.gm.NREUM
+          );
+        }
+        function c() {
+          let e = a();
+          return (
+            e.o ||
+              ((e.o = {
+                ST: n.gm.setTimeout,
+                SI: n.gm.setImmediate || n.gm.setInterval,
+                CT: n.gm.clearTimeout,
+                XHR: n.gm.XMLHttpRequest,
+                REQ: n.gm.Request,
+                EV: n.gm.Event,
+                PR: n.gm.Promise,
+                MO: n.gm.MutationObserver,
+                FETCH: n.gm.fetch,
+                WS: n.gm.WebSocket,
+              }),
+              (0, o.i)(...Object.values(e.o))),
+            e
+          );
+        }
+        function d(e, t) {
+          let r = a();
+          (r.initializedAgents ??= {}),
+            (t.initializedAt = { ms: (0, i.t)(), date: new Date() }),
+            (r.initializedAgents[e] = t);
+        }
+        function u(e, t) {
+          a()[e] = t;
+        }
+        function l() {
+          return (
+            (function () {
+              let e = a();
+              const t = e.info || {};
+              e.info = { beacon: s.beacon, errorBeacon: s.errorBeacon, ...t };
+            })(),
+            (function () {
+              let e = a();
+              const t = e.init || {};
+              e.init = { ...t };
+            })(),
+            c(),
+            (function () {
+              let e = a();
+              const t = e.loader_config || {};
+              e.loader_config = { ...t };
+            })(),
+            a()
           );
         }
       },
-      3241: (e, t, r) => {
+      782: (e, t, r) => {
         "use strict";
-        r.d(t, { W: () => o });
-        var n = r(6154);
-        const i = "newrelic";
-        function o(e = {}) {
-          try {
-            n.gm.dispatchEvent(new CustomEvent(i, { detail: e }));
-          } catch (e) {}
+        r.d(t, { T: () => n });
+        const n = r(860).K7.pageViewTiming;
+      },
+      860: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          $J: () => u,
+          K7: () => c,
+          P3: () => d,
+          XX: () => i,
+          Yy: () => a,
+          df: () => o,
+          qY: () => n,
+          v4: () => s,
+        });
+        const n = "events",
+          i = "jserrors",
+          o = "browser/blobs",
+          s = "rum",
+          a = "browser/logs",
+          c = {
+            ajax: "ajax",
+            genericEvents: "generic_events",
+            jserrors: i,
+            logging: "logging",
+            metrics: "metrics",
+            pageAction: "page_action",
+            pageViewEvent: "page_view_event",
+            pageViewTiming: "page_view_timing",
+            sessionReplay: "session_replay",
+            sessionTrace: "session_trace",
+            softNav: "soft_navigations",
+            spa: "spa",
+          },
+          d = {
+            [c.pageViewEvent]: 1,
+            [c.pageViewTiming]: 2,
+            [c.metrics]: 3,
+            [c.jserrors]: 4,
+            [c.spa]: 5,
+            [c.ajax]: 6,
+            [c.sessionTrace]: 7,
+            [c.softNav]: 8,
+            [c.sessionReplay]: 9,
+            [c.logging]: 10,
+            [c.genericEvents]: 11,
+          },
+          u = {
+            [c.pageViewEvent]: s,
+            [c.pageViewTiming]: n,
+            [c.ajax]: n,
+            [c.spa]: n,
+            [c.softNav]: n,
+            [c.metrics]: i,
+            [c.jserrors]: i,
+            [c.sessionTrace]: o,
+            [c.sessionReplay]: o,
+            [c.logging]: a,
+            [c.genericEvents]: "ins",
+          };
+      },
+      944: (e, t, r) => {
+        "use strict";
+        r.d(t, { R: () => i });
+        var n = r(3241);
+        function i(e, t) {
+          "function" == typeof console.debug &&
+            (console.debug(
+              "New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(
+                e
+              ),
+              t
+            ),
+            (0, n.W)({
+              agentIdentifier: null,
+              drained: null,
+              type: "data",
+              name: "warn",
+              feature: "warn",
+              data: { code: e, secondary: t },
+            }));
         }
+      },
+      993: (e, t, r) => {
+        "use strict";
+        r.d(t, { A$: () => o, ET: () => s, TZ: () => a, p_: () => i });
+        var n = r(860);
+        const i = {
+            ERROR: "ERROR",
+            WARN: "WARN",
+            INFO: "INFO",
+            DEBUG: "DEBUG",
+            TRACE: "TRACE",
+          },
+          o = { OFF: 0, ERROR: 1, WARN: 2, INFO: 3, DEBUG: 4, TRACE: 5 },
+          s = "log",
+          a = n.K7.logging;
       },
       1687: (e, t, r) => {
         "use strict";
-        r.d(t, { Ak: () => c, Ze: () => l, x3: () => u });
-        var n = r(7836),
-          i = r(3606),
-          o = r(860),
+        r.d(t, { Ak: () => d, Ze: () => f, x3: () => u });
+        var n = r(3241),
+          i = r(7836),
+          o = r(3606),
+          s = r(860),
           a = r(2646);
-        const s = {};
-        function c(e, t) {
-          const r = { staged: !1, priority: o.P3[t] || 0 };
-          d(e), s[e].get(t) || s[e].set(t, r);
+        const c = {};
+        function d(e, t) {
+          const r = { staged: !1, priority: s.P3[t] || 0 };
+          l(e), c[e].get(t) || c[e].set(t, r);
         }
         function u(e, t) {
           e &&
-            s[e] &&
-            (s[e].get(t) && s[e].delete(t), h(e, t, !1), s[e].size && f(e));
+            c[e] &&
+            (c[e].get(t) && c[e].delete(t), p(e, t, !1), c[e].size && h(e));
         }
-        function d(e) {
+        function l(e) {
           if (!e) throw new Error("agentIdentifier required");
-          s[e] || (s[e] = new Map());
+          c[e] || (c[e] = new Map());
         }
-        function l(e = "", t = "feature", r = !1) {
-          if ((d(e), !e || !s[e].get(t) || r)) return h(e, t);
-          (s[e].get(t).staged = !0), f(e);
+        function f(e = "", t = "feature", r = !1) {
+          if ((l(e), !e || !c[e].get(t) || r)) return p(e, t);
+          (c[e].get(t).staged = !0), h(e);
         }
-        function f(e) {
-          const t = Array.from(s[e]);
+        function h(e) {
+          const t = Array.from(c[e]);
           t.every(([e, t]) => t.staged) &&
             (t.sort((e, t) => e[1].priority - t[1].priority),
             t.forEach(([t]) => {
-              s[e].delete(t), h(e, t);
+              c[e].delete(t), p(e, t);
             }));
         }
-        function h(e, t, r = !0) {
-          const o = e ? n.ee.get(e) : n.ee,
-            s = i.i.handlers;
-          if (!o.aborted && o.backlog && s) {
-            if (r) {
-              const e = o.backlog[t],
-                r = s[t];
+        function p(e, t, r = !0) {
+          const s = e ? i.ee.get(e) : i.ee,
+            c = o.i.handlers;
+          if (!s.aborted && s.backlog && c) {
+            if (
+              ((0, n.W)({
+                agentIdentifier: e,
+                type: "lifecycle",
+                name: "drain",
+                feature: t,
+              }),
+              r)
+            ) {
+              const e = s.backlog[t],
+                r = c[t];
               if (r) {
-                for (let t = 0; e && t < e.length; ++t) p(e[t], r);
+                for (let t = 0; e && t < e.length; ++t) g(e[t], r);
                 Object.entries(r).forEach(([e, t]) => {
                   Object.values(t || {}).forEach((t) => {
                     t[0]?.on &&
@@ -250,12 +257,12 @@ NREUM.info = {
                 });
               }
             }
-            o.isolatedBacklog || delete s[t],
-              (o.backlog[t] = null),
-              o.emit("drain-" + t, []);
+            s.isolatedBacklog || delete c[t],
+              (s.backlog[t] = null),
+              s.emit("drain-" + t, []);
           }
         }
-        function p(e, t) {
+        function g(e, t) {
           var r = e[1];
           Object.values(t[r] || {}).forEach((t) => {
             var r = e[0];
@@ -267,951 +274,6 @@ NREUM.info = {
             }
           });
         }
-      },
-      7836: (e, t, r) => {
-        "use strict";
-        r.d(t, { P: () => s, ee: () => c });
-        var n = r(384),
-          i = r(8990),
-          o = r(2646),
-          a = r(5607);
-        const s = "nr@context:".concat(a.W),
-          c = (function e(t, r) {
-            var n = {},
-              a = {},
-              d = {},
-              l = !1;
-            try {
-              l =
-                16 === r.length &&
-                u.initializedAgents?.[r]?.runtime.isolatedBacklog;
-            } catch (e) {}
-            var f = {
-              on: p,
-              addEventListener: p,
-              removeEventListener: function (e, t) {
-                var r = n[e];
-                if (!r) return;
-                for (var i = 0; i < r.length; i++) r[i] === t && r.splice(i, 1);
-              },
-              emit: function (e, r, n, i, o) {
-                !1 !== o && (o = !0);
-                if (c.aborted && !i) return;
-                t && o && t.emit(e, r, n);
-                for (var s = h(n), u = g(e), d = u.length, l = 0; l < d; l++)
-                  u[l].apply(s, r);
-                var p = v()[a[e]];
-                p && p.push([f, e, r, s]);
-                return s;
-              },
-              get: m,
-              listeners: g,
-              context: h,
-              buffer: function (e, t) {
-                const r = v();
-                if (((t = t || "feature"), f.aborted)) return;
-                Object.entries(e || {}).forEach(([e, n]) => {
-                  (a[n] = t), t in r || (r[t] = []);
-                });
-              },
-              abort: function () {
-                (f._aborted = !0),
-                  Object.keys(f.backlog).forEach((e) => {
-                    delete f.backlog[e];
-                  });
-              },
-              isBuffering: function (e) {
-                return !!v()[a[e]];
-              },
-              debugId: r,
-              backlog: l
-                ? {}
-                : t && "object" == typeof t.backlog
-                ? t.backlog
-                : {},
-              isolatedBacklog: l,
-            };
-            return (
-              Object.defineProperty(f, "aborted", {
-                get: () => {
-                  let e = f._aborted || !1;
-                  return e || (t && (e = t.aborted), e);
-                },
-              }),
-              f
-            );
-            function h(e) {
-              return e && e instanceof o.y
-                ? e
-                : e
-                ? (0, i.I)(e, s, () => new o.y(s))
-                : new o.y(s);
-            }
-            function p(e, t) {
-              n[e] = g(e).concat(t);
-            }
-            function g(e) {
-              return n[e] || [];
-            }
-            function m(t) {
-              return (d[t] = d[t] || e(f, t));
-            }
-            function v() {
-              return f.backlog;
-            }
-          })(void 0, "globalEE"),
-          u = (0, n.Zm)();
-        u.ee || (u.ee = c);
-      },
-      2646: (e, t, r) => {
-        "use strict";
-        r.d(t, { y: () => n });
-        class n {
-          constructor(e) {
-            this.contextId = e;
-          }
-        }
-      },
-      9908: (e, t, r) => {
-        "use strict";
-        r.d(t, { d: () => n, p: () => i });
-        var n = r(7836).ee.get("handle");
-        function i(e, t, r, i, o) {
-          o
-            ? (o.buffer([e], i), o.emit(e, t, r))
-            : (n.buffer([e], i), n.emit(e, t, r));
-        }
-      },
-      3606: (e, t, r) => {
-        "use strict";
-        r.d(t, { i: () => o });
-        var n = r(9908);
-        o.on = a;
-        var i = (o.handlers = {});
-        function o(e, t, r, o) {
-          a(o || n.d, i, e, t, r);
-        }
-        function a(e, t, r, i, o) {
-          o || (o = "feature"), e || (e = n.d);
-          var a = (t[o] = t[o] || {});
-          (a[r] = a[r] || []).push([e, i]);
-        }
-      },
-      3878: (e, t, r) => {
-        "use strict";
-        function n(e, t) {
-          return { capture: e, passive: !1, signal: t };
-        }
-        function i(e, t, r = !1, i) {
-          window.addEventListener(e, t, n(r, i));
-        }
-        function o(e, t, r = !1, i) {
-          document.addEventListener(e, t, n(r, i));
-        }
-        r.d(t, { DD: () => o, jT: () => n, sp: () => i });
-      },
-      5607: (e, t, r) => {
-        "use strict";
-        r.d(t, { W: () => n });
-        const n = (0, r(9566).bz)();
-      },
-      9566: (e, t, r) => {
-        "use strict";
-        r.d(t, { LA: () => s, ZF: () => c, bz: () => a, el: () => u });
-        var n = r(6154);
-        const i = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
-        function o(e, t) {
-          return e ? 15 & e[t] : (16 * Math.random()) | 0;
-        }
-        function a() {
-          const e = n.gm?.crypto || n.gm?.msCrypto;
-          let t,
-            r = 0;
-          return (
-            e &&
-              e.getRandomValues &&
-              (t = e.getRandomValues(new Uint8Array(30))),
-            i
-              .split("")
-              .map((e) =>
-                "x" === e
-                  ? o(t, r++).toString(16)
-                  : "y" === e
-                  ? ((3 & o()) | 8).toString(16)
-                  : e
-              )
-              .join("")
-          );
-        }
-        function s(e) {
-          const t = n.gm?.crypto || n.gm?.msCrypto;
-          let r,
-            i = 0;
-          t && t.getRandomValues && (r = t.getRandomValues(new Uint8Array(e)));
-          const a = [];
-          for (var s = 0; s < e; s++) a.push(o(r, i++).toString(16));
-          return a.join("");
-        }
-        function c() {
-          return s(16);
-        }
-        function u() {
-          return s(32);
-        }
-      },
-      2614: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          BB: () => a,
-          H3: () => n,
-          g: () => u,
-          iL: () => c,
-          tS: () => s,
-          uh: () => i,
-          wk: () => o,
-        });
-        const n = "NRBA",
-          i = "SESSION",
-          o = 144e5,
-          a = 18e5,
-          s = {
-            STARTED: "session-started",
-            PAUSE: "session-pause",
-            RESET: "session-reset",
-            RESUME: "session-resume",
-            UPDATE: "session-update",
-          },
-          c = { SAME_TAB: "same-tab", CROSS_TAB: "cross-tab" },
-          u = { OFF: 0, FULL: 1, ERROR: 2 };
-      },
-      1863: (e, t, r) => {
-        "use strict";
-        function n() {
-          return Math.floor(performance.now());
-        }
-        r.d(t, { t: () => n });
-      },
-      7485: (e, t, r) => {
-        "use strict";
-        r.d(t, { D: () => i });
-        var n = r(6154);
-        function i(e) {
-          if (0 === (e || "").indexOf("data:")) return { protocol: "data" };
-          try {
-            const t = new URL(e, location.href),
-              r = {
-                port: t.port,
-                hostname: t.hostname,
-                pathname: t.pathname,
-                search: t.search,
-                protocol: t.protocol.slice(0, t.protocol.indexOf(":")),
-                sameOrigin:
-                  t.protocol === n.gm?.location?.protocol &&
-                  t.host === n.gm?.location?.host,
-              };
-            return (
-              (r.port && "" !== r.port) ||
-                ("http:" === t.protocol && (r.port = "80"),
-                "https:" === t.protocol && (r.port = "443")),
-              r.pathname && "" !== r.pathname
-                ? r.pathname.startsWith("/") ||
-                  (r.pathname = "/".concat(r.pathname))
-                : (r.pathname = "/"),
-              r
-            );
-          } catch (e) {
-            return {};
-          }
-        }
-      },
-      944: (e, t, r) => {
-        "use strict";
-        function n(e, t) {
-          "function" == typeof console.debug &&
-            console.debug(
-              "New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(
-                e
-              ),
-              t
-            );
-        }
-        r.d(t, { R: () => n });
-      },
-      5701: (e, t, r) => {
-        "use strict";
-        r.d(t, { B: () => o, t: () => a });
-        var n = r(3241);
-        const i = new Set(),
-          o = {};
-        function a(e, t) {
-          const r = t.agentIdentifier;
-          (o[r] ??= {}),
-            e &&
-              "object" == typeof e &&
-              (i.has(r) ||
-                (t.ee.emit("rumresp", [e]),
-                (o[r] = e),
-                i.add(r),
-                (0, n.W)({
-                  agentIdentifier: r,
-                  loaded: !0,
-                  drained: !0,
-                  type: "lifecycle",
-                  name: "load",
-                  feature: void 0,
-                  data: e,
-                })));
-        }
-      },
-      8990: (e, t, r) => {
-        "use strict";
-        r.d(t, { I: () => i });
-        var n = Object.prototype.hasOwnProperty;
-        function i(e, t, r) {
-          if (n.call(e, t)) return e[t];
-          var i = r();
-          if (Object.defineProperty && Object.keys)
-            try {
-              return (
-                Object.defineProperty(e, t, {
-                  value: i,
-                  writable: !0,
-                  enumerable: !1,
-                }),
-                i
-              );
-            } catch (e) {}
-          return (e[t] = i), i;
-        }
-      },
-      6389: (e, t, r) => {
-        "use strict";
-        function n(e, t = 500, r = {}) {
-          const n = r?.leading || !1;
-          let i;
-          return (...r) => {
-            n &&
-              void 0 === i &&
-              (e.apply(this, r),
-              (i = setTimeout(() => {
-                i = clearTimeout(i);
-              }, t))),
-              n ||
-                (clearTimeout(i),
-                (i = setTimeout(() => {
-                  e.apply(this, r);
-                }, t)));
-          };
-        }
-        function i(e) {
-          let t = !1;
-          return (...r) => {
-            t || ((t = !0), e.apply(this, r));
-          };
-        }
-        r.d(t, { J: () => i, s: () => n });
-      },
-      3304: (e, t, r) => {
-        "use strict";
-        r.d(t, { A: () => o });
-        var n = r(7836);
-        const i = () => {
-          const e = new WeakSet();
-          return (t, r) => {
-            if ("object" == typeof r && null !== r) {
-              if (e.has(r)) return;
-              e.add(r);
-            }
-            return r;
-          };
-        };
-        function o(e) {
-          try {
-            return JSON.stringify(e, i()) ?? "";
-          } catch (e) {
-            try {
-              n.ee.emit("internal-error", [e]);
-            } catch (e) {}
-            return "";
-          }
-        }
-      },
-      3496: (e, t, r) => {
-        "use strict";
-        function n(e) {
-          return !e || !(!e.licenseKey || !e.applicationID);
-        }
-        function i(e, t) {
-          return (
-            !e ||
-            (e.licenseKey === t.info.licenseKey &&
-              e.applicationID === t.info.applicationID)
-          );
-        }
-        r.d(t, { A: () => i, I: () => n });
-      },
-      5289: (e, t, r) => {
-        "use strict";
-        r.d(t, { GG: () => o, sB: () => a });
-        var n = r(3878);
-        function i() {
-          return (
-            "undefined" == typeof document || "complete" === document.readyState
-          );
-        }
-        function o(e, t) {
-          if (i()) return e();
-          (0, n.sp)("load", e, t);
-        }
-        function a(e) {
-          if (i()) return e();
-          (0, n.DD)("DOMContentLoaded", e);
-        }
-      },
-      384: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          NT: () => o,
-          US: () => u,
-          Zm: () => a,
-          bQ: () => c,
-          dV: () => s,
-          pV: () => d,
-        });
-        var n = r(6154),
-          i = r(1863);
-        const o = { beacon: "bam.nr-data.net", errorBeacon: "bam.nr-data.net" };
-        function a() {
-          return (
-            n.gm.NREUM || (n.gm.NREUM = {}),
-            void 0 === n.gm.newrelic && (n.gm.newrelic = n.gm.NREUM),
-            n.gm.NREUM
-          );
-        }
-        function s() {
-          let e = a();
-          return (
-            e.o ||
-              (e.o = {
-                ST: n.gm.setTimeout,
-                SI: n.gm.setImmediate,
-                CT: n.gm.clearTimeout,
-                XHR: n.gm.XMLHttpRequest,
-                REQ: n.gm.Request,
-                EV: n.gm.Event,
-                PR: n.gm.Promise,
-                MO: n.gm.MutationObserver,
-                FETCH: n.gm.fetch,
-                WS: n.gm.WebSocket,
-              }),
-            e
-          );
-        }
-        function c(e, t) {
-          let r = a();
-          (r.initializedAgents ??= {}),
-            (t.initializedAt = { ms: (0, i.t)(), date: new Date() }),
-            (r.initializedAgents[e] = t);
-        }
-        function u(e, t) {
-          a()[e] = t;
-        }
-        function d() {
-          return (
-            (function () {
-              let e = a();
-              const t = e.info || {};
-              e.info = { beacon: o.beacon, errorBeacon: o.errorBeacon, ...t };
-            })(),
-            (function () {
-              let e = a();
-              const t = e.init || {};
-              e.init = { ...t };
-            })(),
-            s(),
-            (function () {
-              let e = a();
-              const t = e.loader_config || {};
-              e.loader_config = { ...t };
-            })(),
-            a()
-          );
-        }
-      },
-      2843: (e, t, r) => {
-        "use strict";
-        r.d(t, { u: () => i });
-        var n = r(3878);
-        function i(e, t = !1, r, i) {
-          (0, n.DD)(
-            "visibilitychange",
-            function () {
-              if (t) return void ("hidden" === document.visibilityState && e());
-              e(document.visibilityState);
-            },
-            r,
-            i
-          );
-        }
-      },
-      8139: (e, t, r) => {
-        "use strict";
-        r.d(t, { u: () => f });
-        var n = r(7836),
-          i = r(3434),
-          o = r(8990),
-          a = r(6154);
-        const s = {},
-          c = a.gm.XMLHttpRequest,
-          u = "addEventListener",
-          d = "removeEventListener",
-          l = "nr@wrapped:".concat(n.P);
-        function f(e) {
-          var t = (function (e) {
-            return (e || n.ee).get("events");
-          })(e);
-          if (s[t.debugId]++) return t;
-          s[t.debugId] = 1;
-          var r = (0, i.YM)(t, !0);
-          function f(e) {
-            r.inPlace(e, [u, d], "-", p);
-          }
-          function p(e, t) {
-            return e[1];
-          }
-          return (
-            "getPrototypeOf" in Object &&
-              (a.RI && h(document, f), c && h(c.prototype, f), h(a.gm, f)),
-            t.on(u + "-start", function (e, t) {
-              var n = e[1];
-              if (
-                null !== n &&
-                ("function" == typeof n || "object" == typeof n)
-              ) {
-                var i = (0, o.I)(n, l, function () {
-                  var e = {
-                    object: function () {
-                      if ("function" != typeof n.handleEvent) return;
-                      return n.handleEvent.apply(n, arguments);
-                    },
-                    function: n,
-                  }[typeof n];
-                  return e ? r(e, "fn-", null, e.name || "anonymous") : n;
-                });
-                this.wrapped = e[1] = i;
-              }
-            }),
-            t.on(d + "-start", function (e) {
-              e[1] = this.wrapped || e[1];
-            }),
-            t
-          );
-        }
-        function h(e, t, ...r) {
-          let n = e;
-          for (
-            ;
-            "object" == typeof n && !Object.prototype.hasOwnProperty.call(n, u);
-
-          )
-            n = Object.getPrototypeOf(n);
-          n && t(n, ...r);
-        }
-      },
-      3434: (e, t, r) => {
-        "use strict";
-        r.d(t, { Jt: () => o, YM: () => c });
-        var n = r(7836),
-          i = r(5607);
-        const o = "nr@original:".concat(i.W);
-        var a = Object.prototype.hasOwnProperty,
-          s = !1;
-        function c(e, t) {
-          return (
-            e || (e = n.ee),
-            (r.inPlace = function (e, t, n, i, o) {
-              n || (n = "");
-              const a = "-" === n.charAt(0);
-              for (let s = 0; s < t.length; s++) {
-                const c = t[s],
-                  u = e[c];
-                d(u) || (e[c] = r(u, a ? c + n : n, i, c, o));
-              }
-            }),
-            (r.flag = o),
-            r
-          );
-          function r(t, r, n, s, c) {
-            return d(t)
-              ? t
-              : (r || (r = ""),
-                (nrWrapper[o] = t),
-                (function (e, t, r) {
-                  if (Object.defineProperty && Object.keys)
-                    try {
-                      return (
-                        Object.keys(e).forEach(function (r) {
-                          Object.defineProperty(t, r, {
-                            get: function () {
-                              return e[r];
-                            },
-                            set: function (t) {
-                              return (e[r] = t), t;
-                            },
-                          });
-                        }),
-                        t
-                      );
-                    } catch (e) {
-                      u([e], r);
-                    }
-                  for (var n in e) a.call(e, n) && (t[n] = e[n]);
-                })(t, nrWrapper, e),
-                nrWrapper);
-            function nrWrapper() {
-              var o, a, d, l;
-              try {
-                (a = this),
-                  (o = [...arguments]),
-                  (d = "function" == typeof n ? n(o, a) : n || {});
-              } catch (t) {
-                u([t, "", [o, a, s], d], e);
-              }
-              i(r + "start", [o, a, s], d, c);
-              try {
-                return (l = t.apply(a, o));
-              } catch (e) {
-                throw (i(r + "err", [o, a, e], d, c), e);
-              } finally {
-                i(r + "end", [o, a, l], d, c);
-              }
-            }
-          }
-          function i(r, n, i, o) {
-            if (!s || t) {
-              var a = s;
-              s = !0;
-              try {
-                e.emit(r, n, i, t, o);
-              } catch (t) {
-                u([t, r, n, i], e);
-              }
-              s = a;
-            }
-          }
-        }
-        function u(e, t) {
-          t || (t = n.ee);
-          try {
-            t.emit("internal-error", e);
-          } catch (e) {}
-        }
-        function d(e) {
-          return !(e && "function" == typeof e && e.apply && !e[o]);
-        }
-      },
-      9300: (e, t, r) => {
-        "use strict";
-        r.d(t, { T: () => n });
-        const n = r(860).K7.ajax;
-      },
-      3333: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          $v: () => u,
-          TZ: () => n,
-          Zp: () => i,
-          kd: () => c,
-          mq: () => s,
-          nf: () => a,
-          qN: () => o,
-        });
-        const n = r(860).K7.genericEvents,
-          i = ["auxclick", "click", "copy", "keydown", "paste", "scrollend"],
-          o = ["focus", "blur"],
-          a = 4,
-          s = 1e3,
-          c = ["PageAction", "UserAction", "BrowserPerformance"],
-          u = {
-            MARKS: "experimental.marks",
-            MEASURES: "experimental.measures",
-            RESOURCES: "experimental.resources",
-          };
-      },
-      6774: (e, t, r) => {
-        "use strict";
-        r.d(t, { T: () => n });
-        const n = r(860).K7.jserrors;
-      },
-      993: (e, t, r) => {
-        "use strict";
-        r.d(t, { A$: () => o, ET: () => a, TZ: () => s, p_: () => i });
-        var n = r(860);
-        const i = {
-            ERROR: "ERROR",
-            WARN: "WARN",
-            INFO: "INFO",
-            DEBUG: "DEBUG",
-            TRACE: "TRACE",
-          },
-          o = { OFF: 0, ERROR: 1, WARN: 2, INFO: 3, DEBUG: 4, TRACE: 5 },
-          a = "log",
-          s = n.K7.logging;
-      },
-      3785: (e, t, r) => {
-        "use strict";
-        r.d(t, { R: () => c, b: () => u });
-        var n = r(9908),
-          i = r(1863),
-          o = r(860),
-          a = r(8154),
-          s = r(993);
-        function c(e, t, r = {}, c = s.p_.INFO, u, d = (0, i.t)()) {
-          (0, n.p)(
-            a.xV,
-            ["API/logging/".concat(c.toLowerCase(), "/called")],
-            void 0,
-            o.K7.metrics,
-            e
-          ),
-            (0, n.p)(s.ET, [d, t, r, c, u], void 0, o.K7.logging, e);
-        }
-        function u(e) {
-          return (
-            "string" == typeof e &&
-            Object.values(s.p_).some((t) => t === e.toUpperCase().trim())
-          );
-        }
-      },
-      8154: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          z_: () => o,
-          XG: () => s,
-          TZ: () => n,
-          rs: () => i,
-          xV: () => a,
-        });
-        r(6154), r(9566), r(384);
-        const n = r(860).K7.metrics,
-          i = "sm",
-          o = "cm",
-          a = "storeSupportabilityMetrics",
-          s = "storeEventMetrics";
-      },
-      6630: (e, t, r) => {
-        "use strict";
-        r.d(t, { T: () => n });
-        const n = r(860).K7.pageViewEvent;
-      },
-      782: (e, t, r) => {
-        "use strict";
-        r.d(t, { T: () => n });
-        const n = r(860).K7.pageViewTiming;
-      },
-      6344: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          BB: () => d,
-          G4: () => o,
-          Qb: () => l,
-          TZ: () => i,
-          Ug: () => a,
-          _s: () => s,
-          bc: () => u,
-          yP: () => c,
-        });
-        var n = r(2614);
-        const i = r(860).K7.sessionReplay,
-          o = {
-            RECORD: "recordReplay",
-            PAUSE: "pauseReplay",
-            ERROR_DURING_REPLAY: "errorDuringReplay",
-          },
-          a = 0.12,
-          s = {
-            DomContentLoaded: 0,
-            Load: 1,
-            FullSnapshot: 2,
-            IncrementalSnapshot: 3,
-            Meta: 4,
-            Custom: 5,
-          },
-          c = { [n.g.ERROR]: 15e3, [n.g.FULL]: 3e5, [n.g.OFF]: 0 },
-          u = {
-            RESET: { message: "Session was reset", sm: "Reset" },
-            IMPORT: { message: "Recorder failed to import", sm: "Import" },
-            TOO_MANY: { message: "429: Too Many Requests", sm: "Too-Many" },
-            TOO_BIG: { message: "Payload was too large", sm: "Too-Big" },
-            CROSS_TAB: {
-              message: "Session Entity was set to OFF on another tab",
-              sm: "Cross-Tab",
-            },
-            ENTITLEMENTS: {
-              message: "Session Replay is not allowed and will not be started",
-              sm: "Entitlement",
-            },
-          },
-          d = 5e3,
-          l = { API: "api" };
-      },
-      5270: (e, t, r) => {
-        "use strict";
-        r.d(t, { Aw: () => s, CT: () => c, SR: () => a, rF: () => u });
-        var n = r(384),
-          i = r(7767),
-          o = r(6154);
-        function a(e) {
-          return (
-            !!(0, n.dV)().o.MO && (0, i.V)(e) && !0 === e?.session_trace.enabled
-          );
-        }
-        function s(e) {
-          return !0 === e?.session_replay.preload && a(e);
-        }
-        function c(e, t) {
-          const r = t.correctAbsoluteTimestamp(e);
-          return {
-            originalTimestamp: e,
-            correctedTimestamp: r,
-            timestampDiff: e - r,
-            originTime: o.WN,
-            correctedOriginTime: t.correctedOriginTime,
-            originTimeDiff: Math.floor(o.WN - t.correctedOriginTime),
-          };
-        }
-        function u(e, t) {
-          try {
-            if ("string" == typeof t?.type) {
-              if ("password" === t.type.toLowerCase())
-                return "*".repeat(e?.length || 0);
-              if (
-                void 0 !== t?.dataset?.nrUnmask ||
-                t?.classList?.contains("nr-unmask")
-              )
-                return e;
-            }
-          } catch (e) {}
-          return "string" == typeof e
-            ? e.replace(/[\S]/g, "*")
-            : "*".repeat(e?.length || 0);
-        }
-      },
-      3738: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          He: () => i,
-          Kp: () => s,
-          Lc: () => u,
-          Rz: () => d,
-          TZ: () => n,
-          bD: () => o,
-          d3: () => a,
-          jx: () => l,
-          uP: () => c,
-        });
-        const n = r(860).K7.sessionTrace,
-          i = "bstResource",
-          o = "resource",
-          a = "-start",
-          s = "-end",
-          c = "fn" + a,
-          u = "fn" + s,
-          d = "pushState",
-          l = 1e3;
-      },
-      3962: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          AM: () => o,
-          O2: () => c,
-          Qu: () => u,
-          TZ: () => s,
-          ih: () => d,
-          pP: () => a,
-          tC: () => i,
-        });
-        var n = r(860);
-        const i = ["click", "keydown", "submit", "popstate"],
-          o = "api",
-          a = "initialPageLoad",
-          s = n.K7.softNav,
-          c = { INITIAL_PAGE_LOAD: "", ROUTE_CHANGE: 1, UNSPECIFIED: 2 },
-          u = { INTERACTION: 1, AJAX: 2, CUSTOM_END: 3, CUSTOM_TRACER: 4 },
-          d = { IP: "in progress", FIN: "finished", CAN: "cancelled" };
-      },
-      7378: (e, t, r) => {
-        "use strict";
-        r.d(t, {
-          $p: () => x,
-          BR: () => b,
-          Kp: () => w,
-          L3: () => y,
-          Lc: () => c,
-          NC: () => o,
-          SG: () => d,
-          TZ: () => i,
-          U6: () => p,
-          UT: () => m,
-          d3: () => R,
-          dT: () => f,
-          e5: () => A,
-          gx: () => v,
-          l9: () => l,
-          oW: () => h,
-          op: () => g,
-          rw: () => u,
-          tH: () => E,
-          uP: () => s,
-          wW: () => T,
-          xq: () => a,
-        });
-        var n = r(384);
-        const i = r(860).K7.spa,
-          o = ["click", "submit", "keypress", "keydown", "keyup", "change"],
-          a = 999,
-          s = "fn-start",
-          c = "fn-end",
-          u = "cb-start",
-          d = "api-ixn-",
-          l = "remaining",
-          f = "interaction",
-          h = "spaNode",
-          p = "jsonpNode",
-          g = "fetch-start",
-          m = "fetch-done",
-          v = "fetch-body-",
-          b = "jsonp-end",
-          y = (0, n.dV)().o.ST,
-          R = "-start",
-          w = "-end",
-          x = "-body",
-          T = "cb" + w,
-          A = "jsTime",
-          E = "fetch";
-      },
-      4234: (e, t, r) => {
-        "use strict";
-        r.d(t, { W: () => o });
-        var n = r(7836),
-          i = r(1687);
-        class o {
-          constructor(e, t) {
-            (this.agentIdentifier = e),
-              (this.ee = n.ee.get(e)),
-              (this.featureName = t),
-              (this.blocked = !1);
-          }
-          deregisterDrain() {
-            (0, i.x3)(this.agentIdentifier, this.featureName);
-          }
-        }
-      },
-      7767: (e, t, r) => {
-        "use strict";
-        r.d(t, { V: () => i });
-        var n = r(6154);
-        const i = (e) => n.RI && !0 === e?.privacy.cookies_enabled;
       },
       1741: (e, t, r) => {
         "use strict";
@@ -1274,47 +336,472 @@ NREUM.info = {
           setCurrentRouteName(e) {
             return this.#e(i.PA, e);
           }
-          interaction() {
-            return this.#e(i.dT);
+          interaction(e) {
+            return this.#e(i.dT, e);
           }
           wrapLogger(e, t, r) {
             return this.#e(i.Wb, e, t, r);
+          }
+          measure(e, t) {
+            return this.#e(i.V1, e, t);
+          }
+          consent(e) {
+            return this.#e(i.Pv, e);
+          }
+        }
+      },
+      1863: (e, t, r) => {
+        "use strict";
+        function n() {
+          return Math.floor(performance.now());
+        }
+        r.d(t, { t: () => n });
+      },
+      1910: (e, t, r) => {
+        "use strict";
+        r.d(t, { i: () => o });
+        var n = r(944);
+        const i = new Map();
+        function o(...e) {
+          return e.every((e) => {
+            if (i.has(e)) return i.get(e);
+            const t = "function" == typeof e ? e.toString() : "",
+              r = t.includes("[native code]"),
+              o = t.includes("nrWrapper");
+            return r || o || (0, n.R)(64, e?.name || t), i.set(e, r), r;
+          });
+        }
+      },
+      2555: (e, t, r) => {
+        "use strict";
+        r.d(t, { D: () => a, f: () => s });
+        var n = r(384),
+          i = r(8122);
+        const o = {
+          beacon: n.NT.beacon,
+          errorBeacon: n.NT.errorBeacon,
+          licenseKey: void 0,
+          applicationID: void 0,
+          sa: void 0,
+          queueTime: void 0,
+          applicationTime: void 0,
+          ttGuid: void 0,
+          user: void 0,
+          account: void 0,
+          product: void 0,
+          extra: void 0,
+          jsAttributes: {},
+          userAttributes: void 0,
+          atts: void 0,
+          transactionName: void 0,
+          tNamePlain: void 0,
+        };
+        function s(e) {
+          try {
+            return !!e.licenseKey && !!e.errorBeacon && !!e.applicationID;
+          } catch (e) {
+            return !1;
+          }
+        }
+        const a = (e) => (0, i.a)(e, o);
+      },
+      2614: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          BB: () => s,
+          H3: () => n,
+          g: () => d,
+          iL: () => c,
+          tS: () => a,
+          uh: () => i,
+          wk: () => o,
+        });
+        const n = "NRBA",
+          i = "SESSION",
+          o = 144e5,
+          s = 18e5,
+          a = {
+            STARTED: "session-started",
+            PAUSE: "session-pause",
+            RESET: "session-reset",
+            RESUME: "session-resume",
+            UPDATE: "session-update",
+          },
+          c = { SAME_TAB: "same-tab", CROSS_TAB: "cross-tab" },
+          d = { OFF: 0, FULL: 1, ERROR: 2 };
+      },
+      2646: (e, t, r) => {
+        "use strict";
+        r.d(t, { y: () => n });
+        class n {
+          constructor(e) {
+            this.contextId = e;
+          }
+        }
+      },
+      2843: (e, t, r) => {
+        "use strict";
+        r.d(t, { G: () => o, u: () => i });
+        var n = r(3878);
+        function i(e, t = !1, r, i) {
+          (0, n.DD)(
+            "visibilitychange",
+            function () {
+              if (t) return void ("hidden" === document.visibilityState && e());
+              e(document.visibilityState);
+            },
+            r,
+            i
+          );
+        }
+        function o(e, t, r) {
+          (0, n.sp)("pagehide", e, t, r);
+        }
+      },
+      3241: (e, t, r) => {
+        "use strict";
+        r.d(t, { W: () => o });
+        var n = r(6154);
+        const i = "newrelic";
+        function o(e = {}) {
+          try {
+            n.gm.dispatchEvent(new CustomEvent(i, { detail: e }));
+          } catch (e) {}
+        }
+      },
+      3304: (e, t, r) => {
+        "use strict";
+        r.d(t, { A: () => o });
+        var n = r(7836);
+        const i = () => {
+          const e = new WeakSet();
+          return (t, r) => {
+            if ("object" == typeof r && null !== r) {
+              if (e.has(r)) return;
+              e.add(r);
+            }
+            return r;
+          };
+        };
+        function o(e) {
+          try {
+            return JSON.stringify(e, i()) ?? "";
+          } catch (e) {
+            try {
+              n.ee.emit("internal-error", [e]);
+            } catch (e) {}
+            return "";
+          }
+        }
+      },
+      3333: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          $v: () => u,
+          TZ: () => n,
+          Xh: () => c,
+          Zp: () => i,
+          kd: () => d,
+          mq: () => a,
+          nf: () => s,
+          qN: () => o,
+        });
+        const n = r(860).K7.genericEvents,
+          i = ["auxclick", "click", "copy", "keydown", "paste", "scrollend"],
+          o = ["focus", "blur"],
+          s = 4,
+          a = 1e3,
+          c = 2e3,
+          d = ["PageAction", "UserAction", "BrowserPerformance"],
+          u = { RESOURCES: "experimental.resources", REGISTER: "register" };
+      },
+      3434: (e, t, r) => {
+        "use strict";
+        r.d(t, { Jt: () => o, YM: () => d });
+        var n = r(7836),
+          i = r(5607);
+        const o = "nr@original:".concat(i.W),
+          s = 50;
+        var a = Object.prototype.hasOwnProperty,
+          c = !1;
+        function d(e, t) {
+          return (
+            e || (e = n.ee),
+            (r.inPlace = function (e, t, n, i, o) {
+              n || (n = "");
+              const s = "-" === n.charAt(0);
+              for (let a = 0; a < t.length; a++) {
+                const c = t[a],
+                  d = e[c];
+                l(d) || (e[c] = r(d, s ? c + n : n, i, c, o));
+              }
+            }),
+            (r.flag = o),
+            r
+          );
+          function r(t, r, n, c, d) {
+            return l(t)
+              ? t
+              : (r || (r = ""),
+                (nrWrapper[o] = t),
+                (function (e, t, r) {
+                  if (Object.defineProperty && Object.keys)
+                    try {
+                      return (
+                        Object.keys(e).forEach(function (r) {
+                          Object.defineProperty(t, r, {
+                            get: function () {
+                              return e[r];
+                            },
+                            set: function (t) {
+                              return (e[r] = t), t;
+                            },
+                          });
+                        }),
+                        t
+                      );
+                    } catch (e) {
+                      u([e], r);
+                    }
+                  for (var n in e) a.call(e, n) && (t[n] = e[n]);
+                })(t, nrWrapper, e),
+                nrWrapper);
+            function nrWrapper() {
+              var o, a, l, f;
+              let h;
+              try {
+                (a = this),
+                  (o = [...arguments]),
+                  (l = "function" == typeof n ? n(o, a) : n || {});
+              } catch (t) {
+                u([t, "", [o, a, c], l], e);
+              }
+              i(r + "start", [o, a, c], l, d);
+              const p = performance.now();
+              let g;
+              try {
+                return (f = t.apply(a, o)), (g = performance.now()), f;
+              } catch (e) {
+                throw (
+                  ((g = performance.now()),
+                  i(r + "err", [o, a, e], l, d),
+                  (h = e),
+                  h)
+                );
+              } finally {
+                const e = g - p,
+                  t = {
+                    start: p,
+                    end: g,
+                    duration: e,
+                    isLongTask: e >= s,
+                    methodName: c,
+                    thrownError: h,
+                  };
+                t.isLongTask && i("long-task", [t, a], l, d),
+                  i(r + "end", [o, a, f], l, d);
+              }
+            }
+          }
+          function i(r, n, i, o) {
+            if (!c || t) {
+              var s = c;
+              c = !0;
+              try {
+                e.emit(r, n, i, t, o);
+              } catch (t) {
+                u([t, r, n, i], e);
+              }
+              c = s;
+            }
+          }
+        }
+        function u(e, t) {
+          t || (t = n.ee);
+          try {
+            t.emit("internal-error", e);
+          } catch (e) {}
+        }
+        function l(e) {
+          return !(e && "function" == typeof e && e.apply && !e[o]);
+        }
+      },
+      3606: (e, t, r) => {
+        "use strict";
+        r.d(t, { i: () => o });
+        var n = r(9908);
+        o.on = s;
+        var i = (o.handlers = {});
+        function o(e, t, r, o) {
+          s(o || n.d, i, e, t, r);
+        }
+        function s(e, t, r, i, o) {
+          o || (o = "feature"), e || (e = n.d);
+          var s = (t[o] = t[o] || {});
+          (s[r] = s[r] || []).push([e, i]);
+        }
+      },
+      3738: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          He: () => i,
+          Kp: () => a,
+          Lc: () => d,
+          Rz: () => u,
+          TZ: () => n,
+          bD: () => o,
+          d3: () => s,
+          jx: () => l,
+          sl: () => f,
+          uP: () => c,
+        });
+        const n = r(860).K7.sessionTrace,
+          i = "bstResource",
+          o = "resource",
+          s = "-start",
+          a = "-end",
+          c = "fn" + s,
+          d = "fn" + a,
+          u = "pushState",
+          l = 1e3,
+          f = 3e4;
+      },
+      3785: (e, t, r) => {
+        "use strict";
+        r.d(t, { R: () => c, b: () => d });
+        var n = r(9908),
+          i = r(1863),
+          o = r(860),
+          s = r(3969),
+          a = r(993);
+        function c(e, t, r = {}, c = a.p_.INFO, d = !0, u, l = (0, i.t)()) {
+          (0, n.p)(
+            s.xV,
+            ["API/logging/".concat(c.toLowerCase(), "/called")],
+            void 0,
+            o.K7.metrics,
+            e
+          ),
+            (0, n.p)(a.ET, [l, t, r, c, d, u], void 0, o.K7.logging, e);
+        }
+        function d(e) {
+          return (
+            "string" == typeof e &&
+            Object.values(a.p_).some((t) => t === e.toUpperCase().trim())
+          );
+        }
+      },
+      3878: (e, t, r) => {
+        "use strict";
+        function n(e, t) {
+          return { capture: e, passive: !1, signal: t };
+        }
+        function i(e, t, r = !1, i) {
+          window.addEventListener(e, t, n(r, i));
+        }
+        function o(e, t, r = !1, i) {
+          document.addEventListener(e, t, n(r, i));
+        }
+        r.d(t, { DD: () => o, jT: () => n, sp: () => i });
+      },
+      3962: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          AM: () => s,
+          O2: () => l,
+          OV: () => o,
+          Qu: () => f,
+          TZ: () => c,
+          ih: () => h,
+          pP: () => a,
+          t1: () => u,
+          tC: () => i,
+          wD: () => d,
+        });
+        var n = r(860);
+        const i = ["click", "keydown", "submit"],
+          o = "popstate",
+          s = "api",
+          a = "initialPageLoad",
+          c = n.K7.softNav,
+          d = 5e3,
+          u = 500,
+          l = { INITIAL_PAGE_LOAD: "", ROUTE_CHANGE: 1, UNSPECIFIED: 2 },
+          f = { INTERACTION: 1, AJAX: 2, CUSTOM_END: 3, CUSTOM_TRACER: 4 },
+          h = {
+            IP: "in progress",
+            PF: "pending finish",
+            FIN: "finished",
+            CAN: "cancelled",
+          };
+      },
+      3969: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          TZ: () => n,
+          XG: () => a,
+          rs: () => i,
+          xV: () => s,
+          z_: () => o,
+        });
+        const n = r(860).K7.metrics,
+          i = "sm",
+          o = "cm",
+          s = "storeSupportabilityMetrics",
+          a = "storeEventMetrics";
+      },
+      4234: (e, t, r) => {
+        "use strict";
+        r.d(t, { W: () => o });
+        var n = r(7836),
+          i = r(1687);
+        class o {
+          constructor(e, t) {
+            (this.agentIdentifier = e),
+              (this.ee = n.ee.get(e)),
+              (this.featureName = t),
+              (this.blocked = !1);
+          }
+          deregisterDrain() {
+            (0, i.x3)(this.agentIdentifier, this.featureName);
           }
         }
       },
       4261: (e, t, r) => {
         "use strict";
         r.d(t, {
-          $9: () => d,
+          $9: () => u,
           BL: () => c,
           CH: () => p,
-          Dl: () => w,
-          Fw: () => R,
+          Dl: () => x,
+          Fw: () => w,
           PA: () => v,
           Pl: () => n,
+          Pv: () => A,
           Tb: () => f,
-          U2: () => a,
+          U2: () => s,
+          V1: () => E,
           Wb: () => T,
           bt: () => y,
           cD: () => b,
-          d3: () => x,
-          dT: () => u,
+          d3: () => R,
+          dT: () => d,
           eY: () => g,
           fF: () => h,
           hG: () => o,
           hw: () => i,
-          k6: () => s,
+          k6: () => a,
           nb: () => m,
           o5: () => l,
         });
         const n = "api-",
           i = n + "ixn-",
           o = "addPageAction",
-          a = "addToTrace",
-          s = "addRelease",
+          s = "addToTrace",
+          a = "addRelease",
           c = "finished",
-          u = "interaction",
-          d = "log",
+          d = "interaction",
+          u = "log",
           l = "noticeError",
           f = "pauseReplay",
           h = "recordCustomEvent",
@@ -1324,19 +811,46 @@ NREUM.info = {
           v = "setCurrentRouteName",
           b = "setCustomAttribute",
           y = "setErrorHandler",
-          R = "setPageViewName",
-          w = "setUserId",
-          x = "start",
-          T = "wrapLogger";
+          w = "setPageViewName",
+          x = "setUserId",
+          R = "start",
+          T = "wrapLogger",
+          E = "measure",
+          A = "consent";
+      },
+      4387: (e, t, r) => {
+        "use strict";
+        function n(e = {}) {
+          return !(!e.id || !e.name);
+        }
+        function i(e) {
+          return (
+            ("string" == typeof e && e.trim().length < 501) ||
+            "number" == typeof e
+          );
+        }
+        function o(e, t) {
+          if (2 !== t?.harvestEndpointVersion) return {};
+          const r = t.agentRef.runtime.appMetadata.agents[0].entityGuid;
+          return n(e)
+            ? {
+                "source.id": e.id,
+                "source.name": e.name,
+                "source.type": e.type,
+                "parent.id": e.parent?.id || r,
+              }
+            : { "entity.guid": r, appId: t.agentRef.info.applicationID };
+        }
+        r.d(t, { Ux: () => o, c7: () => n, yo: () => i });
       },
       5205: (e, t, r) => {
         "use strict";
-        r.d(t, { j: () => S });
+        r.d(t, { j: () => _ });
         var n = r(384),
           i = r(1741);
         var o = r(2555),
-          a = r(3333);
-        const s = (e) => {
+          s = r(3333);
+        const a = (e) => {
           if (!e || "string" != typeof e) return !1;
           try {
             document.createDocumentFragment().querySelector(e);
@@ -1346,16 +860,19 @@ NREUM.info = {
           return !0;
         };
         var c = r(2614),
-          u = r(944),
-          d = r(8122);
+          d = r(944),
+          u = r(8122);
         const l = "[data-nr-mask]",
           f = (e) =>
-            (0, d.a)(
+            (0, u.a)(
               e,
               (() => {
                 const e = {
                   feature_flags: [],
-                  experimental: { marks: !1, measures: !1, resources: !1 },
+                  experimental: {
+                    allow_registered_children: !1,
+                    resources: !1,
+                  },
                   mask_selector: "*",
                   block_selector: "[data-nr-block]",
                   mask_input_options: {
@@ -1385,9 +902,18 @@ NREUM.info = {
                     autoStart: !0,
                   },
                   api: {
-                    allow_registered_children: !0,
+                    get allow_registered_children() {
+                      return (
+                        e.feature_flags.includes(s.$v.REGISTER) ||
+                        e.experimental.allow_registered_children
+                      );
+                    },
+                    set allow_registered_children(t) {
+                      e.experimental.allow_registered_children = t;
+                    },
                     duplicate_registered_data: !1,
                   },
+                  browser_consent_mode: { enabled: !1 },
                   distributed_tracing: {
                     enabled: void 0,
                     exclude_newrelic_header: void 0,
@@ -1411,29 +937,13 @@ NREUM.info = {
                   page_view_event: { enabled: !0, autoStart: !0 },
                   page_view_timing: { enabled: !0, autoStart: !0 },
                   performance: {
-                    get capture_marks() {
-                      return (
-                        e.feature_flags.includes(a.$v.MARKS) ||
-                        e.experimental.marks
-                      );
-                    },
-                    set capture_marks(t) {
-                      e.experimental.marks = t;
-                    },
-                    get capture_measures() {
-                      return (
-                        e.feature_flags.includes(a.$v.MEASURES) ||
-                        e.experimental.measures
-                      );
-                    },
-                    set capture_measures(t) {
-                      e.experimental.measures = t;
-                    },
+                    capture_marks: !1,
+                    capture_measures: !1,
                     capture_detail: !0,
                     resources: {
                       get enabled() {
                         return (
-                          e.feature_flags.includes(a.$v.RESOURCES) ||
+                          e.feature_flags.includes(s.$v.RESOURCES) ||
                           e.experimental.resources
                         );
                       },
@@ -1462,11 +972,11 @@ NREUM.info = {
                       return e.mask_selector;
                     },
                     set mask_text_selector(t) {
-                      s(t)
+                      a(t)
                         ? (e.mask_selector = "".concat(t, ",").concat(l))
                         : "" === t || null === t
                         ? (e.mask_selector = l)
-                        : (0, u.R)(5, t);
+                        : (0, d.R)(5, t);
                     },
                     get block_class() {
                       return "nr-block";
@@ -1481,9 +991,9 @@ NREUM.info = {
                       return e.block_selector;
                     },
                     set block_selector(t) {
-                      s(t)
+                      a(t)
                         ? (e.block_selector += ",".concat(t))
-                        : "" !== t && (0, u.R)(6, t);
+                        : "" !== t && (0, d.R)(6, t);
                     },
                     get mask_input_options() {
                       return e.mask_input_options;
@@ -1491,7 +1001,7 @@ NREUM.info = {
                     set mask_input_options(t) {
                       t && "object" == typeof t
                         ? (e.mask_input_options = { ...t, password: !0 })
-                        : (0, u.R)(7, t);
+                        : (0, d.R)(7, t);
                     },
                   },
                   session_trace: { enabled: !0, autoStart: !0 },
@@ -1514,12 +1024,18 @@ NREUM.info = {
             version: p.xv,
             originTime: h.WN,
           },
-          v = {
+          v = { consented: !1 },
+          b = {
             appMetadata: {},
+            get consented() {
+              return this.session?.state?.consent || v.consented;
+            },
+            set consented(e) {
+              v.consented = e;
+            },
             customTransaction: void 0,
             denyList: void 0,
             disabled: !1,
-            entityManager: void 0,
             harvester: void 0,
             isolatedBacklog: !1,
             isRecording: !1,
@@ -1531,12 +1047,14 @@ NREUM.info = {
             releaseIds: {},
             session: void 0,
             timeKeeper: void 0,
+            registeredEntities: [],
+            jsAttributesMetadata: { bytes: 0 },
             get harvestCount() {
               return ++g;
             },
           },
-          b = (e) => {
-            const t = (0, d.a)(e, v),
+          y = (e) => {
+            const t = (0, u.a)(e, b),
               r = Object.keys(m).reduce(
                 (e, t) => (
                   (e[t] = {
@@ -1551,14 +1069,14 @@ NREUM.info = {
               );
             return Object.defineProperties(t, r);
           };
-        var y = r(5701);
-        const R = (e) => {
+        var w = r(5701);
+        const x = (e) => {
           const t = e.startsWith("http");
           (e += "/"), (r.p = t ? e : "https://" + e);
         };
-        var w = r(7836),
-          x = r(3241);
-        const T = {
+        var R = r(7836),
+          T = r(3241);
+        const E = {
             accountID: void 0,
             trustKey: void 0,
             agentID: void 0,
@@ -1566,30 +1084,31 @@ NREUM.info = {
             applicationID: void 0,
             xpid: void 0,
           },
-          A = (e) => (0, d.a)(e, T),
-          E = new Set();
-        function S(e, t = {}, r, a) {
+          A = (e) => (0, u.a)(e, E),
+          S = new Set();
+        function _(e, t = {}, r, s) {
           let {
-            init: s,
+            init: a,
             info: c,
-            loader_config: u,
-            runtime: d = {},
+            loader_config: d,
+            runtime: u = {},
             exposed: l = !0,
           } = t;
           if (!c) {
             const e = (0, n.pV)();
-            (s = e.init), (c = e.info), (u = e.loader_config);
+            (a = e.init), (c = e.info), (d = e.loader_config);
           }
-          (e.init = f(s || {})),
-            (e.loader_config = A(u || {})),
+          (e.init = f(a || {})),
+            (e.loader_config = A(d || {})),
             (c.jsAttributes ??= {}),
             h.bv && (c.jsAttributes.isWorker = !0),
             (e.info = (0, o.D)(c));
           const p = e.init,
             g = [c.beacon, c.errorBeacon];
-          E.has(e.agentIdentifier) ||
-            (p.proxy.assets && (R(p.proxy.assets), g.push(p.proxy.assets)),
+          S.has(e.agentIdentifier) ||
+            (p.proxy.assets && (x(p.proxy.assets), g.push(p.proxy.assets)),
             p.proxy.beacon && g.push(p.proxy.beacon),
+            (e.beacons = [...g]),
             (function (e) {
               const t = (0, n.pV)();
               Object.getOwnPropertyNames(i.W.prototype).forEach((r) => {
@@ -1605,29 +1124,595 @@ NREUM.info = {
                   });
               });
             })(e),
-            (0, n.US)("activatedFeatures", y.B),
+            (0, n.US)("activatedFeatures", w.B),
             (e.runSoftNavOverSpa &&=
               !0 === p.soft_navigations.enabled &&
               p.feature_flags.includes("soft_nav"))),
-            (d.denyList = [
+            (u.denyList = [
               ...(p.ajax.deny_list || []),
               ...(p.ajax.block_internal ? g : []),
             ]),
-            (d.ptid = e.agentIdentifier),
-            (d.loaderType = r),
-            (e.runtime = b(d)),
-            E.has(e.agentIdentifier) ||
-              ((e.ee = w.ee.get(e.agentIdentifier)),
+            (u.ptid = e.agentIdentifier),
+            (u.loaderType = r),
+            (e.runtime = y(u)),
+            S.has(e.agentIdentifier) ||
+              ((e.ee = R.ee.get(e.agentIdentifier)),
               (e.exposed = l),
-              (0, x.W)({
+              (0, T.W)({
                 agentIdentifier: e.agentIdentifier,
-                drained: !!y.B?.[e.agentIdentifier],
+                drained: !!w.B?.[e.agentIdentifier],
                 type: "lifecycle",
                 name: "initialize",
                 feature: void 0,
                 data: e.config,
               })),
-            E.add(e.agentIdentifier);
+            S.add(e.agentIdentifier);
+        }
+      },
+      5270: (e, t, r) => {
+        "use strict";
+        r.d(t, { Aw: () => s, SR: () => o, rF: () => a });
+        var n = r(384),
+          i = r(7767);
+        function o(e) {
+          return (
+            !!(0, n.dV)().o.MO && (0, i.V)(e) && !0 === e?.session_trace.enabled
+          );
+        }
+        function s(e) {
+          return !0 === e?.session_replay.preload && o(e);
+        }
+        function a(e, t) {
+          try {
+            if ("string" == typeof t?.type) {
+              if ("password" === t.type.toLowerCase())
+                return "*".repeat(e?.length || 0);
+              if (
+                void 0 !== t?.dataset?.nrUnmask ||
+                t?.classList?.contains("nr-unmask")
+              )
+                return e;
+            }
+          } catch (e) {}
+          return "string" == typeof e
+            ? e.replace(/[\S]/g, "*")
+            : "*".repeat(e?.length || 0);
+        }
+      },
+      5289: (e, t, r) => {
+        "use strict";
+        r.d(t, { GG: () => s, Qr: () => c, sB: () => a });
+        var n = r(3878),
+          i = r(6389);
+        function o() {
+          return (
+            "undefined" == typeof document || "complete" === document.readyState
+          );
+        }
+        function s(e, t) {
+          if (o()) return e();
+          const r = (0, i.J)(e),
+            s = setInterval(() => {
+              o() && (clearInterval(s), r());
+            }, 500);
+          (0, n.sp)("load", r, t);
+        }
+        function a(e) {
+          if (o()) return e();
+          (0, n.DD)("DOMContentLoaded", e);
+        }
+        function c(e) {
+          if (o()) return e();
+          (0, n.sp)("popstate", e);
+        }
+      },
+      5607: (e, t, r) => {
+        "use strict";
+        r.d(t, { W: () => n });
+        const n = (0, r(9566).bz)();
+      },
+      5701: (e, t, r) => {
+        "use strict";
+        r.d(t, { B: () => o, t: () => s });
+        var n = r(3241);
+        const i = new Set(),
+          o = {};
+        function s(e, t) {
+          const r = t.agentIdentifier;
+          (o[r] ??= {}),
+            e &&
+              "object" == typeof e &&
+              (i.has(r) ||
+                (t.ee.emit("rumresp", [e]),
+                (o[r] = e),
+                i.add(r),
+                (0, n.W)({
+                  agentIdentifier: r,
+                  loaded: !0,
+                  drained: !0,
+                  type: "lifecycle",
+                  name: "load",
+                  feature: void 0,
+                  data: e,
+                })));
+        }
+      },
+      6154: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          A4: () => a,
+          OF: () => u,
+          RI: () => i,
+          WN: () => h,
+          bv: () => o,
+          eN: () => p,
+          gm: () => s,
+          lR: () => f,
+          m: () => d,
+          mw: () => c,
+          sb: () => l,
+        });
+        var n = r(1863);
+        const i = "undefined" != typeof window && !!window.document,
+          o =
+            "undefined" != typeof WorkerGlobalScope &&
+            (("undefined" != typeof self &&
+              self instanceof WorkerGlobalScope &&
+              self.navigator instanceof WorkerNavigator) ||
+              ("undefined" != typeof globalThis &&
+                globalThis instanceof WorkerGlobalScope &&
+                globalThis.navigator instanceof WorkerNavigator)),
+          s = i
+            ? window
+            : "undefined" != typeof WorkerGlobalScope &&
+              (("undefined" != typeof self &&
+                self instanceof WorkerGlobalScope &&
+                self) ||
+                ("undefined" != typeof globalThis &&
+                  globalThis instanceof WorkerGlobalScope &&
+                  globalThis)),
+          a = "complete" === s?.document?.readyState,
+          c = Boolean("hidden" === s?.document?.visibilityState),
+          d = "" + s?.location,
+          u = /iPad|iPhone|iPod/.test(s.navigator?.userAgent),
+          l = u && "undefined" == typeof SharedWorker,
+          f = (() => {
+            const e = s.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);
+            return Array.isArray(e) && e.length >= 2 ? +e[1] : 0;
+          })(),
+          h = Date.now() - (0, n.t)(),
+          p = () =>
+            "undefined" != typeof PerformanceNavigationTiming &&
+            s?.performance?.getEntriesByType("navigation")?.[0]?.responseStart;
+      },
+      6344: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          BB: () => u,
+          Qb: () => l,
+          TZ: () => i,
+          Ug: () => s,
+          Vh: () => o,
+          _s: () => a,
+          bc: () => d,
+          yP: () => c,
+        });
+        var n = r(2614);
+        const i = r(860).K7.sessionReplay,
+          o = "errorDuringReplay",
+          s = 0.12,
+          a = {
+            DomContentLoaded: 0,
+            Load: 1,
+            FullSnapshot: 2,
+            IncrementalSnapshot: 3,
+            Meta: 4,
+            Custom: 5,
+          },
+          c = { [n.g.ERROR]: 15e3, [n.g.FULL]: 3e5, [n.g.OFF]: 0 },
+          d = {
+            RESET: { message: "Session was reset", sm: "Reset" },
+            IMPORT: { message: "Recorder failed to import", sm: "Import" },
+            TOO_MANY: { message: "429: Too Many Requests", sm: "Too-Many" },
+            TOO_BIG: { message: "Payload was too large", sm: "Too-Big" },
+            CROSS_TAB: {
+              message: "Session Entity was set to OFF on another tab",
+              sm: "Cross-Tab",
+            },
+            ENTITLEMENTS: {
+              message: "Session Replay is not allowed and will not be started",
+              sm: "Entitlement",
+            },
+          },
+          u = 5e3,
+          l = {
+            API: "api",
+            RESUME: "resume",
+            SWITCH_TO_FULL: "switchToFull",
+            INITIALIZE: "initialize",
+            PRELOAD: "preload",
+          };
+      },
+      6389: (e, t, r) => {
+        "use strict";
+        function n(e, t = 500, r = {}) {
+          const n = r?.leading || !1;
+          let i;
+          return (...r) => {
+            n &&
+              void 0 === i &&
+              (e.apply(this, r),
+              (i = setTimeout(() => {
+                i = clearTimeout(i);
+              }, t))),
+              n ||
+                (clearTimeout(i),
+                (i = setTimeout(() => {
+                  e.apply(this, r);
+                }, t)));
+          };
+        }
+        function i(e) {
+          let t = !1;
+          return (...r) => {
+            t || ((t = !0), e.apply(this, r));
+          };
+        }
+        r.d(t, { J: () => i, s: () => n });
+      },
+      6630: (e, t, r) => {
+        "use strict";
+        r.d(t, { T: () => n });
+        const n = r(860).K7.pageViewEvent;
+      },
+      6774: (e, t, r) => {
+        "use strict";
+        r.d(t, { T: () => n });
+        const n = r(860).K7.jserrors;
+      },
+      7295: (e, t, r) => {
+        "use strict";
+        r.d(t, { Xv: () => s, gX: () => i, iW: () => o });
+        var n = [];
+        function i(e) {
+          if (!e || o(e)) return !1;
+          if (0 === n.length) return !0;
+          for (var t = 0; t < n.length; t++) {
+            var r = n[t];
+            if ("*" === r.hostname) return !1;
+            if (a(r.hostname, e.hostname) && c(r.pathname, e.pathname))
+              return !1;
+          }
+          return !0;
+        }
+        function o(e) {
+          return void 0 === e.hostname;
+        }
+        function s(e) {
+          if (((n = []), e && e.length))
+            for (var t = 0; t < e.length; t++) {
+              let r = e[t];
+              if (!r) continue;
+              0 === r.indexOf("http://")
+                ? (r = r.substring(7))
+                : 0 === r.indexOf("https://") && (r = r.substring(8));
+              const i = r.indexOf("/");
+              let o, s;
+              i > 0
+                ? ((o = r.substring(0, i)), (s = r.substring(i)))
+                : ((o = r), (s = ""));
+              let [a] = o.split(":");
+              n.push({ hostname: a, pathname: s });
+            }
+        }
+        function a(e, t) {
+          return !(e.length > t.length) && t.indexOf(e) === t.length - e.length;
+        }
+        function c(e, t) {
+          return (
+            0 === e.indexOf("/") && (e = e.substring(1)),
+            0 === t.indexOf("/") && (t = t.substring(1)),
+            "" === e || e === t
+          );
+        }
+      },
+      7378: (e, t, r) => {
+        "use strict";
+        r.d(t, {
+          $p: () => R,
+          BR: () => b,
+          Kp: () => x,
+          L3: () => y,
+          Lc: () => c,
+          NC: () => o,
+          SG: () => u,
+          TZ: () => i,
+          U6: () => p,
+          UT: () => m,
+          d3: () => w,
+          dT: () => f,
+          e5: () => E,
+          gx: () => v,
+          l9: () => l,
+          oW: () => h,
+          op: () => g,
+          rw: () => d,
+          tH: () => A,
+          uP: () => a,
+          wW: () => T,
+          xq: () => s,
+        });
+        var n = r(384);
+        const i = r(860).K7.spa,
+          o = ["click", "submit", "keypress", "keydown", "keyup", "change"],
+          s = 999,
+          a = "fn-start",
+          c = "fn-end",
+          d = "cb-start",
+          u = "api-ixn-",
+          l = "remaining",
+          f = "interaction",
+          h = "spaNode",
+          p = "jsonpNode",
+          g = "fetch-start",
+          m = "fetch-done",
+          v = "fetch-body-",
+          b = "jsonp-end",
+          y = (0, n.dV)().o.ST,
+          w = "-start",
+          x = "-end",
+          R = "-body",
+          T = "cb" + x,
+          E = "jsTime",
+          A = "fetch";
+      },
+      7485: (e, t, r) => {
+        "use strict";
+        r.d(t, { D: () => i });
+        var n = r(6154);
+        function i(e) {
+          if (0 === (e || "").indexOf("data:")) return { protocol: "data" };
+          try {
+            const t = new URL(e, location.href),
+              r = {
+                port: t.port,
+                hostname: t.hostname,
+                pathname: t.pathname,
+                search: t.search,
+                protocol: t.protocol.slice(0, t.protocol.indexOf(":")),
+                sameOrigin:
+                  t.protocol === n.gm?.location?.protocol &&
+                  t.host === n.gm?.location?.host,
+              };
+            return (
+              (r.port && "" !== r.port) ||
+                ("http:" === t.protocol && (r.port = "80"),
+                "https:" === t.protocol && (r.port = "443")),
+              r.pathname && "" !== r.pathname
+                ? r.pathname.startsWith("/") ||
+                  (r.pathname = "/".concat(r.pathname))
+                : (r.pathname = "/"),
+              r
+            );
+          } catch (e) {
+            return {};
+          }
+        }
+      },
+      7699: (e, t, r) => {
+        "use strict";
+        r.d(t, { It: () => o, KC: () => a, No: () => i, qh: () => s });
+        var n = r(860);
+        const i = 16e3,
+          o = 1e6,
+          s = "SESSION_ERROR",
+          a = {
+            [n.K7.logging]: !0,
+            [n.K7.genericEvents]: !1,
+            [n.K7.jserrors]: !1,
+            [n.K7.ajax]: !1,
+          };
+      },
+      7767: (e, t, r) => {
+        "use strict";
+        r.d(t, { V: () => i });
+        var n = r(6154);
+        const i = (e) => n.RI && !0 === e?.privacy.cookies_enabled;
+      },
+      7836: (e, t, r) => {
+        "use strict";
+        r.d(t, { P: () => a, ee: () => c });
+        var n = r(384),
+          i = r(8990),
+          o = r(2646),
+          s = r(5607);
+        const a = "nr@context:".concat(s.W),
+          c = (function e(t, r) {
+            var n = {},
+              s = {},
+              u = {},
+              l = !1;
+            try {
+              l =
+                16 === r.length &&
+                d.initializedAgents?.[r]?.runtime.isolatedBacklog;
+            } catch (e) {}
+            var f = {
+              on: p,
+              addEventListener: p,
+              removeEventListener: function (e, t) {
+                var r = n[e];
+                if (!r) return;
+                for (var i = 0; i < r.length; i++) r[i] === t && r.splice(i, 1);
+              },
+              emit: function (e, r, n, i, o) {
+                !1 !== o && (o = !0);
+                if (c.aborted && !i) return;
+                t && o && t.emit(e, r, n);
+                var a = h(n);
+                g(e).forEach((e) => {
+                  e.apply(a, r);
+                });
+                var d = v()[s[e]];
+                d && d.push([f, e, r, a]);
+                return a;
+              },
+              get: m,
+              listeners: g,
+              context: h,
+              buffer: function (e, t) {
+                const r = v();
+                if (((t = t || "feature"), f.aborted)) return;
+                Object.entries(e || {}).forEach(([e, n]) => {
+                  (s[n] = t), t in r || (r[t] = []);
+                });
+              },
+              abort: function () {
+                (f._aborted = !0),
+                  Object.keys(f.backlog).forEach((e) => {
+                    delete f.backlog[e];
+                  });
+              },
+              isBuffering: function (e) {
+                return !!v()[s[e]];
+              },
+              debugId: r,
+              backlog: l
+                ? {}
+                : t && "object" == typeof t.backlog
+                ? t.backlog
+                : {},
+              isolatedBacklog: l,
+            };
+            return (
+              Object.defineProperty(f, "aborted", {
+                get: () => {
+                  let e = f._aborted || !1;
+                  return e || (t && (e = t.aborted), e);
+                },
+              }),
+              f
+            );
+            function h(e) {
+              return e && e instanceof o.y
+                ? e
+                : e
+                ? (0, i.I)(e, a, () => new o.y(a))
+                : new o.y(a);
+            }
+            function p(e, t) {
+              n[e] = g(e).concat(t);
+            }
+            function g(e) {
+              return n[e] || [];
+            }
+            function m(t) {
+              return (u[t] = u[t] || e(f, t));
+            }
+            function v() {
+              return f.backlog;
+            }
+          })(void 0, "globalEE"),
+          d = (0, n.Zm)();
+        d.ee || (d.ee = c);
+      },
+      8122: (e, t, r) => {
+        "use strict";
+        r.d(t, { a: () => i });
+        var n = r(944);
+        function i(e, t) {
+          try {
+            if (!e || "object" != typeof e) return (0, n.R)(3);
+            if (!t || "object" != typeof t) return (0, n.R)(4);
+            const r = Object.create(
+                Object.getPrototypeOf(t),
+                Object.getOwnPropertyDescriptors(t)
+              ),
+              o = 0 === Object.keys(r).length ? e : r;
+            for (let s in o)
+              if (void 0 !== e[s])
+                try {
+                  if (null === e[s]) {
+                    r[s] = null;
+                    continue;
+                  }
+                  Array.isArray(e[s]) && Array.isArray(t[s])
+                    ? (r[s] = Array.from(new Set([...e[s], ...t[s]])))
+                    : "object" == typeof e[s] && "object" == typeof t[s]
+                    ? (r[s] = i(e[s], t[s]))
+                    : (r[s] = e[s]);
+                } catch (e) {
+                  r[s] || (0, n.R)(1, e);
+                }
+            return r;
+          } catch (e) {
+            (0, n.R)(2, e);
+          }
+        }
+      },
+      8139: (e, t, r) => {
+        "use strict";
+        r.d(t, { u: () => f });
+        var n = r(7836),
+          i = r(3434),
+          o = r(8990),
+          s = r(6154);
+        const a = {},
+          c = s.gm.XMLHttpRequest,
+          d = "addEventListener",
+          u = "removeEventListener",
+          l = "nr@wrapped:".concat(n.P);
+        function f(e) {
+          var t = (function (e) {
+            return (e || n.ee).get("events");
+          })(e);
+          if (a[t.debugId]++) return t;
+          a[t.debugId] = 1;
+          var r = (0, i.YM)(t, !0);
+          function f(e) {
+            r.inPlace(e, [d, u], "-", p);
+          }
+          function p(e, t) {
+            return e[1];
+          }
+          return (
+            "getPrototypeOf" in Object &&
+              (s.RI && h(document, f), c && h(c.prototype, f), h(s.gm, f)),
+            t.on(d + "-start", function (e, t) {
+              var n = e[1];
+              if (
+                null !== n &&
+                ("function" == typeof n || "object" == typeof n) &&
+                "newrelic" !== e[0]
+              ) {
+                var i = (0, o.I)(n, l, function () {
+                  var e = {
+                    object: function () {
+                      if ("function" != typeof n.handleEvent) return;
+                      return n.handleEvent.apply(n, arguments);
+                    },
+                    function: n,
+                  }[typeof n];
+                  return e ? r(e, "fn-", null, e.name || "anonymous") : n;
+                });
+                this.wrapped = e[1] = i;
+              }
+            }),
+            t.on(u + "-start", function (e) {
+              e[1] = this.wrapped || e[1];
+            }),
+            t
+          );
+        }
+        function h(e, t, ...r) {
+          let n = e;
+          for (
+            ;
+            "object" == typeof n && !Object.prototype.hasOwnProperty.call(n, d);
+
+          )
+            n = Object.getPrototypeOf(n);
+          n && t(n, ...r);
         }
       },
       8374: (e, t, r) => {
@@ -1638,63 +1723,100 @@ NREUM.info = {
           return "";
         })();
       },
-      860: (e, t, r) => {
+      8990: (e, t, r) => {
+        "use strict";
+        r.d(t, { I: () => i });
+        var n = Object.prototype.hasOwnProperty;
+        function i(e, t, r) {
+          if (n.call(e, t)) return e[t];
+          var i = r();
+          if (Object.defineProperty && Object.keys)
+            try {
+              return (
+                Object.defineProperty(e, t, {
+                  value: i,
+                  writable: !0,
+                  enumerable: !1,
+                }),
+                i
+              );
+            } catch (e) {}
+          return (e[t] = i), i;
+        }
+      },
+      9300: (e, t, r) => {
+        "use strict";
+        r.d(t, { T: () => n });
+        const n = r(860).K7.ajax;
+      },
+      9324: (e, t, r) => {
         "use strict";
         r.d(t, {
-          $J: () => d,
-          K7: () => c,
-          P3: () => u,
-          XX: () => i,
-          Yy: () => s,
-          df: () => o,
-          qY: () => n,
-          v4: () => a,
+          AJ: () => s,
+          F3: () => i,
+          Xs: () => o,
+          Yq: () => a,
+          xv: () => n,
         });
-        const n = "events",
-          i = "jserrors",
-          o = "browser/blobs",
-          a = "rum",
-          s = "browser/logs",
-          c = {
-            ajax: "ajax",
-            genericEvents: "generic_events",
-            jserrors: i,
-            logging: "logging",
-            metrics: "metrics",
-            pageAction: "page_action",
-            pageViewEvent: "page_view_event",
-            pageViewTiming: "page_view_timing",
-            sessionReplay: "session_replay",
-            sessionTrace: "session_trace",
-            softNav: "soft_navigations",
-            spa: "spa",
-          },
-          u = {
-            [c.pageViewEvent]: 1,
-            [c.pageViewTiming]: 2,
-            [c.metrics]: 3,
-            [c.jserrors]: 4,
-            [c.spa]: 5,
-            [c.ajax]: 6,
-            [c.sessionTrace]: 7,
-            [c.softNav]: 8,
-            [c.sessionReplay]: 9,
-            [c.logging]: 10,
-            [c.genericEvents]: 11,
-          },
-          d = {
-            [c.pageViewEvent]: a,
-            [c.pageViewTiming]: n,
-            [c.ajax]: n,
-            [c.spa]: n,
-            [c.softNav]: n,
-            [c.metrics]: i,
-            [c.jserrors]: i,
-            [c.sessionTrace]: o,
-            [c.sessionReplay]: o,
-            [c.logging]: s,
-            [c.genericEvents]: "ins",
-          };
+        const n = "1.306.0",
+          i = "PROD",
+          o = "CDN",
+          s = "@newrelic/rrweb",
+          a = "1.0.1";
+      },
+      9566: (e, t, r) => {
+        "use strict";
+        r.d(t, { LA: () => a, ZF: () => c, bz: () => s, el: () => d });
+        var n = r(6154);
+        const i = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
+        function o(e, t) {
+          return e ? 15 & e[t] : (16 * Math.random()) | 0;
+        }
+        function s() {
+          const e = n.gm?.crypto || n.gm?.msCrypto;
+          let t,
+            r = 0;
+          return (
+            e &&
+              e.getRandomValues &&
+              (t = e.getRandomValues(new Uint8Array(30))),
+            i
+              .split("")
+              .map((e) =>
+                "x" === e
+                  ? o(t, r++).toString(16)
+                  : "y" === e
+                  ? ((3 & o()) | 8).toString(16)
+                  : e
+              )
+              .join("")
+          );
+        }
+        function a(e) {
+          const t = n.gm?.crypto || n.gm?.msCrypto;
+          let r,
+            i = 0;
+          t && t.getRandomValues && (r = t.getRandomValues(new Uint8Array(e)));
+          const s = [];
+          for (var a = 0; a < e; a++) s.push(o(r, i++).toString(16));
+          return s.join("");
+        }
+        function c() {
+          return a(16);
+        }
+        function d() {
+          return a(32);
+        }
+      },
+      9908: (e, t, r) => {
+        "use strict";
+        r.d(t, { d: () => n, p: () => i });
+        var n = r(7836).ee.get("handle");
+        function i(e, t, r, i, o) {
+          o
+            ? (o.buffer([e], i), o.emit(e, t, r))
+            : (n.buffer([e], i), n.emit(e, t, r));
+        }
       },
     },
     n = {};
@@ -1716,64 +1838,63 @@ NREUM.info = {
       Promise.all(Object.keys(i.f).reduce((t, r) => (i.f[r](e, t), t), []))),
     (i.u = (e) =>
       ({ 212: "nr-spa-compressor", 249: "nr-spa-recorder", 478: "nr-spa" })[e] +
-      "-1.290.1.min.js"),
+      "-1.306.0.min.js"),
     (i.o = (e, t) => Object.prototype.hasOwnProperty.call(e, t)),
     (e = {}),
-    (t = "NRBA-1.290.1.PROD:"),
-    (i.l = (r, n, o, a) => {
+    (t = "NRBA-1.306.0.PROD:"),
+    (i.l = (r, n, o, s) => {
       if (e[r]) e[r].push(n);
       else {
-        var s, c;
+        var a, c;
         if (void 0 !== o)
           for (
-            var u = document.getElementsByTagName("script"), d = 0;
-            d < u.length;
-            d++
+            var d = document.getElementsByTagName("script"), u = 0;
+            u < d.length;
+            u++
           ) {
-            var l = u[d];
+            var l = d[u];
             if (
               l.getAttribute("src") == r ||
               l.getAttribute("data-webpack") == t + o
             ) {
-              s = l;
+              a = l;
               break;
             }
           }
-        if (!s) {
+        if (!a) {
           c = !0;
           var f = {
-            478: "sha512-bYJwHMoCCpXDQfA5hvSei4HwsEoHDE8P9QRCyoqJdWe/2X7uN+05p4AkgHkI681KTscP9+8UtsRVsg9W8qU3+w==",
-            249: "sha512-W+68kymoEsNmLnSyqERiMF4DEGMf+tp1fTdyhFX0uE7hme+zt4z4K3WGpyfAHm9839IMwbWgNOZdjj/tCa0dzw==",
-            212: "sha512-DnvL4wRJBl0T6iraWz6wD4Wn61762wIk7+UCZ1DPaHfzyQ63fWYb54YLJUck6S09BpYxBwWOvmQk0qBBGqiwTQ==",
+            478: "sha512-aOsrvCAZ97m4mi9/Q4P4Dl7seaB7sOFJOs8qmPK71B7CWoc9bXc5a5319PV5PSQ3SmEq++JW0qpaiKWV7MTLEg==",
+            249: "sha512-nPxm1wa+eWrD9VPj39BAOPa200tURpQREipOlSDpePq/R8Y4hd4lO6tDy6C/6jm/J54CUHnLYeGyLZ/GIlo7gg==",
+            212: "sha512-zcA2FBsG3fy6K+G9+4J1T2M6AmHuICGsq35BrGWu1rmRJwYBUqdOhAAxJkXYpoBy/9vKZ7LBcGpOEjABpjEWCQ==",
           };
-          ((s = document.createElement("script")).charset = "utf-8"),
-            (s.timeout = 120),
-            i.nc && s.setAttribute("nonce", i.nc),
-            s.setAttribute("data-webpack", t + o),
-            (s.src = r),
-            0 !== s.src.indexOf(window.location.origin + "/") &&
-              (s.crossOrigin = "anonymous"),
-            f[a] && (s.integrity = f[a]);
+          ((a = document.createElement("script")).charset = "utf-8"),
+            i.nc && a.setAttribute("nonce", i.nc),
+            a.setAttribute("data-webpack", t + o),
+            (a.src = r),
+            0 !== a.src.indexOf(window.location.origin + "/") &&
+              (a.crossOrigin = "anonymous"),
+            f[s] && (a.integrity = f[s]);
         }
         e[r] = [n];
         var h = (t, n) => {
-            (s.onerror = s.onload = null), clearTimeout(p);
+            (a.onerror = a.onload = null), clearTimeout(p);
             var i = e[r];
             if (
               (delete e[r],
-              s.parentNode && s.parentNode.removeChild(s),
+              a.parentNode && a.parentNode.removeChild(a),
               i && i.forEach((e) => e(n)),
               t)
             )
               return t(n);
           },
           p = setTimeout(
-            h.bind(null, void 0, { type: "timeout", target: s }),
+            h.bind(null, void 0, { type: "timeout", target: a }),
             12e4
           );
-        (s.onerror = h.bind(null, s.onerror)),
-          (s.onload = h.bind(null, s.onload)),
-          c && document.head.appendChild(s);
+        (a.onerror = h.bind(null, a.onerror)),
+          (a.onload = h.bind(null, a.onload)),
+          c && document.head.appendChild(a);
       }
     }),
     (i.r = (e) => {
@@ -1792,20 +1913,20 @@ NREUM.info = {
           else {
             var o = new Promise((r, i) => (n = e[t] = [r, i]));
             r.push((n[2] = o));
-            var a = i.p + i.u(t),
-              s = new Error();
+            var s = i.p + i.u(t),
+              a = new Error();
             i.l(
-              a,
+              s,
               (r) => {
                 if (i.o(e, t) && (0 !== (n = e[t]) && (e[t] = void 0), n)) {
                   var o = r && ("load" === r.type ? "missing" : r.type),
-                    a = r && r.target && r.target.src;
-                  (s.message =
-                    "Loading chunk " + t + " failed.\n(" + o + ": " + a + ")"),
-                    (s.name = "ChunkLoadError"),
-                    (s.type = o),
-                    (s.request = a),
-                    n[1](s);
+                    s = r && r.target && r.target.src;
+                  (a.message =
+                    "Loading chunk " + t + " failed: (" + o + ": " + s + ")"),
+                    (a.name = "ChunkLoadError"),
+                    (a.type = o),
+                    (a.request = s),
+                    n[1](a);
                 }
               },
               "chunk-" + t,
@@ -1816,17 +1937,17 @@ NREUM.info = {
       var t = (t, r) => {
           var n,
             o,
-            [a, s, c] = r,
-            u = 0;
-          if (a.some((t) => 0 !== e[t])) {
-            for (n in s) i.o(s, n) && (i.m[n] = s[n]);
+            [s, a, c] = r,
+            d = 0;
+          if (s.some((t) => 0 !== e[t])) {
+            for (n in a) i.o(a, n) && (i.m[n] = a[n]);
             if (c) c(i);
           }
-          for (t && t(r); u < a.length; u++)
-            (o = a[u]), i.o(e, o) && e[o] && e[o][0](), (e[o] = 0);
+          for (t && t(r); d < s.length; d++)
+            (o = s[d]), i.o(e, o) && e[o] && e[o][0](), (e[o] = 0);
         },
-        r = (self["webpackChunk:NRBA-1.290.1.PROD"] =
-          self["webpackChunk:NRBA-1.290.1.PROD"] || []);
+        r = (self["webpackChunk:NRBA-1.306.0.PROD"] =
+          self["webpackChunk:NRBA-1.306.0.PROD"] || []);
       r.forEach(t.bind(null, 0)), (r.push = t.bind(null, r.push.bind(r)));
     })(),
     (() => {
@@ -1839,32 +1960,32 @@ NREUM.info = {
       }
       var n = i(860);
       const o = Object.values(n.K7);
-      var a = i(5205);
-      var s = i(9908),
+      var s = i(5205);
+      var a = i(9908),
         c = i(1863),
-        u = i(4261),
-        d = i(3241),
+        d = i(4261),
+        u = i(3241),
         l = i(944),
         f = i(5701),
-        h = i(8154);
+        h = i(3969);
       function p(e, t, i, o) {
-        const a = o || i;
-        !a ||
-          (a[e] && a[e] !== r.prototype[e]) ||
-          (a[e] = function () {
-            (0, s.p)(
+        const s = o || i;
+        !s ||
+          (s[e] && s[e] !== r.prototype[e]) ||
+          (s[e] = function () {
+            (0, a.p)(
               h.xV,
               ["API/" + e + "/called"],
               void 0,
               n.K7.metrics,
               i.ee
             ),
-              (0, d.W)({
+              (0, u.W)({
                 agentIdentifier: i.agentIdentifier,
                 drained: !!f.B?.[i.agentIdentifier],
                 type: "data",
                 name: "api",
-                feature: u.Pl + e,
+                feature: d.Pl + e,
                 data: {},
               });
             try {
@@ -1878,27 +1999,32 @@ NREUM.info = {
         const o = e.info;
         null === r ? delete o.jsAttributes[t] : (o.jsAttributes[t] = r),
           (i || null === r) &&
-            (0, s.p)(u.Pl + n, [(0, c.t)(), t, r], void 0, "session", e.ee);
+            (0, a.p)(d.Pl + n, [(0, c.t)(), t, r], void 0, "session", e.ee);
       }
       var m = i(1687),
         v = i(4234),
         b = i(5289),
         y = i(6154),
-        R = i(5270),
-        w = i(7767),
-        x = i(6389);
-      class T extends v.W {
+        w = i(5270),
+        x = i(7767),
+        R = i(6389),
+        T = i(7699);
+      class E extends v.W {
         constructor(e, t) {
           super(e.agentIdentifier, t),
+            (this.agentRef = e),
             (this.abortHandler = void 0),
             (this.featAggregate = void 0),
-            (this.onAggregateImported = void 0),
+            (this.loadedSuccessfully = void 0),
+            (this.onAggregateImported = new Promise((e) => {
+              this.loadedSuccessfully = e;
+            })),
             (this.deferred = Promise.resolve()),
             !1 === e.init[this.featureName].autoStart
               ? (this.deferred = new Promise((t, r) => {
                   this.ee.on(
                     "manual-start-all",
-                    (0, x.J)(() => {
+                    (0, R.J)(() => {
                       (0, m.Ak)(e.agentIdentifier, this.featureName), t();
                     })
                   );
@@ -1907,51 +2033,48 @@ NREUM.info = {
         }
         importAggregator(e, t, r = {}) {
           if (this.featAggregate) return;
-          let o;
-          this.onAggregateImported = new Promise((e) => {
-            o = e;
-          });
-          const a = async () => {
-            let a;
+          const n = async () => {
+            let n;
             await this.deferred;
             try {
-              if ((0, w.V)(e.init)) {
+              if ((0, x.V)(e.init)) {
                 const { setupAgentSession: t } = await i
                   .e(478)
-                  .then(i.bind(i, 6526));
-                a = t(e);
+                  .then(i.bind(i, 8766));
+                n = t(e);
               }
             } catch (e) {
               (0, l.R)(20, e),
                 this.ee.emit("internal-error", [e]),
-                this.featureName === n.K7.sessionReplay &&
-                  this.abortHandler?.();
+                (0, a.p)(T.qh, [e], void 0, this.featureName, this.ee);
             }
             try {
-              if (!this.#t(this.featureName, a, e.init))
+              if (!this.#t(this.featureName, n, e.init))
                 return (
-                  (0, m.Ze)(this.agentIdentifier, this.featureName), void o(!1)
+                  (0, m.Ze)(this.agentIdentifier, this.featureName),
+                  void this.loadedSuccessfully(!1)
                 );
-              const { Aggregate: n } = await t();
-              (this.featAggregate = new n(e, r)),
+              const { Aggregate: i } = await t();
+              (this.featAggregate = new i(e, r)),
                 e.runtime.harvester.initializedAggregates.push(
                   this.featAggregate
                 ),
-                o(!0);
+                this.loadedSuccessfully(!0);
             } catch (e) {
               (0, l.R)(34, e),
                 this.abortHandler?.(),
                 (0, m.Ze)(this.agentIdentifier, this.featureName, !0),
-                o(!1),
+                this.loadedSuccessfully(!1),
                 this.ee && this.ee.abort();
             }
           };
-          y.RI ? (0, b.GG)(() => a(), !0) : a();
+          y.RI ? (0, b.GG)(() => n(), !0) : n();
         }
         #t(e, t, r) {
+          if (this.blocked) return !1;
           switch (e) {
             case n.K7.sessionReplay:
-              return (0, R.SR)(r) && !!t;
+              return (0, w.SR)(r) && !!t;
             case n.K7.sessionTrace:
               return !!t;
             default:
@@ -1959,56 +2082,84 @@ NREUM.info = {
           }
         }
       }
-      var A = i(6630);
-      class E extends T {
+      var A = i(6630),
+        S = i(2614);
+      class _ extends E {
         static featureName = A.T;
         constructor(e) {
           var t;
           super(e, A.T),
+            this.setupInspectionEvents(e.agentIdentifier),
             (t = e),
             p(
-              u.Fw,
+              d.Fw,
               function (e, r) {
                 "string" == typeof e &&
                   ("/" !== e.charAt(0) && (e = "/" + e),
                   (t.runtime.customTransaction =
                     (r || "http://custom.transaction") + e),
-                  (0, s.p)(u.Pl + u.Fw, [(0, c.t)()], void 0, void 0, t.ee));
+                  (0, a.p)(d.Pl + d.Fw, [(0, c.t)()], void 0, void 0, t.ee));
               },
               t
             ),
-            this.ee.on("api-send-rum", (e, t) =>
-              (0, s.p)("send-rum", [e, t], void 0, this.featureName, this.ee)
-            ),
-            this.importAggregator(e, () => i.e(478).then(i.bind(i, 1983)));
+            this.importAggregator(e, () => i.e(478).then(i.bind(i, 2467)));
+        }
+        setupInspectionEvents(e) {
+          const t = (t, r) => {
+            t &&
+              (0, u.W)({
+                agentIdentifier: e,
+                timeStamp: t.timeStamp,
+                loaded: "complete" === t.target.readyState,
+                type: "window",
+                name: r,
+                data: t.target.location + "",
+              });
+          };
+          (0, b.sB)((e) => {
+            t(e, "DOMContentLoaded");
+          }),
+            (0, b.GG)((e) => {
+              t(e, "load");
+            }),
+            (0, b.Qr)((e) => {
+              t(e, "navigate");
+            }),
+            this.ee.on(S.tS.UPDATE, (t, r) => {
+              (0, u.W)({
+                agentIdentifier: e,
+                type: "lifecycle",
+                name: "session",
+                data: r,
+              });
+            });
         }
       }
-      var S = i(384);
-      var _ = i(2843),
-        O = i(3878),
-        N = i(782);
-      class P extends T {
-        static featureName = N.T;
+      var O = i(384);
+      var N = i(2843),
+        I = i(782);
+      class P extends E {
+        static featureName = I.T;
         constructor(e) {
-          super(e, N.T),
+          super(e, I.T),
             y.RI &&
-              ((0, _.u)(
-                () => (0, s.p)("docHidden", [(0, c.t)()], void 0, N.T, this.ee),
+              ((0, N.u)(
+                () => (0, a.p)("docHidden", [(0, c.t)()], void 0, I.T, this.ee),
                 !0
               ),
-              (0, O.sp)("pagehide", () =>
-                (0, s.p)("winPagehide", [(0, c.t)()], void 0, N.T, this.ee)
+              (0, N.G)(() =>
+                (0, a.p)("winPagehide", [(0, c.t)()], void 0, I.T, this.ee)
               ),
               this.importAggregator(e, () => i.e(478).then(i.bind(i, 9917))));
         }
       }
-      class I extends T {
+      class j extends E {
         static featureName = h.TZ;
         constructor(e) {
           super(e, h.TZ),
             y.RI &&
               document.addEventListener("securitypolicyviolation", (e) => {
-                (0, s.p)(
+                (0, a.p)(
                   h.xV,
                   ["Generic/CSPViolation/Detected"],
                   void 0,
@@ -2016,213 +2167,249 @@ NREUM.info = {
                   this.ee
                 );
               }),
-            this.importAggregator(e, () => i.e(478).then(i.bind(i, 8351)));
+            this.importAggregator(e, () => i.e(478).then(i.bind(i, 6555)));
         }
       }
-      var j = i(6774),
-        C = i(3304);
-      class k {
+      var k = i(6774),
+        C = i(3878),
+        D = i(3304);
+      class L {
         constructor(e, t, r, n, i) {
           (this.name = "UncaughtError"),
-            (this.message = "string" == typeof e ? e : (0, C.A)(e)),
+            (this.message = "string" == typeof e ? e : (0, D.A)(e)),
             (this.sourceURL = t),
             (this.line = r),
             (this.column = n),
             (this.__newrelic = i);
         }
       }
-      function L(e) {
-        return D(e)
+      function M(e) {
+        return K(e)
           ? e
-          : new k(
+          : new L(
               void 0 !== e?.message ? e.message : e,
               e?.filename || e?.sourceURL,
               e?.lineno || e?.line,
               e?.colno || e?.col,
-              e?.__newrelic
+              e?.__newrelic,
+              e?.cause
             );
       }
       function H(e) {
         const t = "Unhandled Promise Rejection: ";
         if (!e?.reason) return;
-        if (D(e.reason)) {
+        if (K(e.reason)) {
           try {
             e.reason.message.startsWith(t) ||
               (e.reason.message = t + e.reason.message);
           } catch (e) {}
-          return L(e.reason);
+          return M(e.reason);
         }
-        const r = L(e.reason);
+        const r = M(e.reason);
         return (
           (r.message || "").startsWith(t) || (r.message = t + r.message), r
         );
       }
-      function M(e) {
+      function B(e) {
         if (
           e.error instanceof SyntaxError &&
           !/:\d+$/.test(e.error.stack?.trim())
         ) {
-          const t = new k(
+          const t = new L(
             e.message,
             e.filename,
             e.lineno,
             e.colno,
-            e.error.__newrelic
+            e.error.__newrelic,
+            e.cause
           );
           return (t.name = SyntaxError.name), t;
         }
-        return D(e.error) ? e.error : L(e);
+        return K(e.error) ? e.error : M(e);
       }
-      function D(e) {
+      function K(e) {
         return e instanceof Error && !!e.stack;
       }
-      function K(e, t, r, i, o = (0, c.t)()) {
+      function W(e, t, r, i, o = (0, c.t)()) {
         "string" == typeof e && (e = new Error(e)),
-          (0, s.p)(
+          (0, a.p)(
             "err",
             [e, o, !1, t, r.runtime.isRecording, void 0, i],
             void 0,
             n.K7.jserrors,
             r.ee
-          );
+          ),
+          (0, a.p)("uaErr", [], void 0, n.K7.genericEvents, r.ee);
       }
-      var U = i(3496),
+      var U = i(4387),
         F = i(993),
-        B = i(3785);
-      function W(
+        V = i(3785);
+      function G(
         e,
         { customAttributes: t = {}, level: r = F.p_.INFO } = {},
         n,
         i,
         o = (0, c.t)()
       ) {
-        (0, B.R)(n.ee, e, t, r, i, o);
+        (0, V.R)(n.ee, e, t, r, !1, i, o);
       }
-      function G(e, t, r, i, o = (0, c.t)()) {
-        (0, s.p)(u.Pl + u.hG, [o, e, t, i], void 0, n.K7.genericEvents, r.ee);
+      function z(e, t, r, i, o = (0, c.t)()) {
+        (0, a.p)(d.Pl + d.hG, [o, e, t, i], void 0, n.K7.genericEvents, r.ee);
       }
-      function V(e) {
+      function Z(e, t, r, i, o = (0, c.t)()) {
+        const { start: s, end: u, customAttributes: f } = t || {},
+          h = { customAttributes: f || {} };
+        if (
+          "object" != typeof h.customAttributes ||
+          "string" != typeof e ||
+          0 === e.length
+        )
+          return void (0, l.R)(57);
+        const p = (e, t) =>
+          null == e
+            ? t
+            : "number" == typeof e
+            ? e
+            : e instanceof PerformanceMark
+            ? e.startTime
+            : Number.NaN;
+        if (
+          ((h.start = p(s, 0)),
+          (h.end = p(u, o)),
+          Number.isNaN(h.start) || Number.isNaN(h.end))
+        )
+          (0, l.R)(57);
+        else {
+          if (((h.duration = h.end - h.start), !(h.duration < 0)))
+            return (
+              (0, a.p)(
+                d.Pl + d.V1,
+                [h, e, i],
+                void 0,
+                n.K7.genericEvents,
+                r.ee
+              ),
+              h
+            );
+          (0, l.R)(58);
+        }
+      }
+      function q(e, t = {}, r, i, o = (0, c.t)()) {
+        (0, a.p)(d.Pl + d.fF, [o, e, t, i], void 0, n.K7.genericEvents, r.ee);
+      }
+      function X(e) {
         p(
-          u.eY,
+          d.eY,
           function (t) {
-            return (function (e, t) {
-              const r = {};
-              let i, o;
-              (0, l.R)(54, "newrelic.register"),
-                e.init.api.allow_registered_children ||
-                  (i = () => (0, l.R)(55));
-              (t && (0, U.I)(t)) || (i = () => (0, l.R)(48, t));
-              const a = {
-                addPageAction: (n, i = {}) => {
-                  u(G, [n, { ...r, ...i }, e], t);
-                },
-                log: (n, i = {}) => {
-                  u(
-                    W,
-                    [
-                      n,
-                      {
-                        ...i,
-                        customAttributes: {
-                          ...r,
-                          ...(i.customAttributes || {}),
-                        },
-                      },
-                      e,
-                    ],
-                    t
-                  );
-                },
-                noticeError: (n, i = {}) => {
-                  u(K, [n, { ...r, ...i }, e], t);
-                },
-                setApplicationVersion: (e) => {
-                  r["application.version"] = e;
-                },
-                setCustomAttribute: (e, t) => {
-                  r[e] = t;
-                },
-                setUserId: (e) => {
-                  r["enduser.id"] = e;
-                },
-                metadata: {
-                  customAttributes: r,
-                  target: t,
-                  get connected() {
-                    return o || Promise.reject(new Error("Failed to connect"));
-                  },
-                },
-              };
-              i
-                ? i()
-                : (o = new Promise((n, i) => {
-                    try {
-                      const o = e.runtime?.entityManager;
-                      let s = !!o?.get().entityGuid,
-                        c = o?.getEntityGuidFor(t.licenseKey, t.applicationID),
-                        u = !!c;
-                      if (s && u) (t.entityGuid = c), n(a);
-                      else {
-                        const d = setTimeout(
-                          () => i(new Error("Failed to connect - Timeout")),
-                          15e3
-                        );
-                        function l(r) {
-                          (0, U.A)(r, e)
-                            ? (s ||= !0)
-                            : t.licenseKey === r.licenseKey &&
-                              t.applicationID === r.applicationID &&
-                              ((u = !0), (t.entityGuid = r.entityGuid)),
-                            s &&
-                              u &&
-                              (clearTimeout(d),
-                              e.ee.removeEventListener("entity-added", l),
-                              n(a));
-                        }
-                        e.ee.emit("api-send-rum", [r, t]),
-                          e.ee.on("entity-added", l);
-                      }
-                    } catch (f) {
-                      i(f);
-                    }
-                  }));
-              const u = async (t, r, a) => {
-                if (i) return i();
-                const u = (0, c.t)();
-                (0, s.p)(
-                  h.xV,
-                  ["API/register/".concat(t.name, "/called")],
-                  void 0,
-                  n.K7.metrics,
-                  e.ee
-                );
-                try {
-                  await o;
-                  const n = e.init.api.duplicate_registered_data;
-                  (!0 === n ||
-                    (Array.isArray(n) && n.includes(a.entityGuid))) &&
-                    t(...r, void 0, u),
-                    t(...r, a.entityGuid, u);
-                } catch (e) {
-                  (0, l.R)(50, e);
-                }
-              };
-              return a;
-            })(e, t);
+            return Y(e, t);
           },
           e
         );
       }
-      class z extends T {
-        static featureName = j.T;
+      function Y(e, t, r) {
+        const i = {};
+        (0, l.R)(54, "newrelic.register"),
+          (t ||= {}),
+          (t.type = "MFE"),
+          (t.licenseKey ||= e.info.licenseKey),
+          (t.blocked = !1),
+          (t.parent = r || {});
+        let o = () => {};
+        const s = e.runtime.registeredEntities,
+          d = s.find(
+            ({
+              metadata: {
+                target: { id: e, name: r },
+              },
+            }) => e === t.id
+          );
+        if (d)
+          return (
+            d.metadata.target.name !== t.name &&
+              (d.metadata.target.name = t.name),
+            d
+          );
+        const u = (e) => {
+          (t.blocked = !0), (o = e);
+        };
+        e.init.api.allow_registered_children || u((0, R.J)(() => (0, l.R)(55))),
+          (0, U.c7)(t) || u((0, R.J)(() => (0, l.R)(48, t))),
+          ((0, U.yo)(t.id) && (0, U.yo)(t.name)) ||
+            u((0, R.J)(() => (0, l.R)(48, t)));
+        const f = {
+            addPageAction: (r, n = {}) => m(z, [r, { ...i, ...n }, e], t),
+            log: (r, n = {}) =>
+              m(
+                G,
+                [
+                  r,
+                  {
+                    ...n,
+                    customAttributes: { ...i, ...(n.customAttributes || {}) },
+                  },
+                  e,
+                ],
+                t
+              ),
+            measure: (r, n = {}) =>
+              m(
+                Z,
+                [
+                  r,
+                  {
+                    ...n,
+                    customAttributes: { ...i, ...(n.customAttributes || {}) },
+                  },
+                  e,
+                ],
+                t
+              ),
+            noticeError: (r, n = {}) => m(W, [r, { ...i, ...n }, e], t),
+            register: (t = {}) => m(Y, [e, t], f.metadata.target),
+            recordCustomEvent: (r, n = {}) => m(q, [r, { ...i, ...n }, e], t),
+            setApplicationVersion: (e) => g("application.version", e),
+            setCustomAttribute: (e, t) => g(e, t),
+            setUserId: (e) => g("enduser.id", e),
+            metadata: { customAttributes: i, target: t },
+          },
+          p = () => (t.blocked && o(), t.blocked);
+        p() || s.push(f);
+        const g = (e, t) => {
+            p() || (i[e] = t);
+          },
+          m = (t, r, i) => {
+            if (p()) return;
+            const o = (0, c.t)();
+            (0, a.p)(
+              h.xV,
+              ["API/register/".concat(t.name, "/called")],
+              void 0,
+              n.K7.metrics,
+              e.ee
+            );
+            try {
+              return (
+                e.init.api.duplicate_registered_data &&
+                  "register" !== t.name &&
+                  t(...r, void 0, o),
+                t(...r, i, o)
+              );
+            } catch (e) {
+              (0, l.R)(50, e);
+            }
+          };
+        return f;
+      }
+      class J extends E {
+        static featureName = k.T;
         constructor(e) {
           var t;
-          super(e, j.T),
+          super(e, k.T),
             (t = e),
-            p(u.o5, (e, r) => K(e, r, t), t),
+            p(d.o5, (e, r) => W(e, r, t), t),
             (function (e) {
               p(
-                u.bt,
+                d.bt,
                 function (t) {
                   e.runtime.onerror = t;
                 },
@@ -2232,7 +2419,7 @@ NREUM.info = {
             (function (e) {
               let t = 0;
               p(
-                u.k6,
+                d.k6,
                 function (e, r) {
                   ++t > 10 ||
                     (this.runtime.releaseIds[e.slice(-200)] = ("" + r).slice(
@@ -2242,15 +2429,15 @@ NREUM.info = {
                 e
               );
             })(e),
-            V(e);
+            X(e);
           try {
             this.removeOnAbort = new AbortController();
           } catch (e) {}
           this.ee.on("internal-error", (t, r) => {
             this.abortHandler &&
-              (0, s.p)(
+              (0, a.p)(
                 "ierr",
-                [L(t), (0, c.t)(), !0, {}, e.runtime.isRecording, r],
+                [M(t), (0, c.t)(), !0, {}, e.runtime.isRecording, r],
                 void 0,
                 this.featureName,
                 this.ee
@@ -2260,7 +2447,7 @@ NREUM.info = {
               "unhandledrejection",
               (t) => {
                 this.abortHandler &&
-                  (0, s.p)(
+                  (0, a.p)(
                     "err",
                     [
                       H(t),
@@ -2274,42 +2461,42 @@ NREUM.info = {
                     this.ee
                   );
               },
-              (0, O.jT)(!1, this.removeOnAbort?.signal)
+              (0, C.jT)(!1, this.removeOnAbort?.signal)
             ),
             y.gm.addEventListener(
               "error",
               (t) => {
                 this.abortHandler &&
-                  (0, s.p)(
+                  (0, a.p)(
                     "err",
-                    [M(t), (0, c.t)(), !1, {}, e.runtime.isRecording],
+                    [B(t), (0, c.t)(), !1, {}, e.runtime.isRecording],
                     void 0,
                     this.featureName,
                     this.ee
                   );
               },
-              (0, O.jT)(!1, this.removeOnAbort?.signal)
+              (0, C.jT)(!1, this.removeOnAbort?.signal)
             ),
             (this.abortHandler = this.#r),
-            this.importAggregator(e, () => i.e(478).then(i.bind(i, 5928)));
+            this.importAggregator(e, () => i.e(478).then(i.bind(i, 2176)));
         }
         #r() {
           this.removeOnAbort?.abort(), (this.abortHandler = void 0);
         }
       }
-      var Z = i(8990);
-      let q = 1;
-      function X(e) {
+      var Q = i(8990);
+      let ee = 1;
+      function te(e) {
         const t = typeof e;
         return !e || ("object" !== t && "function" !== t)
           ? -1
           : e === y.gm
           ? 0
-          : (0, Z.I)(e, "nr@id", function () {
-              return q++;
+          : (0, Q.I)(e, "nr@id", function () {
+              return ee++;
             });
       }
-      function Y(e) {
+      function re(e) {
         if ("string" == typeof e && e.length) return e.length;
         if ("object" == typeof e) {
           if (
@@ -2322,32 +2509,32 @@ NREUM.info = {
             return e.size;
           if (!("undefined" != typeof FormData && e instanceof FormData))
             try {
-              return (0, C.A)(e).length;
+              return (0, D.A)(e).length;
             } catch (e) {
               return;
             }
         }
       }
-      var J = i(8139),
-        Q = i(7836),
-        ee = i(3434);
-      const te = {},
-        re = ["open", "send"];
-      function ne(e) {
-        var t = e || Q.ee;
+      var ne = i(8139),
+        ie = i(7836),
+        oe = i(3434);
+      const se = {},
+        ae = ["open", "send"];
+      function ce(e) {
+        var t = e || ie.ee;
         const r = (function (e) {
-          return (e || Q.ee).get("xhr");
+          return (e || ie.ee).get("xhr");
         })(t);
         if (void 0 === y.gm.XMLHttpRequest) return r;
-        if (te[r.debugId]++) return r;
-        (te[r.debugId] = 1), (0, J.u)(t);
-        var n = (0, ee.YM)(r),
+        if (se[r.debugId]++) return r;
+        (se[r.debugId] = 1), (0, ne.u)(t);
+        var n = (0, oe.YM)(r),
           i = y.gm.XMLHttpRequest,
           o = y.gm.MutationObserver,
-          a = y.gm.Promise,
-          s = y.gm.setInterval,
+          s = y.gm.Promise,
+          a = y.gm.setInterval,
           c = "readystatechange",
-          u = [
+          d = [
             "onload",
             "onerror",
             "onabort",
@@ -2356,7 +2543,7 @@ NREUM.info = {
             "onprogress",
             "ontimeout",
           ],
-          d = [],
+          u = [],
           f = (y.gm.XMLHttpRequest = function (e) {
             const t = new i(e),
               o = r.context(t);
@@ -2364,15 +2551,15 @@ NREUM.info = {
               r.emit("new-xhr", [t], o),
                 t.addEventListener(
                   c,
-                  ((a = o),
+                  ((s = o),
                   function () {
                     var e = this;
                     e.readyState > 3 &&
-                      !a.resolved &&
-                      ((a.resolved = !0), r.emit("xhr-resolved", [], e)),
-                      n.inPlace(e, u, "fn-", b);
+                      !s.resolved &&
+                      ((s.resolved = !0), r.emit("xhr-resolved", [], e)),
+                      n.inPlace(e, d, "fn-", b);
                   }),
-                  (0, O.jT)(!1)
+                  (0, C.jT)(!1)
                 );
             } catch (e) {
               (0, l.R)(15, e);
@@ -2380,7 +2567,7 @@ NREUM.info = {
                 r.emit("internal-error", [e]);
               } catch (e) {}
             }
-            var a;
+            var s;
             return t;
           });
         function h(e, t) {
@@ -2391,19 +2578,19 @@ NREUM.info = {
             for (var r in e) t[r] = e[r];
           })(i, f),
           (f.prototype = i.prototype),
-          n.inPlace(f.prototype, re, "-xhr-", b),
+          n.inPlace(f.prototype, ae, "-xhr-", b),
           r.on("send-xhr-start", function (e, t) {
             h(e, t),
               (function (e) {
-                d.push(e),
-                  o && (p ? p.then(v) : s ? s(v) : ((g = -g), (m.data = g)));
+                u.push(e),
+                  o && (p ? p.then(v) : a ? a(v) : ((g = -g), (m.data = g)));
               })(t);
           }),
           r.on("open-xhr-start", h),
           o)
         ) {
-          var p = a && a.resolve();
-          if (!s && !a) {
+          var p = s && s.resolve();
+          if (!a && !s) {
             var g = 1,
               m = document.createTextNode(g);
             new o(v).observe(m, { characterData: !0 });
@@ -2413,27 +2600,27 @@ NREUM.info = {
             (e[0] && e[0].type === c) || v();
           });
         function v() {
-          for (var e = 0; e < d.length; e++) h(0, d[e]);
-          d.length && (d = []);
+          for (var e = 0; e < u.length; e++) h(0, u[e]);
+          u.length && (u = []);
         }
         function b(e, t) {
           return t;
         }
         return r;
       }
-      var ie = "fetch-",
-        oe = ie + "body-",
-        ae = ["arrayBuffer", "blob", "json", "text", "formData"],
-        se = y.gm.Request,
-        ce = y.gm.Response,
-        ue = "prototype";
-      const de = {};
-      function le(e) {
+      var de = "fetch-",
+        ue = de + "body-",
+        le = ["arrayBuffer", "blob", "json", "text", "formData"],
+        fe = y.gm.Request,
+        he = y.gm.Response,
+        pe = "prototype";
+      const ge = {};
+      function me(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("fetch");
+          return (e || ie.ee).get("fetch");
         })(e);
-        if (!(se && ce && y.gm.fetch)) return t;
-        if (de[t.debugId]++) return t;
+        if (!(fe && he && y.gm.fetch)) return t;
+        if (ge[t.debugId]++) return t;
         function r(e, r, n) {
           var i = e[r];
           "function" == typeof i &&
@@ -2442,39 +2629,39 @@ NREUM.info = {
                 r = [...arguments],
                 o = {};
               t.emit(n + "before-start", [r], o),
-                o[Q.P] && o[Q.P].dt && (e = o[Q.P].dt);
-              var a = i.apply(this, r);
+                o[ie.P] && o[ie.P].dt && (e = o[ie.P].dt);
+              var s = i.apply(this, r);
               return (
-                t.emit(n + "start", [r, e], a),
-                a.then(
+                t.emit(n + "start", [r, e], s),
+                s.then(
                   function (e) {
-                    return t.emit(n + "end", [null, e], a), e;
+                    return t.emit(n + "end", [null, e], s), e;
                   },
                   function (e) {
-                    throw (t.emit(n + "end", [e], a), e);
+                    throw (t.emit(n + "end", [e], s), e);
                   }
                 )
               );
             });
         }
         return (
-          (de[t.debugId] = 1),
-          ae.forEach((e) => {
-            r(se[ue], e, oe), r(ce[ue], e, oe);
+          (ge[t.debugId] = 1),
+          le.forEach((e) => {
+            r(fe[pe], e, ue), r(he[pe], e, ue);
           }),
-          r(y.gm, "fetch", ie),
-          t.on(ie + "end", function (e, r) {
+          r(y.gm, "fetch", de),
+          t.on(de + "end", function (e, r) {
             var n = this;
             if (r) {
               var i = r.headers.get("content-length");
-              null !== i && (n.rxSize = i), t.emit(ie + "done", [null, r], n);
-            } else t.emit(ie + "done", [e], n);
+              null !== i && (n.rxSize = i), t.emit(de + "done", [null, r], n);
+            } else t.emit(de + "done", [e], n);
           }),
           t
         );
       }
-      var fe = i(7485);
-      class he {
+      var ve = i(7485);
+      class be {
         constructor(e) {
           this.agentRef = e;
         }
@@ -2485,18 +2672,18 @@ NREUM.info = {
             i = (r.agentID || "").toString() || null,
             o = (r.trustKey || "").toString() || null;
           if (!n || !i) return null;
-          var a = (0, e.ZF)(),
-            s = (0, e.el)(),
+          var s = (0, e.ZF)(),
+            a = (0, e.el)(),
             c = Date.now(),
-            u = { spanId: a, traceId: s, timestamp: c };
+            d = { spanId: s, traceId: a, timestamp: c };
           return (
             (t.sameOrigin ||
               (this.isAllowedOrigin(t) &&
                 this.useTraceContextHeadersForCors())) &&
-              ((u.traceContextParentHeader =
-                this.generateTraceContextParentHeader(a, s)),
-              (u.traceContextStateHeader = this.generateTraceContextStateHeader(
-                a,
+              ((d.traceContextParentHeader =
+                this.generateTraceContextParentHeader(s, a)),
+              (d.traceContextStateHeader = this.generateTraceContextStateHeader(
+                s,
                 c,
                 n,
                 i,
@@ -2506,8 +2693,8 @@ NREUM.info = {
               (!t.sameOrigin &&
                 this.isAllowedOrigin(t) &&
                 this.useNewrelicHeaderForCors())) &&
-              (u.newrelicHeader = this.generateTraceHeader(a, s, c, n, i, o)),
-            u
+              (d.newrelicHeader = this.generateTraceHeader(s, a, c, n, i, o)),
+            d
           );
         }
         generateTraceContextParentHeader(e, t) {
@@ -2518,15 +2705,16 @@ NREUM.info = {
         }
         generateTraceHeader(e, t, r, n, i, o) {
           if (!("function" == typeof y.gm?.btoa)) return null;
-          var a = {
+          var s = {
             v: [0, 1],
             d: { ty: "Browser", ac: n, ap: i, id: e, tr: t, ti: r },
           };
-          return o && n !== o && (a.d.tk = o), btoa((0, C.A)(a));
+          return o && n !== o && (s.d.tk = o), btoa((0, D.A)(s));
         }
         shouldGenerateTrace(e) {
           return (
-            this.agentRef.init?.distributed_tracing && this.isAllowedOrigin(e)
+            this.agentRef.init?.distributed_tracing?.enabled &&
+            this.isAllowedOrigin(e)
           );
         }
         isAllowedOrigin(e) {
@@ -2535,7 +2723,7 @@ NREUM.info = {
           if (e.sameOrigin) t = !0;
           else if (r?.allowed_origins instanceof Array)
             for (var n = 0; n < r.allowed_origins.length; n++) {
-              var i = (0, fe.D)(r.allowed_origins[n]);
+              var i = (0, ve.D)(r.allowed_origins[n]);
               if (
                 e.hostname === i.hostname &&
                 e.protocol === i.protocol &&
@@ -2560,19 +2748,28 @@ NREUM.info = {
           return !!e && !!e.cors_use_tracecontext_headers;
         }
       }
-      var pe = i(9300),
-        ge = i(7295),
-        me = ["load", "error", "abort", "timeout"],
-        ve = me.length,
-        be = (0, S.dV)().o.REQ,
-        ye = (0, S.dV)().o.XHR;
-      const Re = "X-NewRelic-App-Data";
-      class we extends T {
-        static featureName = pe.T;
+      var ye = i(9300),
+        we = i(7295);
+      function xe(e) {
+        return "string" == typeof e
+          ? e
+          : e instanceof (0, O.dV)().o.REQ
+          ? e.url
+          : y.gm?.URL && e instanceof URL
+          ? e.href
+          : void 0;
+      }
+      var Re = ["load", "error", "abort", "timeout"],
+        Te = Re.length,
+        Ee = (0, O.dV)().o.REQ,
+        Ae = (0, O.dV)().o.XHR;
+      const Se = "X-NewRelic-App-Data";
+      class _e extends E {
+        static featureName = ye.T;
         constructor(e) {
-          super(e, pe.T),
-            (this.dt = new he(e)),
-            (this.handler = (e, t, r, n) => (0, s.p)(e, t, r, n, this.ee));
+          super(e, ye.T),
+            (this.dt = new be(e)),
+            (this.handler = (e, t, r, n) => (0, a.p)(e, t, r, n, this.ee));
           try {
             const e = {
               xmlhttprequest: "xhr",
@@ -2587,7 +2784,7 @@ NREUM.info = {
                     duration: Math.floor(t.duration),
                     cbTime: 0,
                   };
-                xe(r, t.name),
+                Oe(r, t.name),
                   this.handler(
                     "xhr",
                     [r, i, t.startTime, t.responseEnd, e[t.initiatorType]],
@@ -2597,27 +2794,28 @@ NREUM.info = {
               }
             });
           } catch (e) {}
-          le(this.ee),
-            ne(this.ee),
+          me(this.ee),
+            ce(this.ee),
             (function (e, t, r, i) {
               function o(e) {
                 var t = this;
                 (t.totalCbs = 0),
                   (t.called = 0),
                   (t.cbTime = 0),
-                  (t.end = A),
+                  (t.end = E),
                   (t.ended = !1),
                   (t.xhrGuids = {}),
                   (t.lastSize = null),
                   (t.loadCaptureCalled = !1),
                   (t.params = this.params || {}),
                   (t.metrics = this.metrics || {}),
+                  (t.latestLongtaskEnd = 0),
                   e.addEventListener(
                     "load",
                     function (r) {
-                      E(t, e);
+                      A(t, e);
                     },
-                    (0, O.jT)(!1)
+                    (0, C.jT)(!1)
                   ),
                   y.lR ||
                     e.addEventListener(
@@ -2625,15 +2823,15 @@ NREUM.info = {
                       function (e) {
                         t.lastSize = e.loaded;
                       },
-                      (0, O.jT)(!1)
+                      (0, C.jT)(!1)
                     );
               }
-              function a(e) {
+              function s(e) {
                 (this.params = { method: e[0] }),
-                  xe(this, e[1]),
+                  Oe(this, e[1]),
                   (this.metrics = {});
               }
-              function u(t, r) {
+              function d(t, r) {
                 e.loader_config.xpid &&
                   this.sameOrigin &&
                   r.setRequestHeader("X-NewRelic-ID", e.loader_config.xpid);
@@ -2657,13 +2855,13 @@ NREUM.info = {
                     o && (this.dt = n);
                 }
               }
-              function d(e, r) {
+              function u(e, r) {
                 var n = this.metrics,
                   i = e[0],
                   o = this;
                 if (n && i) {
-                  var a = Y(i);
-                  a && (n.txSize = a);
+                  var s = re(i);
+                  s && (n.txSize = s);
                 }
                 (this.startTime = (0, c.t)()),
                   (this.body = i),
@@ -2683,8 +2881,8 @@ NREUM.info = {
                       } catch (e) {}
                     }
                   });
-                for (var s = 0; s < ve; s++)
-                  r.addEventListener(me[s], this.listener, (0, O.jT)(!1));
+                for (var a = 0; a < Te; a++)
+                  r.addEventListener(Re[a], this.listener, (0, C.jT)(!1));
               }
               function l(e, t, r) {
                 (this.cbTime += e),
@@ -2695,13 +2893,13 @@ NREUM.info = {
                     this.end(r);
               }
               function f(e, t) {
-                var r = "" + X(e) + !!t;
+                var r = "" + te(e) + !!t;
                 this.xhrGuids &&
                   !this.xhrGuids[r] &&
                   ((this.xhrGuids[r] = !0), (this.totalCbs += 1));
               }
               function p(e, t) {
-                var r = "" + X(e) + !!t;
+                var r = "" + te(e) + !!t;
                 this.xhrGuids &&
                   this.xhrGuids[r] &&
                   (delete this.xhrGuids[r], (this.totalCbs -= 1));
@@ -2710,22 +2908,22 @@ NREUM.info = {
                 this.endTime = (0, c.t)();
               }
               function m(e, r) {
-                r instanceof ye &&
+                r instanceof Ae &&
                   "load" === e[0] &&
                   t.emit("xhr-load-added", [e[1], e[2]], r);
               }
               function v(e, r) {
-                r instanceof ye &&
+                r instanceof Ae &&
                   "load" === e[0] &&
                   t.emit("xhr-load-removed", [e[1], e[2]], r);
               }
               function b(e, t, r) {
-                t instanceof ye &&
+                t instanceof Ae &&
                   ("onload" === r && (this.onload = !0),
                   ("load" === (e[0] && e[0].type) || this.onload) &&
                     (this.xhrCbStart = (0, c.t)()));
               }
-              function R(e, r) {
+              function w(e, r) {
                 this.xhrCbStart &&
                   t.emit(
                     "xhr-cb-time",
@@ -2733,7 +2931,7 @@ NREUM.info = {
                     r
                   );
               }
-              function w(e) {
+              function x(e) {
                 var t,
                   r = e[1] || {};
                 if (
@@ -2750,21 +2948,21 @@ NREUM.info = {
                   "string" == typeof t && 0 !== t.length)
                 ) {
                   t &&
-                    ((this.parsedOrigin = (0, fe.D)(t)),
+                    ((this.parsedOrigin = (0, ve.D)(t)),
                     (this.sameOrigin = this.parsedOrigin.sameOrigin));
                   var n = i.generateTracePayload(this.parsedOrigin);
                   if (n && (n.newrelicHeader || n.traceContextParentHeader))
                     if (e[0] && e[0].headers)
-                      s(e[0].headers, n) && (this.dt = n);
+                      a(e[0].headers, n) && (this.dt = n);
                     else {
                       var o = {};
-                      for (var a in r) o[a] = r[a];
+                      for (var s in r) o[s] = r[s];
                       (o.headers = new Headers(r.headers || {})),
-                        s(o.headers, n) && (this.dt = n),
+                        a(o.headers, n) && (this.dt = n),
                         e.length > 1 ? (e[1] = o) : e.push(o);
                     }
                 }
-                function s(e, t) {
+                function a(e, t) {
                   var r = !1;
                   return (
                     t.newrelicHeader &&
@@ -2778,37 +2976,28 @@ NREUM.info = {
                   );
                 }
               }
-              function x(e, t) {
+              function R(e, t) {
                 (this.params = {}),
                   (this.metrics = {}),
                   (this.startTime = (0, c.t)()),
                   (this.dt = t),
                   e.length >= 1 && (this.target = e[0]),
                   e.length >= 2 && (this.opts = e[1]);
-                var r,
-                  n = this.opts || {},
-                  i = this.target;
-                "string" == typeof i
-                  ? (r = i)
-                  : "object" == typeof i && i instanceof be
-                  ? (r = i.url)
-                  : y.gm?.URL &&
-                    "object" == typeof i &&
-                    i instanceof URL &&
-                    (r = i.href),
-                  xe(this, r);
-                var o = (
-                  "" + ((i && i instanceof be && i.method) || n.method || "GET")
+                var r = this.opts || {},
+                  n = this.target;
+                Oe(this, xe(n));
+                var i = (
+                  "" + ((n && n instanceof Ee && n.method) || r.method || "GET")
                 ).toUpperCase();
-                (this.params.method = o),
-                  (this.body = n.body),
-                  (this.txSize = Y(n.body) || 0);
+                (this.params.method = i),
+                  (this.body = r.body),
+                  (this.txSize = re(r.body) || 0);
               }
               function T(e, t) {
                 if (
                   ((this.endTime = (0, c.t)()),
                   this.params || (this.params = {}),
-                  (0, ge.iW)(this.params))
+                  (0, we.iW)(this.params))
                 )
                   return;
                 let i;
@@ -2828,19 +3017,19 @@ NREUM.info = {
                   n.K7.ajax
                 );
               }
-              function A(e) {
+              function E(e) {
                 const t = this.params,
                   i = this.metrics;
                 if (!this.ended) {
                   this.ended = !0;
-                  for (let t = 0; t < ve; t++)
-                    e.removeEventListener(me[t], this.listener, !1);
+                  for (let t = 0; t < Te; t++)
+                    e.removeEventListener(Re[t], this.listener, !1);
                   t.aborted ||
-                    (0, ge.iW)(t) ||
+                    (0, we.iW)(t) ||
                     ((i.duration = (0, c.t)() - this.startTime),
                     this.loadCaptureCalled || 4 !== e.readyState
                       ? null == t.status && (t.status = 0)
-                      : E(this, e),
+                      : A(this, e),
                     (i.cbTime = this.cbTime),
                     r(
                       "xhr",
@@ -2850,25 +3039,25 @@ NREUM.info = {
                     ));
                 }
               }
-              function E(e, r) {
+              function A(e, r) {
                 e.params.status = r.status;
                 var i = (function (e, t) {
                   var r = e.responseType;
                   return "json" === r && null !== t
                     ? t
                     : "arraybuffer" === r || "blob" === r || "json" === r
-                    ? Y(e.response)
+                    ? re(e.response)
                     : "text" === r || "" === r || void 0 === r
-                    ? Y(e.responseText)
+                    ? re(e.responseText)
                     : void 0;
                 })(r, e.lastSize);
                 if (
                   (i && (e.metrics.rxSize = i),
-                  e.sameOrigin && r.getAllResponseHeaders().indexOf(Re) >= 0)
+                  e.sameOrigin && r.getAllResponseHeaders().indexOf(Se) >= 0)
                 ) {
-                  var o = r.getResponseHeader(Re);
+                  var o = r.getResponseHeader(Se);
                   o &&
-                    ((0, s.p)(
+                    ((0, a.p)(
                       h.rs,
                       ["Ajax/CrossApplicationTracing/Header/Seen"],
                       void 0,
@@ -2880,26 +3069,26 @@ NREUM.info = {
                 e.loadCaptureCalled = !0;
               }
               t.on("new-xhr", o),
-                t.on("open-xhr-start", a),
-                t.on("open-xhr-end", u),
-                t.on("send-xhr-start", d),
+                t.on("open-xhr-start", s),
+                t.on("open-xhr-end", d),
+                t.on("send-xhr-start", u),
                 t.on("xhr-cb-time", l),
                 t.on("xhr-load-added", f),
                 t.on("xhr-load-removed", p),
                 t.on("xhr-resolved", g),
                 t.on("addEventListener-end", m),
                 t.on("removeEventListener-end", v),
-                t.on("fn-end", R),
-                t.on("fetch-before-start", w),
-                t.on("fetch-start", x),
+                t.on("fn-end", w),
+                t.on("fetch-before-start", x),
+                t.on("fetch-start", R),
                 t.on("fn-start", b),
                 t.on("fetch-done", T);
             })(e, this.ee, this.handler, this.dt),
             this.importAggregator(e, () => i.e(478).then(i.bind(i, 3845)));
         }
       }
-      function xe(e, t) {
-        var r = (0, fe.D)(t),
+      function Oe(e, t) {
+        var r = (0, ve.D)(t),
           n = e.params || e;
         (n.hostname = r.hostname),
           (n.port = r.port),
@@ -2909,30 +3098,32 @@ NREUM.info = {
           (e.parsedOrigin = r),
           (e.sameOrigin = r.sameOrigin);
       }
-      const Te = {},
-        Ae = ["pushState", "replaceState"];
-      function Ee(e) {
+      const Ne = {},
+        Ie = ["pushState", "replaceState"];
+      function Pe(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("history");
+          return (e || ie.ee).get("history");
         })(e);
         return (
           !y.RI ||
-            Te[t.debugId]++ ||
-            ((Te[t.debugId] = 1),
-            (0, ee.YM)(t).inPlace(window.history, Ae, "-")),
+            Ne[t.debugId]++ ||
+            ((Ne[t.debugId] = 1),
+            (0, oe.YM)(t).inPlace(window.history, Ie, "-")),
           t
         );
       }
-      var Se = i(3738);
-      function _e(e) {
+      var je = i(3738);
+      function ke(e) {
         p(
-          u.BL,
-          function (t = (0, c.t)()) {
-            (0, s.p)(h.XG, [u.BL, { time: t }], void 0, n.K7.metrics, e.ee),
-              e.addToTrace({ name: u.BL, start: t + y.WN, origin: "nr" }),
-              (0, s.p)(
-                u.Pl + u.hG,
-                [t, u.BL],
+          d.BL,
+          function (t = Date.now()) {
+            const r = t - y.WN;
+            r < 0 && (0, l.R)(62, t),
+              (0, a.p)(h.XG, [d.BL, { time: r }], void 0, n.K7.metrics, e.ee),
+              e.addToTrace({ name: d.BL, start: t, origin: "nr" }),
+              (0, a.p)(
+                d.Pl + d.hG,
+                [r, d.BL],
                 void 0,
                 n.K7.genericEvents,
                 e.ee
@@ -2942,23 +3133,23 @@ NREUM.info = {
         );
       }
       const {
-        He: Oe,
-        bD: Ne,
-        d3: Pe,
-        Kp: Ie,
-        TZ: je,
-        Lc: Ce,
-        uP: ke,
-        Rz: Le,
-      } = Se;
-      class He extends T {
-        static featureName = je;
+        He: Ce,
+        bD: De,
+        d3: Le,
+        Kp: Me,
+        TZ: He,
+        Lc: Be,
+        uP: Ke,
+        Rz: We,
+      } = je;
+      class Ue extends E {
+        static featureName = He;
         constructor(e) {
           var t;
-          super(e, je),
+          super(e, He),
             (t = e),
             p(
-              u.U2,
+              d.U2,
               function (e) {
                 if (!(e && "object" == typeof e && e.name && e.start)) return;
                 const r = {
@@ -2968,21 +3159,23 @@ NREUM.info = {
                   o: e.origin || "",
                   t: "api",
                 };
-                (0, s.p)("bstApi", [r], void 0, n.K7.sessionTrace, t.ee);
+                r.s < 0 || r.e < 0 || r.e < r.s
+                  ? (0, l.R)(61, { start: r.s, end: r.e })
+                  : (0, a.p)("bstApi", [r], void 0, n.K7.sessionTrace, t.ee);
               },
               t
             ),
-            _e(e);
-          if (!(0, w.V)(e.init)) return void this.deregisterDrain();
+            ke(e);
+          if (!(0, x.V)(e.init)) return void this.deregisterDrain();
           const r = this.ee;
           let o;
-          Ee(r),
-            (this.eventsEE = (0, J.u)(r)),
-            this.eventsEE.on(ke, function (e, t) {
+          Pe(r),
+            (this.eventsEE = (0, ne.u)(r)),
+            this.eventsEE.on(Ke, function (e, t) {
               this.bstStart = (0, c.t)();
             }),
-            this.eventsEE.on(Ce, function (e, t) {
-              (0, s.p)(
+            this.eventsEE.on(Be, function (e, t) {
+              (0, a.p)(
                 "bst",
                 [e[0], t, this.bstStart, (0, c.t)()],
                 void 0,
@@ -2990,12 +3183,12 @@ NREUM.info = {
                 r
               );
             }),
-            r.on(Le + Pe, function (e) {
+            r.on(We + Le, function (e) {
               (this.time = (0, c.t)()),
                 (this.startPath = location.pathname + location.hash);
             }),
-            r.on(Le + Ie, function (e) {
-              (0, s.p)(
+            r.on(We + Me, function (e) {
+              (0, a.p)(
                 "bstHist",
                 [location.pathname + location.hash, this.startPath, this.time],
                 void 0,
@@ -3006,122 +3199,106 @@ NREUM.info = {
           try {
             (o = new PerformanceObserver((e) => {
               const t = e.getEntries();
-              (0, s.p)(Oe, [t], void 0, n.K7.sessionTrace, r);
+              (0, a.p)(Ce, [t], void 0, n.K7.sessionTrace, r);
             })),
-              o.observe({ type: Ne, buffered: !0 });
+              o.observe({ type: De, buffered: !0 });
           } catch (e) {}
-          this.importAggregator(e, () => i.e(478).then(i.bind(i, 575)), {
+          this.importAggregator(e, () => i.e(478).then(i.bind(i, 6974)), {
             resourceObserver: o,
           });
         }
       }
-      var Me = i(2614),
-        De = i(6344);
-      class Ke extends T {
-        static featureName = De.TZ;
+      var Fe = i(6344);
+      class Ve extends E {
+        static featureName = Fe.TZ;
         #n;
-        #i;
+        recorder;
         constructor(e) {
           var t;
           let r;
-          super(e, De.TZ),
+          super(e, Fe.TZ),
             (t = e),
             p(
-              u.CH,
+              d.CH,
               function () {
-                (0, s.p)(u.CH, [], void 0, n.K7.sessionReplay, t.ee);
+                (0, a.p)(d.CH, [], void 0, n.K7.sessionReplay, t.ee);
               },
               t
             ),
             (function (e) {
               p(
-                u.Tb,
+                d.Tb,
                 function () {
-                  (0, s.p)(u.Tb, [], void 0, n.K7.sessionReplay, e.ee);
+                  (0, a.p)(d.Tb, [], void 0, n.K7.sessionReplay, e.ee);
                 },
                 e
               );
-            })(e),
-            (this.#i = e);
+            })(e);
           try {
             r = JSON.parse(
-              localStorage.getItem("".concat(Me.H3, "_").concat(Me.uh))
+              localStorage.getItem("".concat(S.H3, "_").concat(S.uh))
             );
           } catch (e) {}
-          (0, R.SR)(e.init) && this.ee.on(De.G4.RECORD, () => this.#o()),
-            this.#a(r)
-              ? ((this.#n = r?.sessionReplayMode), this.#s())
-              : this.importAggregator(this.#i, () =>
-                  i.e(478).then(i.bind(i, 6167))
-                ),
+          (0, w.SR)(e.init) && this.ee.on(d.CH, () => this.#i()),
+            this.#o(r) &&
+              this.importRecorder().then((e) => {
+                e.startRecording(Fe.Qb.PRELOAD, r?.sessionReplayMode);
+              }),
+            this.importAggregator(
+              this.agentRef,
+              () => i.e(478).then(i.bind(i, 6167)),
+              this
+            ),
             this.ee.on("err", (e) => {
-              this.#i.runtime.isRecording &&
-                ((this.errorNoticed = !0),
-                (0, s.p)(
-                  De.G4.ERROR_DURING_REPLAY,
-                  [e],
-                  void 0,
-                  this.featureName,
-                  this.ee
-                ));
+              this.blocked ||
+                (this.agentRef.runtime.isRecording &&
+                  ((this.errorNoticed = !0),
+                  (0, a.p)(Fe.Vh, [e], void 0, this.featureName, this.ee)));
             });
         }
-        #a(e) {
+        #o(e) {
           return (
             (e &&
-              (e.sessionReplayMode === Me.g.FULL ||
-                e.sessionReplayMode === Me.g.ERROR)) ||
-            (0, R.Aw)(this.#i.init)
+              (e.sessionReplayMode === S.g.FULL ||
+                e.sessionReplayMode === S.g.ERROR)) ||
+            (0, w.Aw)(this.agentRef.init)
           );
         }
-        #c = !1;
-        async #s(e) {
-          if (!this.#c) {
-            this.#c = !0;
-            try {
-              const { Recorder: t } = await Promise.all([
-                i.e(478),
-                i.e(249),
-              ]).then(i.bind(i, 8589));
-              (this.recorder ??= new t({
-                mode: this.#n,
-                agentIdentifier: this.agentIdentifier,
-                trigger: e,
-                ee: this.ee,
-                agentRef: this.#i,
-              })),
-                this.recorder.startRecording(),
-                (this.abortHandler = this.recorder.stopRecording);
-            } catch (e) {
-              this.parent.ee.emit("internal-error", [e]);
-            }
-            this.importAggregator(
-              this.#i,
-              () => i.e(478).then(i.bind(i, 6167)),
-              { recorder: this.recorder, errorNoticed: this.errorNoticed }
-            );
-          }
+        importRecorder() {
+          return this.recorder
+            ? Promise.resolve(this.recorder)
+            : ((this.#n ??= Promise.all([i.e(478), i.e(249)])
+                .then(i.bind(i, 4866))
+                .then(
+                  ({ Recorder: e }) => (
+                    (this.recorder = new e(this)), this.recorder
+                  )
+                )
+                .catch((e) => {
+                  throw (
+                    (this.ee.emit("internal-error", [e]),
+                    (this.blocked = !0),
+                    e)
+                  );
+                })),
+              this.#n);
         }
-        #o() {
-          this.featAggregate
-            ? this.featAggregate.mode !== Me.g.FULL &&
-              this.featAggregate.initializeRecording(Me.g.FULL, !0)
-            : ((this.#n = Me.g.FULL),
-              this.#s(De.Qb.API),
-              this.recorder &&
-                this.recorder.parent.mode !== Me.g.FULL &&
-                ((this.recorder.parent.mode = Me.g.FULL),
-                this.recorder.stopRecording(),
-                this.recorder.startRecording(),
-                (this.abortHandler = this.recorder.stopRecording)));
+        #i() {
+          this.blocked ||
+            (this.featAggregate
+              ? this.featAggregate.mode !== S.g.FULL &&
+                this.featAggregate.initializeRecording(S.g.FULL, !0, Fe.Qb.API)
+              : this.importRecorder().then(() => {
+                  this.recorder.startRecording(Fe.Qb.API, S.g.FULL);
+                }));
         }
       }
-      var Ue = i(3962);
-      function Fe(e) {
+      var Ge = i(3962);
+      function ze(e) {
         const t = e.ee.get("tracer");
         function r() {}
         p(
-          u.dT,
+          d.dT,
           function (e) {
             return new r().get("object" == typeof e ? e : {});
           },
@@ -3130,10 +3307,10 @@ NREUM.info = {
         const i = (r.prototype = {
           createTracer: function (r, i) {
             var o = {},
-              a = this,
-              d = "function" == typeof i;
+              s = this,
+              u = "function" == typeof i;
             return (
-              (0, s.p)(
+              (0, a.p)(
                 h.xV,
                 ["API/createTracer/called"],
                 void 0,
@@ -3141,17 +3318,17 @@ NREUM.info = {
                 e.ee
               ),
               e.runSoftNavOverSpa ||
-                (0, s.p)(
-                  u.hw + "tracer",
+                (0, a.p)(
+                  d.hw + "tracer",
                   [(0, c.t)(), r, o],
-                  a,
+                  s,
                   n.K7.spa,
                   e.ee
                 ),
               function () {
                 if (
-                  (t.emit((d ? "" : "no-") + "fn-start", [(0, c.t)(), a, d], o),
-                  d)
+                  (t.emit((u ? "" : "no-") + "fn-start", [(0, c.t)(), s, u], o),
+                  u)
                 )
                   try {
                     return i.apply(this, arguments);
@@ -3180,8 +3357,8 @@ NREUM.info = {
             t,
             function () {
               return (
-                (0, s.p)(
-                  u.hw + t,
+                (0, a.p)(
+                  d.hw + t,
                   [(0, c.t)(), ...arguments],
                   this,
                   e.runSoftNavOverSpa ? n.K7.softNav : n.K7.spa,
@@ -3195,18 +3372,18 @@ NREUM.info = {
           ]);
         }),
           p(
-            u.PA,
+            d.PA,
             function () {
               e.runSoftNavOverSpa
-                ? (0, s.p)(
-                    u.hw + "routeName",
+                ? (0, a.p)(
+                    d.hw + "routeName",
                     [performance.now(), ...arguments],
                     void 0,
                     n.K7.softNav,
                     e.ee
                   )
-                : (0, s.p)(
-                    u.Pl + "routeName",
+                : (0, a.p)(
+                    d.Pl + "routeName",
                     [(0, c.t)(), ...arguments],
                     this,
                     n.K7.spa,
@@ -3216,51 +3393,55 @@ NREUM.info = {
             e
           );
       }
-      class Be extends T {
-        static featureName = Ue.TZ;
+      class Ze extends E {
+        static featureName = Ge.TZ;
         constructor(e) {
-          if ((super(e, Ue.TZ), Fe(e), !y.RI || !(0, S.dV)().o.MO)) return;
-          const t = Ee(this.ee);
-          Ue.tC.forEach((e) => {
-            (0, O.sp)(
+          if ((super(e, Ge.TZ), ze(e), !y.RI || !(0, O.dV)().o.MO)) return;
+          const t = Pe(this.ee);
+          try {
+            this.removeOnAbort = new AbortController();
+          } catch (e) {}
+          Ge.tC.forEach((e) => {
+            (0, C.sp)(
               e,
               (e) => {
-                a(e);
+                s(e);
               },
-              !0
+              !0,
+              this.removeOnAbort?.signal
             );
           });
           const r = () =>
-            (0, s.p)(
+            (0, a.p)(
               "newURL",
               [(0, c.t)(), "" + window.location],
               void 0,
               this.featureName,
               this.ee
             );
-          t.on("pushState-end", r), t.on("replaceState-end", r);
-          try {
-            this.removeOnAbort = new AbortController();
-          } catch (e) {}
-          (0, O.sp)(
-            "popstate",
-            (e) =>
-              (0, s.p)(
-                "newURL",
-                [e.timeStamp, "" + window.location],
-                void 0,
-                this.featureName,
-                this.ee
-              ),
-            !0,
-            this.removeOnAbort?.signal
-          );
+          t.on("pushState-end", r),
+            t.on("replaceState-end", r),
+            (0, C.sp)(
+              Ge.OV,
+              (e) => {
+                s(e),
+                  (0, a.p)(
+                    "newURL",
+                    [e.timeStamp, "" + window.location],
+                    void 0,
+                    this.featureName,
+                    this.ee
+                  );
+              },
+              !0,
+              this.removeOnAbort?.signal
+            );
           let n = !1;
-          const o = new ((0, S.dV)().o.MO)((e, t) => {
+          const o = new ((0, O.dV)().o.MO)((e, t) => {
               n ||
                 ((n = !0),
                 requestAnimationFrame(() => {
-                  (0, s.p)(
+                  (0, a.p)(
                     "newDom",
                     [(0, c.t)()],
                     void 0,
@@ -3270,15 +3451,22 @@ NREUM.info = {
                     (n = !1);
                 }));
             }),
-            a = (0, x.s)(
+            s = (0, R.s)(
               (e) => {
-                (0, s.p)("newUIEvent", [e], void 0, this.featureName, this.ee),
+                "loading" !== document.readyState &&
+                  ((0, a.p)(
+                    "newUIEvent",
+                    [e],
+                    void 0,
+                    this.featureName,
+                    this.ee
+                  ),
                   o.observe(document.body, {
                     attributes: !0,
                     childList: !0,
                     subtree: !0,
                     characterData: !0,
-                  });
+                  }));
               },
               100,
               { leading: !0 }
@@ -3293,27 +3481,27 @@ NREUM.info = {
             });
         }
       }
-      var We = i(7378);
-      const Ge = {},
-        Ve = ["appendChild", "insertBefore", "replaceChild"];
-      function ze(e) {
+      var qe = i(7378);
+      const Xe = {},
+        Ye = ["appendChild", "insertBefore", "replaceChild"];
+      function Je(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("jsonp");
+          return (e || ie.ee).get("jsonp");
         })(e);
-        if (!y.RI || Ge[t.debugId]) return t;
-        Ge[t.debugId] = !0;
-        var r = (0, ee.YM)(t),
+        if (!y.RI || Xe[t.debugId]) return t;
+        Xe[t.debugId] = !0;
+        var r = (0, oe.YM)(t),
           n = /[?&](?:callback|cb)=([^&#]+)/,
           i = /(.*)\.([^.]+)/,
           o = /^(\w+)(\.|$)(.*)$/;
-        function a(e, t) {
+        function s(e, t) {
           if (!e) return t;
           const r = e.match(o),
             n = r[1];
-          return a(r[3], t[n]);
+          return s(r[3], t[n]);
         }
         return (
-          r.inPlace(Node.prototype, Ve, "dom-"),
+          r.inPlace(Node.prototype, Ye, "dom-"),
           t.on("dom-start", function (e) {
             !(function (e) {
               if (
@@ -3323,59 +3511,59 @@ NREUM.info = {
               )
                 return;
               if ("function" != typeof e.addEventListener) return;
-              var o = ((s = e.src), (c = s.match(n)), c ? c[1] : null);
-              var s, c;
+              var o = ((a = e.src), (c = a.match(n)), c ? c[1] : null);
+              var a, c;
               if (!o) return;
-              var u = (function (e) {
+              var d = (function (e) {
                 var t = e.match(i);
                 if (t && t.length >= 3)
-                  return { key: t[2], parent: a(t[1], window) };
+                  return { key: t[2], parent: s(t[1], window) };
                 return { key: e, parent: window };
               })(o);
-              if ("function" != typeof u.parent[u.key]) return;
-              var d = {};
+              if ("function" != typeof d.parent[d.key]) return;
+              var u = {};
               function l() {
-                t.emit("jsonp-end", [], d),
-                  e.removeEventListener("load", l, (0, O.jT)(!1)),
-                  e.removeEventListener("error", f, (0, O.jT)(!1));
+                t.emit("jsonp-end", [], u),
+                  e.removeEventListener("load", l, (0, C.jT)(!1)),
+                  e.removeEventListener("error", f, (0, C.jT)(!1));
               }
               function f() {
-                t.emit("jsonp-error", [], d),
-                  t.emit("jsonp-end", [], d),
-                  e.removeEventListener("load", l, (0, O.jT)(!1)),
-                  e.removeEventListener("error", f, (0, O.jT)(!1));
+                t.emit("jsonp-error", [], u),
+                  t.emit("jsonp-end", [], u),
+                  e.removeEventListener("load", l, (0, C.jT)(!1)),
+                  e.removeEventListener("error", f, (0, C.jT)(!1));
               }
-              r.inPlace(u.parent, [u.key], "cb-", d),
-                e.addEventListener("load", l, (0, O.jT)(!1)),
-                e.addEventListener("error", f, (0, O.jT)(!1)),
-                t.emit("new-jsonp", [e.src], d);
+              r.inPlace(d.parent, [d.key], "cb-", u),
+                e.addEventListener("load", l, (0, C.jT)(!1)),
+                e.addEventListener("error", f, (0, C.jT)(!1)),
+                t.emit("new-jsonp", [e.src], u);
             })(e[0]);
           }),
           t
         );
       }
-      const Ze = {};
-      function qe(e) {
+      const $e = {};
+      function Qe(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("promise");
+          return (e || ie.ee).get("promise");
         })(e);
-        if (Ze[t.debugId]) return t;
-        Ze[t.debugId] = !0;
+        if ($e[t.debugId]) return t;
+        $e[t.debugId] = !0;
         var r = t.context,
-          n = (0, ee.YM)(t),
+          n = (0, oe.YM)(t),
           i = y.gm.Promise;
         return (
           i &&
             (function () {
               function e(r) {
                 var o = t.context(),
-                  a = n(r, "executor-", o, null, !1);
-                const s = Reflect.construct(i, [a], e);
+                  s = n(r, "executor-", o, null, !1);
+                const a = Reflect.construct(i, [s], e);
                 return (
-                  (t.context(s).getCtx = function () {
+                  (t.context(a).getCtx = function () {
                     return o;
                   }),
-                  s
+                  a
                 );
               }
               (y.gm.Promise = e),
@@ -3389,11 +3577,11 @@ NREUM.info = {
                   e[r] = function (e) {
                     let i = !1;
                     [...(e || [])].forEach((e) => {
-                      this.resolve(e).then(a("all" === r), a(!1));
+                      this.resolve(e).then(s("all" === r), s(!1));
                     });
                     const o = n.apply(this, arguments);
                     return o;
-                    function a(e) {
+                    function s(e) {
                       return function () {
                         t.emit("propagate", [null, !i], o, !1, !1),
                           (i = i || !e);
@@ -3414,18 +3602,18 @@ NREUM.info = {
               const o = i.prototype.then;
               (i.prototype.then = function (...e) {
                 var i = this,
-                  a = r(i);
-                (a.promise = i),
-                  (e[0] = n(e[0], "cb-", a, null, !1)),
-                  (e[1] = n(e[1], "cb-", a, null, !1));
-                const s = o.apply(this, e);
+                  s = r(i);
+                (s.promise = i),
+                  (e[0] = n(e[0], "cb-", s, null, !1)),
+                  (e[1] = n(e[1], "cb-", s, null, !1));
+                const a = o.apply(this, e);
                 return (
-                  (a.nextPromise = s),
-                  t.emit("propagate", [i, !0], s, !1, !1),
-                  s
+                  (s.nextPromise = a),
+                  t.emit("propagate", [i, !0], a, !1, !1),
+                  a
                 );
               }),
-                (i.prototype.then[ee.Jt] = o),
+                (i.prototype.then[oe.Jt] = o),
                 t.on("executor-start", function (e) {
                   (e[0] = n(e[0], "resolve-", this, null, !1)),
                     (e[1] = n(e[1], "resolve-", this, null, !1));
@@ -3437,37 +3625,49 @@ NREUM.info = {
                   t.emit("propagate", [n, !0], this.nextPromise, !1, !1);
                 }),
                 t.on("propagate", function (e, r, n) {
-                  (this.getCtx && !r) ||
-                    (this.getCtx = function () {
-                      if (e instanceof Promise) var r = t.context(e);
-                      return r && r.getCtx ? r.getCtx() : this;
-                    });
+                  if (!this.getCtx || r) {
+                    const r = this,
+                      n = e instanceof Promise ? t.context(e) : null;
+                    let i;
+                    this.getCtx = function () {
+                      return (
+                        i ||
+                        ((i =
+                          n && n !== r
+                            ? "function" == typeof n.getCtx
+                              ? n.getCtx()
+                              : n
+                            : r),
+                        i)
+                      );
+                    };
+                  }
                 });
             })(),
           t
         );
       }
-      const Xe = {},
-        Ye = "setTimeout",
-        $e = "setInterval",
-        Je = "clearTimeout",
-        Qe = "-start",
-        et = [Ye, "setImmediate", $e, Je, "clearImmediate"];
-      function tt(e) {
+      const et = {},
+        tt = "setTimeout",
+        rt = "setInterval",
+        nt = "clearTimeout",
+        it = "-start",
+        ot = [tt, "setImmediate", rt, nt, "clearImmediate"];
+      function st(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("timer");
+          return (e || ie.ee).get("timer");
         })(e);
-        if (Xe[t.debugId]++) return t;
-        Xe[t.debugId] = 1;
-        var r = (0, ee.YM)(t);
+        if (et[t.debugId]++) return t;
+        et[t.debugId] = 1;
+        var r = (0, oe.YM)(t);
         return (
-          r.inPlace(y.gm, et.slice(0, 2), Ye + "-"),
-          r.inPlace(y.gm, et.slice(2, 3), $e + "-"),
-          r.inPlace(y.gm, et.slice(3), Je + "-"),
-          t.on($e + Qe, function (e, t, n) {
+          r.inPlace(y.gm, ot.slice(0, 2), tt + "-"),
+          r.inPlace(y.gm, ot.slice(2, 3), rt + "-"),
+          r.inPlace(y.gm, ot.slice(3), nt + "-"),
+          t.on(rt + it, function (e, t, n) {
             e[0] = r(e[0], "fn-", null, n);
           }),
-          t.on(Ye + Qe, function (e, t, n) {
+          t.on(tt + it, function (e, t, n) {
             (this.method = n),
               (this.timerDuration = isNaN(e[1]) ? 0 : +e[1]),
               (e[0] = r(e[0], "fn-", this, n));
@@ -3475,14 +3675,14 @@ NREUM.info = {
           t
         );
       }
-      const rt = {};
-      function nt(e) {
+      const at = {};
+      function ct(e) {
         const t = (function (e) {
-          return (e || Q.ee).get("mutation");
+          return (e || ie.ee).get("mutation");
         })(e);
-        if (!y.RI || rt[t.debugId]) return t;
-        rt[t.debugId] = !0;
-        var r = (0, ee.YM)(t),
+        if (!y.RI || at[t.debugId]) return t;
+        at[t.debugId] = !0;
+        var r = (0, oe.YM)(t),
           n = y.gm.MutationObserver;
         return (
           n &&
@@ -3496,60 +3696,60 @@ NREUM.info = {
         );
       }
       const {
-        TZ: it,
-        d3: ot,
-        Kp: at,
-        $p: st,
-        wW: ct,
-        e5: ut,
-        tH: dt,
-        uP: lt,
-        rw: ft,
-        Lc: ht,
-      } = We;
-      class pt extends T {
-        static featureName = it;
+        TZ: dt,
+        d3: ut,
+        Kp: lt,
+        $p: ft,
+        wW: ht,
+        e5: pt,
+        tH: gt,
+        uP: mt,
+        rw: vt,
+        Lc: bt,
+      } = qe;
+      class yt extends E {
+        static featureName = dt;
         constructor(e) {
-          if ((super(e, it), Fe(e), !y.RI)) return;
+          if ((super(e, dt), ze(e), !y.RI)) return;
           try {
             this.removeOnAbort = new AbortController();
           } catch (e) {}
           let t,
             r = 0;
           const n = this.ee.get("tracer"),
-            o = ze(this.ee),
-            a = qe(this.ee),
-            u = tt(this.ee),
-            d = ne(this.ee),
+            o = Je(this.ee),
+            s = Qe(this.ee),
+            d = st(this.ee),
+            u = ce(this.ee),
             l = this.ee.get("events"),
-            f = le(this.ee),
-            h = Ee(this.ee),
-            p = nt(this.ee);
+            f = me(this.ee),
+            h = Pe(this.ee),
+            p = ct(this.ee);
           function g(e, t) {
             h.emit("newURL", ["" + window.location, t]);
           }
           function m() {
-            r++, (t = window.location.hash), (this[lt] = (0, c.t)());
+            r++, (t = window.location.hash), (this[mt] = (0, c.t)());
           }
           function v() {
             r--, window.location.hash !== t && g(0, !0);
             var e = (0, c.t)();
-            (this[ut] = ~~this[ut] + e - this[lt]), (this[ht] = e);
+            (this[pt] = ~~this[pt] + e - this[mt]), (this[bt] = e);
           }
-          function b(e, t) {
+          function w(e, t) {
             e.on(t, function () {
               this[t] = (0, c.t)();
             });
           }
-          this.ee.on(lt, m),
-            a.on(ft, m),
-            o.on(ft, m),
-            this.ee.on(ht, v),
-            a.on(ct, v),
-            o.on(ct, v),
+          this.ee.on(mt, m),
+            s.on(vt, m),
+            o.on(vt, m),
+            this.ee.on(bt, v),
+            s.on(ht, v),
+            o.on(ht, v),
             this.ee.on("fn-err", (...t) => {
               t[2]?.__newrelic?.[e.agentIdentifier] ||
-                (0, s.p)(
+                (0, a.p)(
                   "function-err",
                   [...t],
                   void 0,
@@ -3557,51 +3757,54 @@ NREUM.info = {
                   this.ee
                 );
             }),
-            this.ee.buffer([lt, ht, "xhr-resolved"], this.featureName),
-            l.buffer([lt], this.featureName),
-            u.buffer(
-              ["setTimeout" + at, "clearTimeout" + ot, lt],
+            this.ee.buffer([mt, bt, "xhr-resolved"], this.featureName),
+            l.buffer([mt], this.featureName),
+            d.buffer(
+              ["setTimeout" + lt, "clearTimeout" + ut, mt],
               this.featureName
             ),
-            d.buffer([lt, "new-xhr", "send-xhr" + ot], this.featureName),
+            u.buffer([mt, "new-xhr", "send-xhr" + ut], this.featureName),
             f.buffer(
-              [dt + ot, dt + "-done", dt + st + ot, dt + st + at],
+              [gt + ut, gt + "-done", gt + ft + ut, gt + ft + lt],
               this.featureName
             ),
             h.buffer(["newURL"], this.featureName),
-            p.buffer([lt], this.featureName),
-            a.buffer(
-              ["propagate", ft, ct, "executor-err", "resolve" + ot],
+            p.buffer([mt], this.featureName),
+            s.buffer(
+              ["propagate", vt, ht, "executor-err", "resolve" + ut],
               this.featureName
             ),
-            n.buffer([lt, "no-" + lt], this.featureName),
+            n.buffer([mt, "no-" + mt], this.featureName),
             o.buffer(
               ["new-jsonp", "cb-start", "jsonp-error", "jsonp-end"],
               this.featureName
             ),
-            b(f, dt + ot),
-            b(f, dt + "-done"),
-            b(o, "new-jsonp"),
-            b(o, "jsonp-end"),
-            b(o, "cb-start"),
+            w(f, gt + ut),
+            w(f, gt + "-done"),
+            w(o, "new-jsonp"),
+            w(o, "jsonp-end"),
+            w(o, "cb-start"),
             h.on("pushState-end", g),
             h.on("replaceState-end", g),
+            (0, b.GG)(() => {
+              l.emit(mt, [[{ type: "load" }], window], void 0, !0);
+            }),
             window.addEventListener(
               "hashchange",
               g,
-              (0, O.jT)(!0, this.removeOnAbort?.signal)
+              (0, C.jT)(!0, this.removeOnAbort?.signal)
             ),
             window.addEventListener(
               "load",
               g,
-              (0, O.jT)(!0, this.removeOnAbort?.signal)
+              (0, C.jT)(!0, this.removeOnAbort?.signal)
             ),
             window.addEventListener(
               "popstate",
               function () {
                 g(0, r > 1);
               },
-              (0, O.jT)(!0, this.removeOnAbort?.signal)
+              (0, C.jT)(!0, this.removeOnAbort?.signal)
             ),
             (this.abortHandler = this.#r),
             this.importAggregator(e, () => i.e(478).then(i.bind(i, 5592)));
@@ -3610,84 +3813,323 @@ NREUM.info = {
           this.removeOnAbort?.abort(), (this.abortHandler = void 0);
         }
       }
-      var gt = i(3333);
-      class mt extends T {
-        static featureName = gt.TZ;
+      var wt = i(3333);
+      const xt = {},
+        Rt = new Set();
+      function Tt(e) {
+        return "string" == typeof e
+          ? { type: "string", size: new TextEncoder().encode(e).length }
+          : e instanceof ArrayBuffer
+          ? { type: "ArrayBuffer", size: e.byteLength }
+          : e instanceof Blob
+          ? { type: "Blob", size: e.size }
+          : e instanceof DataView
+          ? { type: "DataView", size: e.byteLength }
+          : ArrayBuffer.isView(e)
+          ? { type: "TypedArray", size: e.byteLength }
+          : { type: "unknown", size: 0 };
+      }
+      class Et {
+        constructor(t, r) {
+          (this.timestamp = (0, c.t)()),
+            (this.currentUrl = window.location.href),
+            (this.socketId = (0, e.LA)(8)),
+            (this.requestedUrl = t),
+            (this.requestedProtocols = Array.isArray(r)
+              ? r.join(",")
+              : r || ""),
+            (this.openedAt = void 0),
+            (this.protocol = void 0),
+            (this.extensions = void 0),
+            (this.binaryType = void 0),
+            (this.messageOrigin = void 0),
+            (this.messageCount = void 0),
+            (this.messageBytes = void 0),
+            (this.messageBytesMin = void 0),
+            (this.messageBytesMax = void 0),
+            (this.messageTypes = void 0),
+            (this.sendCount = void 0),
+            (this.sendBytes = void 0),
+            (this.sendBytesMin = void 0),
+            (this.sendBytesMax = void 0),
+            (this.sendTypes = void 0),
+            (this.closedAt = void 0),
+            (this.closeCode = void 0),
+            (this.closeReason = void 0),
+            (this.closeWasClean = void 0),
+            (this.connectedDuration = void 0),
+            (this.hasErrors = void 0);
+        }
+      }
+      class At extends E {
+        static featureName = wt.TZ;
         constructor(e) {
-          super(e, gt.TZ);
-          const t = [
-            e.init.page_action.enabled,
-            e.init.performance.capture_marks,
-            e.init.performance.capture_measures,
-            e.init.user_actions.enabled,
-            e.init.performance.resources.enabled,
-          ];
-          var r;
+          super(e, wt.TZ);
+          const t = e.init.feature_flags.includes("websockets"),
+            r = [
+              e.init.page_action.enabled,
+              e.init.performance.capture_marks,
+              e.init.performance.capture_measures,
+              e.init.performance.resources.enabled,
+              e.init.user_actions.enabled,
+              t,
+            ];
+          var o;
+          let s, u;
           if (
-            ((r = e),
-            p(u.hG, (e, t) => G(e, t, r), r),
+            ((o = e),
+            p(d.hG, (e, t) => z(e, t, o), o),
             (function (e) {
-              p(
-                u.fF,
-                function () {
-                  (0, s.p)(
-                    u.Pl + u.fF,
-                    [(0, c.t)(), ...arguments],
-                    void 0,
-                    n.K7.genericEvents,
-                    e.ee
-                  );
-                },
-                e
-              );
+              p(d.fF, (t, r) => q(t, r, e), e);
             })(e),
-            _e(e),
-            V(e),
-            y.RI &&
-              (e.init.user_actions.enabled &&
-                (gt.Zp.forEach((e) =>
-                  (0, O.sp)(
-                    e,
-                    (e) =>
-                      (0, s.p)("ua", [e], void 0, this.featureName, this.ee),
-                    !0
-                  )
-                ),
-                gt.qN.forEach((e) => {
-                  const t = (0, x.s)(
+            ke(e),
+            X(e),
+            (function (e) {
+              p(d.V1, (t, r) => Z(t, r, e), e);
+            })(e),
+            t &&
+              (u = (function (e) {
+                if (!(0, O.dV)().o.WS) return e;
+                const t = e.get("websockets");
+                if (xt[t.debugId]++) return t;
+                (xt[t.debugId] = 1),
+                  (0, N.G)(() => {
+                    const e = (0, c.t)();
+                    Rt.forEach((r) => {
+                      (r.nrData.closedAt = e),
+                        (r.nrData.closeCode = 1001),
+                        (r.nrData.closeReason = "Page navigating away"),
+                        (r.nrData.closeWasClean = !1),
+                        r.nrData.openedAt &&
+                          (r.nrData.connectedDuration = e - r.nrData.openedAt),
+                        t.emit("ws", [r.nrData], r);
+                    });
+                  });
+                class r extends WebSocket {
+                  static name = "WebSocket";
+                  static toString() {
+                    return "function WebSocket() { [native code] }";
+                  }
+                  toString() {
+                    return "[object WebSocket]";
+                  }
+                  get [Symbol.toStringTag]() {
+                    return r.name;
+                  }
+                  #s(e) {
+                    ((e.__newrelic ??= {}).socketId = this.nrData.socketId),
+                      (this.nrData.hasErrors ??= !0);
+                  }
+                  constructor(...e) {
+                    super(...e),
+                      (this.nrData = new Et(e[0], e[1])),
+                      this.addEventListener("open", () => {
+                        (this.nrData.openedAt = (0, c.t)()),
+                          ["protocol", "extensions", "binaryType"].forEach(
+                            (e) => {
+                              this.nrData[e] = this[e];
+                            }
+                          ),
+                          Rt.add(this);
+                      }),
+                      this.addEventListener("message", (e) => {
+                        const { type: t, size: r } = Tt(e.data);
+                        (this.nrData.messageOrigin ??= e.origin),
+                          (this.nrData.messageCount =
+                            (this.nrData.messageCount ?? 0) + 1),
+                          (this.nrData.messageBytes =
+                            (this.nrData.messageBytes ?? 0) + r),
+                          (this.nrData.messageBytesMin = Math.min(
+                            this.nrData.messageBytesMin ?? 1 / 0,
+                            r
+                          )),
+                          (this.nrData.messageBytesMax = Math.max(
+                            this.nrData.messageBytesMax ?? 0,
+                            r
+                          )),
+                          (this.nrData.messageTypes ?? "").includes(t) ||
+                            (this.nrData.messageTypes = this.nrData.messageTypes
+                              ? ""
+                                  .concat(this.nrData.messageTypes, ",")
+                                  .concat(t)
+                              : t);
+                      }),
+                      this.addEventListener("close", (e) => {
+                        (this.nrData.closedAt = (0, c.t)()),
+                          (this.nrData.closeCode = e.code),
+                          (this.nrData.closeReason = e.reason),
+                          (this.nrData.closeWasClean = e.wasClean),
+                          (this.nrData.connectedDuration =
+                            this.nrData.closedAt - this.nrData.openedAt),
+                          Rt.delete(this),
+                          t.emit("ws", [this.nrData], this);
+                      });
+                  }
+                  addEventListener(e, t, ...r) {
+                    const n = this,
+                      i =
+                        "function" == typeof t
+                          ? function (...e) {
+                              try {
+                                return t.apply(this, e);
+                              } catch (e) {
+                                throw (n.#s(e), e);
+                              }
+                            }
+                          : t?.handleEvent
+                          ? {
+                              handleEvent: function (...e) {
+                                try {
+                                  return t.handleEvent.apply(t, e);
+                                } catch (e) {
+                                  throw (n.#s(e), e);
+                                }
+                              },
+                            }
+                          : t;
+                    return super.addEventListener(e, i, ...r);
+                  }
+                  send(e) {
+                    if (this.readyState === WebSocket.OPEN) {
+                      const { type: t, size: r } = Tt(e);
+                      (this.nrData.sendCount =
+                        (this.nrData.sendCount ?? 0) + 1),
+                        (this.nrData.sendBytes =
+                          (this.nrData.sendBytes ?? 0) + r),
+                        (this.nrData.sendBytesMin = Math.min(
+                          this.nrData.sendBytesMin ?? 1 / 0,
+                          r
+                        )),
+                        (this.nrData.sendBytesMax = Math.max(
+                          this.nrData.sendBytesMax ?? 0,
+                          r
+                        )),
+                        (this.nrData.sendTypes ?? "").includes(t) ||
+                          (this.nrData.sendTypes = this.nrData.sendTypes
+                            ? "".concat(this.nrData.sendTypes, ",").concat(t)
+                            : t);
+                    }
+                    try {
+                      return super.send(e);
+                    } catch (e) {
+                      throw (this.#s(e), e);
+                    }
+                  }
+                  close(...e) {
+                    try {
+                      super.close(...e);
+                    } catch (e) {
+                      throw (this.#s(e), e);
+                    }
+                  }
+                }
+                return (y.gm.WebSocket = r), t;
+              })(this.ee)),
+            y.RI)
+          ) {
+            if (
+              (me(this.ee),
+              ce(this.ee),
+              (s = Pe(this.ee)),
+              e.init.user_actions.enabled)
+            ) {
+              function l(t) {
+                const r = (0, ve.D)(t);
+                return e.beacons.includes(r.hostname + ":" + r.port);
+              }
+              function f() {
+                s.emit("navChange");
+              }
+              wt.Zp.forEach((e) =>
+                (0, C.sp)(
+                  e,
+                  (e) => (0, a.p)("ua", [e], void 0, this.featureName, this.ee),
+                  !0
+                )
+              ),
+                wt.qN.forEach((e) => {
+                  const t = (0, R.s)(
                     (e) => {
-                      (0, s.p)("ua", [e], void 0, this.featureName, this.ee);
+                      (0, a.p)("ua", [e], void 0, this.featureName, this.ee);
                     },
                     500,
                     { leading: !0 }
                   );
-                  (0, O.sp)(e, t);
-                })),
-              e.init.performance.resources.enabled &&
-                y.gm.PerformanceObserver?.supportedEntryTypes.includes(
-                  "resource"
-                )))
-          ) {
-            new PerformanceObserver((e) => {
-              e.getEntries().forEach((e) => {
-                (0, s.p)(
-                  "browserPerformance.resource",
-                  [e],
-                  void 0,
-                  this.featureName,
-                  this.ee
+                  (0, C.sp)(e, t);
+                }),
+                y.gm.addEventListener(
+                  "error",
+                  () => {
+                    (0, a.p)("uaErr", [], void 0, n.K7.genericEvents, this.ee);
+                  },
+                  (0, C.jT)(!1, this.removeOnAbort?.signal)
+                ),
+                this.ee.on("open-xhr-start", (e, t) => {
+                  l(e[1]) ||
+                    t.addEventListener("readystatechange", () => {
+                      2 === t.readyState &&
+                        (0, a.p)(
+                          "uaXhr",
+                          [],
+                          void 0,
+                          n.K7.genericEvents,
+                          this.ee
+                        );
+                    });
+                }),
+                this.ee.on("fetch-start", (e) => {
+                  e.length >= 1 &&
+                    !l(xe(e[0])) &&
+                    (0, a.p)("uaXhr", [], void 0, n.K7.genericEvents, this.ee);
+                }),
+                s.on("pushState-end", f),
+                s.on("replaceState-end", f),
+                window.addEventListener(
+                  "hashchange",
+                  f,
+                  (0, C.jT)(!0, this.removeOnAbort?.signal)
+                ),
+                window.addEventListener(
+                  "popstate",
+                  f,
+                  (0, C.jT)(!0, this.removeOnAbort?.signal)
                 );
-              });
-            }).observe({ type: "resource", buffered: !0 });
+            }
+            if (
+              e.init.performance.resources.enabled &&
+              y.gm.PerformanceObserver?.supportedEntryTypes.includes("resource")
+            ) {
+              new PerformanceObserver((e) => {
+                e.getEntries().forEach((e) => {
+                  (0, a.p)(
+                    "browserPerformance.resource",
+                    [e],
+                    void 0,
+                    this.featureName,
+                    this.ee
+                  );
+                });
+              }).observe({ type: "resource", buffered: !0 });
+            }
           }
-          t.some((e) => e)
-            ? this.importAggregator(e, () => i.e(478).then(i.bind(i, 8019)))
-            : this.deregisterDrain();
+          t &&
+            u.on("ws", (e) => {
+              (0, a.p)("ws-complete", [e], void 0, this.featureName, this.ee);
+            });
+          try {
+            this.removeOnAbort = new AbortController();
+          } catch (h) {}
+          (this.abortHandler = () => {
+            this.removeOnAbort?.abort(), (this.abortHandler = void 0);
+          }),
+            r.some((e) => e)
+              ? this.importAggregator(e, () => i.e(478).then(i.bind(i, 8019)))
+              : this.deregisterDrain();
         }
       }
-      var vt = i(2646);
-      const bt = new Map();
-      function yt(e, t, r, n) {
+      var St = i(2646);
+      const _t = new Map();
+      function Ot(e, t, r, n, i = !0) {
         if (
           "object" != typeof t ||
           !t ||
@@ -3696,48 +4138,49 @@ NREUM.info = {
           "function" != typeof t[r]
         )
           return (0, l.R)(29);
-        const i = (function (e) {
-            return (e || Q.ee).get("logger");
+        const o = (function (e) {
+            return (e || ie.ee).get("logger");
           })(e),
-          o = (0, ee.YM)(i),
-          a = new vt.y(Q.P);
-        (a.level = n.level), (a.customAttributes = n.customAttributes);
-        const s = t[r]?.[ee.Jt] || t[r];
+          s = (0, oe.YM)(o),
+          a = new St.y(ie.P);
+        (a.level = n.level),
+          (a.customAttributes = n.customAttributes),
+          (a.autoCaptured = i);
+        const c = t[r]?.[oe.Jt] || t[r];
         return (
-          bt.set(s, a), o.inPlace(t, [r], "wrap-logger-", () => bt.get(s)), i
+          _t.set(c, a), s.inPlace(t, [r], "wrap-logger-", () => _t.get(c)), o
         );
       }
-      class Rt extends T {
+      var Nt = i(1910);
+      class It extends E {
         static featureName = F.TZ;
         constructor(e) {
           var t;
           super(e, F.TZ),
             (t = e),
-            p(u.$9, (e, r) => W(e, r, t), t),
+            p(d.$9, (e, r) => G(e, r, t), t),
             (function (e) {
               p(
-                u.Wb,
+                d.Wb,
                 (
                   t,
                   r,
                   { customAttributes: n = {}, level: i = F.p_.INFO } = {}
                 ) => {
-                  yt(e.ee, t, r, { customAttributes: n, level: i });
+                  Ot(e.ee, t, r, { customAttributes: n, level: i }, !1);
                 },
                 e
               );
             })(e),
-            V(e);
+            X(e);
           const r = this.ee;
-          yt(r, y.gm.console, "log", { level: "info" }),
-            yt(r, y.gm.console, "error", { level: "error" }),
-            yt(r, y.gm.console, "warn", { level: "warn" }),
-            yt(r, y.gm.console, "info", { level: "info" }),
-            yt(r, y.gm.console, "debug", { level: "debug" }),
-            yt(r, y.gm.console, "trace", { level: "trace" }),
+          ["log", "error", "warn", "info", "debug", "trace"].forEach((e) => {
+            (0, Nt.i)(y.gm.console[e]),
+              Ot(r, y.gm.console, e, { level: "log" === e ? "info" : e });
+          }),
             this.ee.on("wrap-logger-end", function ([e]) {
-              const { level: t, customAttributes: n } = this;
-              (0, B.R)(r, e, n, t);
+              const { level: t, customAttributes: n, autoCaptured: i } = this;
+              (0, V.R)(r, e, n, t, i);
             }),
             this.importAggregator(e, () => i.e(478).then(i.bind(i, 5288)));
         }
@@ -3747,23 +4190,23 @@ NREUM.info = {
           var t;
           (super(), y.gm)
             ? ((this.features = {}),
-              (0, S.bQ)(this.agentIdentifier, this),
+              (0, O.bQ)(this.agentIdentifier, this),
               (this.desiredFeatures = new Set(e.features || [])),
-              this.desiredFeatures.add(E),
+              this.desiredFeatures.add(_),
               (this.runSoftNavOverSpa = [...this.desiredFeatures].some(
                 (e) => e.featureName === n.K7.softNav
               )),
-              (0, a.j)(this, e, e.loaderType || "agent"),
+              (0, s.j)(this, e, e.loaderType || "agent"),
               (t = this),
               p(
-                u.cD,
+                d.cD,
                 function (e, r, n = !1) {
                   if ("string" == typeof e) {
                     if (
                       ["string", "number", "boolean"].includes(typeof r) ||
                       null === r
                     )
-                      return g(t, e, r, u.cD, n);
+                      return g(t, e, r, d.cD, n);
                     (0, l.R)(40, typeof r);
                   } else (0, l.R)(39, typeof e);
                 },
@@ -3771,10 +4214,10 @@ NREUM.info = {
               ),
               (function (e) {
                 p(
-                  u.Dl,
+                  d.Dl,
                   function (t) {
                     if ("string" == typeof t || null === t)
-                      return g(e, "enduser.id", t, u.Dl, !0);
+                      return g(e, "enduser.id", t, d.Dl, !0);
                     (0, l.R)(41, typeof t);
                   },
                   e
@@ -3782,10 +4225,10 @@ NREUM.info = {
               })(this),
               (function (e) {
                 p(
-                  u.nb,
+                  d.nb,
                   function (t) {
                     if ("string" == typeof t || null === t)
-                      return g(e, "application.version", t, u.nb, !1);
+                      return g(e, "application.version", t, d.nb, !1);
                     (0, l.R)(42, typeof t);
                   },
                   e
@@ -3793,9 +4236,30 @@ NREUM.info = {
               })(this),
               (function (e) {
                 p(
-                  u.d3,
+                  d.d3,
                   function () {
                     e.ee.emit("manual-start-all");
+                  },
+                  e
+                );
+              })(this),
+              (function (e) {
+                p(
+                  d.Pv,
+                  function (t = !0) {
+                    if ("boolean" == typeof t) {
+                      if (
+                        ((0, a.p)(d.Pl + d.Pv, [t], void 0, "session", e.ee),
+                        (e.runtime.consented = t),
+                        t)
+                      ) {
+                        const t = e.features.page_view_event;
+                        t.onAggregateImported.then((e) => {
+                          const r = t.featAggregate;
+                          e && !r.sentRum && r.sendRum();
+                        });
+                      }
+                    } else (0, l.R)(65, typeof t);
                   },
                   e
                 );
@@ -3858,14 +4322,14 @@ NREUM.info = {
           } catch (e) {
             (0, l.R)(22, e);
             for (const e in this.features) this.features[e].abortHandler?.();
-            const t = (0, S.Zm)();
+            const t = (0, O.Zm)();
             delete t.initializedAgents[this.agentIdentifier]?.features,
               delete this.sharedAggregator;
             return t.ee.get(this.agentIdentifier).abort(), !1;
           }
         }
       })({
-        features: [we, E, P, He, Ke, I, z, mt, Rt, Be, pt],
+        features: [_e, _, P, Ue, Ve, j, J, At, It, Ze, yt],
         loaderType: "spa",
       });
     })();

@@ -1,7 +1,8 @@
 (function (t, n, a) {
   var i = Math.floor,
-    r = Number.isNaN;
-  function s(e) {
+    r = Number.isNaN,
+    s = Math.min;
+  function o(e) {
     return e && "object" == typeof e
       ? !0 === e.mode
         ? e.test_title && e.test_session_name && e.environment
@@ -10,7 +11,7 @@
         : null
       : null;
   }
-  function o(e) {
+  function d(e) {
     try {
       e = new URL(e);
       var t = new URLSearchParams(e.search),
@@ -22,8 +23,8 @@
           test_session_name: t.get("trackingplan_regression_test_session_name"),
           environment: t.get("trackingplan_regression_environment"),
         };
-        if (((r = s(r)), !r))
-          return void oe({
+        if (((r = o(r)), !r))
+          return void ue({
             m: "TP Regression mode init failed - missing required parameters",
           });
         n.setItem("_trackingplan_regression", JSON.stringify(r)),
@@ -33,29 +34,29 @@
           (a.log("TP Regression mode disabled"),
           n.removeItem("_trackingplan_regression"));
     } catch (t) {
-      oe({ m: "TP Regression mode init failed - catch" });
+      ue({ m: "TP Regression mode init failed - catch" });
     }
   }
   function l() {
     try {
       var e = n.getItem("_trackingplan_regression");
-      return e ? s(JSON.parse(e)) : null;
+      return e ? o(JSON.parse(e)) : null;
     } catch (t) {
       return null;
     }
   }
-  function d(e) {
+  function p(e) {
     try {
       e = new URL(e);
       var t = new URLSearchParams(e.search),
         a = t.get("trackingplan_live_debug");
-      a && (J(a), n.setItem("_trackingplan_live_debug_mode", "true"));
+      a && (ie(a), n.setItem("_trackingplan_live_debug_mode", "true"));
     } catch (t) {}
   }
-  function p(e) {
+  function c(e) {
     var t =
       "https://panel.trackingplan.com/plans/" +
-      Ne +
+      $e +
       "/?open_tracks_explorer=true&te_session_id=" +
       e;
     a.log(
@@ -71,21 +72,23 @@
       "font-style: italic"
     );
   }
-  function c(t) {
-    if (!Nt) {
-      (Nt = !0), se({ m: "unload event", e: t.type }), (De = "beacon");
-      var e = { web_vitals: It, js_error_count: St, js_warning_count: Et };
+  function g(t) {
+    if (!Xt) {
+      (Xt = !0), me({ m: "unload event", e: t.type }), (Ke = "beacon");
+      var e = { web_vitals: $t, js_error_count: Vt, js_warning_count: Ht };
       m({ event_name: "page_unload", properties: e }, !0),
-        Lt ||
+        Kt ||
           (m(
             {
               event_name: "pixels",
-              properties: { pixels: W(), sent_at: t.type },
+              properties: { pixels: ee(), sent_at: t.type },
             },
             !0
           ),
-          (Lt = !0)),
-        O("beacon");
+          (Kt = !0)),
+        B("beacon"),
+        (ft = !0),
+        (Je = 1);
     }
   }
   function m(e, t) {
@@ -93,67 +96,74 @@
       method: "POST",
       endpoint: "TRACKINGPLAN",
       payload: JSON.stringify(e),
+      protocol: "tp_event",
     };
-    N(n, t);
+    j(n, t);
   }
-  function g(e) {
-    if (Ge.includes("img"))
+  function u(e) {
+    if (tt.includes("img"))
       try {
         x(e);
       } catch (t) {
-        se(t);
+        me(t);
       }
-    if (Ge.includes("xhr"))
-      try {
-        w(e);
-      } catch (t) {
-        se(t);
-      }
-    if (Ge.includes("beacon"))
-      try {
-        S(e);
-      } catch (t) {
-        se(t);
-      }
-    if (Ge.includes("form"))
-      try {
-        C(e);
-      } catch (t) {
-        se(t);
-      }
-    if (Ge.includes("ws"))
-      try {
-        L(e);
-      } catch (t) {
-        se(t);
-      }
-    if (Ge.includes("fetch"))
+    if (tt.includes("xhr"))
       try {
         E(e);
       } catch (t) {
-        se(t);
+        me(t);
       }
-    if (Ge.includes("performance"))
+    if (tt.includes("beacon"))
+      try {
+        A(e);
+      } catch (t) {
+        me(t);
+      }
+    if (tt.includes("form"))
+      try {
+        C(e);
+      } catch (t) {
+        me(t);
+      }
+    if (tt.includes("ws"))
       try {
         P(e);
       } catch (t) {
-        se(t);
+        me(t);
       }
-    if (Ge.includes("message"))
+    if (tt.includes("fetch"))
       try {
-        A();
+        S(e);
       } catch (t) {
-        se(t);
+        me(t);
       }
-  }
-  function u() {
-    return null === n.getItem("_trackingplan_initial") || We;
-  }
-  function h(e) {
-    var t = _();
-    n.setItem("_trackingplan_initial", JSON.stringify(re(t, e)));
+    if (tt.includes("performance"))
+      try {
+        L(e);
+      } catch (t) {
+        me(t);
+      }
+    if (tt.includes("message"))
+      try {
+        R();
+      } catch (t) {
+        me(t);
+      }
+    if (tt.includes("datalayer_push"))
+      try {
+        N(e);
+      } catch (t) {
+        me(t);
+      }
   }
   function _() {
+    return null === n.getItem("_trackingplan_initial") || nt;
+  }
+  function h(e) {
+    var t = y();
+    n.setItem("_trackingplan_initial", JSON.stringify(ge(t, e)));
+  }
+  function y() {
     try {
       return null === n.getItem("_trackingplan_initial")
         ? {}
@@ -162,7 +172,7 @@
       return {};
     }
   }
-  function y() {
+  function f() {
     try {
       if ((n.setItem("_tp_t", "a"), "a" !== n.getItem("_tp_t"))) return !1;
       if ((n.removeItem("_tp_t"), "function" != typeof navigator.sendBeacon))
@@ -172,10 +182,10 @@
     }
     return !0;
   }
-  function f(e) {
+  function v(e) {
     return "string" == typeof e || e instanceof String;
   }
-  function v(e) {
+  function b(e) {
     return JSON.stringify(e, function (e, t) {
       return t instanceof Element ? t.nodeType : t;
     });
@@ -184,13 +194,13 @@
     if (0 === t.length) return !0;
     for (var n = 0; n < t.length; n++) {
       if (
-        jt.call(e, "payload") &&
+        Jt.call(e, "payload") &&
         "string" == typeof e.payload &&
         0 <= e.payload.indexOf(t[n])
       )
         return !0;
       if (
-        jt.call(e, "endpoint") &&
+        Jt.call(e, "endpoint") &&
         "string" == typeof e.endpoint &&
         0 <= e.endpoint.indexOf(t[n])
       )
@@ -198,8 +208,8 @@
     }
     return !1;
   }
-  function b(e) {
-    return !(null !== nt) || 0 <= nt.indexOf(e);
+  function T(e) {
+    return !(null !== gt) || 0 <= gt.indexOf(e);
   }
   function x(e) {
     var t = e.Object.getOwnPropertyDescriptor(
@@ -208,98 +218,134 @@
     ).set;
     e.Object.defineProperty(e.HTMLImageElement.prototype, "src", {
       set: function (e) {
-        return !f(e) || 16384 < e.length
+        return !v(e) || 16384 < e.length
           ? t.apply(this, arguments)
-          : (N({ method: "GET", endpoint: e, protocol: "img" }),
+          : (j(
+              { method: "GET", endpoint: e, payload: null, protocol: "img" },
+              ft
+            ),
             t.apply(this, arguments));
       },
     });
     var n = e.HTMLImageElement.prototype.setAttribute;
     e.HTMLImageElement.prototype.setAttribute = function (e, t) {
       if ("src" == e.toLowerCase()) {
-        if (!f(t) || t.length > 16384) return n.apply(this, arguments);
-        N({ method: "GET", endpoint: t, protocol: "img" });
+        if (!v(t) || t.length > 16384) return n.apply(this, arguments);
+        j({ method: "GET", endpoint: t, payload: null, protocol: "img" }, ft);
       }
       return n.apply(this, arguments);
     };
   }
-  function T(e) {
+  function I(e) {
     var t = e;
     try {
       t instanceof FormData && (t = JSON.stringify(Object.fromEntries(t)));
     } catch (t) {}
     return t;
   }
-  function w(e) {
+  function E(e) {
     var t = e.XMLHttpRequest.prototype.open,
       n = e.XMLHttpRequest.prototype.send;
     (e.XMLHttpRequest.prototype.open = function (e, n) {
       return (this._tpUrl = n), (this._tpMethod = e), t.apply(this, arguments);
     }),
       (e.XMLHttpRequest.prototype.send = function (e) {
-        var t = T(e);
+        var t = n.apply(this, arguments),
+          a = I(e);
         return (
-          I(
-            t,
+          w(
+            a,
             function (e) {
-              N({
-                method: this._tpMethod,
-                endpoint: this._tpUrl,
-                payload: e,
-                protocol: "xhr",
-              });
+              j(
+                {
+                  method: this._tpMethod,
+                  endpoint: this._tpUrl,
+                  payload: e,
+                  protocol: "xhr",
+                },
+                ft
+              );
             }.bind(this)
           ),
-          n.apply(this, arguments)
+          t
         );
       });
   }
-  function I(e, t) {
-    if (e instanceof Blob) {
-      var n = new FileReader();
-      (n.onload = function () {
-        var e = n.result.split(",")[1];
-        t(e);
-      }),
-        n.readAsDataURL(e);
-    } else t(e);
+  function w(e, n) {
+    try {
+      if (e instanceof Blob) {
+        var a = new FileReader();
+        (a.onload = function () {
+          var e = a.result.split(",")[1];
+          n(e);
+        }),
+          a.readAsDataURL(e);
+      } else if (e instanceof ArrayBuffer) {
+        for (
+          var r = "", s = new Uint8Array(e), o = s.byteLength, d = 0;
+          d < o;
+          d++
+        )
+          r += String.fromCharCode(s[d]);
+        n(t.btoa(r));
+      } else n(e);
+    } catch (e) {}
   }
-  function S(e) {
+  function A(e) {
     var t = e.navigator.sendBeacon;
     e.navigator.sendBeacon = function (e, n) {
-      if (!f(e) || 16384 < e.length) return t.apply(this, arguments);
-      var a = T(n);
+      var a = t.apply(this, arguments);
+      if (!v(e) || 16384 < e.length) return a;
+      var i = I(n);
       return (
-        I(a, function (t) {
-          N({ method: "POST", endpoint: e, payload: t, protocol: "beacon" });
+        w(i, function (t) {
+          j(
+            { method: "POST", endpoint: e, payload: t, protocol: "beacon" },
+            ft
+          );
         }),
-        t.apply(this, arguments)
+        a
       );
     };
   }
-  function E(e) {
+  function S(e) {
     var t = e.fetch;
     e.fetch = function (e, n) {
       var a,
         i = "GET",
-        r = null;
-      if ("string" == typeof e) a = e;
-      else {
-        if (!(e instanceof Request)) return t.apply(this, arguments);
-        if (((a = e.url), (i = e.method), !e.bodyUsed)) {
-          var s = e.clone();
-          r = s.body;
-        }
-      }
+        r = Promise.resolve(null);
+      try {
+        "string" == typeof e
+          ? (a = e)
+          : e instanceof Request
+          ? ((a = e.url),
+            (i = e.method),
+            !e.bodyUsed &&
+              !e.keepalive &&
+              (r = e
+                .clone()
+                .arrayBuffer()
+                .catch(function () {
+                  return null;
+                })))
+          : e instanceof URL && (a = e.href),
+          a &&
+            n &&
+            (n.method && (i = (n.method + "").toUpperCase()),
+            n.body && (r = Promise.resolve(n.body)));
+      } catch (t) {}
+      var s = t.apply(this, arguments);
       return "string" != typeof a || 16384 < a.length
-        ? t.apply(this, arguments)
-        : (void 0 !== n &&
-            (n.method && (i = n.method.toUpperCase()), n.body && (r = n.body)),
-          N({ method: i, endpoint: a, payload: r, protocol: "fetch" }),
-          t.apply(this, arguments));
+        ? s
+        : (r.then(function (e) {
+            w(e, function (e) {
+              j({ method: i, endpoint: a, payload: e, protocol: "fetch" }, ft);
+            });
+          }),
+          s);
     };
   }
-  function L(e) {
+  function P(e) {
     var t = e.WebSocket;
     e.WebSocket = function (e, n) {
       return n ? new t(e, n) : new t(e);
@@ -307,23 +353,38 @@
     var n = t.prototype.send;
     (t.prototype.send = function (e) {
       return (
-        N({ method: "WS", endpoint: this.url, payload: e, protocol: "ws" }),
+        j({ method: "WS", endpoint: this.url, payload: e, protocol: "ws" }, ft),
         n.apply(this, arguments)
       );
     }),
       (e.WebSocket.prototype = t.prototype);
   }
-  function P(e) {
+  function L(e) {
     function t(e, t) {
       try {
         e.getEntries().forEach(function (e) {
-          ("iframe" === e.initiatorType || "script" === e.initiatorType) &&
-            f(e.name) &&
+          function t(e) {
+            return (
+              e.name.includes("contentsquare.net") && "img" === e.initiatorType
+            );
+          }
+          v(e.name) &&
             e.name.length < 16384 &&
-            N({ method: "GET", endpoint: e.name, protocol: "performance" });
+            (t(e) ||
+              "iframe" === e.initiatorType ||
+              "script" === e.initiatorType) &&
+            j(
+              {
+                method: "GET",
+                endpoint: e.name,
+                payload: null,
+                protocol: "performance",
+              },
+              ft
+            );
         });
       } catch (t) {
-        se(t);
+        me(t);
       }
     }
     var n = new PerformanceObserver(t);
@@ -344,12 +405,12 @@
             }),
             protocol: "form",
           };
-        N(a);
+        j(a, ft);
       } catch (t) {}
     }
     e.addEventListener("submit", n, !0);
   }
-  function A() {
+  function R() {
     function e(e) {
       try {
         e &&
@@ -367,9 +428,9 @@
                 payload: a.body || null,
                 protocol: "message",
               };
-              N(i);
+              j(i, ft);
             } catch (t) {
-              se(t);
+              me(t);
             }
           });
       } catch (t) {}
@@ -402,11 +463,46 @@
     }
     "complete" === document.readyState
       ? (t(), n())
-      : (document.onreadystatechange = function () {
+      : document.addEventListener("readystatechange", function () {
           "complete" === document.readyState && (t(), n());
         });
   }
-  function R() {
+  function N(e) {
+    var t = e[ht];
+    if ((t || ((e[ht] = []), (t = e[ht])), !!Array.isArray(t))) {
+      0 < t.length &&
+        t.forEach(function (e) {
+          j(
+            {
+              method: "POST",
+              endpoint: "DATALAYER",
+              payload: JSON.stringify(e),
+              protocol: "datalayer_push",
+            },
+            ft
+          );
+        });
+      var n = t.push;
+      t.push = function () {
+        var e = Array.prototype.slice.call(arguments);
+        return (
+          e.forEach(function (e) {
+            j(
+              {
+                method: "POST",
+                endpoint: "DATALAYER",
+                payload: JSON.stringify(e),
+                protocol: "datalayer_push",
+              },
+              ft
+            );
+          }),
+          n.apply(this, arguments)
+        );
+      };
+    }
+  }
+  function O() {
     try {
       Error.stackTraceLimit = 20;
     } catch (t) {}
@@ -421,131 +517,188 @@
       return null;
     }
   }
-  function N(e, t) {
+  function D(e, t, n, a) {
+    if (U(Ze, n)) {
+      if (At) {
+        var i = Ie(t, e, a);
+        return i && 0 < i.sampleRate
+          ? {
+              rate: s(i.sampleRate, n.sampleRate),
+              rule: i.rule,
+              mode: "ADAPTIVE/DEFAULT_DICE/EVENT_MATCHED",
+            }
+          : {
+              rate: n.sampleRate,
+              rule: null,
+              mode: "ADAPTIVE/DEFAULT_DICE/EVENT_NOT_MATCHED",
+            };
+      }
+      return { rate: n.sampleRate, rule: null, mode: "NOT_ADAPTIVE" };
+    }
+    if (At) {
+      var i = Ie(t, e, a);
+      return i && 0 < i.sampleRate
+        ? Ee(i.sampleRate, n)
+          ? {
+              rate: i.sampleRate,
+              rule: i.rule,
+              mode: "ADAPTIVE/EVENT_DICE/EVENT_MATCHED",
+            }
+          : null
+        : null;
+    }
+    return null;
+  }
+  function j(e, t) {
     var n = t || !1,
-      a = R();
+      a = O();
     e.ts = e.ts || new Date().getTime();
     var i = function () {
       try {
-        var t = ne();
+        var t = le();
         if (!1 === t)
           return (
-            O(De),
-            (ft = null),
-            _t.push(e),
-            se({ m: "Pre queued, queue length = " + _t.length, request: e }),
-            void setTimeout(X, Be)
+            B(Ke),
+            (Nt = null),
+            Ct.push(e),
+            me({ m: "Pre queued, queue length = " + Ct.length, request: e }),
+            void setTimeout(ae, Xe)
           );
-        ft = t.sampleRate;
-        var n = ie(e);
-        if (("TRACKINGPLAN" == e.endpoint && (n = "trackingplan"), !n)) return;
-        if (!b(n))
-          return void se({
+        Nt = t.sampleRate;
+        var n = ce(e);
+        if (
+          ("TRACKINGPLAN" == e.endpoint && (n = "trackingplan"),
+          "DATALAYER" == e.endpoint && (n = "datalayer_push"),
+          !n)
+        )
+          return;
+        if (!T(n))
+          return void me({
             m: "Request ignored (" + n + " not in whitelist)",
             request: e,
           });
-        if (!k(e, tt))
-          return void se({ m: "Request ignored (content filter)", request: e });
-        if (!z(Ke, t)) {
-          if (
-            (se({
-              m: "Request ignored by general sampling",
-              mode: Ke,
-              sampleRateDict: t,
-              request: e,
-            }),
-            Pt)
-          ) {
-            var i = ve(e, n);
-            if (i.useCustomSampling)
-              return (
-                se({
-                  m: "But request has passed custom sampling",
-                  mode: Ke,
-                  sampleRateDict: t,
-                  customSampling: i,
-                  request: e,
-                }),
-                (e.unsampled = !0),
-                (e.custom_sample_rate = i.sampleRate),
-                (e.custom_sample_rule = i.rule),
-                void j(U(e, n, a))
-              );
-          }
-          return;
-        }
-        j(U(e, n, a));
+        if (!k(e, ct))
+          return void me({ m: "Request ignored (content filter)", request: e });
+        var i = D(e, n, t, wt);
+        i && F(Q(e, n, a, i));
       } catch (t) {
-        oe({ m: "Trackingplan process error", error: t, request: e });
+        ue({ m: "Trackingplan process error", error: t, request: e });
       }
     };
-    n || lt ? i() : setTimeout(i, 0);
+    n || kt ? i() : setTimeout(i, 0);
   }
-  function j(e) {
-    Xe(e);
-    var t = v(e);
+  function M(e) {
+    if (!it || !Ot) return e;
+    var t = q(e, Ot);
+    return t === void 0 ? {} : t;
+  }
+  function q(e, t) {
+    if (null === e || e === void 0 || null === t || t === void 0)
+      return e === t ? void 0 : e;
     if (
-      (2e5 < t.length && se({ m: "Track Too big, ignored: " + t.length }), at)
-    )
-      return void D(e, De);
-    var n = v(G()).length;
-    if (t.length + 2 + n > Ue)
-      return D(e, De), void se({ m: "Track > Batch Size: " + t.length });
-    var a = yt.length + t.length + n;
-    a > Ue && (se({ m: "Batch reaching limit: " + a }), O(De)),
-      (a = yt.length + t.length + n),
-      se({ m: "Queue len: " + a, rawTrack: e }),
-      0 !== yt.length && (yt += ","),
-      (yt += t);
+      "object" == typeof e &&
+      "object" == typeof t &&
+      !Array.isArray(e) &&
+      !Array.isArray(t) &&
+      e.constructor === Object &&
+      t.constructor === Object
+    ) {
+      var n = {},
+        a = !1;
+      for (var i in e)
+        if (e.hasOwnProperty(i)) {
+          var r = q(e[i], t[i]);
+          void 0 !== r && ((n[i] = r), (a = !0));
+        }
+      for (var i in t)
+        t.hasOwnProperty(i) &&
+          !e.hasOwnProperty(i) &&
+          ((n[i] = "@TP_DEL"), (a = !0));
+      return a ? n : void 0;
+    }
+    return JSON.stringify(e) === JSON.stringify(t) ? void 0 : e;
   }
-  function O(e) {
-    if (0 != yt.length) {
-      var t = { requests: JSON.parse("[" + yt + "]"), common: G(!0) };
-      (yt = ""), M(t, e);
+  function F(e) {
+    st(e);
+    var t = b(e);
+    if (2e5 < t.length)
+      return void me({ m: "Track Too big, ignored: " + t.length + " bytes" });
+    if (mt) return void z(e, Ke);
+    var n,
+      a = b(J()).length;
+    if (it) {
+      var i = M(JSON.parse(t)),
+        r = b(i);
+      n = r;
+    } else n = t;
+    if (n.length + 2 + a > Je)
+      return (
+        z(e, Ke), void me({ m: "Track > Batch Size: " + n.length + " bytes" })
+      );
+    var s = Rt.length + n.length + a;
+    s > Je &&
+      (me({ m: "Batch reaching limit: " + s + " bytes" }),
+      B(Ke),
+      it && (n = t)),
+      (s = Rt.length + n.length + a),
+      me({ m: "Queue len: " + s + " bytes", rawTrack: e }),
+      0 !== Rt.length && (Rt += ","),
+      (Rt += n),
+      it && (Ot = JSON.parse(b(e)));
+  }
+  function B(e) {
+    if (0 != Rt.length) {
+      var t = { requests: JSON.parse("[" + Rt + "]"), common: J(!0) };
+      (Rt = ""), it && (Ot = null), K(t, e);
     }
   }
-  function D(e, t) {
-    var n = { requests: [e], common: G(!0) };
-    M(n, t);
+  function z(e, t) {
+    var n = { requests: [e], common: J(!0) },
+      a = b(n).length;
+    me({ m: "Sending single track (1 request, " + a + " bytes)" }), K(n, t);
   }
-  function q() {
-    var e = Me + Ne,
+  function $() {
+    var e = We + $e,
       t = [];
     return (
-      Ze && t.push("debug=true"),
-      null != ot && t.push("t=" + ot),
+      dt && t.push("debug=true"),
+      null != bt && t.push("t=" + bt),
       0 < t.length && (e += "?" + t.join("&")),
       e
     );
   }
-  function M(e, t) {
+  function V() {
+    var e = new XMLHttpRequest();
+    return yt && ((e.open = Yt), (e.send = Qt)), e;
+  }
+  function H(e, n) {
+    return yt ? Zt(e, n) : t.navigator.sendBeacon(e, n);
+  }
+  function K(e, t) {
     function n(e) {
-      var t = navigator.sendBeacon(q(), e),
+      var t = H($(), e),
         n = t ? "accepted" : "discarded";
-      "accepted" == n && Qe(e), se("SendBeacon: " + n);
+      "accepted" == n && rt(e), me("Sent (sendBeacon): " + n);
     }
     function a(e) {
-      var t = new XMLHttpRequest();
-      t.open("POST", q(), !0),
+      var t = V();
+      t.open("POST", $(), !0),
         (t.onreadystatechange = function () {
-          if (4 === t.readyState)
-            try {
-              se({ m: "Parsed", response: JSON.parse(t.response) }),
-                Qe(e, t.response);
-            } catch (e) {}
+          4 === t.readyState && (rt(e, t.response), me("Sent (XHR)"));
         }),
+        t.setRequestHeader("Content-Type", "application/json;charset=UTF-8"),
         t.send(e);
     }
-    if (
-      ("function" == typeof Je && (e = Je(e)),
-      se({ m: "Sent", payload: e }),
-      Ve)
-    )
-      return void se("Not sending, is dry run");
-    var i = v(e);
+    if ((me({ m: "Sending", payload: e }), at))
+      return void me("Not sending (dry run)");
+    "function" == typeof ot &&
+      ((e = ot(e)),
+      !1 === e && me("Not sending (onBeforeSubmit hook returned false)")),
+      kt && (t = "xhr");
+    var i = b(e);
     "xhr" === t ? a(i) : "beacon" === t ? n(i) : void 0;
   }
-  function z(e, t) {
+  function U(e, t) {
     switch (e) {
       case "user":
         return 0 !== t.sampleRate && 1 === t.isSampledUser;
@@ -558,101 +711,136 @@
         return !1;
     }
   }
-  function B() {
-    return F().length;
+  function W() {
+    return G().length;
   }
-  function F() {
-    if (!rt) return [];
+  function G() {
+    if (!_t) return [];
     try {
-      var e = it();
+      var e = ut();
       return "object" == typeof e[0] ? e : [];
     } catch (e) {
       return [];
     }
   }
-  function $() {
+  function X() {
     var e = {};
-    for (var t in Ye)
+    for (var t in lt)
       try {
-        e[t] = "function" == typeof Ye[t] ? Ye[t]() : Ye[t];
+        var n;
+        (n = "function" == typeof lt[t] ? lt[t]() : lt[t]),
+          void 0 !== n && (e[t] = n);
       } catch (n) {
-        se({ m: "Error calculating tag value for key: " + t, error: n }),
+        me({ m: "Error calculating tag value for key: " + t, error: n }),
           (e[t] = null);
       }
-    return (e = pe(e, 100)), e;
+    return (e = ye(e, 100)), e;
   }
-  function K() {
+  function Y() {
     for (
-      var e, t = document.cookie, n = {}, a = t.split(";"), r = 0;
-      r < a.length;
-      r++
+      var e, t = document.cookie, n = {}, a = [], r = t.split(";"), s = 0;
+      s < r.length;
+      s++
     )
-      if (((e = a[r].trim()), e)) {
-        var s = e.split("="),
-          o = s[0].trim(),
-          l = s[1] ? s[1].trim() : "";
-        n[o] = l;
+      if (((e = r[s].trim()), e)) {
+        var o = e.split("="),
+          d = o[0].trim(),
+          l = 1 < o.length ? o.slice(1).join("=").trim() : "";
+        a.push(d);
+        for (var p, c = 0; c < vt.length; c++)
+          if (
+            ((p = vt[c]),
+            "string" == typeof p &&
+              2 < p.length &&
+              "/" === p.charAt(0) &&
+              "/" === p.charAt(p.length - 1))
+          )
+            try {
+              var g = new RegExp(p.slice(1, -1));
+              if (g.test(d)) {
+                n[d] = l;
+                break;
+              }
+            } catch (t) {
+              if (d === p) {
+                n[d] = l;
+                break;
+              }
+            }
+          else if (d === p) {
+            n[d] = l;
+            break;
+          }
       }
-    return n;
-  }
-  function U(e, n, a) {
     return (
-      (e = we(e, n)),
-      {
-        provider: n,
-        request: {
-          endpoint: e.endpoint,
-          method: e.method,
-          post_payload: e.payload || null,
-          protocol: e.protocol,
-          href: t.location.href,
-        },
-        ts: e.ts || new Date().getTime(),
-        dl_i: B() - 1,
-        last_click_path: Tt,
-        last_click_text: wt,
-        tags: $(),
-        stack_trace: a,
-        cookies: st ? pe(K(), 50) : null,
-        sampling_rate: e.custom_sample_rate || ft,
-        unsampled: e.unsampled || !1,
-        custom_sample_rule: e.custom_sample_rule || null,
-      }
+      (a = a.filter(function (e, t) {
+        return a.indexOf(e) == t;
+      })),
+      a.sort(),
+      { cookies: n, cookies_list: a }
     );
   }
-  function H() {
-    return re(
+  function Q(e, n, a, i) {
+    var r = e,
+      s = Le(e, n),
+      o = Y();
+    return {
+      provider: n,
+      request: {
+        endpoint: s.endpoint,
+        method: s.method,
+        post_payload: s.payload || null,
+        protocol: s.protocol,
+        href: t.location.href,
+      },
+      ts: r.ts || new Date().getTime(),
+      dl_i: W() - 1,
+      last_click_path: Bt,
+      last_click_text: zt,
+      tags: X(),
+      stack_trace: a,
+      cookies: o.cookies,
+      cookies_list: o.cookies_list,
+      sampling_rate: i.rate,
+      adaptive_sampling_rule: i.rule,
+      adaptive_sampling_mode: i.mode,
+    };
+  }
+  function Z() {
+    return ge(
       {
         hostname: t.location.hostname,
         user_agent: navigator.userAgent,
         navigator_language: navigator.language || navigator.userLanguage,
-        load_url: "",
+        load_url: Dt,
       },
-      _()
+      y()
     );
   }
-  function G(e) {
-    var t = F(),
+  function J(e) {
+    var t = G(),
       n = t;
     return (
-      e && t && (n = Se(t)),
+      e && t && (n = Re(t)),
       {
-        context: H(),
-        tp_id: Ne,
-        source_alias: Oe,
-        environment: je,
-        sdk: Rt.sdk,
-        sdk_version: Rt.sdkVersion,
-        sampling_rate: ft,
-        debug: qe,
+        context: Z(),
+        tp_id: $e,
+        source_alias: He,
+        environment: Ve,
+        sdk: Gt.sdk,
+        sdk_version: Gt.sdkVersion,
+        sampling_rate: Nt,
+        debug: Ue,
         datalayer: n,
-        session_id: Z(),
-        tags: $(),
-        init_id: vt,
+        session_id: re(),
+        tags: X(),
+        init_id: jt,
+        real_time: mt,
+        repeated_values_compression: it,
       }
     );
   }
-  function W() {
+  function ee() {
     try {
       for (
         var e = t.performance.getEntriesByType("resource"),
@@ -665,85 +853,92 @@
         a.push(e[r].name);
         var s = "",
           o = e[r].name.replace(/(^\w+:|^)\/\//, ""),
-          l = o.split("?"),
-          d = l[0];
-        (l = d.split("/")), (s = 1 < l.length ? l[0] + "/" + l[1] : l[0]);
+          d = o.split("?"),
+          l = d[0];
+        (d = l.split("/")), (s = 1 < d.length ? d[0] + "/" + d[1] : d[0]);
         var p = s;
-        jt.call(n, p) || (n[p] = 0), n[p]++;
+        Jt.call(n, p) || (n[p] = 0), n[p]++;
       }
       return n;
     } catch (t) {
       return null;
     }
   }
-  function V() {
-    for (; _t.length; ) {
-      var e = _t.shift();
-      N(e);
+  function te() {
+    for (; Ct.length; ) {
+      var e = Ct.shift();
+      j(e);
     }
   }
-  function Q(e, t) {
-    return jt.call(e, "environment_rates") && jt.call(e.environment_rates, t)
+  function ne(e, t) {
+    return Jt.call(e, "environment_rates") && Jt.call(e.environment_rates, t)
       ? e.environment_rates[t]
       : e.sample_rate;
   }
-  function X() {
+  function ae() {
     function e(e) {
-      var t = Q(e, je);
+      var t = ne(e, Ve);
       if (r(t))
         throw (
-          (($e = new Date().getTime() + 300000),
+          ((Qe = new Date().getTime() + 300000),
           new Error("Invalid sampling rate"))
         );
-      ($e = 0),
-        te(t),
-        e.options && (he(e.options), Rt.setOptions(Ne, e.options)),
+      (Qe = 0),
+        de(t),
+        e.options && (Te(e.options), Gt.setOptions($e, e.options)),
         m({ event_name: "new_dau" }),
-        V();
+        te();
     }
-    if (!ut && !(new Date().getTime() < $e))
-      if (((ut = !0), Ct))
-        e(Ct),
+    if (!St && !(new Date().getTime() < Qe))
+      if (((St = !0), Ut))
+        e(Ut),
           setTimeout(function () {
-            ut = !1;
+            St = !1;
           }, 3e3);
       else {
-        var t = new XMLHttpRequest(),
-          n = ze + "config-" + Ne + ".json";
+        me({ m: "Downloading config..." });
+        var t = V(),
+          n = Ge + "config-" + $e + ".json";
         (t.onreadystatechange = function () {
-          if (4 == this.readyState)
+          if (4 == this.readyState) {
+            me({ m: "Config downloaded" });
             try {
               var t = JSON.parse(this.responseText);
               e(t);
-            } catch (e) {}
+            } catch (e) {
+              me({ m: "Failed to download config", error: e });
+            }
+          }
           setTimeout(function () {
-            ut = !1;
+            St = !1;
           }, 3e3);
         }),
           t.open("GET", n, !0),
           t.send();
       }
   }
-  function J(e) {
+  function ie(e) {
     n.setItem("_trackingplan_session_id", e),
       n.setItem("_trackingplan_session_ts", Date.now().toString());
   }
-  function Z() {
-    if (!bt) return null;
+  function re() {
+    if (!qt) return null;
     var e = n.getItem("_trackingplan_session_id"),
       t = n.getItem("_trackingplan_session_ts");
     if (null === e || null === t)
-      return se({ m: "Session ID: Creating for the first time session " }), Y();
+      return (
+        me({ m: "Session ID: Creating for the first time session " }), se()
+      );
     var a = Date.now(),
       i = parseInt(t, 10),
-      r = 1e3 * (60 * kt);
+      r = 1e3 * (60 * Mt);
     return isNaN(i) || a > i + r
-      ? (se({ m: "Session ID: Updating because timeout" }), Y())
+      ? (me({ m: "Session ID: Updating because timeout" }), se())
       : (n.setItem("_trackingplan_session_ts", a.toString()), e);
   }
-  function Y() {
+  function se() {
     var e = "true" === n.getItem("_trackingplan_live_debug_mode"),
-      t = ee();
+      t = oe();
     !0 == e && (t = "55555555" + t.substring(8));
     var a = Date.now();
     return (
@@ -757,7 +952,7 @@
       t
     );
   }
-  function ee() {
+  function oe() {
     var e = new Date().getTime(),
       t = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (t) {
         var n = 0 | (e + 16 * Math.random()) % 16;
@@ -765,7 +960,7 @@
       });
     return t;
   }
-  function te(e) {
+  function de(e) {
     if (!1 === e)
       return (
         n.removeItem("_trackingplan_sample_rate"),
@@ -774,25 +969,25 @@
         void n.removeItem("_trackingplan_options")
       );
     var t = Math.random() < 1 / e ? 1 : 0;
-    se({ m: "Trackingplan sample rate = " + e + ". isSampledUser " + t }),
+    me({ m: "Trackingplan sample rate = " + e + ". isSampledUser " + t }),
       n.setItem("_trackingplan_sample_rate_ts", new Date().getTime()),
       n.setItem("_trackingplan_sample_rate", e),
       n.setItem("_trackingplan_is_sampled_user", t);
   }
-  function ne() {
+  function le() {
     var e = n.getItem("_trackingplan_sample_rate_ts");
     if (null === e) return !1;
-    if (parseInt(e) + 1e3 * Fe < new Date().getTime())
-      return se({ m: "Trackingplan sample rate expired" }), te(!1), !1;
+    if (parseInt(e) + 1e3 * Ye < new Date().getTime())
+      return me({ m: "Trackingplan sample rate expired" }), de(!1), !1;
     var t = parseInt(n.getItem("_trackingplan_sample_rate"));
     return r(t)
-      ? (se({ m: "Trackingplan sample rate expired" }), te(!1), !1)
+      ? (me({ m: "Trackingplan sample rate expired" }), de(!1), !1)
       : {
           sampleRate: t,
           isSampledUser: parseInt(n.getItem("_trackingplan_is_sampled_user")),
         };
   }
-  function ae(e, t) {
+  function pe(e, t) {
     if (null === e || null === t) return !0;
     if (
       ((t = t.toString()),
@@ -803,48 +998,57 @@
     }
     return -1 !== t.indexOf(e);
   }
-  function ie(e) {
+  function ce(e) {
     var t = e.endpoint,
       n = e.payload,
       a = e.protocol;
-    if (f(t)) {
-      for (var r in Ae)
-        if (Ae.hasOwnProperty(r)) {
+    if (v(t)) {
+      if ("data:" === t.substring(0, 5)) return !1;
+      for (var r in Be)
+        if (Be.hasOwnProperty(r)) {
           var s = r.split("@"),
             o = null;
           1 < s.length && (o = s[0]);
-          var l = 1 < s.length ? s[1] : s[0],
-            d = l.split("%"),
-            p = d[0],
-            c = 2 === d.length ? d[1] : null,
-            m = Ce.slice();
+          var d = 1 < s.length ? s[1] : s[0],
+            l = d.split("%"),
+            p = l[0],
+            c = 2 === l.length ? l[1] : null,
+            g = Fe.slice();
           if (o)
-            for (var g, u = o.split(","), h = 0; h < u.length; h++)
-              if (((g = u[h].trim()), !!g)) {
-                var _ = g.charAt(0),
-                  y = g.substring(1);
-                if ("+" === _) {
-                  var v = m.indexOf(y);
-                  -1 !== v && m.splice(v, 1);
-                } else "-" === _ && -1 === m.indexOf(y) && m.push(y);
+            for (var m, u = o.split(","), _ = 0; _ < u.length; _++)
+              if (((m = u[_].trim()), !!m)) {
+                var h = m.charAt(0),
+                  y = m.substring(1);
+                if ("+" === h) {
+                  var f = g.indexOf(y);
+                  -1 !== f && g.splice(f, 1);
+                } else "-" === h && -1 === g.indexOf(y) && g.push(y);
               }
-          if ("string" == typeof a && -1 !== m.indexOf(a)) continue;
-          if (ae(p, t) && ae(c, n)) return Ae[r];
+          if ("string" == typeof a && -1 !== g.indexOf(a)) continue;
+          var b = !0;
+          if (
+            (null !== c &&
+              ("string" == typeof n
+                ? (b = pe(c, n.substring(0, 65536)))
+                : (b = !1)),
+            pe(p, t.substring(0, 2048)) && b)
+          )
+            return Be[r];
         }
       return !1;
     }
   }
-  function re(e, t) {
+  function ge(e, t) {
     for (var n in t) e[n] = t[n];
     return e;
   }
-  function se(e) {
-    qe && a.log("TP " + Ne, e);
+  function me(e) {
+    Ue && a.log("TP " + $e, e);
   }
-  function oe(e) {
+  function ue(e) {
     t.console && a.warn && a.warn(e);
   }
-  function le(e) {
+  function _e(e) {
     try {
       if (!(e instanceof Element)) return;
       for (
@@ -877,7 +1081,7 @@
       return null;
     }
   }
-  function de(e) {
+  function he(e) {
     try {
       if (!(e instanceof Element)) return null;
       var t = null;
@@ -894,46 +1098,45 @@
       return null;
     }
   }
-  function pe(e, t) {
+  function ye(e, t) {
     if ("string" == typeof e && e.length > t)
       return e.substring(0, t - 1) + "\u2026";
     if (Array.isArray(e))
       return e.map(function (e) {
-        return pe(e, t);
+        return ye(e, t);
       });
     if ("object" == typeof e && null !== e) {
       var n = {};
       return (
         Object.keys(e).forEach(function (a) {
-          n[a] = pe(e[a], t);
+          n[a] = ye(e[a], t);
         }),
         n
       );
     }
     return e;
   }
-  function ce(e) {
+  function fe(e) {
     try {
-      It[e.name] = Math.round(e.value);
+      $t[e.name] = Math.round(e.value);
     } catch (t) {}
   }
-  function me() {
+  function ve() {
     try {
       var e = (function ($) {
         "use strict";
-        var ee,
+        var Z,
+          ee,
           te,
           ne,
           ae,
-          ie,
-          Z = Math.min,
           Y = Math.max,
-          re = -1,
-          se = function (t) {
+          ie = -1,
+          re = function (t) {
             addEventListener(
               "pageshow",
               function (e) {
-                e.persisted && ((re = e.timeStamp), t(e));
+                e.persisted && ((ie = e.timeStamp), t(e));
               },
               !0
             );
@@ -950,11 +1153,11 @@
             var t = c();
             return (t && t.activationStart) || 0;
           },
-          oe = function (a, e) {
+          se = function (a, e) {
             var n = c(),
               t = "navigate";
             return (
-              0 <= re
+              0 <= ie
                 ? (t = "back-forward-cache")
                 : n &&
                   (document.prerendering || 0 < u()
@@ -991,13 +1194,13 @@
             } catch (t) {}
           },
           d = function (s, e, n, t) {
-            var r, l;
+            var r, d;
             return function (i) {
               0 <= e.value &&
                 (i || t) &&
-                ((l = e.value - (r || 0)) || void 0 === r) &&
+                ((d = e.value - (r || 0)) || void 0 === r) &&
                 ((r = e.value),
-                (e.delta = l),
+                (e.delta = d),
                 (e.rating = (function (t, e) {
                   return t > e[1]
                     ? "poor"
@@ -1008,14 +1211,14 @@
                 s(e));
             };
           },
-          s = function (t) {
+          l = function (t) {
             requestAnimationFrame(function () {
               return requestAnimationFrame(function () {
                 return t();
               });
             });
           },
-          l = function (t) {
+          oe = function (t) {
             document.addEventListener("visibilitychange", function () {
               "hidden" === document.visibilityState && t();
             });
@@ -1033,27 +1236,27 @@
               ? 1 / 0
               : 0;
           },
-          m = function (t) {
+          g = function (t) {
             "hidden" === document.visibilityState &&
               -1 < p &&
               ((p = "visibilitychange" === t.type ? t.timeStamp : 0), y());
           },
-          g = function () {
-            addEventListener("visibilitychange", m, !0),
-              addEventListener("prerenderingchange", m, !0);
+          m = function () {
+            addEventListener("visibilitychange", g, !0),
+              addEventListener("prerenderingchange", g, !0);
           },
           y = function () {
-            removeEventListener("visibilitychange", m, !0),
-              removeEventListener("prerenderingchange", m, !0);
+            removeEventListener("visibilitychange", g, !0),
+              removeEventListener("prerenderingchange", g, !0);
           },
           T = function () {
             return (
               0 > p &&
                 ((p = e()),
-                g(),
-                se(function () {
+                m(),
+                re(function () {
                   setTimeout(function () {
-                    (p = e()), g();
+                    (p = e()), m();
                   }, 0);
                 })),
               {
@@ -1079,13 +1282,13 @@
             (e = e || {}),
               E(function () {
                 var n,
-                  l = T(),
-                  p = oe("FCP"),
+                  s = T(),
+                  p = se("FCP"),
                   r = f("paint", function (t) {
                     t.forEach(function (t) {
                       "first-contentful-paint" === t.name &&
                         (r.disconnect(),
-                        t.startTime < l.firstHiddenTime &&
+                        t.startTime < s.firstHiddenTime &&
                           ((p.value = Y(t.startTime - u(), 0)),
                           p.entries.push(t),
                           n(!0)));
@@ -1093,10 +1296,10 @@
                   });
                 r &&
                   ((n = d(a, p, L, e.reportAllChanges)),
-                  se(function (t) {
-                    (p = oe("FCP")),
+                  re(function (t) {
+                    (p = se("FCP")),
                       (n = d(a, p, L, e.reportAllChanges)),
-                      s(function () {
+                      l(function () {
                         (p.value = performance.now() - t.timeStamp), n(!0);
                       });
                   }));
@@ -1105,22 +1308,22 @@
           b = [0.1, 0.25],
           w = 0,
           C = 1 / 0,
-          le = 0,
-          de = function (t) {
+          de = 0,
+          le = function (t) {
             t.forEach(function (t) {
               t.interactionId &&
-                ((C = Z(C, t.interactionId)),
-                (le = Y(le, t.interactionId)),
-                (w = le ? (le - C) / 7 + 1 : 0));
+                ((C = s(C, t.interactionId)),
+                (de = Y(de, t.interactionId)),
+                (w = de ? (de - C) / 7 + 1 : 0));
             });
           },
           F = function () {
-            return ee ? w : performance.interactionCount || 0;
+            return Z ? w : performance.interactionCount || 0;
           },
           M = function () {
             "interactionCount" in performance ||
-              ee ||
-              (ee = f("event", de, {
+              Z ||
+              (Z = f("event", le, {
                 type: "event",
                 buffered: !0,
                 durationThreshold: 0,
@@ -1130,7 +1333,7 @@
           D = new Map(),
           B = 0,
           pe = function () {
-            var t = Z(k.length - 1, i((F() - B) / 50));
+            var t = s(k.length - 1, i((F() - B) / 50));
             return k[t];
           },
           x = [],
@@ -1173,7 +1376,7 @@
               n = -1;
             return (
               (a = v(a)),
-              "hidden" === document.visibilityState ? a() : ((n = i(a)), l(a)),
+              "hidden" === document.visibilityState ? a() : ((n = i(a)), oe(a)),
               n
             );
           },
@@ -1199,27 +1402,27 @@
           z = { passive: !0, capture: !0 },
           G = new Date(),
           J = function (t, e) {
-            te ||
-              ((te = e),
-              (ne = t),
-              (ae = new Date()),
+            ee ||
+              ((ee = e),
+              (te = t),
+              (ne = new Date()),
               U(removeEventListener),
               K());
           },
           K = function () {
-            if (0 <= ne && ne < ae - G) {
+            if (0 <= te && te < ne - G) {
               var t = {
                 entryType: "first-input",
-                name: te.type,
-                target: te.target,
-                cancelable: te.cancelable,
-                startTime: te.timeStamp,
-                processingStart: te.timeStamp + ne,
+                name: ee.type,
+                target: ee.target,
+                cancelable: ee.cancelable,
+                startTime: ee.timeStamp,
+                processingStart: ee.timeStamp + te,
               };
-              ie.forEach(function (e) {
+              ae.forEach(function (e) {
                 e(t);
               }),
-                (ie = []);
+                (ae = []);
             }
           },
           Q = function (t) {
@@ -1260,39 +1463,39 @@
           ($.INPThresholds = q),
           ($.LCPThresholds = O),
           ($.TTFBThresholds = V),
-          ($.onCLS = function (p, e) {
+          ($.onCLS = function (s, e) {
             (e = e || {}),
               S(
                 v(function () {
                   var n,
-                    c = oe("CLS", 0),
-                    m = 0,
+                    p = se("CLS", 0),
+                    c = 0,
                     g = [],
-                    h = function (t) {
+                    m = function (t) {
                       t.forEach(function (a) {
                         if (!a.hadRecentInput) {
                           var e = g[0],
                             n = g[g.length - 1];
-                          m &&
+                          c &&
                           1e3 > a.startTime - n.startTime &&
                           5e3 > a.startTime - e.startTime
-                            ? ((m += a.value), g.push(a))
-                            : ((m = a.value), (g = [a]));
+                            ? ((c += a.value), g.push(a))
+                            : ((c = a.value), (g = [a]));
                         }
                       }),
-                        m > c.value && ((c.value = m), (c.entries = g), n());
+                        c > p.value && ((p.value = c), (p.entries = g), n());
                     },
-                    a = f("layout-shift", h);
+                    a = f("layout-shift", m);
                   a &&
-                    ((n = d(p, c, b, e.reportAllChanges)),
-                    l(function () {
-                      h(a.takeRecords()), n(!0);
+                    ((n = d(s, p, b, e.reportAllChanges)),
+                    oe(function () {
+                      m(a.takeRecords()), n(!0);
                     }),
-                    se(function () {
-                      (m = 0),
-                        (c = oe("CLS", 0)),
-                        (n = d(p, c, b, e.reportAllChanges)),
-                        s(function () {
+                    re(function () {
+                      (c = 0),
+                        (p = se("CLS", 0)),
+                        (n = d(s, p, b, e.reportAllChanges)),
+                        l(function () {
                           return n();
                         });
                     }),
@@ -1306,34 +1509,34 @@
               E(function () {
                 var n,
                   r = T(),
-                  o = oe("FID"),
-                  c = function (t) {
+                  o = se("FID"),
+                  l = function (t) {
                     t.startTime < r.firstHiddenTime &&
                       ((o.value = t.processingStart - t.startTime),
                       o.entries.push(t),
                       n(!0));
                   },
                   a = function (t) {
-                    t.forEach(c);
+                    t.forEach(l);
                   },
                   s = f("first-input", a);
                 (n = d(t, o, W, e.reportAllChanges)),
                   s &&
-                    (l(
+                    (oe(
                       v(function () {
                         a(s.takeRecords()), s.disconnect();
                       })
                     ),
-                    se(function () {
+                    re(function () {
                       var i;
-                      (o = oe("FID")),
+                      (o = se("FID")),
                         (n = d(t, o, W, e.reportAllChanges)),
-                        (ie = []),
-                        (ne = -1),
-                        (te = null),
+                        (ae = []),
+                        (te = -1),
+                        (ee = null),
                         U(addEventListener),
-                        (i = c),
-                        ie.push(i),
+                        (i = l),
+                        ae.push(i),
                         K();
                     }));
               });
@@ -1345,48 +1548,48 @@
               E(function () {
                 var n;
                 M();
-                var p,
-                  c = oe("INP"),
-                  m = function (t) {
+                var l,
+                  p = se("INP"),
+                  c = function (t) {
                     N(function () {
                       t.forEach(H);
                       var e = pe();
                       e &&
-                        e.latency !== c.value &&
-                        ((c.value = e.latency), (c.entries = e.entries), p());
+                        e.latency !== p.value &&
+                        ((p.value = e.latency), (p.entries = e.entries), l());
                     });
                   },
-                  o = f("event", m, {
+                  o = f("event", c, {
                     durationThreshold:
                       null !== (n = e.durationThreshold) && void 0 !== n
                         ? n
                         : 40,
                   });
-                (p = d(s, c, q, e.reportAllChanges)),
+                (l = d(s, p, q, e.reportAllChanges)),
                   o &&
                     (o.observe({ type: "first-input", buffered: !0 }),
-                    l(function () {
-                      m(o.takeRecords()), p(!0);
+                    oe(function () {
+                      c(o.takeRecords()), l(!0);
                     }),
-                    se(function () {
+                    re(function () {
                       (B = F()),
                         (k.length = 0),
                         D.clear(),
-                        (c = oe("INP")),
-                        (p = d(s, c, q, e.reportAllChanges));
+                        (p = se("INP")),
+                        (l = d(s, p, q, e.reportAllChanges));
                     }));
               }));
           }),
-          ($.onLCP = function (p, c) {
-            (c = c || {}),
+          ($.onLCP = function (s, p) {
+            (p = p || {}),
               E(function () {
                 var n,
-                  m = T(),
-                  g = oe("LCP"),
+                  c = T(),
+                  g = se("LCP"),
                   e = function (t) {
-                    c.reportAllChanges || (t = t.slice(-1)),
+                    p.reportAllChanges || (t = t.slice(-1)),
                       t.forEach(function (t) {
-                        t.startTime < m.firstHiddenTime &&
+                        t.startTime < c.firstHiddenTime &&
                           ((g.value = Y(t.startTime - u(), 0)),
                           (g.entries = [t]),
                           n());
@@ -1394,7 +1597,7 @@
                   },
                   r = f("largest-contentful-paint", e);
                 if (r) {
-                  n = d(p, g, O, c.reportAllChanges);
+                  n = d(s, g, O, p.reportAllChanges);
                   var a = v(function () {
                     j[g.id] ||
                       (e(r.takeRecords()),
@@ -1411,11 +1614,11 @@
                       !0
                     );
                   }),
-                    l(a),
-                    se(function (e) {
-                      (g = oe("LCP")),
-                        (n = d(p, g, O, c.reportAllChanges)),
-                        s(function () {
+                    oe(a),
+                    re(function (e) {
+                      (g = se("LCP")),
+                        (n = d(s, g, O, p.reportAllChanges)),
+                        l(function () {
                           (g.value = performance.now() - e.timeStamp),
                             (j[g.id] = !0),
                             n(!0);
@@ -1426,7 +1629,7 @@
           }),
           ($.onTTFB = function (a, e) {
             e = e || {};
-            var s = oe("TTFB"),
+            var s = se("TTFB"),
               o = d(a, s, V, e.reportAllChanges);
             _(function () {
               var t = c();
@@ -1434,104 +1637,138 @@
                 ((s.value = Y(t.responseStart - u(), 0)),
                 (s.entries = [t]),
                 o(!0),
-                se(function () {
-                  (s = oe("TTFB", 0)), (o = d(a, s, V, e.reportAllChanges))(!0);
+                re(function () {
+                  (s = se("TTFB", 0)), (o = d(a, s, V, e.reportAllChanges))(!0);
                 }));
             });
           }),
           $
         );
       })({});
-      e.onCLS(ce),
-        e.onFCP(ce),
-        e.onFID(ce),
-        e.onINP(ce),
-        e.onLCP(ce),
-        e.onTTFB(ce);
+      e.onCLS(fe),
+        e.onFCP(fe),
+        e.onFID(fe),
+        e.onINP(fe),
+        e.onLCP(fe),
+        e.onTTFB(fe);
     } catch (t) {}
   }
-  function ge() {
+  function be() {
     t.addEventListener("error", function (e) {
-      St++;
+      Vt++;
     });
     var e = a.warn;
     a.warn = function () {
-      Et++, e.apply(a, arguments);
+      Ht++, e.apply(a, arguments);
     };
   }
-  function ue() {
+  function ke() {
     try {
       var e = n.getItem("_trackingplan_options");
       return e ? JSON.parse(e) : null;
     } catch (t) {
-      return se({ m: "Error getting stored options", error: t }), null;
+      return me({ m: "Error getting stored options", error: t }), null;
     }
   }
-  function he(e) {
+  function Te(e) {
     try {
       return n.setItem("_trackingplan_options", JSON.stringify(e)), !0;
     } catch (t) {
-      return se({ m: "Error storing options", error: t }), !1;
+      return me({ m: "Error storing options", error: t }), !1;
     }
   }
-  function _e(e) {
+  function xe(e) {
     if (!e) return {};
     for (var t, n = {}, a = e.split("&"), r = 0; r < a.length; r++)
       (t = a[r].split("=")),
         (n[decodeURIComponent(t[0])] = decodeURIComponent(t[1] || ""));
     return n;
   }
-  function ye(e, t, n) {
-    if (!e) return !1;
-    if (Array.isArray(e)) {
-      for (var a = 0; a < e.length; a++) if (ye(e[a], t, n)) return !0;
-      return !1;
-    }
-    if ("object" == typeof e)
-      for (var r in e)
-        if (e.hasOwnProperty(r)) {
-          if (r === t && "string" == typeof e[r] && e[r] === n) return !0;
-          if (null !== e[r] && "object" == typeof e[r] && ye(e[r], t, n))
-            return !0;
-        }
-    return !1;
-  }
-  function fe(e, t, n) {
+  function Ie(e, t, n) {
     if (!Array.isArray(n) || !n.length) return null;
-    var a = [];
+    var a = n.filter(function (t) {
+      return t.provider === e;
+    });
+    if (!a.length) return null;
+    var r = "",
+      s = t.endpoint || "",
+      o = {};
     try {
-      var r = new URL(t.endpoint);
-      r.search && a.push(_e(r.search.substring(1)));
+      var d = new URL(t.endpoint);
+      (r = d.pathname), d.search && (o = xe(d.search.substring(1)));
     } catch (t) {}
-    t.payload &&
-      "string" == typeof t.payload &&
-      t.payload.split("\n").forEach(function (e) {
-        e.trim() && a.push(_e(e));
-      });
-    var s = null;
+    var l = [o],
+      p = !1,
+      c = null;
     if (t.payload)
       try {
-        s = JSON.parse(t.payload);
+        (c = JSON.parse(t.payload)), (p = !0);
       } catch (t) {}
-    for (var o, l = 0; l < n.length; l++)
-      if (((o = n[l]), o.provider === e)) {
-        for (var d = 0; d < a.length; d++)
-          if (a[d][o.key] === o.value)
-            return { sampleRate: o.sample_rate, rule: o };
-        if (s && ye(s, o.key, o.value))
-          return { sampleRate: o.sample_rate, rule: o };
+    !p &&
+      t.payload &&
+      "string" == typeof t.payload &&
+      t.payload.split("\n").forEach(function (e) {
+        if (e.trim()) {
+          var t = xe(e),
+            n = ge({}, o);
+          (n = ge(n, t)), 0 < Object.keys(n).length && l.push(n);
+        }
+      });
+    for (
+      var g = 65536,
+        m = s || "",
+        u = t.payload || "",
+        _ = {
+          path: r || "",
+          endpoint: (function () {
+            try {
+              return m.substring(0, g);
+            } catch (t) {
+              return "";
+            }
+          })(),
+          payload: (function () {
+            try {
+              return u.substring(0, g);
+            } catch (t) {
+              return "";
+            }
+          })(),
+        },
+        h = [],
+        y = 0;
+      y < l.length;
+      y++
+    )
+      h.push(qe(l[y]));
+    for (var f, v = c ? qe(c) : null, b = 0; b < a.length; b++) {
+      if (((f = a[b]), !f.match)) return { sampleRate: f.sample_rate, rule: f };
+      for (var T = 0; T < l.length; T++)
+        if (je(f.match, l[T], _, h[T]))
+          return { sampleRate: f.sample_rate, rule: f };
+      if (c && je(f.match, c, _, v))
+        return { sampleRate: f.sample_rate, rule: f };
+      if (c) {
+        var x = ge({}, o);
+        x = ge(x, c);
+        var I = qe(x);
+        if (je(f.match, x, _, I)) return { sampleRate: f.sample_rate, rule: f };
       }
+    }
     return null;
   }
-  function ve(e, t) {
-    var n = fe(t, e, gt);
-    if (n) {
-      var a = Math.random() < 1 / n.sampleRate;
-      return a ? ((n.useCustomSampling = !0), n) : { useCustomSampling: !1 };
+  function Ee(e, t) {
+    var n = 1 / t.sampleRate;
+    if (1 <= n || 0 > n) return !1;
+    if (0 < e) {
+      var a = 1 / e;
+      if (a <= n) return !1;
+      var i = (a - n) / (1 - n);
+      return !(0 >= i) && Math.random() < i;
     }
-    return { useCustomSampling: !1 };
+    return !1;
   }
-  function ke(e) {
+  function we(e) {
     if (null === e) return "null";
     var t,
       n = typeof e;
@@ -1549,8 +1786,7 @@
         t = Array.isArray(e) ? "array" : "object";
         break;
       default:
-        (t = "n/a"),
-          se("Unsupported JS type [" + n + "] for value [" + e + "]");
+        t = "n/a";
     }
     if ("string" === t) {
       var a = parseFloat(e);
@@ -1569,13 +1805,13 @@
     }
     return t;
   }
-  function be(e, t, n, i) {
-    var r = ke(n),
+  function Ae(e, t, n, i) {
+    var r = we(n),
       s =
         null === n ? -1 : "string" == typeof n ? n.length : n.toString().length,
       o = "*ANON*" + i + "*" + t + "*" + e + "*" + r + "*" + s;
     return (
-      ct &&
+      It &&
         a.log("TP Privacy Masking:", {
           originalKey: t,
           originalValue: n,
@@ -1586,65 +1822,80 @@
       o
     );
   }
-  function xe(e, t, n, a, i) {
-    function r(e, r, s, o) {
+  function Se(e, t, n, a, r) {
+    function s(e, s, o, d) {
       try {
-        o = decodeURIComponent(o);
+        d = decodeURIComponent(d);
       } catch (t) {}
-      var l, d, p, c, m;
-      for (l = 0; l < t.length; l++) {
-        (p = t[l]), (c = a.name_regexes[p] || []);
-        for (var d = 0; d < c.length; d++)
-          if (c[d].test(s)) return (m = i(p, s, o, "NAME")), r + s + "=" + m;
-      }
-      for (l = 0; l < n.length; l++) {
-        (p = n[l]), (c = a.value_regexes[p] || []);
-        for (var d = 0; d < c.length; d++)
-          if (c[d].test(o)) return (m = i(p, s, o, "VALUE")), r + s + "=" + m;
-      }
+      var l, p, c, g, m;
+      for (l = 0; l < t.length; l++)
+        for (c = t[l], g = a.name_regexes[c] || [], p = 0; p < g.length; p++)
+          if (g[p].test(o)) return (m = r(c, o, d, "NAME")), s + o + "=" + m;
+      if (1024 > d.length)
+        for (l = 0; l < n.length; l++)
+          for (c = n[l], g = a.value_regexes[c] || [], p = 0; p < g.length; p++)
+            if (g[p].test(d)) return (m = r(c, o, d, "VALUE")), s + o + "=" + m;
       return e;
     }
-    var s = /([?&;\s]|^)([^=&;\s?]+)=([^&;\s]+)/g;
-    return e.replace(s, r);
+    var o = /([?&;\s]|^)([^=&;\s?]+)=([^&;\s]+)/g;
+    return e.replace(o, s);
   }
-  function Te(e, t, n, a, r) {
+  function Pe(e, t, n, a, r) {
     function s(e, o) {
-      var l,
-        d,
+      var d,
+        l,
         p,
         c,
-        m = o;
+        g = o;
       if ("string" == typeof o || "number" == typeof o || "boolean" == typeof o)
-        for (l = 0; l < t.length; l++)
-          for (p = t[l], c = a.name_regexes[p] || [], d = 0; d < c.length; d++)
-            if (c[d].test(e)) return (m = r(p, e, o, "NAME")), m;
-      if (null !== o && ("string" == typeof o || "number" == typeof o))
-        for (l = 0; l < n.length; l++)
-          for (p = n[l], c = a.value_regexes[p] || [], d = 0; d < c.length; d++)
-            if (c[d].test(o.toString())) return (m = r(p, e, o, "VALUE")), m;
+        for (d = 0; d < t.length; d++)
+          for (p = t[d], c = a.name_regexes[p] || [], l = 0; l < c.length; l++)
+            if (c[l].test(e)) return (g = r(p, e, o, "NAME")), g;
+      if (null !== o && ("string" == typeof o || "number" == typeof o)) {
+        var m = o.toString();
+        if (1024 > m.length)
+          for (d = 0; d < n.length; d++)
+            for (
+              p = n[d], c = a.value_regexes[p] || [], l = 0;
+              l < c.length;
+              l++
+            )
+              if (c[l].test(m)) return (g = r(p, e, o, "VALUE")), g;
+      }
+      if (
+        "string" == typeof o &&
+        1 < o.length &&
+        (("{" === o.charAt(0) && "}" === o.charAt(o.length - 1)) ||
+          ("[" === o.charAt(0) && "]" === o.charAt(o.length - 1)))
+      )
+        try {
+          var u = JSON.parse(o),
+            _ = s(e, u);
+          return JSON.stringify(_);
+        } catch (t) {}
       if (Array.isArray(o))
         return o.map(function (t, n) {
           return s(e + "[" + n + "]", t);
         });
       if ("object" == typeof o && null !== o) {
-        var g,
-          u = {};
-        for (g in o) o.hasOwnProperty(g) && (u[g] = s(g, o[g]));
-        return u;
+        var h,
+          y = {};
+        for (h in o) o.hasOwnProperty(h) && (y[h] = s(h, o[h]));
+        return y;
       }
       return o;
     }
     return s("", e);
   }
-  function we(e, t) {
-    var n = JSON.parse(v(e)),
-      a = Pe(t),
+  function Le(e, t) {
+    var n = JSON.parse(b(e)),
+      a = De(t),
       i = a.nameRegexKeys,
       r = a.valueRegexKeys;
     if (
       (n.endpoint &&
         n.endpoint.includes("?") &&
-        (n.endpoint = xe(n.endpoint, i, r, Re, be)),
+        (n.endpoint = Se(n.endpoint, i, r, ze, Ae)),
       n.payload)
     )
       try {
@@ -1652,90 +1903,163 @@
           "string" == typeof n.payload ? n.payload : JSON.stringify(n.payload);
         try {
           var o = JSON.parse(s);
-          n.payload = JSON.stringify(Te(o, i, r, Re, be));
+          n.payload = JSON.stringify(Pe(o, i, r, ze, Ae));
         } catch (t) {
-          n.payload = xe(s, i, r, Re, be);
+          n.payload = Se(s, i, r, ze, Ae);
         }
       } catch (t) {
-        oe({ m: "Error masking payload", error: t });
+        ue({ m: "Error masking payload", error: t });
       }
     return n;
   }
-  function Ie(e) {
+  function Ce(e) {
     function t(e) {
-      return -1 !== dt.indexOf(e);
+      return -1 !== Tt.indexOf(e);
     }
     function n(e) {
       for (var a in e)
         e.hasOwnProperty(a) &&
           ("object" == typeof e[a] && null !== e[a]
             ? n(e[a])
-            : t(a) && (e[a] = be("legacy", a, e[a], !0)));
+            : t(a) && (e[a] = Ae("legacy", a, e[a], !0)));
       return e;
     }
-    if (!Array.isArray(dt) || 0 == dt.length) return e;
-    var a = JSON.parse(v(e));
+    if (!Array.isArray(Tt) || 0 == Tt.length) return e;
+    var a = JSON.parse(b(e));
     return a.map(function (e) {
       return "object" == typeof e && null !== e ? n(e) : e;
     });
   }
-  function Se(e) {
+  function Re(e) {
     var t;
-    if (pt && mt) {
-      var n = Pe("datalayer"),
+    if (xt && Et) {
+      var n = De("datalayer"),
         a = n.nameRegexKeys,
         i = n.valueRegexKeys;
-      if (!(0 < a.length || 0 < i.length)) t = JSON.parse(v(e));
+      if (!(0 < a.length || 0 < i.length)) t = JSON.parse(b(e));
       else if (Array.isArray(e)) {
-        var r = e.slice(At.lastProcessedLength),
-          s = JSON.parse(v(r)),
+        var r = e.slice(Wt.lastProcessedLength),
+          s = JSON.parse(b(r)),
           o = s.map(function (e) {
-            return "object" == typeof e && null !== e ? Te(e, a, i, Re, be) : e;
+            return "object" == typeof e && null !== e ? Pe(e, a, i, ze, Ae) : e;
           });
-        (t = At.maskedItems.concat(o)),
-          (At.lastProcessedLength = e.length),
-          (At.maskedItems = t);
-      } else (t = JSON.parse(v(e))), (t = Te(t, a, i, Re, be));
+        (t = Wt.maskedItems.concat(o)),
+          (Wt.lastProcessedLength = e.length),
+          (Wt.maskedItems = t);
+      } else (t = JSON.parse(b(e))), (t = Pe(t, a, i, ze, Ae));
     } else t = e;
-    return (t = Ie(t)), t;
+    return (t = Ce(t)), t;
   }
-  function Ee(e) {
+  function Ne(e) {
     return new RegExp(e, "i");
   }
-  function Le() {
-    if (mt) {
+  function Oe() {
+    if (Et) {
       var e;
-      for (e in mt.name_regexes)
-        Re.name_regexes[e] = mt.name_regexes[e].map(Ee);
-      for (e in mt.value_regexes)
-        Re.value_regexes[e] = mt.value_regexes[e].map(Ee);
+      for (e in Et.name_regexes)
+        ze.name_regexes[e] = Et.name_regexes[e].map(Ne);
+      for (e in Et.value_regexes)
+        ze.value_regexes[e] = Et.value_regexes[e].map(Ne);
     }
   }
-  function Pe(e) {
+  function De(e) {
     var t = [],
       n = [];
     if (
-      mt.provider_rules &&
-      mt.provider_rules.provider_specific &&
-      mt.provider_rules.provider_specific[e]
+      Et.provider_rules &&
+      Et.provider_rules.provider_specific &&
+      Et.provider_rules.provider_specific[e]
     ) {
-      var a = mt.provider_rules.provider_specific[e];
+      var a = Et.provider_rules.provider_specific[e];
       a.name_regexes && (t = t.concat(a.name_regexes)),
         a.value_regexes && (n = n.concat(a.value_regexes));
     }
-    if (mt.provider_rules && mt.provider_rules.global) {
-      var i = mt.provider_rules.global;
+    if (Et.provider_rules && Et.provider_rules.global) {
+      var i = Et.provider_rules.global;
       i.name_regexes && (t = t.concat(i.name_regexes)),
         i.value_regexes && (n = n.concat(i.value_regexes));
     }
     return { nameRegexKeys: t, valueRegexKeys: n };
   }
+  function je(e, t, n, a) {
+    if (!e || "object" != typeof e) return !1;
+    if (e.and && Array.isArray(e.and))
+      return e.and.every(function (e) {
+        return je(e, t, n, a);
+      });
+    if (e.or && Array.isArray(e.or))
+      return e.or.some(function (e) {
+        return je(e, t, n, a);
+      });
+    if (e.not) return !je(e.not, t, n, a);
+    var i = Object.keys(e);
+    return i.every(function (t) {
+      var i = e[t];
+      if ("@TP_ENDPOINT_PATH@CONTAINS" === t) {
+        if (!n) return !1;
+        var r = n.path;
+        return Me(function (e) {
+          return -1 !== r.indexOf(e);
+        }, i);
+      }
+      if ("@TP_ENDPOINT_OR_PAYLOAD@CONTAINS" === t) {
+        if (!n) return !1;
+        var s = n.endpoint + " " + n.payload;
+        return Me(function (e) {
+          return -1 !== s.indexOf(e);
+        }, i);
+      }
+      if ("@TP_ANY_KEY" === t)
+        return Me(function (e) {
+          for (var t in a)
+            if (a.hasOwnProperty(t) && -1 !== a[t].indexOf(e)) return !0;
+          return !1;
+        }, i);
+      if (9 <= t.length && t.indexOf("@CONTAINS") === t.length - 9) {
+        var o = t.substring(0, t.length - 9);
+        return Me(function (e) {
+          return (
+            !!a[o] &&
+            a[o].some(function (t) {
+              return -1 !== t.indexOf(e);
+            })
+          );
+        }, i);
+      }
+      return Me(function (e) {
+        return a[t] && -1 !== a[t].indexOf(e);
+      }, i);
+    });
+  }
+  function Me(e, t) {
+    return Array.isArray(t)
+      ? t.some(function (t) {
+          return e(t + "");
+        })
+      : e(t + "");
+  }
+  function qe(e, t) {
+    if (((t = t || {}), !e)) return t;
+    if (Array.isArray(e)) {
+      for (var n = 0; n < e.length; n++) qe(e[n], t);
+      return t;
+    }
+    if ("object" == typeof e)
+      for (var a in e)
+        if (e.hasOwnProperty(a)) {
+          var r = e[a];
+          "string" == typeof r &&
+            (!t[a] && (t[a] = []), -1 === t[a].indexOf(r) && t[a].push(r)),
+            null !== r && "object" == typeof r && qe(r, t);
+        }
+    return t;
+  }
   if (t.Trackingplan)
     return void (
-      t.Trackingplan.testing || oe("Trackingplan snippet included twice.")
+      t.Trackingplan.testing || ue("Trackingplan snippet included twice.")
     );
-  var Ce = ["performance"],
-    Ae = {
+  var Fe = ["performance"],
+    Be = {
       "/g/collect?v=2&tid": "googleanalytics",
       "/\\/[a-z0-9]{6}\\?tid=[^&]+&v=2/": "googleanalytics",
       "api.segment.io": "segment",
@@ -1769,6 +2093,7 @@
       "bat.bing.com": "bing",
       "pdst.fm": "podsights",
       "analytics.tiktok.com/api/v2": "tiktok",
+      "/b/ss/": "adobe",
       "/.*AQB=1.*AQE=1/": "adobe",
       "posthog.com/i/": "posthog",
       "posthog.com/e/": "posthog",
@@ -1778,6 +2103,7 @@
       "plausible.io/api/event": "plausible",
       "ariane.abtasty.com": "abtasty",
       "xiti.com/event": "piano",
+      "pa-cd.com/event": "piano",
       "rudderstack.com/v1": "rudderstack",
       "/dev.visualwebsiteoptimizer.com/.*events/": "vwo",
       "adsmurai.com/v1.0/events": "adsmurai",
@@ -1789,43 +2115,68 @@
       "/.*edge\\.adobedc\\.net\\/ee\\/.*(collect|interact).*/": "adobexdm",
       "hits.getelevar.com": "elevar",
       "a/elevar?source_url": "elevar",
+      "+performance@/.*awin1.com/.*.php.*/": "awin",
+      "+performance,-beacon,-img,-fetch,-message,-xhr@/^(?=.*/c\\..*contentsquare\\.net/(?!v2)).*$/":
+        "contentsquare",
     },
-    Re = { name_regexes: {}, value_regexes: {} },
-    Ne = null,
-    je = "PRODUCTION",
-    Oe = null,
-    De = "xhr",
-    qe = !1,
-    Me = "https://tracks.trackingplan.com/v1/",
-    ze = "https://config.trackingplan.com/",
-    Be = 0,
-    Fe = 86400,
-    $e = 0,
-    Ke = "user",
-    Ue = 55e3,
-    He = 20,
-    Ge = ["img", "xhr", "beacon", "fetch", "performance", "message"],
-    We = !1,
-    Ve = !1,
-    Qe = function () {},
-    Xe = function () {},
-    Je = function (e) {
+    ze = { name_regexes: {}, value_regexes: {} },
+    $e = null,
+    Ve = "PRODUCTION",
+    He = null,
+    Ke = "xhr",
+    Ue = !1,
+    We = "https://tracks.trackingplan.com/v1/",
+    Ge = "https://config.trackingplan.com/",
+    Xe = 0,
+    Ye = 86400,
+    Qe = 0,
+    Ze = "user",
+    Je = 55e3,
+    et = 20,
+    tt = ["img", "xhr", "beacon", "fetch", "performance", "message"],
+    nt = !1,
+    at = !1,
+    it = !1,
+    rt = function () {},
+    st = function () {},
+    ot = function (e) {
       return e;
     },
-    Ze = !1,
-    Ye = {},
-    et = null,
-    tt = [],
-    nt = null,
-    at = !1,
-    it = function () {
-      return t.dataLayer;
+    dt = !1,
+    lt = {
+      _utag_gdpr_selected_categories: function () {
+        return t.utag &&
+          t.utag.gdpr &&
+          "function" == typeof t.utag.gdpr.getSelectedCategories
+          ? t.utag.gdpr.getSelectedCategories()
+          : void 0;
+      },
     },
-    rt = !0,
-    st = !1,
-    ot = null,
-    lt = !1,
-    dt = [
+    pt = null,
+    ct = [],
+    gt = null,
+    mt = !1,
+    ut = function () {
+      return t[ht];
+    },
+    _t = !0,
+    ht = "dataLayer",
+    yt = !1,
+    ft = !1,
+    vt = [
+      "OptanonConsent",
+      "CookieConsent",
+      "cmapi_cookie_privacy",
+      "euconsent-v2",
+      "euconsent",
+      "fs-cc",
+      "cookieyes-consent",
+      "CookieScriptConsent",
+      "__hs_cookie_cat_pref",
+    ],
+    bt = null,
+    kt = !1,
+    Tt = [
       "userId",
       "user_id",
       "userid",
@@ -1836,9 +2187,9 @@
       "usertoken",
       "user_token",
     ],
-    pt = !1,
-    ct = !1,
-    mt = {
+    xt = !1,
+    It = !1,
+    Et = {
       name_regexes: {
         age: ["(user|person|customer)[_\\- ]?age$|^age$"],
         date_of_birth: [
@@ -1870,6 +2221,9 @@
         user_id: ["user[_\\- ]?name|user[_\\- ]?id|nick[_\\- ]?name|^user$"],
         veteran_status: ["veteran[_\\- ]?status"],
         zip_code: ["zip[_\\- ]?code|postal[_\\- ]?code"],
+        dni: ["(^|[_\\.\\-\\s])dni([_\\.\\-\\s]|$)"],
+        nie: ["(^|[_\\.\\-\\s])nie([_\\.\\-\\s]|$)"],
+        passport: ["(^|[_\\.\\-\\s])(passport|pasaporte)([_\\.\\-\\s]|$)"],
       },
       value_regexes: {
         credit_card: [
@@ -1883,7 +2237,7 @@
         ],
         ip: [
           "^((?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|localhost)$",
-          "\\s*(?!.*::.*::)(?:(?!:)|:(?=:))(?:[0-9a-f]{0,4}(?:(?<=::)|(?<!::):)){6}(?:[0-9a-f]{0,4}(?:(?<=::)|(?<!::):)[0-9a-f]{0,4}(?:(?<=::)|(?<!:)|(?<=:)(?<!::):)|(?:25[0-4]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\\.(?:25[0-4]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)){3})\\s*",
+          "^(?:(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,6}[A-Fa-f0-9]{0,4})$",
         ],
         phone: [
           "^(?:(?:\\+|00)?\\d{1,3}[-\\. ])?((?:\\(\\d{3}\\)|\\d{3})[-\\. ]\\d{3}[-\\. ]?\\d{4}(?:[-\\. ]?(?:ext|extension)[-\\. ]?\\d+)?)$",
@@ -1899,6 +2253,8 @@
           "\\d{1,4} [\\w\\s]{1,20}(?:street|st|avenue|ave|road|rd|highway|hwy|square|sq|trail|trl|drive|dr|court|ct|park|parkway|pkwy|circle|cir|boulevard|blvd)\\W?(?=\\s|$)",
         ],
         nif: ["^[A-Za-z][0-9]{8}[A-Za-z]$"],
+        dni: ["\\b\\d{8}[A-HJ-NP-TV-Z]\\b"],
+        nie: ["\\b[XYZ]\\d{7}[A-HJ-NP-TV-Z]\\b"],
       },
       provider_rules: {
         global: {
@@ -1910,6 +2266,7 @@
             "country",
             "credit_card",
             "date_of_birth",
+            "dni",
             "ethnicity",
             "gender",
             "geolocation",
@@ -1917,6 +2274,8 @@
             "ip",
             "license",
             "name",
+            "nie",
+            "passport",
             "password",
             "phone",
             "po_box",
@@ -1931,9 +2290,11 @@
           ],
           value_regexes: [
             "credit_card",
+            "dni",
             "email",
             "gender",
             "ip",
+            "nie",
             "nif",
             "phone",
             "po_box",
@@ -1944,137 +2305,152 @@
         },
       },
     },
-    gt = [],
-    ut = !1,
-    ht = "_trackingplan_live_debug_mode",
-    _t = [],
-    yt = "",
-    ft = null,
-    vt = "",
-    kt = 30,
-    bt = !0,
-    xt = !0,
-    Tt = null,
-    wt = null,
-    It = {},
-    St = 0,
-    Et = 0,
-    Lt = !1,
-    Pt = !1,
-    Ct = null,
-    At = { lastProcessedLength: 0, maskedItems: [] },
-    Rt = (t.Trackingplan = {
+    wt = [],
+    At = !1,
+    St = !1,
+    Pt = "_trackingplan_session_id",
+    Lt = "_trackingplan_live_debug_mode",
+    Ct = [],
+    Rt = "",
+    Nt = null,
+    Ot = null,
+    Dt = "",
+    jt = "",
+    Mt = 30,
+    qt = !0,
+    Ft = !0,
+    Bt = null,
+    zt = null,
+    $t = {},
+    Vt = 0,
+    Ht = 0,
+    Kt = !1,
+    Ut = null,
+    Wt = { lastProcessedLength: 0, maskedItems: [] },
+    Gt = (t.Trackingplan = {
       sdk: "js",
-      sdkVersion: "1.30.0",
+      sdkVersion: "1.34.8",
       options: null,
       tpId: null,
       testing: !1,
       setOptions: function (e, t) {
         (t = this.options = t || {}),
-          (Ne = this.tpId = e),
-          (je = t.environment || je),
-          (Oe = t.sourceAlias || Oe),
-          (pt = t.usePrivacy || pt),
-          (mt = t.privacyConfig || mt),
-          (De = t.sendMethod || De),
-          (Ae = re(Ae, t.customDomains || {})),
-          (qe = t.debug || qe),
-          (Me = t.tracksEndPoint || Me),
-          (ze = t.configEndPoint || ze),
-          (Be = t.delayConfigDownload || Be),
-          (Fe = t.sampleRateTTL || Fe),
-          (Ke = t.samplingMode || Ke),
-          (Ue = t.batchSize || Ue),
-          (He = t.batchInterval || He),
-          (We = t.alwaysSendNewUser || We),
-          (Ve = t.dryRun || Ve),
-          (Ge = t.intercept || Ge),
-          (Qe = t.onSubmit || Qe),
-          (Ze = t.parse || Ze),
-          (Xe = t.onQueue || Xe),
-          (Je = t.onBeforeSubmit || Je),
-          (Ye = t.tags || Ye),
-          (et = t.samplingRate || et),
-          (tt = t.contentFilters || tt),
-          (nt = t.providersWhitelist || nt),
-          (at = "undefined" == typeof t.realtime ? at : t.realtime),
-          (it = t.getDataLayer || it),
-          (kt = t.sessionDurationMinutes || kt),
-          (xt =
-            "undefined" == typeof t.intervalsOnInit ? xt : t.intervalsOnInit),
-          (rt = "undefined" == typeof t.useDataLayer ? rt : t.useDataLayer),
-          (st = "undefined" == typeof t.useCookies ? st : t.useCookies),
-          (bt = "undefined" == typeof t.useSessions ? bt : t.useSessions),
-          (Pt =
-            "undefined" == typeof t.useSmartSampling ? Pt : t.useSmartSampling),
-          (Ct = t.configFileOverride || Ct),
-          (dt = t.datalayerMaskKeys || dt),
-          (ct = t.debugPrivacy || ct),
-          Array.isArray(t.smartSamplingPatterns) &&
-            (gt = t.smartSamplingPatterns.concat(gt)),
-          (lt = this.testing = t.testing || lt),
-          at && ((et = 1), (Ke = "all"), (Ue = 1)),
-          lt && (ot = Date.now()),
-          se({ m: "TP options updated", options: t }),
-          pt && mt && Le();
+          ($e = this.tpId = e),
+          (Ve = t.environment || Ve),
+          (He = t.sourceAlias || He),
+          (xt = "boolean" == typeof t.usePrivacy ? t.usePrivacy : xt),
+          (Et = t.privacyConfig || Et),
+          (Ke = t.sendMethod || Ke),
+          (Be = ge(Be, t.customDomains || {})),
+          (Ue = "boolean" == typeof t.debug ? t.debug : Ue),
+          (We = t.tracksEndPoint || We),
+          (Ge = t.configEndPoint || Ge),
+          (Xe = t.delayConfigDownload || Xe),
+          (Ye = t.sampleRateTTL || Ye),
+          (Ze = t.samplingMode || Ze),
+          (pt = t.samplingRate || pt),
+          (Je = t.batchSize || Je),
+          (et = t.batchInterval || et),
+          (nt = typeof t.alwaysSendNewUser ? t.alwaysSendNewUser : nt),
+          (at = "boolean" == typeof t.dryRun ? t.dryRun : at),
+          (it =
+            "boolean" == typeof t.repeated_values_compression
+              ? t.repeated_values_compression
+              : it),
+          (tt = t.intercept || tt),
+          (rt = t.onSubmit || rt),
+          (dt = t.parse || dt),
+          (st = t.onQueue || st),
+          (ot = t.onBeforeSubmit || ot),
+          (lt = ge(lt, t.tags || {})),
+          (ct = t.contentFilters || ct),
+          (gt = t.providersWhitelist || gt),
+          (mt = "boolean" == typeof t.realtime ? t.realtime : mt),
+          (ut = t.getDataLayer || ut),
+          (ht = t.datalayerVar || ht),
+          (Mt = t.sessionDurationMinutes || Mt),
+          (Ft =
+            "undefined" == typeof t.intervalsOnInit ? Ft : t.intervalsOnInit),
+          (vt = t.cookiesWhitelist || vt),
+          (_t = "boolean" == typeof t.useDataLayer ? t.useDataLayer : _t),
+          (yt = "boolean" == typeof t.useNativeSend ? t.useNativeSend : yt),
+          (ft =
+            "boolean" == typeof t.useSyncProcessing ? t.useSyncProcessing : ft),
+          (qt = "boolean" == typeof t.useSessions ? t.useSessions : qt),
+          (At =
+            "boolean" == typeof t.useAdaptiveSampling
+              ? t.useAdaptiveSampling
+              : At),
+          (Ut = t.configFileOverride || Ut),
+          (Tt = t.datalayerMaskKeys || Tt),
+          (It = "boolean" == typeof t.debugPrivacy ? t.debugPrivacy : It),
+          Array.isArray(t.adaptiveSamplingPatterns) &&
+            (wt = t.adaptiveSamplingPatterns.concat(wt)),
+          (kt = this.testing = t.testing || kt),
+          mt && ((pt = 1), (Ze = "all"), (Je = 1)),
+          kt && (bt = Date.now()),
+          me({ m: "TP options updated", options: t }),
+          xt && Et && Oe();
       },
-      getSmartSamplingPatterns: function () {
-        return gt;
+      getAdaptiveSamplingPatterns: function () {
+        return wt;
       },
       getPrivacyConfig: function () {
-        return mt;
+        return Et;
       },
       init: function (e, i) {
         try {
-          if (lt)
-            return void oe("Trackingplan SDK is running in a test environment");
-          if (!y()) throw new Error("TP Not compatible browser");
-          if (null !== Ne) throw new Error("TP Init already happened");
+          if (kt)
+            return void ue("Trackingplan SDK is running in a test environment");
+          if (!f()) throw new Error("TP Not compatible browser");
+          if (null !== $e) throw new Error("TP Init already happened");
           if ("string" != typeof e || "" === e)
             throw new Error("tpId is not provided");
-          var r = null;
-          if (t.performance && t.performance.getEntriesByType) {
-            var s = t.performance.getEntriesByType("navigation")[0];
-            r = s ? s.name : t.location.href;
-          } else r = t.location.href;
-          o(r);
-          var _ = l();
-          _ &&
-            (a.log("TP Running in regression mode", _),
+          if (((Dt = null), t.performance && t.performance.getEntriesByType)) {
+            var r = t.performance.getEntriesByType("navigation")[0];
+            Dt = r ? r.name : t.location.href;
+          } else Dt = t.location.href;
+          d(Dt);
+          var s = l();
+          s &&
+            (a.log("TP Running in regression mode", s),
             (i = i || {}),
             (i.testing = !0),
             (i.realtime = !0),
             (i.samplingMode = "all"),
             (i.tags = i.tags || {}),
-            (i.tags.test_session_name = _.test_session_name),
-            (i.tags.test_title = _.test_title),
-            (i.environment = _.environment)),
-            d(r);
-          var f = "true" === n.getItem(ht);
-          f && ((i = i || {}), (i.realtime = !0), (i.samplingMode = "all")),
-            Rt.setOptions(e, i);
-          var v = ue();
-          null !== v && Rt.setOptions(e, v),
-            null !== et && te(et),
-            (vt = ee()),
-            g(t),
+            (i.tags.test_session_name = s.test_session_name),
+            (i.tags.test_title = s.test_title),
+            (i.environment = s.environment)),
+            p(Dt);
+          var o = "true" === n.getItem(Lt);
+          o && ((i = i || {}), (i.realtime = !0), (i.samplingMode = "all")),
+            Gt.setOptions(e, i),
+            Ue &&
+              ((t.Trackingplan.xhr = { open: Yt, send: Qt }),
+              (t.Trackingplan.beacon = { sendBeacon: Zt }));
+          var y = ke();
+          null !== y && Gt.setOptions(e, y),
+            null !== pt && de(pt),
+            (jt = oe()),
+            u(t),
             document.addEventListener("visibilitychange", function () {
               "hidden" === document.visibilityState &&
                 setTimeout(function () {
-                  O("beacon"), se({ m: "visibility beacon" });
+                  B("beacon"), me({ m: "visibility beacon" });
                 }, 3e3);
             }),
-            t.addEventListener("pagehide", c),
-            t.addEventListener("beforeunload", c),
+            t.addEventListener("pagehide", g),
+            t.addEventListener("beforeunload", g),
             t.document.addEventListener(
               "click",
               function (e) {
-                (Tt = le(e.target)), (wt = de(e.target));
+                (Bt = _e(e.target)), (zt = he(e.target));
               },
               !1
             ),
-            u() &&
-              (se({ m: "New User" }),
+            _() &&
+              (me({ m: "New User" }),
               h({
                 landing: document.location.href,
                 referrer: document.referrer,
@@ -2082,56 +2458,82 @@
               m({ event_name: "new_user" })),
             /[?&]utm_[^=]+/.test(document.location.search) &&
               h({ last_utm_page: document.location.href });
-          var k = Z();
-          f && p(k),
+          var v = re();
+          o && c(v),
             m({ event_name: "page_load" }),
-            !0 === xt && Rt.initIntervals(),
-            me(),
-            ge(),
-            se({ m: "TP init finished", options: i });
+            !0 === Ft && Gt.initIntervals(),
+            ve(),
+            be(),
+            me({ m: "TP init finished", options: i });
         } catch (e) {
-          oe({ m: "TP init error", error: e });
+          ue({ m: "TP init error", error: e });
         }
       },
       flush: function () {
-        O(De);
+        B(Ke);
       },
       queueSize: function () {
-        return yt.length;
+        return Rt.length;
       },
       updateTags: function (e) {
-        O(De), (Ye = re(Ye, e));
+        B(Ke), (lt = ge(lt, e));
       },
       initIntervals: function () {
-        setTimeout(function () {
-          Lt ||
-            (m({
-              event_name: "pixels",
-              properties: { pixels: W(), sent_at: "timeout" },
-            }),
-            (Lt = !0));
-        }, 1e4),
+        kt ||
+          setTimeout(function () {
+            Kt ||
+              (m({
+                event_name: "pixels",
+                properties: { pixels: ee(), sent_at: "timeout" },
+              }),
+              (Kt = !0));
+          }, 1e4),
           setInterval(function () {
-            O(De);
-          }, 1e3 * He);
+            B(Ke);
+          }, 1e3 * et);
       },
       getSessionId: function () {
-        return n.getItem("_trackingplan_session_id");
+        return n.getItem(Pt);
       },
       enableLiveDebugMode: function () {
-        n.setItem(ht, "true"), Y(), t.location.reload();
+        n.setItem(Lt, "true"), se(), t.location.reload();
       },
       disableLiveDebugMode: function () {
-        localStorage.removeItem(ht), t.location.reload();
+        localStorage.removeItem(Lt), t.location.reload();
+      },
+      clearStorageAndReload: function () {
+        n.removeItem("_trackingplan_sample_rate"),
+          n.removeItem("_trackingplan_sample_rate_ts"),
+          n.removeItem("_trackingplan_is_sampled_user"),
+          n.removeItem("_trackingplan_initial"),
+          n.removeItem("_trackingplan_options"),
+          n.removeItem(Pt),
+          n.removeItem("_trackingplan_session_ts"),
+          n.removeItem(Lt),
+          n.removeItem("_trackingplan_regression"),
+          t.location.reload();
       },
     }),
-    Nt = !1,
-    jt = Object.prototype.hasOwnProperty;
-  (Rt.maskQueryStrings = xe), (Rt.maskJSONObject = Te);
+    Xt = !1,
+    Yt = t.XMLHttpRequest.prototype.open,
+    Qt = t.XMLHttpRequest.prototype.send,
+    Zt = t.navigator.sendBeacon,
+    Jt = Object.prototype.hasOwnProperty;
+  (Gt.maskQueryStrings = Se),
+    (Gt.maskJSONObject = Pe),
+    (Gt.matchSamplingRules = Ie),
+    (Gt.evaluateMatchCondition = je),
+    (Gt._flattenObjectToKeyValues = qe),
+    (Gt.processRequest = j),
+    (Gt.diffWithPrevious = M),
+    (Gt.deepLeftToRightDiff = q),
+    (Gt.DELETED_MARKER = "@TP_DEL"),
+    (Gt._processBlobData = w),
+    "undefined" != typeof module && module.exports && (module.exports = Gt);
 })(window, localStorage, console);
 
 /* === Trackingplan Init === */
-Trackingplan.init("TP3184092", {
+Trackingplan.init("TP4514803", {
   environment: tealiumEnv === "prod" ? "PRODUCTION" : "DEVELOPMENT",
   tracksEndPoint: "https://eu-tracks.trackingplan.com/v1/",
   // tags: { "app_version": "...", } // See docs to know about optional tags.
